@@ -4,6 +4,7 @@ import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/profile/presentation/pages/profile_page.dart';
 import '../../../features/settings/presentation/pages/settings_page.dart';
+import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
 
@@ -14,6 +15,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => const SplashPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.registerintro,
+        builder: (context, state) => const RegisterIntroPage(),
       ),
       ShellRoute(
         builder: (context, state, child) {
