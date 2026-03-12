@@ -34,12 +34,12 @@ class AuthRemoteDataSource {
   //   return api.sendRequest({'phone': phone});
   // }
 
-  Future<void> verifyPhone(String phone, String otp) {
-    return api.verifyPhone({'phone': phone, 'otp': otp});
+  Future<void> verifyEmail(String email, String code) {
+    return api.verifyEmail({'email': email, 'code': code});
   }
 
-  Future<void> resendOtp(String phone) {
-    return api.resendOtp({'phone': phone});
+  Future<void> resendOtp(String email) {
+    return api.resendOtp({'email': email});
   }
 
   // Future<void> resetPassword(String phone, String newPassword) {

@@ -4,8 +4,9 @@ import '../../../../../core/network/api_client.dart';
 import '../../../data/api/auth_api.dart';
 import '../../../data/datasources/auth_remote_datasource.dart';
 import '../../../data/repositories/auth_repository_impl.dart';
-import '../../../domain/usecases/register_account.dart';
-import 'register_notifier.dart';
+import '../../../domain/usecases/resend_code.dart';
+import '../../../domain/usecases/verify.dart';
+import 'verify_account_notifier.dart';
 
 /// Retrofit Api With Dio
 final authApiProvider = Provider<AuthApi>((ref) {
@@ -24,13 +25,22 @@ final authRepositoryProvider = Provider<AuthRepositoryImpl>(
   ),
 );
 
-/// UseCase
-final registerUseCaseProvider = Provider<RegisterAccount>(
-  (ref) => RegisterAccount(ref.read(authRepositoryProvider)),
+/// UseCase verify
+final verifyAccountUseCaseProvider = Provider<Verify>(
+  (ref) => Verify(ref.read(authRepositoryProvider)),
+);
+
+/// UseCase resend code
+final resendCodeUseCaseProvider = Provider<ResendCode>(
+  (ref) => ResendCode(ref.read(authRepositoryProvider)),
 );
 
 /// Notifier
-final registerNotifierProvider =
-    StateNotifierProvider<RegisterNotifier, RegisterState>(
-      (ref) => RegisterNotifier(ref.read(registerUseCaseProvider), ref),
+final verifyAccountNotifierProvider =
+    StateNotifierProvider<VerifyAccountNotifier, VerifyAccountState>(
+      (ref) => VerifyAccountNotifier(
+        ref.read(verifyAccountUseCaseProvider),
+        ref.read(resendCodeUseCaseProvider),
+        ref,
+      ),
     );

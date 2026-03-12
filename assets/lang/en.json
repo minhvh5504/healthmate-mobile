@@ -1,4 +1,10 @@
 {
+  "dialog": {
+    "error_title": "Oh no!",
+    "back": "Back",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
   "register_intro": {
     "title": "Create your\nfree account",
     "subtitle": "Your health data is secured and analyzed in depth to provide the best results.",
@@ -19,8 +25,26 @@
     "error_password_special": "Password must contain at least one special character (!@#$%^&*)",
     "error_password_match": "Confirm password does not match",
     "errors": {
-      "email_exists": "Email already exists",
+      "email_exists": "This email address is already in use by another account.",
       "invalid_email": "Invalid email address",
+      "unexpected": "An unexpected error occurred"
+    }
+  },
+  "verify_account": {
+    "title": "Enter verification code",
+    "subtitle": "We have sent the code to",
+    "question_not_receive": "Didn't receive the code?",
+    "resend_countdown": "Resend in",
+    "resend": "Resend",
+    "button_verify": "Verify",
+    "resend_success": "Verification code resent!",
+    "errors": {
+      "user_not_found": "User information not found.",
+      "invalid_code": "Invalid verification code.",
+      "expired_code": "Verification code has expired. Please resend a new one.",
+      "already_verified": "This email has already been verified.",
+      "account_disabled": "Your account has been disabled by the administrator.",
+      "account_not_verified": "Please verify your email before logging in.",
       "unexpected": "An unexpected error occurred"
     }
   }

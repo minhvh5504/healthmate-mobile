@@ -8,7 +8,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
+import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../domain/usecases/register_account.dart';
 
 class RegisterState {
@@ -60,8 +62,9 @@ class RegisterState {
 
 class RegisterNotifier extends StateNotifier<RegisterState> {
   final RegisterAccount _registerUseCase;
+  final Ref _ref;
 
-  RegisterNotifier(this._registerUseCase)
+  RegisterNotifier(this._registerUseCase, this._ref)
     : super(
         RegisterState(
           emailController: TextEditingController(),
@@ -165,7 +168,8 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
       await _registerUseCase(email, password);
       _setLoading(false);
 
-      context.go(AppRoutes.registerintro);
+      _ref.read(previousPageProvider.notifier).state = 'register';
+      context.go(AppRoutes.verifyaccount);
     } catch (e) {
       _handleFailure(context, e);
     }
@@ -174,12 +178,19 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
   // Handle failure
   void _handleFailure(BuildContext context, Object error) {
     String errorMessage = 'Unknown error';
+    String? errorCode;
 
     if (error is DioException) {
-      final data = error.response?.data;
+      final response = error.response;
+      final data = response?.data;
 
       if (data is Map<String, dynamic>) {
-        errorMessage = data['message']?.toString() ?? errorMessage;
+        errorCode = (data['errorCode'] ?? data['messageCode'])?.toString();
+        errorMessage =
+            (data['errorMessage'] ?? data['message'])?.toString() ??
+            errorMessage;
+      } else if (data is String) {
+        errorMessage = data;
       } else {
         errorMessage = error.message ?? errorMessage;
       }
@@ -187,9 +198,26 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
       errorMessage = error.toString();
     }
 
-    final message = _translateError(errorMessage);
-
+    final message = _translateError(errorCode ?? errorMessage);
     state = state.copyWith(isLoading: false, errorMessage: message);
+
+    final isEmailExists =
+        errorCode == 'AUTH.REGISTER.EMAIL_EXISTS' ||
+        errorMessage.contains('Email already registered') ||
+        errorMessage.contains('Email already exists') ||
+        errorCode == '409';
+
+    if (isEmailExists) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => ConfirmDialog(
+          message: 'register.errors.email_exists'.tr(),
+          onTap: () {},
+        ),
+      );
+      return;
+    }
 
     ScaffoldMessenger.of(context)
       ..clearSnackBars()
@@ -203,11 +231,13 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
   }
 
   // Translate error messages
-  String _translateError(String errorMessage) {
-    final error = errorMessage.replaceFirst('Exception: ', '').trim();
-    switch (error) {
-      case 'Email already exists':
-        return 'register.errors.email_exists'.tr();
+  String _translateError(String error) {
+    final cleanError = error.replaceFirst('Exception: ', '').trim();
+    if (cleanError == 'AUTH.REGISTER.EMAIL_EXISTS' || cleanError == '409') {
+      return 'register.errors.email_exists'.tr();
+    }
+
+    switch (cleanError) {
       case 'email must be an email':
         return 'register.errors.invalid_email'.tr();
       default:
@@ -227,11 +257,6 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
     } else {
       context.go(AppRoutes.registerintro);
     }
-  }
-
-  // Navigate to Sign In page
-  void onSignIn(BuildContext context) {
-    context.go(AppRoutes.registerintro);
   }
 
   @override

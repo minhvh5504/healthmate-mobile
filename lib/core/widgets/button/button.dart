@@ -14,6 +14,7 @@ class Button extends StatelessWidget {
     this.icon,
     required this.onPressed,
     this.height,
+    this.width,
   });
 
   final String text;
@@ -22,13 +23,14 @@ class Button extends StatelessWidget {
   final Widget? icon;
   final VoidCallback? onPressed;
   final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     final bool isDisabled = onPressed == null;
 
     return Container(
-      width: getWidth(context) - 16 - 16,
+      width: width ?? (getWidth(context) - 16 - 16),
       height: height ?? 42.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.r),

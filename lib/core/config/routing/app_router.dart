@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/auth/presentation/pages/register/register_page.dart';
+import '../../../features/auth/presentation/pages/register/verify_account_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/profile/presentation/pages/profile_page.dart';
@@ -24,6 +25,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.register,
         builder: (context, state) => const RegisterPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.verifyaccount,
+        builder: (context, state) => const VerifyAccountPage(),
       ),
 
       // Shell Route
