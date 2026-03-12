@@ -26,18 +26,8 @@ class AuthRemoteDataSource {
     return api.loginWithGoogle({'idToken': idToken});
   }
 
-  Future<RegisterModel> register(
-    String fullName,
-    String phone,
-    String password,
-    String role,
-  ) {
-    return api.register({
-      'fullName': fullName,
-      'phone': phone,
-      'password': password,
-      // 'role': role,
-    });
+  Future<RegisterModel> register(String email, String password) {
+    return api.register({'email': email, 'password': password});
   }
 
   // Future<void> sendRequest(String phone) {

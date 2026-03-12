@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'core/config/routing/app_router.dart';
 
 class MyApp extends ConsumerWidget {
@@ -18,6 +19,9 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
           routerConfig: AppRouter.router,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
         );
       },
     );

@@ -1,7 +1,7 @@
 class AppRoutes {
   // Auth
-  static const String register = '/register';
   static const String registerintro = '/register-intro';
+  static const String register = '/register';
 
   // Main
   static const String splash = '/';

@@ -1,3 +1,27 @@
 {
-  
+  "register_intro": {
+    "title": "Create your\nfree account",
+    "subtitle": "Your health data is secured and analyzed in depth to provide the best results.",
+    "email_button": "Continue with email"
+  },
+  "register": {
+    "title": "Create account with email",
+    "subtitle": "Enter your email address to create account",
+    "email_label": "Email",
+    "email_hint": "example@gmail.com",
+    "password_label": "Password",
+    "confirm_password_label": "Confirm password",
+    "signup_button": "Sign up",
+    "error_invalid_email": "Invalid email address",
+    "error_password_min_length": "Password must be at least 8 characters",
+    "error_password_lowercase": "Password must contain at least one lowercase letter",
+    "error_password_uppercase": "Password must contain at least one uppercase letter",
+    "error_password_special": "Password must contain at least one special character (!@#$%^&*)",
+    "error_password_match": "Confirm password does not match",
+    "errors": {
+      "email_exists": "Email already exists",
+      "invalid_email": "Invalid email address",
+      "unexpected": "An unexpected error occurred"
+    }
+  }
 }

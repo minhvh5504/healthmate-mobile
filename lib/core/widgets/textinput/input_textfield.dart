@@ -75,7 +75,7 @@ class _InputTextFieldState extends State<InputTextField> {
         if (widget.label?.isNotEmpty ?? false) ...[
           Text(
             widget.label!,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.typoBlack,
@@ -89,20 +89,20 @@ class _InputTextFieldState extends State<InputTextField> {
           keyboardType: widget.keyboardType,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14.sp,
             color: AppColors.typoHeading,
           ),
           decoration: InputDecoration(
             constraints: BoxConstraints(minHeight: 36.h),
             hintText: widget.hint,
-            hintStyle: GoogleFonts.poppins(
+            hintStyle: GoogleFonts.inter(
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
-              color: AppColors.typoBody.withOpacity(0.5),
+              color: AppColors.typoHeading.withOpacity(0.5),
             ),
             filled: true,
-            fillColor: AppColors.bgHover,
+            fillColor: AppColors.typoWhite,
             contentPadding: EdgeInsets.symmetric(
               vertical: 8.h,
               horizontal: 12.w,
@@ -120,10 +120,8 @@ class _InputTextFieldState extends State<InputTextField> {
               borderSide: BorderSide(
                 color: widget.hasError
                     ? AppColors.bgError.withOpacity(0.6)
-                    : widget.isEmailOrPhone
-                    ? Colors.grey.shade300
-                    : AppColors.typoPrimary.withOpacity(0.5),
-                width: widget.isEmailOrPhone ? 0.5.w : 1.5.w,
+                    : AppColors.typoHeading.withOpacity(0.5),
+                width: 1.0.w,
               ),
             ),
             suffixIcon: Padding(
@@ -147,7 +145,7 @@ class _InputTextFieldState extends State<InputTextField> {
                           padding: EdgeInsets.only(top: 10.h, right: 10.w),
                           child: Text(
                             widget.suffixText!,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.typoHeading,
@@ -162,7 +160,7 @@ class _InputTextFieldState extends State<InputTextField> {
           SizedBox(height: 6.h),
           Text(
             widget.errorText!,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 12.sp,
               color: AppColors.typoError,
               fontWeight: FontWeight.w400,

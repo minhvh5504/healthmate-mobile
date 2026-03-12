@@ -14,7 +14,7 @@ class AppColors {
 
   // Color typrography
   static const Color typoPrimary = Color(0xFF007BFF);
-  static const Color typoHeading = Color(0xFF1B3C74);
+  static const Color typoHeading = Color(0xFF434B94);
   static const Color typoBody = Color(0xFF475569);
   static const Color typoWhite = Color(0xFFFFFFFF);
   static const Color typoBlack = Color(0xFF0F1729);
@@ -23,12 +23,12 @@ class AppColors {
 
   // New Design Colors
   static const Color white = Color(0xFFFFFFFF);
-  static const Color lightBlue = Color(0xFFF0F2FF);
+  static const Color lightBlue = Color(0xFFDDE0F7);
 
   // Gradient
   static const LinearGradient backgroundGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
     colors: [white, lightBlue],
   );
 }
