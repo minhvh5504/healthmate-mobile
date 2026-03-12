@@ -29,7 +29,7 @@ class Button extends StatelessWidget {
 
     return Container(
       width: getWidth(context) - 16 - 16,
-      height: height ?? 48.h,
+      height: height ?? 42.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.r),
         boxShadow: isDisabled
@@ -37,8 +37,8 @@ class Button extends StatelessWidget {
             : [
                 BoxShadow(
                   color: (color ?? AppColors.typoBlack).withOpacity(0.15),
-                  blurRadius: 24,
-                  offset: const Offset(0, 12),
+                  blurRadius: 16,
+                  offset: const Offset(0, 8),
                 ),
               ],
       ),
@@ -51,7 +51,7 @@ class Button extends StatelessWidget {
           foregroundColor: textColor ?? AppColors.typoWhite,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28.r),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           shadowColor: Colors.transparent,
         ),

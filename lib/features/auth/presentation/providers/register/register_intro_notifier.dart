@@ -30,9 +30,6 @@ class RegisterIntroNotifier extends StateNotifier<RegisterIntroState> {
 
   /// Navigate to Register page
   void onContinueWithEmail(BuildContext context) {
-    // context.go(AppRoutes.splash);
+    context.go(AppRoutes.register);
   }
-
-  /// Handle Google register
-  void onRegisterWithGoogle(BuildContext context) {}
 }

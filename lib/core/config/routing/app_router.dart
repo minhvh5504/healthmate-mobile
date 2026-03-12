@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../features/auth/presentation/pages/register/register_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/profile/presentation/pages/profile_page.dart';
@@ -20,6 +21,12 @@ class AppRouter {
         path: AppRoutes.registerintro,
         builder: (context, state) => const RegisterIntroPage(),
       ),
+      GoRoute(
+        path: AppRoutes.register,
+        builder: (context, state) => const RegisterPage(),
+      ),
+
+      // Shell Route
       ShellRoute(
         builder: (context, state, child) {
           final int currentIndex = _getNavIndex(state.uri.path);

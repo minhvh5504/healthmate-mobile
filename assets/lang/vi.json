@@ -1,3 +1,27 @@
 {
-  
+  "register_intro": {
+    "title": "Tạo tài khoản miễn phí\ncủa bạn",
+    "subtitle": "Dữ liệu sức khỏe của bạn được bảo mật và phân tích chuyên sâu để mang lại kết quả tốt nhất.",
+    "email_button": "Tiếp tục với email"
+  },
+  "register": {
+    "title": "Tạo tài khoản với email",
+    "subtitle": "Nhập địa chỉ email để tạo tài khoản",
+    "email_label": "Email",
+    "email_hint": "example@gmail.com",
+    "password_label": "Mật khẩu",
+    "confirm_password_label": "Xác nhận mật khẩu",
+    "signup_button": "Đăng ký",
+    "error_invalid_email": "Email không hợp lệ",
+    "error_password_min_length": "Mật khẩu phải có ít nhất 8 ký tự",
+    "error_password_lowercase": "Mật khẩu phải chứa ít nhất một chữ cái thường",
+    "error_password_uppercase": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa",
+    "error_password_special": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*)",
+    "error_password_match": "Mật khẩu xác nhận không khớp",
+    "errors": {
+      "email_exists": "Email đã được sử dụng",
+      "invalid_email": "Email không hợp lệ",
+      "unexpected": "Đã xảy ra lỗi không mong muốn"
+    }
+  }
 }

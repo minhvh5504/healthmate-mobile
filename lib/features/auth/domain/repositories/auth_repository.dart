@@ -10,12 +10,7 @@ abstract class AuthRepository {
     String origin,
   );
   Future<Login> loginWithGoogle(String idToken);
-  Future<Register> register(
-    String fullName,
-    String phone,
-    String password,
-    String role,
-  );
+  Future<Register> register(String email, String password);
   // Future<void> sendRequest(String phone);
   Future<void> verifyPhone(String phone, String otp);
   Future<void> resendOtp(String phone);

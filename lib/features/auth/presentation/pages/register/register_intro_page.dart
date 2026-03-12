@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/button/button.dart';
+import '../../../../../core/widgets/header/header_with_back.dart';
 import '../../providers/register/register_intro_provider.dart';
 
 class RegisterIntroPage extends ConsumerWidget {
@@ -26,23 +28,11 @@ class RegisterIntroPage extends ConsumerWidget {
             child: Column(
               children: [
                 // Back Button
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 8.h),
-                    child: InkWell(
-                      onTap: () => notifier.onBack(context),
-                      borderRadius: BorderRadius.circular(12.r),
-                      child: Container(
-                        padding: EdgeInsets.all(8.w),
-                        child: Icon(
-                          Icons.arrow_back,
-                          size: 24.sp,
-                          color: AppColors.typoBlack,
-                        ),
-                      ),
-                    ),
-                  ),
+                HeaderWithBack(
+                  showBack: true,
+                  showMore: false,
+                  showTitle: false,
+                  onBack: () => notifier.onBack(context),
                 ),
 
                 const Spacer(flex: 1),
@@ -54,7 +44,7 @@ class RegisterIntroPage extends ConsumerWidget {
 
                 // Heading
                 Text(
-                  'Tạo tài khoản miễn phí\ncủa bạn',
+                  'register_intro.title'.tr(),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 24.sp,
@@ -69,7 +59,7 @@ class RegisterIntroPage extends ConsumerWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    'Dữ liệu sức khỏe của bạn được bảo mật và phân tích chuyên sâu để mang lại kết quả tốt nhất.',
+                    'register_intro.subtitle'.tr(),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
@@ -107,7 +97,7 @@ class RegisterIntroPage extends ConsumerWidget {
 
   Widget _buildEmailButton(BuildContext context, dynamic notifier) {
     return Button(
-      text: 'Tiếp tục với email',
+      text: 'register_intro.email_button'.tr(),
       icon: Icon(Icons.email_rounded, color: AppColors.typoWhite, size: 20.sp),
       onPressed: () => notifier.onContinueWithEmail(context),
     );
