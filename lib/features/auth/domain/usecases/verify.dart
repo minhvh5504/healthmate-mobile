@@ -4,7 +4,7 @@ class Verify {
   final AuthRepository repository;
   Verify(this.repository);
 
-  Future<void> call(String phone, String otp) {
-    return repository.verifyPhone(phone, otp);
+  Future<void> call(String email, String otp) {
+    return repository.verifyEmail(email, otp);
   }
 }

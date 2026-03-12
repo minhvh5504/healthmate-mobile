@@ -4,7 +4,7 @@ class ResendCode {
   final AuthRepository repository;
   ResendCode(this.repository);
 
-  Future<void> call(String phone) {
-    return repository.resendOtp(phone);
+  Future<void> call(String email) {
+    return repository.resendOtp(email);
   }
 }

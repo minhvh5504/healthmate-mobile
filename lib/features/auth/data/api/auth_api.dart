@@ -20,9 +20,6 @@ abstract class AuthApi {
   @POST('auth/register')
   Future<RegisterModel> register(@Body() Map<String, dynamic> body);
 
-  @POST('auth/verify-phone')
-  Future<void> verifyPhone(@Body() Map<String, dynamic> body);
-
   @POST('auth/verify-email')
   Future<void> verifyEmail(@Body() Map<String, dynamic> body);
 

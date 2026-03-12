@@ -126,7 +126,9 @@ class RegisterPage extends ConsumerWidget {
                       )
                     : Button(
                         text: 'register.signup_button'.tr(),
-                        onPressed: () => notifier.onSignUp(context),
+                        onPressed: state.isValid
+                            ? () => notifier.onSignUp(context)
+                            : null,
                       ),
 
                 SizedBox(height: 36.h),

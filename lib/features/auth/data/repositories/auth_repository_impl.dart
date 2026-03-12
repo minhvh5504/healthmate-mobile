@@ -35,13 +35,13 @@ class AuthRepositoryImpl implements AuthRepository {
   // }
 
   @override
-  Future<void> verifyPhone(String phone, String otp) {
-    return remoteDataSource.verifyPhone(phone, otp);
+  Future<void> verifyEmail(String email, String otp) {
+    return remoteDataSource.verifyEmail(email, otp);
   }
 
   @override
-  Future<void> resendOtp(String phone) {
-    return remoteDataSource.resendOtp(phone);
+  Future<void> resendOtp(String email) {
+    return remoteDataSource.resendOtp(email);
   }
 
   // @override

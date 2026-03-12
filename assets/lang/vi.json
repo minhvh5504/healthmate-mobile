@@ -1,4 +1,10 @@
 {
+  "dialog": {
+    "error_title": "Ôi không!",
+    "back": "Quay lại",
+    "confirm": "Xác nhận",
+    "cancel": "Hủy"
+  },
   "register_intro": {
     "title": "Tạo tài khoản miễn phí\ncủa bạn",
     "subtitle": "Dữ liệu sức khỏe của bạn được bảo mật và phân tích chuyên sâu để mang lại kết quả tốt nhất.",
@@ -19,8 +25,26 @@
     "error_password_special": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*)",
     "error_password_match": "Mật khẩu xác nhận không khớp",
     "errors": {
-      "email_exists": "Email đã được sử dụng",
+      "email_exists": "Địa chỉ email này đã được dùng bởi một tài khoản khác.",
       "invalid_email": "Email không hợp lệ",
+      "unexpected": "Đã xảy ra lỗi không mong muốn"
+    }
+  },
+  "verify_account": {
+    "title": "Nhập mã xác thực",
+    "subtitle": "Chúng tôi đã gửi mã đến",
+    "question_not_receive": "Không nhận được mã?",
+    "resend_countdown": "Gửi lại sau",
+    "resend": "Gửi lại",
+    "button_verify": "Gửi mã",
+    "resend_success": "Đã gửi lại mã xác thực!",
+    "errors": {
+      "user_not_found": "Không tìm thấy thông tin người dùng.",
+      "invalid_code": "Mã xác thực không chính xác.",
+      "expired_code": "Mã xác thực đã hết hạn, vui lòng gửi lại mã mới.",
+      "already_verified": "Email này đã được xác thực trước đó.",
+      "account_disabled": "Tài khoản của bạn đã bị khóa bởi quản trị viên.",
+      "account_not_verified": "Vui lòng xác thực email trước khi đăng nhập.",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     }
   }
