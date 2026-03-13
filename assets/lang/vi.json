@@ -47,5 +47,19 @@
       "account_not_verified": "Vui lòng xác thực email trước khi đăng nhập.",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     }
+  },
+  "onboarding": {
+    "page1": {
+      "title": "Theo dõi thông tin sức khỏe cá nhân và các chỉ số quan trọng một cách dễ dàng và tiện lợi"
+    },
+    "page2": {
+      "title": "Thiết lập lịch uống thuốc và nhận thông báo để không bỏ lỡ bất kỳ liều thuốc nào"
+    },
+    "page3": {
+      "title": "Quản lý lịch sử sử dụng thuốc và theo dõi quá trình chăm sóc sức khỏe mọi lúc, mọi nơi"
+    },
+    "button_start": "Bắt đầu",
+    "have_account": "Bạn đã có tài khoản?",
+    "login": "Đăng nhập"
   }
 }
