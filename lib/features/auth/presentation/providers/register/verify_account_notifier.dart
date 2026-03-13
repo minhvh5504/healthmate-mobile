@@ -123,7 +123,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
   /// Reset only error timer
   void _resetErrorTimer() {
-    state = state.copyWith(remainingSeconds: 10);
+    state = state.copyWith(remainingSeconds: 5);
   }
 
   /// Called when user completes input code
@@ -167,7 +167,8 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
       final email = state.email;
 
       await _verifyCodeUseCase(email, state.otpCode);
-      _setLoading(false);
+
+      state = state.copyWith(isLoading: false, isSuccess: true);
 
       context.go(AppRoutes.home);
     } catch (e) {

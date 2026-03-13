@@ -47,5 +47,19 @@
       "account_not_verified": "Please verify your email before logging in.",
       "unexpected": "An unexpected error occurred"
     }
+  },
+  "onboarding": {
+    "page1": {
+      "title": "Track your personal health information and key metrics easily and conveniently"
+    },
+    "page2": {
+      "title": "Set up medication schedules and get reminders so you never miss a dose"
+    },
+    "page3": {
+      "title": "Manage your medication history and monitor your care anytime, anywhere"
+    },
+    "button_start": "Get started",
+    "have_account": "Already have an account?",
+    "login": "Log in"
   }
 }
