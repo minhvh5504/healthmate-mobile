@@ -1,4 +1,9 @@
 {
+  "login_modal": {
+    "continue_with_email": "Continue with email",
+    "continue_with_google": "Continue with Google",
+    "or": "OR"
+  },
   "dialog": {
     "error_title": "Oh no!",
     "back": "Back",
@@ -28,6 +33,51 @@
       "email_exists": "This email address is already in use by another account.",
       "invalid_email": "Invalid email address",
       "unexpected": "An unexpected error occurred"
+    },
+    "email_exists_dialog": {
+      "title": "Email already exists",
+      "message": "This email address is already in use by another account. Please use a different email or log in.",
+      "button": "OK"
+    }
+  },
+  "login": {
+    "title": "Log in with email",
+    "subtitle": "Enter your email address to log in",
+    "email_label": "Email",
+    "email_hint": "example@gmail.com",
+    "password_label": "Password",
+    "forgot_password": "Forgot password?",
+    "login_button": "Log in",
+    "error_invalid_email": "Invalid email address",
+    "error_invalid_phone": "Invalid phone number",
+    "error_password_min_length": "Password must be at least 8 characters",
+    "error_password_lowercase": "Password must contain at least one lowercase letter",
+    "error_password_uppercase": "Password must contain at least one uppercase letter",
+    "error_password_special": "Password must contain at least one special character (!@#$%^&*)",
+    "errors": {
+      "user_not_verified": "User not verified",
+      "account_not_verified": "Please verify your email address first",
+      "wrong_credentials": "Wrong email or password",
+      "account_disabled": "Your account has been locked, please contact admin to unlock account 0374218961",
+      "failed_connect_server": "Failed to connect to the server",
+      "user_not_found": "User not found",
+      "unexpected": "An unexpected error occurred"
+    },
+    "user_not_found_dialog": {
+      "title": "Oh no!",
+      "message": "This account does not exist. Please use a different login method or create a new account.",
+      "primary_button": "New account",
+      "secondary_button": "Log in with another account"
+    },
+    "account_not_verified_dialog": {
+      "title": "Verify your account",
+      "message": "Your email address has not been verified yet. Please verify it to access all features.",
+      "button": "Verify now"
+    },
+    "account_disabled_dialog": {
+      "title": "Account Locked",
+      "message": "Your account has been locked by the administrator. Please contact support at 0374218961 for assistance.",
+      "button": "OK"
     }
   },
   "verify_account": {

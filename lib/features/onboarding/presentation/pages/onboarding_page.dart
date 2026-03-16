@@ -38,33 +38,21 @@ class OnboardingPage extends ConsumerWidget {
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => notifier.onUserInteraction(data.length),
-            onPanDown: (_) => notifier.onUserInteraction(data.length),
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                notifier.onUserInteraction(data.length);
-                return false;
-              },
-              child: Column(
-                children: [
-                  Expanded(
-                    child: OnBoardingItem(
-                      titles: data.map((item) => item['title']!).toList(),
-                      image: data.first['image']!,
-                      buttonText: data.first['buttonText']!,
-                      controller: notifier.controller,
-                      currentIndex: state.currentIndex,
-                      onPageChanged: (index) =>
-                          notifier.onPageChanged(index, data.length),
-                      onNext: () => notifier.nextPage(context, data.length),
-                      onLogin: () => notifier.handleLogin(context),
-                    ),
-                  ),
-                ],
+          child: Column(
+            children: [
+              Expanded(
+                child: OnBoardingItem(
+                  titles: data.map((item) => item['title']!).toList(),
+                  image: data.first['image']!,
+                  buttonText: data.first['buttonText']!,
+                  controller: notifier.controller,
+                  currentIndex: state.currentIndex,
+                  onPageChanged: (index) => notifier.onPageChanged(index),
+                  onNext: () => notifier.nextPage(context),
+                  onLogin: () => notifier.handleLogin(context),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

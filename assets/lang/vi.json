@@ -1,4 +1,9 @@
 {
+  "login_modal": {
+    "continue_with_email": "Tiếp tục với email",
+    "continue_with_google": "Tiếp tục với Google",
+    "or": "HOẶC"
+  },
   "dialog": {
     "error_title": "Ôi không!",
     "back": "Quay lại",
@@ -28,6 +33,51 @@
       "email_exists": "Địa chỉ email này đã được dùng bởi một tài khoản khác.",
       "invalid_email": "Email không hợp lệ",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
+    },
+    "email_exists_dialog": {
+      "title": "Email đã tồn tại",
+      "message": "Địa chỉ email này đã được sử dụng bởi một tài khoản khác. Vui lòng sử dụng email khác hoặc đăng nhập.",
+      "button": "Đồng ý"
+    }
+  },
+  "login": {
+    "title": "Đăng nhập bằng email",
+    "subtitle": "Nhập địa chỉ email để đăng nhập",
+    "email_label": "Email",
+    "email_hint": "example@gmail.com",
+    "password_label": "Mật khẩu",
+    "forgot_password": "Quên mật khẩu?",
+    "login_button": "Đăng nhập",
+    "error_invalid_email": "Email không hợp lệ",
+    "error_invalid_phone": "Số điện thoại không hợp lệ",
+    "error_password_min_length": "Mật khẩu phải có ít nhất 8 ký tự",
+    "error_password_lowercase": "Mật khẩu phải chứa ít nhất một chữ cái thường",
+    "error_password_uppercase": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa",
+    "error_password_special": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*)",
+    "errors": {
+      "user_not_verified": "Tài khoản chưa được xác thực",
+      "account_not_verified": "Vui lòng xác thực email trước khi đăng nhập.",
+      "wrong_credentials": "Email hoặc mật khẩu không chính xác",
+      "account_disabled": "Tài khoản bạn đã bị khóa, vui lòng liên hệ admin để mở lại tài khoản 0374218961",
+      "failed_connect_server": "Không thể kết nối đến máy chủ",
+      "user_not_found": "Không tìm thấy người dùng",
+      "unexpected": "Đã xảy ra lỗi không mong muốn"
+    },
+    "user_not_found_dialog": {
+      "title": "Ôi không!",
+      "message": "Tài khoản này không tồn tại. Vui lòng sử dụng phương pháp đăng nhập khác hoặc tạo tài khoản mới",
+      "primary_button": "Tài khoản mới",
+      "secondary_button": "Đăng nhập tài khoản khác"
+    },
+    "account_not_verified_dialog": {
+      "title": "Xác thực tài khoản",
+      "message": "Email của bạn vẫn chưa được xác thực. Vui lòng xác thực email để truy cập tất cả tính năng.",
+      "button": "Xác thực ngay"
+    },
+    "account_disabled_dialog": {
+      "title": "Tài khoản bị khóa",
+      "message": "Tài khoản của bạn đã bị khóa bởi quản trị viên. Vui lòng liên hệ 0374218961 để được hỗ trợ.",
+      "button": "Đồng ý"
     }
   },
   "verify_account": {

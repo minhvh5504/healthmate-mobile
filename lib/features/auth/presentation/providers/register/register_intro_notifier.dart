@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/utils/previous_page_provider.dart';
 
 /// STATE
 class RegisterIntroState {
@@ -25,11 +26,12 @@ class RegisterIntroNotifier extends StateNotifier<RegisterIntroState> {
 
   /// Navigate back
   void onBack(BuildContext context) {
-    context.go(AppRoutes.splash);
+    context.go(AppRoutes.onboarding);
   }
 
   /// Navigate to Register page
   void onContinueWithEmail(BuildContext context) {
+    ref.read(previousPageProvider.notifier).state = 'register-intro';
     context.go(AppRoutes.register);
   }
 }
