@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
@@ -212,22 +211,20 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
         context: context,
         barrierDismissible: true,
         builder: (context) => ConfirmDialog(
-          message: 'register.errors.email_exists'.tr(),
+          title: 'register.email_exists_dialog.title'.tr(),
+          message: 'register.email_exists_dialog.message'.tr(),
+          buttonText: 'register.email_exists_dialog.button'.tr(),
           onTap: () {},
         ),
       );
       return;
     }
 
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: AppColors.typoError,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => ConfirmDialog(message: message, onTap: () {}),
+    );
   }
 
   // Translate error messages
@@ -252,9 +249,10 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
 
   // Handle Back
   void onPressBack(BuildContext context) {
-    if (context.canPop()) {
-      context.pop();
-    } else {
+    final previousPage = _ref.read(previousPageProvider);
+    if (previousPage == 'login') {
+      context.go(AppRoutes.login);
+    } else if (previousPage == 'register-intro') {
       context.go(AppRoutes.registerintro);
     }
   }

@@ -12,6 +12,7 @@ import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../domain/usecases/resend_code.dart';
 import '../../../domain/usecases/verify.dart';
+import '../login/login_provider.dart';
 import 'register_provider.dart';
 
 const _undefined = Object();
@@ -262,9 +263,9 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
       case 'register':
         context.go(AppRoutes.register);
         break;
-      // case 'login':
-      //   context.go(AppRoutes.login);
-      // break;
+      case 'login':
+        context.go(AppRoutes.login);
+        break;
       default:
         context.go(AppRoutes.register);
     }
@@ -280,10 +281,10 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
       return email;
     }
 
-    // if (prev == 'login') {
-    //   final loginState = _ref.read(loginNotifierProvider);
-    //   return loginState.usernameController.text.trim();
-    // }
+    if (prev == 'login') {
+      final loginState = _ref.read(loginNotifierProvider);
+      return loginState.emailController.text.trim();
+    }
 
     return '';
   }

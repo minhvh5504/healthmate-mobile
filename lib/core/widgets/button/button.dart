@@ -15,6 +15,7 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.height,
     this.width,
+    this.borderColor,
   });
 
   final String text;
@@ -24,6 +25,7 @@ class Button extends StatelessWidget {
   final VoidCallback? onPressed;
   final double? height;
   final double? width;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,16 @@ class Button extends StatelessWidget {
       height: height ?? 42.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.r),
+        border: borderColor != null ? Border.all(color: borderColor!) : null,
         boxShadow: isDisabled
             ? null
             : [
                 BoxShadow(
-                  color: (color ?? AppColors.typoBlack).withOpacity(0.15),
+                  color:
+                      (color == AppColors.bgWhite
+                              ? AppColors.typoBlack
+                              : (color ?? AppColors.typoBlack))
+                          .withOpacity(0.15),
                   blurRadius: 16,
                   offset: const Offset(0, 8),
                 ),
@@ -53,7 +60,10 @@ class Button extends StatelessWidget {
           foregroundColor: textColor ?? AppColors.typoWhite,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.r),
+            borderRadius: BorderRadius.circular(28.r),
+            side: borderColor != null
+                ? BorderSide(color: borderColor!)
+                : BorderSide.none,
           ),
           shadowColor: Colors.transparent,
         ),

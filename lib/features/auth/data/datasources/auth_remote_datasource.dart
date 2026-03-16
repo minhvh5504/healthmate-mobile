@@ -8,18 +8,8 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this.api);
 
-  Future<LoginModel> login(
-    String identifier,
-    String password,
-    String loginRole,
-    String origin,
-  ) {
-    return api.login({
-      'identifier': identifier,
-      'password': password,
-      // 'loginRole': loginRole,
-      // 'origin': origin,
-    });
+  Future<LoginModel> login(String email, String password) {
+    return api.login({'email': email, 'password': password});
   }
 
   Future<LoginModel> loginWithGoogle(String idToken) {
