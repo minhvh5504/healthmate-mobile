@@ -83,13 +83,29 @@
   "verify_account": {
     "title": "Nhập mã xác thực",
     "subtitle": "Chúng tôi đã gửi mã đến",
-    "question_not_receive": "Không nhận được mã?",
+    "question_not_receive": "Chưa nhận được mã?",
     "resend_countdown": "Gửi lại sau",
     "resend": "Gửi lại",
     "button_verify": "Gửi mã",
     "resend_success": "Đã gửi lại mã xác thực!",
     "errors": {
       "user_not_found": "Không tìm thấy thông tin người dùng.",
+      "invalid_code": "Mã xác thực không chính xác.",
+      "expired_code": "Mã xác thực đã hết hạn, vui lòng gửi lại mã mới.",
+      "already_verified": "Email này đã được xác thực trước đó.",
+      "account_disabled": "Tài khoản của bạn đã bị khóa bởi quản trị viên.",
+      "account_not_verified": "Vui lòng xác thực email trước khi đăng nhập.",
+      "unexpected": "Đã xảy ra lỗi không mong muốn"
+    }
+  },
+  "verify_password": {
+    "title": "Nhập mã xác thực",
+    "subtitle": "Chúng tôi đã gửi mã đến",
+    "question_not_receive": "Chưa nhận được mã?",
+    "resend": "Gửi lại",
+    "button_verify": "Gửi mã",
+    "errors": {
+      "invalid_phone_or_email": "Không tìm thấy thông tin người dùng.",
       "invalid_code": "Mã xác thực không chính xác.",
       "expired_code": "Mã xác thực đã hết hạn, vui lòng gửi lại mã mới.",
       "already_verified": "Email này đã được xác thực trước đó.",

@@ -2,6 +2,7 @@ import '../../domain/entities/login.dart';
 import '../../domain/entities/refresh_token.dart';
 import '../../domain/entities/register.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../domain/entities/verify_password.dart';
 import '../datasources/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -30,13 +31,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> verifyEmail(String email, String otp) {
-    return remoteDataSource.verifyEmail(email, otp);
+  Future<void> verifyEmail(String email, String otp, String type) {
+    return remoteDataSource.verifyEmail(email, otp, type);
   }
 
   @override
-  Future<void> resendOtp(String email) {
-    return remoteDataSource.resendOtp(email);
+  Future<VerifyPassword> verifyPassword(String email, String otp, String type) {
+    return remoteDataSource.verifyPassword(email, otp, type);
+  }
+
+  @override
+  Future<void> resendOtp(String email, String type) {
+    return remoteDataSource.resendOtp(email, type);
   }
 
   // @override

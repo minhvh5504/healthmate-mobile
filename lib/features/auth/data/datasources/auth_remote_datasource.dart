@@ -2,6 +2,7 @@ import '../api/auth_api.dart';
 import '../models/login/login_model.dart';
 import '../models/register/register_model.dart';
 import '../models/refresh_token/refresh_token_model.dart';
+import '../models/verify_password/verify_password_model.dart';
 
 class AuthRemoteDataSource {
   final AuthApi api;
@@ -20,12 +21,20 @@ class AuthRemoteDataSource {
     return api.register({'email': email, 'password': password});
   }
 
-  Future<void> verifyEmail(String email, String code) {
-    return api.verifyEmail({'email': email, 'code': code});
+  Future<void> verifyEmail(String email, String code, String type) {
+    return api.verifyEmail({'email': email, 'code': code, 'type': type});
   }
 
-  Future<void> resendOtp(String email) {
-    return api.resendOtp({'email': email});
+  Future<void> resendOtp(String email, String type) {
+    return api.resendOtp({'email': email, 'type': type});
+  }
+
+  Future<VerifyPasswordModel> verifyPassword(
+    String email,
+    String code,
+    String type,
+  ) {
+    return api.verifyPassword({'email': email, 'code': code, 'type': type});
   }
 
   // Future<void> resetPassword(String phone, String newPassword) {
