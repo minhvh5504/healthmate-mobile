@@ -9,7 +9,7 @@ class AppRoutes {
   static const String verifyaccount = '/verify-account';
   static const String login = '/login';
   static const String sendrequest = '/send-request';
-  static const String verifycode = '/verify-code';
+  static const String verifypassword = '/verify-password';
   static const String resetpassword = '/reset-password';
 
   // Main

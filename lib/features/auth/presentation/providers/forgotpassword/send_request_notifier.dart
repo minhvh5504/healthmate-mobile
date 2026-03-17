@@ -8,10 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
-import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
-import '../../../../../core/widgets/dialog/not_found_dialog.dart';
 import '../../../domain/usecases/send_request.dart';
 
 class SendRequestState {
@@ -114,7 +112,7 @@ class SendRequestNotifier extends StateNotifier<SendRequestState> {
     _setLoading(false);
     state = state.copyWith(isSuccess: true);
 
-    // context.go(AppRoutes.verifypassword);
+    context.go(AppRoutes.verifypassword);
   }
 
   // Handle failure

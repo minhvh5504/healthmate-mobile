@@ -98,6 +98,22 @@
       "unexpected": "An unexpected error occurred"
     }
   },
+  "verify_password": {
+    "title": "Enter verification code",
+    "subtitle": "We have sent the code to",
+    "question_not_receive": "Didn't receive the code?",
+    "resend": "Resend",
+    "button_verify": "Send code",
+    "errors": {
+      "invalid_phone_or_email": "User information not found.",
+      "invalid_code": "Invalid verification code.",
+      "expired_code": "Verification code has expired. Please resend a new one.",
+      "already_verified": "This email has already been verified.",
+      "account_disabled": "Your account has been disabled by the administrator.",
+      "account_not_verified": "Please verify your email before logging in.",
+      "unexpected": "An unexpected error occurred"
+    }
+  },
   "onboarding": {
     "page1": {
       "title": "Track your personal health information and key metrics easily and conveniently"

@@ -8,17 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
-import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
+import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../domain/usecases/resend_code.dart';
-import '../../../domain/usecases/verify.dart';
-import '../login/login_provider.dart';
-import 'register_provider.dart';
+import '../../../domain/usecases/verify_password.dart';
+import 'send_request_provider.dart';
 
 const _undefined = Object();
 
-/// State
-class VerifyAccountState {
+class VerifyPasswordState {
   final String otpCode;
   final bool isValid;
   final bool isLoading;
@@ -29,7 +27,7 @@ class VerifyAccountState {
   final int resendSeconds;
   final String email;
 
-  const VerifyAccountState({
+  const VerifyPasswordState({
     this.otpCode = '',
     this.isValid = false,
     this.isLoading = false,
@@ -41,7 +39,7 @@ class VerifyAccountState {
     this.email = '',
   });
 
-  VerifyAccountState copyWith({
+  VerifyPasswordState copyWith({
     String? otpCode,
     bool? isValid,
     bool? isLoading,
@@ -52,7 +50,7 @@ class VerifyAccountState {
     int? resendSeconds,
     String? email,
   }) {
-    return VerifyAccountState(
+    return VerifyPasswordState(
       otpCode: otpCode ?? this.otpCode,
       isValid: isValid ?? this.isValid,
       isLoading: isLoading ?? this.isLoading,
@@ -68,25 +66,28 @@ class VerifyAccountState {
   }
 }
 
-/// Notifier
-class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
-  final Verify _verifyCodeUseCase;
+class VerifyPasswordNotifier extends StateNotifier<VerifyPasswordState> {
+  final VerifyPasswordS _verifyCodeUseCase;
   final ResendCode _resendCodeUseCase;
   final Ref _ref;
   Timer? _timer;
 
-  VerifyAccountNotifier(
+  VerifyPasswordNotifier(
     this._verifyCodeUseCase,
     this._resendCodeUseCase,
     this._ref,
-  ) : super(const VerifyAccountState()) {
+  ) : super(const VerifyPasswordState()) {
     _startTimer();
     _initEmail();
   }
 
-  /// Initialize email from previous page
   void _initEmail() {
-    state = state.copyWith(email: getEmail());
+    final email = _ref
+        .read(sendRequestNotifierProvider)
+        .emailController
+        .text
+        .trim();
+    state = state.copyWith(email: email);
   }
 
   @override
@@ -95,7 +96,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
     super.dispose();
   }
 
-  /// Start countdown timer
+  // Start countdown timer
   void _startTimer({bool resetResend = false}) {
     if (resetResend) {
       state = state.copyWith(resendSeconds: 300);
@@ -124,44 +125,40 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
     });
   }
 
-  /// Reset only error timer
   void _resetErrorTimer() {
     state = state.copyWith(remainingSeconds: 5);
     _startTimer();
   }
 
-  /// Called when user completes input code
+  // Called when user completes input code
   void onCodeCompleted(String code) {
     final valid = Validation.isCodeActive(code);
     state = state.copyWith(otpCode: code, isValid: valid);
   }
 
-  /// Called when user changes input code
   void onCodeChanged(String code) {
     final valid = Validation.isCodeActive(code);
     state = state.copyWith(otpCode: code, isValid: valid, errorMessage: null);
   }
 
-  /// Clear code from state
   void clearCode() {
     state = state.copyWith(otpCode: '', isValid: false);
   }
 
-  /// Clear error message
   void clearError() {
     if (state.errorMessage != null) {
       state = state.copyWith(errorMessage: null);
     }
   }
 
-  /// Format remaining seconds to MM:SS
+  // Format remaining seconds to MM:SS
   String formatTime(int seconds) {
     final minutes = seconds ~/ 60;
     final secs = seconds % 60;
     return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
 
-  /// Handle verify code
+  // Verify code when pressing "Verify"
   Future<void> onVerify(BuildContext context) async {
     if (!state.isValid) return;
 
@@ -170,18 +167,18 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
       final email = state.email;
 
-      await _verifyCodeUseCase(email, state.otpCode, 'account');
+      await _verifyCodeUseCase(email, state.otpCode, 'forgotpassword');
 
       state = state.copyWith(isLoading: false, isSuccess: true);
 
-      context.go(AppRoutes.home);
+      context.go(AppRoutes.resetpassword);
     } catch (e) {
       _resetErrorTimer();
       _handleFailure(context, e);
     }
   }
 
-  /// Handle resend code
+  // Handle resend code
   Future<void> onResend(BuildContext context) async {
     try {
       try {
@@ -197,7 +194,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
       final email = state.email;
 
-      await _resendCodeUseCase(email, 'account');
+      await _resendCodeUseCase(email, 'forgotpassword');
 
       state = state.copyWith(isResending: false);
       _startTimer(resetResend: true);
@@ -207,7 +204,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
     }
   }
 
-  /// Handle failure
+  // Handle failure
   void _handleFailure(BuildContext context, Object error) {
     String? messageCode;
     String fallbackMessage = 'Unknown error';
@@ -229,66 +226,37 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
     state = state.copyWith(isLoading: false, errorMessage: message);
   }
 
-  /// Update loading state
+  // Update loading state
   void _setLoading(bool value) {
     state = state.copyWith(isLoading: value, errorMessage: null);
   }
 
-  /// Translate errors from use case or API
+  // Translate errors from use case or API
   String _translateError(String errorCode) {
     final error = errorCode.replaceFirst('Exception: ', '').trim();
 
     switch (error) {
       case 'AUTH.VERIFY.USER_NOT_FOUND':
-        return 'verify_account.errors.user_not_found'.tr();
+        return 'verify_password.errors.invalid_phone_or_email'.tr();
       case 'AUTH.VERIFY.INVALID_OTP':
       case 'HTTP.400':
       case '400':
-        return 'verify_account.errors.invalid_code'.tr();
+        return 'verify_password.errors.invalid_code'.tr();
       case 'AUTH.VERIFY.OTP_EXPIRED':
-        return 'verify_account.errors.expired_code'.tr();
+        return 'verify_password.errors.expired_code'.tr();
       case 'AUTH.VERIFY.ALREADY_VERIFIED':
-        return 'verify_account.errors.already_verified'.tr();
+        return 'verify_password.errors.already_verified'.tr();
       case 'AUTH.LOGIN.ACCOUNT_DISABLED':
-        return 'verify_account.errors.account_disabled'.tr();
+        return 'verify_password.errors.account_disabled'.tr();
       case 'AUTH.LOGIN.NOT_VERIFIED':
-        return 'verify_account.errors.account_not_verified'.tr();
+        return 'verify_password.errors.account_not_verified'.tr();
       default:
-        return 'verify_account.errors.unexpected'.tr();
+        return 'verify_password.errors.unexpected'.tr();
     }
   }
 
-  /// Handle back
+  // Navigate back to SendRequest page
   void onPressBack(BuildContext context) {
-    final prev = _ref.read(previousPageProvider);
-
-    switch (prev) {
-      case 'register':
-        context.go(AppRoutes.register);
-        break;
-      case 'login':
-        context.go(AppRoutes.login);
-        break;
-      default:
-        context.go(AppRoutes.register);
-    }
-  }
-
-  /// Get email
-  String getEmail() {
-    final prev = _ref.read(previousPageProvider);
-
-    if (prev == 'register') {
-      final registerState = _ref.read(registerNotifierProvider);
-      final email = registerState.emailController.text.trim();
-      return email;
-    }
-
-    if (prev == 'login') {
-      final loginState = _ref.read(loginNotifierProvider);
-      return loginState.emailController.text.trim();
-    }
-
-    return '';
+    context.go(AppRoutes.sendrequest);
   }
 }

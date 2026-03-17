@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import '../models/login/login_model.dart';
 import '../models/register/register_model.dart';
 import '../models/refresh_token/refresh_token_model.dart';
+import '../models/verify_password/verify_password_model.dart';
 
 part 'auth_api.g.dart';
 
@@ -32,8 +33,8 @@ abstract class AuthApi {
   @POST('auth/logout')
   Future<void> logout(@Body() Map<String, dynamic> body);
 
-  // @POST('auth/verify-password')
-  // Future<dynamic> verifyPassword(@Body() Map<String, dynamic> body);
+  @POST('auth/verify-password')
+  Future<VerifyPasswordModel> verifyPassword(@Body() Map<String, dynamic> body);
 
   // @POST('auth/reset-password')
   // Future<void> resetPassword(@Body() Map<String, dynamic> body);
