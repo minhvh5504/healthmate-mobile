@@ -45,10 +45,10 @@ class AuthRepositoryImpl implements AuthRepository {
     return remoteDataSource.resendOtp(email, type);
   }
 
-  // @override
-  // Future<void> resetPassword(String phone, String newPassword) {
-  //   return remoteDataSource.resetPassword(phone, newPassword);
-  // }
+  @override
+  Future<void> resetPassword(String resetToken, String newPassword) {
+    return remoteDataSource.resetPassword(resetToken, newPassword);
+  }
 
   @override
   Future<RefreshToken> refreshToken(String refreshToken) {
