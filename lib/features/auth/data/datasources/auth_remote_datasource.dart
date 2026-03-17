@@ -20,10 +20,6 @@ class AuthRemoteDataSource {
     return api.register({'email': email, 'password': password});
   }
 
-  // Future<void> sendRequest(String phone) {
-  //   return api.sendRequest({'phone': phone});
-  // }
-
   Future<void> verifyEmail(String email, String code) {
     return api.verifyEmail({'email': email, 'code': code});
   }
@@ -35,6 +31,10 @@ class AuthRemoteDataSource {
   // Future<void> resetPassword(String phone, String newPassword) {
   //   return api.resetPassword({'phone': phone, 'password': newPassword});
   // }
+
+  Future<void> sendResetPassword(String email) {
+    return api.sendResetPassword({'email': email});
+  }
 
   Future<RefreshTokenModel> refreshToken(String refreshToken) {
     return api.refreshToken({'refreshToken': refreshToken});
