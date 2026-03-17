@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../features/auth/presentation/pages/forgotpassword/reset_password_page.dart';
 import '../../../features/auth/presentation/pages/forgotpassword/send_request_page.dart';
 import '../../../features/auth/presentation/pages/forgotpassword/verify_password_page.dart';
 import '../../../features/auth/presentation/pages/login/login_page.dart';
@@ -49,6 +50,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.verifypassword,
         builder: (context, state) => const VerifyPasswordPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.resetpassword,
+        builder: (context, state) => const ResetPasswordPage(),
       ),
 
       // Shell Route

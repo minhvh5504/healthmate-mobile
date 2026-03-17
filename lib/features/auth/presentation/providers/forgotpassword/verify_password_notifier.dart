@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../core/utils/validation.dart';
-import '../../../../../core/widgets/dialog/confirm_dialog.dart';
+
 import '../../../domain/usecases/resend_code.dart';
 import '../../../domain/usecases/verify_password.dart';
 import 'send_request_provider.dart';
@@ -26,6 +26,7 @@ class VerifyPasswordState {
   final int remainingSeconds;
   final int resendSeconds;
   final String email;
+  final String resetToken;
 
   const VerifyPasswordState({
     this.otpCode = '',
@@ -37,6 +38,7 @@ class VerifyPasswordState {
     this.remainingSeconds = 5,
     this.resendSeconds = 300,
     this.email = '',
+    this.resetToken = '',
   });
 
   VerifyPasswordState copyWith({
@@ -49,6 +51,7 @@ class VerifyPasswordState {
     int? remainingSeconds,
     int? resendSeconds,
     String? email,
+    String? resetToken,
   }) {
     return VerifyPasswordState(
       otpCode: otpCode ?? this.otpCode,
@@ -62,6 +65,7 @@ class VerifyPasswordState {
       remainingSeconds: remainingSeconds ?? this.remainingSeconds,
       resendSeconds: resendSeconds ?? this.resendSeconds,
       email: email ?? this.email,
+      resetToken: resetToken ?? this.resetToken,
     );
   }
 }
@@ -167,9 +171,13 @@ class VerifyPasswordNotifier extends StateNotifier<VerifyPasswordState> {
 
       final email = state.email;
 
-      await _verifyCodeUseCase(email, state.otpCode, 'forgotpassword');
+      final response = await _verifyCodeUseCase(email, state.otpCode, 'forgotpassword');
 
-      state = state.copyWith(isLoading: false, isSuccess: true);
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        resetToken: response.resetToken,
+      );
 
       context.go(AppRoutes.resetpassword);
     } catch (e) {

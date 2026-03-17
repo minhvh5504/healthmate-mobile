@@ -36,8 +36,8 @@ abstract class AuthApi {
   @POST('auth/verify-password')
   Future<VerifyPasswordModel> verifyPassword(@Body() Map<String, dynamic> body);
 
-  // @POST('auth/reset-password')
-  // Future<void> resetPassword(@Body() Map<String, dynamic> body);
+  @POST('auth/reset-password')
+  Future<void> resetPassword(@Body() Map<String, dynamic> body);
 
   @POST('auth/send-reset-password')
   Future<void> sendResetPassword(@Body() Map<String, dynamic> body);

@@ -145,5 +145,22 @@
       "primary_button": "New account",
       "secondary_button": "Dismiss"
     }
+  },
+  "reset_password": {
+    "title": "Reset password",
+    "subtitle": "Please enter your new password and try not to forget it",
+    "new_password_label": "Password",
+    "confirm_new_password_label": "Confirm password",
+    "button_submit": "Save",
+    "error_password_min_length": "Password must be at least 8 characters",
+    "error_password_lowercase": "Password must contain at least one lowercase letter",
+    "error_password_uppercase": "Password must contain at least one uppercase letter",
+    "error_password_special": "Password must contain at least one special character (!@#$%^&*)",
+    "error_password_match": "Confirm password does not match",
+    "errors": {
+      "invalid_phone_or_email": "User information not found.",
+      "invalid_password": "Invalid password",
+      "unexpected": "An unexpected error occurred"
+    }
   }
 }

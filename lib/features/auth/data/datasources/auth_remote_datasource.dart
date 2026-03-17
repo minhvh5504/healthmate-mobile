@@ -37,9 +37,12 @@ class AuthRemoteDataSource {
     return api.verifyPassword({'email': email, 'code': code, 'type': type});
   }
 
-  // Future<void> resetPassword(String phone, String newPassword) {
-  //   return api.resetPassword({'phone': phone, 'password': newPassword});
-  // }
+  Future<void> resetPassword(String resetToken, String newPassword) {
+    return api.resetPassword({
+      'resetToken': resetToken,
+      'newPassword': newPassword,
+    });
+  }
 
   Future<void> sendResetPassword(String email) {
     return api.sendResetPassword({'email': email});
