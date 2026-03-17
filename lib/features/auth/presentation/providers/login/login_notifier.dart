@@ -102,7 +102,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     final passText = state.passwordController.text.trim();
 
     // true = valid
-    final emailValid = Validation.isPhoneOrEmailValid(emailText);
+    final emailValid = Validation.isValidEmail(emailText);
     final passwordValid = Validation.isStrongPassword(passText);
 
     // true = form valid
@@ -128,13 +128,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     if (text.isEmpty) return null;
 
-    if (!Validation.isPhoneOrEmailValid(text)) {
-      final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(text);
-
-      if (hasLetter) {
-        return 'login.error_invalid_email'.tr();
-      }
-      return 'login.error_invalid_phone'.tr();
+    if (!Validation.isValidEmail(text)) {
+      return 'login.error_invalid_email'.tr();
     }
 
     return null;
@@ -182,7 +177,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   /// Navigate to Forgot Password page
   void onForgotPassword(BuildContext context) {
-    // context.go(AppRoutes.sendrequest);
+    context.go(AppRoutes.sendrequest);
   }
 
   /// Handle sign-in process

@@ -111,5 +111,23 @@
     "button_start": "Get started",
     "have_account": "Already have an account?",
     "login": "Log in"
+  },
+  "forgot_password": {
+    "title": "Forgot password",
+    "subtitle": "Enter linked email to retrieve password",
+    "email_label": "Email",
+    "email_hint": "example@gmail.com",
+    "button_send": "Send",
+    "error_invalid_email": "Invalid email address",
+    "errors": {
+      "user_not_found": "User not found",
+      "unexpected": "An unexpected error occurred"
+    },
+    "user_not_found_dialog": {
+      "title": "Oh no!",
+      "message": "This account does not exist. Please use a different login method or create a new account.",
+      "primary_button": "New account",
+      "secondary_button": "Dismiss"
+    }
   }
 }

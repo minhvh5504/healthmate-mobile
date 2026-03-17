@@ -24,10 +24,10 @@ class AuthRepositoryImpl implements AuthRepository {
     return remoteDataSource.register(email, password);
   }
 
-  // @override
-  // Future<void> sendRequest(String phone) {
-  //   return remoteDataSource.sendRequest(phone);
-  // }
+  @override
+  Future<void> sendRequest(String email) {
+    return remoteDataSource.sendResetPassword(email);
+  }
 
   @override
   Future<void> verifyEmail(String email, String otp) {
