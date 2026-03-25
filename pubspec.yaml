@@ -40,6 +40,14 @@ dependencies:
   shimmer: ^3.0.0
   # easy localization
   easy_localization: ^3.0.8
+  # google sign in
+  google_sign_in: ^7.2.0
+  # firebase
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  firebase_messaging: ^16.0.4
+  # local notification
+  flutter_local_notifications: ^19.5.0
 
 dev_dependencies:
   flutter_test:
