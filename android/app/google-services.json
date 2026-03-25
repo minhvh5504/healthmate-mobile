@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "604416099695",
+    "project_id": "health-mate-c3907",
+    "storage_bucket": "health-mate-c3907.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604416099695:android:242ef1c217b87c3182949a",
+        "android_client_info": {
+          "package_name": "com.example.healthmate_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604416099695-dhl793ch389vvks4l0lgu5713q8uhf81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.healthmate_mobile",
+            "certificate_hash": "93e223ab0eab81ec396c595324bd98b11478d0a6"
+          }
+        },
+        {
+          "client_id": "604416099695-3ljp5u0o0428t1u1sgtq81a2mhe0micr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdAUfBYpGwOdgZVkSJU7QhsjegeWEVjv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604416099695-3ljp5u0o0428t1u1sgtq81a2mhe0micr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "604416099695-nuivl4a856dbmaamgpve417ivlvgjk6c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healthmateMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

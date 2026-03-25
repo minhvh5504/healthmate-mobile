@@ -16,8 +16,8 @@ class HomePage extends StatelessWidget {
             const Text('Home Screen'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => context.push(AppRoutes.register),
-              child: const Text('Go to Register Introduction'),
+              onPressed: () => context.go(AppRoutes.onboarding),
+              child: const Text('Onboarding'),
             ),
           ],
         ),

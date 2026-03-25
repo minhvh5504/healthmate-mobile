@@ -35,7 +35,10 @@ final loginWithGoogleUseCaseProvider = Provider<LoginWithGoogle>(
   (ref) => LoginWithGoogle(ref.read(authRepositoryProvider)),
 );
 
-/// Notifier
 final loginNotifierProvider = StateNotifierProvider<LoginNotifier, LoginState>(
-  (ref) => LoginNotifier(ref.read(loginUseCaseProvider), ref),
+  (ref) => LoginNotifier(
+    ref.read(loginUseCaseProvider),
+    ref.read(loginWithGoogleUseCaseProvider),
+    ref,
+  ),
 );

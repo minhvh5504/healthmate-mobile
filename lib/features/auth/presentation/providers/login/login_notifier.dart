@@ -7,12 +7,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart' as gs;
+
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../../../core/widgets/dialog/not_found_dialog.dart';
 import '../../../domain/usecases/login_account.dart';
+import '../../../domain/usecases/login_with_google.dart';
 import '../auth/auth_provider.dart';
 
 /// STATE
@@ -69,9 +75,10 @@ class LoginState {
 /// NOTIFIER
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginAccount _loginUseCase;
+  final LoginWithGoogle _loginWithGoogleUseCase;
   final Ref ref;
 
-  LoginNotifier(this._loginUseCase, this.ref)
+  LoginNotifier(this._loginUseCase, this._loginWithGoogleUseCase, this.ref)
     : super(
         LoginState(
           emailController: TextEditingController(),
@@ -205,6 +212,69 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
   }
 
+  /// Handle Continue with Google
+  Future<void> onContinueWithGoogle(BuildContext context) async {
+    if (state.isLoading) return;
+
+    _setLoading(true);
+
+    try {
+      final gSignIn = gs.GoogleSignIn.instance;
+      await gSignIn.initialize(
+        clientId: defaultTargetPlatform == TargetPlatform.iOS
+            ? dotenv.env['IOS_CLIENT_ID']
+            : null,
+        serverClientId: dotenv.env['GOOGLE_CLIENT_ID'],
+      );
+
+      final googleUser = await gSignIn.authenticate();
+
+      final googleAuth = googleUser.authentication;
+
+      if (googleAuth.idToken == null || googleAuth.idToken!.isEmpty) {
+        throw Exception('Failed to get ID token from Google');
+      }
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+
+      final firebaseUser = userCredential.user;
+      if (firebaseUser == null) throw Exception('Firebase login failed');
+
+      final firebaseIdToken = await firebaseUser.getIdToken();
+
+      if (firebaseIdToken == null || firebaseIdToken.isEmpty) {
+        throw Exception('Firebase token missing');
+      }
+
+      final authUser = await _loginWithGoogleUseCase(firebaseIdToken);
+
+      await ref
+          .read(authProvider.notifier)
+          .login(
+            accessToken: authUser.accessToken,
+            refreshToken: authUser.refreshToken,
+          );
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('login_type', 'google');
+
+      _setLoading(false);
+
+      if (context.mounted) {
+        context.pop();
+        context.go(AppRoutes.home);
+      }
+    } catch (e) {
+      _handleFailure(context, e);
+    }
+  }
+
   /// Handle successful login
   Future<void> _handleLoginSuccess(
     BuildContext context,
@@ -232,6 +302,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   /// Handle failure
   void _handleFailure(BuildContext context, Object error) {
+    // Handle cancellation
+    final errorString = error.toString().toLowerCase();
+    if (errorString.contains('sign_in_canceled') ||
+        errorString.contains('canceled') ||
+        errorString.contains('12501')) {
+      _setLoading(false);
+      return;
+    }
+
     String errorMessage = 'Unknown error';
     String? errorCode;
 
