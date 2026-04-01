@@ -162,5 +162,13 @@
       "invalid_password": "Mật khẩu không hợp lệ",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     }
+  },
+  "home": {
+    "shortcuts": "Phím tắt",
+    "ai_assistant": "Hỏi trợ lý AI",
+    "connect_relative": "Kết nối người thân",
+    "health_today": "Sức khoẻ hôm nay",
+    "no_changes_today": "Chưa có thay đổi gì hôm nay",
+    "update_to_track": "Vui lòng cập nhật để theo dõi sức khỏe"
   }
 }

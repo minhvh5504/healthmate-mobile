@@ -20,6 +20,8 @@ class AppColors {
   static const Color typoBlack = Color(0xFF0F1729);
   static const Color typoDisable = Color(0xFF94A3B8);
   static const Color typoError = Color(0xFFE53935);
+  static const Color typoNaviButton = Color(0xFFFF2D55);
+  static const Color typoNavi = Color(0xFF2D3450);
 
   // New Design Colors
   static const Color white = Color(0xFFFFFFFF);

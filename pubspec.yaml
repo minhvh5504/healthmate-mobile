@@ -68,9 +68,11 @@ flutter:
     - assets/icons/app/
     - assets/icons/auth/
     - assets/icons/popup/
+    - assets/icons/home/
 
     - assets/images/
     - assets/images/onboarding/
+    - assets/images/user/
 
     - assets/lang/
 

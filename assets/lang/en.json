@@ -162,5 +162,13 @@
       "invalid_password": "Invalid password",
       "unexpected": "An unexpected error occurred"
     }
+  },
+  "home": {
+    "shortcuts": "Shortcuts",
+    "ai_assistant": "Ask AI Assistant",
+    "connect_relative": "Connect Relative",
+    "health_today": "Health Today",
+    "no_changes_today": "No changes today",
+    "update_to_track": "Please update to track your health"
   }
 }

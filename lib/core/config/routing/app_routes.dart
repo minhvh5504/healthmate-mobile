@@ -12,8 +12,16 @@ class AppRoutes {
   static const String verifypassword = '/verify-password';
   static const String resetpassword = '/reset-password';
 
+  // Notification
+  static const String notifications = '/notifications';
+
+  // Settings
+  static const String settings = '/settings';
+  static const String profile = '/profile';
+
   // Main
   static const String home = '/home';
-  static const String profile = '/profile';
-  static const String settings = '/settings';
+  static const String medicine = '/medicine';
+  static const String health = '/health';
+  static const String history = '/history';
 }

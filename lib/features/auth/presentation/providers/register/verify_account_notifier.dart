@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
@@ -171,6 +172,9 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
       final email = state.email;
 
       await _verifyCodeUseCase(email, state.otpCode, 'account');
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLogin', true);
 
       state = state.copyWith(isLoading: false, isSuccess: true);
 
