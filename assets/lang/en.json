@@ -170,5 +170,14 @@
     "health_today": "Health Today",
     "no_changes_today": "No changes today",
     "update_to_track": "Please update to track your health"
+  },
+  "settings": {
+    "title": "Settings",
+    "basic_info": "Basic Information",
+    "family_connect": "Family Connect",
+    "notifications": "Notifications",
+    "advanced": "Advanced Settings",
+    "support": "Support & Feedback",
+    "app_version": "App Version 1.0"
   }
 }

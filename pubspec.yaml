@@ -69,6 +69,7 @@ flutter:
     - assets/icons/auth/
     - assets/icons/popup/
     - assets/icons/home/
+    - assets/icons/setting/
 
     - assets/images/
     - assets/images/onboarding/
