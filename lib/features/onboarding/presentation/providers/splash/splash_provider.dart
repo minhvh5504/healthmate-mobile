@@ -5,5 +5,5 @@ import 'splash_notifier.dart';
 /// Provider
 final splashNotifierProvider =
     StateNotifierProvider.autoDispose<SplashNotifier, SplashState>(
-      (ref) => SplashNotifier(),
+      (ref) => SplashNotifier(ref),
     );

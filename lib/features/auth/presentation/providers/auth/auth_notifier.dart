@@ -43,10 +43,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Load auth
   Future<void> loadAuth() async {
     final prefs = await SharedPreferences.getInstance();
+    final isLogin = prefs.getBool('isLogin') ?? false;
     final accessToken = prefs.getString('access_token');
     final refreshToken = prefs.getString('refresh_token');
 
-    if (accessToken != null && refreshToken != null) {
+    if (isLogin && accessToken != null && refreshToken != null) {
       state = state.copyWith(
         isLoggedIn: true,
         accessToken: accessToken,
@@ -64,6 +65,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     await prefs.setString('access_token', accessToken);
     await prefs.setString('refresh_token', refreshToken);
+    await prefs.setBool('isLogin', true);
 
     state = state.copyWith(
       isLoggedIn: true,
@@ -78,6 +80,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
+    await prefs.setBool('isLogin', false);
 
     state = const AuthState(isLoggedIn: false);
   }

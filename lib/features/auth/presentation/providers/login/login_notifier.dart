@@ -25,7 +25,6 @@ import '../auth/auth_provider.dart';
 class LoginState {
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final bool remember;
   final bool emailValid;
   final bool passwordValid;
   final bool hasEmailError;
@@ -37,7 +36,6 @@ class LoginState {
   const LoginState({
     required this.emailController,
     required this.passwordController,
-    this.remember = false,
     this.emailValid = false,
     this.passwordValid = false,
     this.hasEmailError = false,
@@ -48,7 +46,6 @@ class LoginState {
   });
 
   LoginState copyWith({
-    bool? remember,
     bool? emailValid,
     bool? passwordValid,
     bool? hasEmailError,
@@ -60,7 +57,6 @@ class LoginState {
     return LoginState(
       emailController: emailController,
       passwordController: passwordController,
-      remember: remember ?? this.remember,
       emailValid: emailValid ?? this.emailValid,
       passwordValid: passwordValid ?? this.passwordValid,
       hasEmailError: hasEmailError ?? this.hasEmailError,
@@ -85,23 +81,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
           passwordController: TextEditingController(),
         ),
       ) {
-    _loadSavedAccount();
     state.emailController.addListener(_validateAll);
     state.passwordController.addListener(_validateAll);
   }
 
-  /// Load saved credentials from SharedPreferences
-  Future<void> _loadSavedAccount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedEmail = prefs.getString('saved_username') ?? '';
-    final savedPassword = prefs.getString('saved_password') ?? '';
-    final remember = prefs.getBool('remember_me') ?? false;
 
-    state.emailController.text = savedEmail;
-    state.passwordController.text = savedPassword;
-    state = state.copyWith(remember: remember);
-    _validateAll();
-  }
 
   /// Validate all input fields
   void _validateAll() {
@@ -167,10 +151,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     return null;
   }
 
-  /// Toggle remember
-  void toggleRemember(bool? value) {
-    state = state.copyWith(remember: value ?? false);
-  }
+
 
   /// Set loading state
   void _setLoading(bool loading) {
@@ -263,6 +244,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('login_type', 'google');
+      await prefs.setBool('isLogin', true);
 
       _setLoading(false);
 
@@ -284,16 +266,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
     ScaffoldMessenger.of(context).clearSnackBars();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('login_type', 'api');
+    await prefs.setBool('isLogin', true);
 
-    if (state.remember) {
-      await prefs.setString('saved_username', username);
-      await prefs.setString('saved_password', password);
-      await prefs.setBool('remember_me', true);
-    } else {
-      await prefs.remove('saved_username');
-      await prefs.remove('saved_password');
-      await prefs.setBool('remember_me', false);
-    }
+
 
     _setLoading(false);
 

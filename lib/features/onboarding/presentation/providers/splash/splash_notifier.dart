@@ -5,13 +5,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/config/routing/app_routes.dart';
 
-final splashNotifierProvider =
-    StateNotifierProvider<SplashNotifier, SplashState>(
-      (ref) => SplashNotifier(),
-    );
+
+
 
 /// STATE
 class SplashState {
@@ -44,7 +43,8 @@ class SplashState {
 
 /// NOTIFIER
 class SplashNotifier extends StateNotifier<SplashState> {
-  SplashNotifier() : super(const SplashState());
+  final Ref ref;
+  SplashNotifier(this.ref) : super(const SplashState());
 
   /// Initialize when screen opens
   Future<void> init(BuildContext context, TickerProvider vsync) async {
@@ -72,7 +72,16 @@ class SplashNotifier extends StateNotifier<SplashState> {
 
     if (!state.hasNavigated) {
       state = state.copyWith(hasNavigated: true);
-      context.go(AppRoutes.onboarding);
+
+      // Check login status
+      final prefs = await SharedPreferences.getInstance();
+      final isLoggedIn = prefs.getBool('isLogin') ?? false;
+
+      if (isLoggedIn) {
+        context.go(AppRoutes.home);
+      } else {
+        context.go(AppRoutes.onboarding);
+      }
     }
   }
 

@@ -6,9 +6,13 @@ import '../../../features/auth/presentation/pages/forgotpassword/verify_password
 import '../../../features/auth/presentation/pages/login/login_page.dart';
 import '../../../features/auth/presentation/pages/register/register_page.dart';
 import '../../../features/auth/presentation/pages/register/verify_account_page.dart';
+import '../../../features/notifications/presentation/pages/notification_page.dart';
 import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_page.dart';
+import '../../../features/health/presentation/pages/health_page.dart';
+import '../../../features/history/presentation/pages/history_page.dart';
 import '../../../features/profile/presentation/pages/profile_page.dart';
 import '../../../features/settings/presentation/pages/settings_page.dart';
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
@@ -56,6 +60,20 @@ class AppRouter {
         builder: (context, state) => const ResetPasswordPage(),
       ),
 
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => const SettingsPage(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, state) => const NotificationPage(),
+      ),
+
       // Shell Route
       ShellRoute(
         builder: (context, state, child) {
@@ -71,12 +89,16 @@ class AppRouter {
             builder: (context, state) => const HomePage(),
           ),
           GoRoute(
-            path: AppRoutes.profile,
-            builder: (context, state) => const ProfilePage(),
+            path: AppRoutes.medicine,
+            builder: (context, state) => const MedicinePage(),
           ),
           GoRoute(
-            path: AppRoutes.settings,
-            builder: (context, state) => const SettingsPage(),
+            path: AppRoutes.health,
+            builder: (context, state) => const HealthPage(),
+          ),
+          GoRoute(
+            path: AppRoutes.history,
+            builder: (context, state) => const HistoryPage(),
           ),
         ],
       ),
@@ -85,8 +107,9 @@ class AppRouter {
 
   static int _getNavIndex(String path) {
     if (path.startsWith(AppRoutes.home)) return 0;
-    if (path.startsWith(AppRoutes.profile)) return 1;
-    if (path.startsWith(AppRoutes.settings)) return 2;
+    if (path.startsWith(AppRoutes.medicine)) return 1;
+    if (path.startsWith(AppRoutes.health)) return 2;
+    if (path.startsWith(AppRoutes.history)) return 3;
     return 0;
   }
 }
