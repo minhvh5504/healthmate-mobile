@@ -170,5 +170,14 @@
     "health_today": "Sức khoẻ hôm nay",
     "no_changes_today": "Chưa có thay đổi gì hôm nay",
     "update_to_track": "Vui lòng cập nhật để theo dõi sức khỏe"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "basic_info": "Thông tin cơ bản",
+    "family_connect": "Kết nối gia đình",
+    "notifications": "Thông báo",
+    "advanced": "Cài đặt nâng cao",
+    "support": "Hỗ trợ và phản hồi",
+    "app_version": "Phiên bản ứng dụng 1.0"
   }
 }

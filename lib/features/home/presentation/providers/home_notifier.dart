@@ -40,7 +40,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
   /// Handle profile
   void onProfile() {
-    AppRouter.router.go(AppRoutes.profile);
+    AppRouter.router.go(AppRoutes.settings);
   }
 
   /// Handle notification click
