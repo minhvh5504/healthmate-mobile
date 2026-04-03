@@ -178,6 +178,14 @@
     "notifications": "Thông báo",
     "advanced": "Cài đặt nâng cao",
     "support": "Hỗ trợ và phản hồi",
-    "app_version": "Phiên bản ứng dụng 1.0"
+    "app_version": "Phiên bản ứng dụng 1.0",
+    "member_of": "Thành viên của ",
+    "profile_subtitle": "Cập nhật thông tin cá nhân để chúng tôi có thể chăm sóc bạn tốt hơn",
+    "full_name": "Họ và tên",
+    "gender": "Giới tính",
+    "birthday": "Ngày sinh",
+    "height": "Chiều cao",
+    "weight": "Cân nặng",
+    "email": "Email"
   }
 }

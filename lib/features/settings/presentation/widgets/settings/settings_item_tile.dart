@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class SettingsItemTile extends StatelessWidget {
   final String labelKey;
@@ -30,7 +29,7 @@ class SettingsItemTile extends StatelessWidget {
             Expanded(
               child: Text(
                 labelKey.tr(),
-                style: GoogleFonts.poppins(
+                style: TextStyle(fontFamily: 'Poppins',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.typoBlack,

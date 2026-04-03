@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:heroicons/heroicons.dart';
 
 import '../../theme/app_colors.dart';
@@ -54,7 +53,7 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
               child: Text(
                 title!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
+                style: TextStyle(fontFamily: 'Poppins',
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.typoBlack,

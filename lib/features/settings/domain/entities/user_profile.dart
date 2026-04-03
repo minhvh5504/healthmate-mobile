@@ -4,8 +4,6 @@ class UserProfile {
   final String? avatarUrl;
   final String? role;
   final bool? emailVerified;
-  
-  // Nested profile data from backend
   final String? fullName;
   final DateTime? dateOfBirth;
   final String? gender;

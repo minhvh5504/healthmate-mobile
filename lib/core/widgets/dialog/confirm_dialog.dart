@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_colors.dart';
 import '../button/button.dart';
@@ -47,7 +46,7 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               effectiveTitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: TextStyle(fontFamily: 'Inter',
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.typoBlack,
@@ -59,7 +58,7 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: TextStyle(fontFamily: 'Inter',
                 fontSize: 15.sp,
                 color: AppColors.typoBody.withOpacity(0.8),
                 height: 1.5,

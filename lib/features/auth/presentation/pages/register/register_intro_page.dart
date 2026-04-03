@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -46,7 +45,7 @@ class RegisterIntroPage extends ConsumerWidget {
                 Text(
                   'register_intro.title'.tr(),
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(fontFamily: 'Inter',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w800,
                     color: AppColors.typoBlack,
@@ -61,7 +60,7 @@ class RegisterIntroPage extends ConsumerWidget {
                   child: Text(
                     'register_intro.subtitle'.tr(),
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(fontFamily: 'Inter',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.typoBody,

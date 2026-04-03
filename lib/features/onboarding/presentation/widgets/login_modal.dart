@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -51,7 +50,7 @@ class LoginModal extends ConsumerWidget {
               const SizedBox(width: 24),
               Text(
                 'onboarding.login'.tr(),
-                style: GoogleFonts.inter(
+                style: TextStyle(fontFamily: 'Inter',
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.typoBlack,
@@ -87,7 +86,7 @@ class LoginModal extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Text(
                   'login_modal.or'.tr(),
-                  style: GoogleFonts.inter(
+                  style: TextStyle(fontFamily: 'Inter',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: AppColors.typoDisable.withOpacity(0.8),
