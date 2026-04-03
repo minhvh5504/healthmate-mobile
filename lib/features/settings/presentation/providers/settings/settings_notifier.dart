@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
-import '../../../domain/repositories/settings_repository.dart';
 import '../../../domain/usecases/get_user_profile.dart';
 import '../../../../../core/config/routing/app_router.dart';
 
@@ -35,8 +34,8 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
   final GetUserProfile _getUserProfile;
   final Ref ref;
 
-  SettingsNotifier(SettingsRepository _, this._getUserProfile, this.ref)
-    : super(const SettingsState()) {
+  SettingsNotifier(this._getUserProfile, this.ref)
+      : super(const SettingsState()) {
     loadProfile();
   }
 
@@ -68,7 +67,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
 
   /// Handle Notifications
   void onNotifications() {
-    // AppRouter.router.go(AppRoutes.notifications);
+    AppRouter.router.go(AppRoutes.notificationSettings);
   }
 
   /// Handle Advanced
