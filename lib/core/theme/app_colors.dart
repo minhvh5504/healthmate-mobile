@@ -33,4 +33,10 @@ class AppColors {
     end: Alignment.bottomCenter,
     colors: [white, lightBlue],
   );
+
+  static const LinearGradient lineButton = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF7F66FF), Color(0xFF00A3FF)],
+  );
 }

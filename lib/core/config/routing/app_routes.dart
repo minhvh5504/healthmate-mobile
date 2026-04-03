@@ -18,6 +18,7 @@ class AppRoutes {
   // Settings
   static const String settings = '/settings';
   static const String profile = '/profile';
+  static const String notificationSettings = '/notification-settings';
 
   // Main
   static const String home = '/home';

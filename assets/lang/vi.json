@@ -186,6 +186,20 @@
     "birthday": "Ngày sinh",
     "height": "Chiều cao",
     "weight": "Cân nặng",
-    "email": "Email"
+    "email": "Email",
+    "notifications_settings": "Cài đặt thông báo",
+    "noti_time_settings": "Cài đặt thời gian thông báo",
+    "noti_time_desc": "Đặt thời gian thông báo cho từng thời điểm",
+    "enable_notifications": "Bật thông báo",
+    "sound_notifications": "Âm thanh thông báo",
+    "on": "Bật",
+    "off": "Tắt",
+    "before_breakfast": "Trước bữa sáng",
+    "after_breakfast": "Sau bữa sáng",
+    "before_lunch": "Trước bữa trưa",
+    "after_lunch": "Sau bữa trưa",
+    "before_dinner": "Trước bữa tối",
+    "after_dinner": "Sau bữa tối",
+    "before_sleep": "Trước khi ngủ"
   }
 }

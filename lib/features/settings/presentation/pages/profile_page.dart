@@ -27,20 +27,10 @@ class ProfilePage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ProfileHeader(onBack: notifier.onBack),
-              SizedBox(height: 8.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Text(
-                  'settings.profile_subtitle'.tr(),
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 13.sp,
-                    color: AppColors.typoBody,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5,
-                  ),
-                ),
+              ProfileHeader(
+                onBack: notifier.onBack,
+                title: 'settings.basic_info'.tr(),
+                subtitle: 'settings.profile_subtitle'.tr(),
               ),
               SizedBox(height: 24.h),
               Expanded(

@@ -15,6 +15,7 @@ import '../../../features/health/presentation/pages/health_page.dart';
 import '../../../features/history/presentation/pages/history_page.dart';
 import '../../../features/settings/presentation/pages/settings_page.dart';
 import '../../../features/settings/presentation/pages/profile_page.dart';
+import '../../../features/settings/presentation/pages/notification_settings_page.dart';
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
@@ -67,6 +68,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.profile,
         builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.notificationSettings,
+        builder: (context, state) => const NotificationSettingsPage(),
       ),
 
       GoRoute(
