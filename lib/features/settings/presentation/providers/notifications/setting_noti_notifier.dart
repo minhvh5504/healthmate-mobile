@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/notification_time.dart';
 import '../../../domain/usecases/get_notification_settings.dart';
 import '../../../domain/usecases/update_notification_time.dart';
@@ -59,7 +60,7 @@ class SettingNotiNotifier extends StateNotifier<SettingNotiState> {
 
   /// Handle Back
   void onBack() {
-    AppRouter.router.pop();
+    AppRouter.router.go(AppRoutes.settings);
   }
 
   /// Toggle notifications

@@ -5,13 +5,25 @@ import '../../../../../core/theme/app_colors.dart';
 
 class SettingsItemTile extends StatelessWidget {
   final String labelKey;
+  final String? label; // Literal label if provided
   final IconData icon;
+  final Color? iconColor;
+  final Color? iconBg;
+  final String? trailing;
+  final bool isLogout;
+  final bool showArrow;
   final VoidCallback onTap;
 
   const SettingsItemTile({
     super.key,
-    required this.labelKey,
+    this.labelKey = '',
+    this.label,
     required this.icon,
+    this.iconColor,
+    this.iconBg,
+    this.trailing,
+    this.isLogout = false,
+    this.showArrow = true,
     required this.onTap,
   });
 
@@ -21,26 +33,57 @@ class SettingsItemTile extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12.r),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Row(
           children: [
-            Icon(icon, size: 22.sp, color: AppColors.typoBody),
+            if (iconBg != null)
+              Container(
+                padding: EdgeInsets.all(10.w),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(
+                  icon,
+                  size: 22.sp,
+                  color: iconColor ?? AppColors.bgPrimary,
+                ),
+              )
+            else
+              Icon(
+                icon,
+                size: 22.sp,
+                color: iconColor ?? AppColors.typoBody,
+              ),
             SizedBox(width: 14.w),
             Expanded(
               child: Text(
-                labelKey.tr(),
-                style: TextStyle(fontFamily: 'Poppins',
-                  fontSize: 14.sp,
+                label ?? labelKey.tr(),
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.typoBlack,
+                  color: isLogout ? const Color(0xFFFF5252) : AppColors.typoBlack,
                 ),
               ),
             ),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 20.sp,
-              color: AppColors.typoDisable,
-            ),
+            if (trailing != null) ...[
+              Text(
+                trailing!,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14.sp,
+                  color: AppColors.typoBody,
+                ),
+              ),
+              SizedBox(width: 8.w),
+            ],
+            if (showArrow)
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 20.sp,
+                color: AppColors.typoDisable,
+              ),
           ],
         ),
       ),

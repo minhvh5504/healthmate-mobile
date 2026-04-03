@@ -35,7 +35,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
   final Ref ref;
 
   SettingsNotifier(this._getUserProfile, this.ref)
-      : super(const SettingsState()) {
+    : super(const SettingsState()) {
     loadProfile();
   }
 
@@ -72,7 +72,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
 
   /// Handle Advanced
   void onAdvanced() {
-    // AppRouter.router.go('/settings/advanced');
+    AppRouter.router.go(AppRoutes.highSettings);
   }
 
   /// Handle Support

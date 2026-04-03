@@ -201,5 +201,13 @@
     "before_dinner": "Before Dinner",
     "after_dinner": "After Dinner",
     "before_sleep": "Before Sleep"
+  },
+  "high_settings": {
+    "title": "Settings",
+    "subtitle": "Account settings to personalize your experience with HealthMate",
+    "language": "Language",
+    "vietnamese": "Vietnamese",
+    "change_password": "Change Password",
+    "logout": "Logout"
   }
 }
