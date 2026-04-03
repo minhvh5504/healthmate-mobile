@@ -201,5 +201,13 @@
     "before_dinner": "Trước bữa tối",
     "after_dinner": "Sau bữa tối",
     "before_sleep": "Trước khi ngủ"
+  },
+  "high_settings": {
+    "title": "Cài đặt",
+    "subtitle": "Thiết lập tài khoản để cá nhân hóa trải nghiệm của bạn với HealthMate",
+    "language": "Ngôn ngữ",
+    "vietnamese": "Tiếng Việt",
+    "change_password": "Đổi mật khẩu",
+    "logout": "Đăng xuất"
   }
 }
