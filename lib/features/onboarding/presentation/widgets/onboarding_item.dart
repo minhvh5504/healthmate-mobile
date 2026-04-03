@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -71,7 +70,7 @@ class OnBoardingItem extends StatelessWidget {
                                 return Text(
                                   titles[index],
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(fontFamily: 'Inter',
                                     fontSize: 24.sp,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.typoBlack,
@@ -109,7 +108,7 @@ class OnBoardingItem extends StatelessWidget {
                           RichText(
                             text: TextSpan(
                               text: '${'onboarding.have_account'.tr()} ',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(fontFamily: 'Inter',
                                 color: AppColors.typoBody,
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
@@ -117,7 +116,7 @@ class OnBoardingItem extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: 'onboarding.login'.tr(),
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(fontFamily: 'Inter',
                                     color: AppColors.typoBlack,
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w600,

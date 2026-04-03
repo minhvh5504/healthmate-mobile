@@ -178,6 +178,14 @@
     "notifications": "Notifications",
     "advanced": "Advanced Settings",
     "support": "Support & Feedback",
-    "app_version": "App Version 1.0"
+    "app_version": "App Version 1.0",
+    "member_of": "Member of ",
+    "profile_subtitle": "Update your profile for better personalized care",
+    "full_name": "Full Name",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "height": "Height",
+    "weight": "Weight",
+    "email": "Email"
   }
 }

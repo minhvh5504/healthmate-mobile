@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class NavBarItem extends StatelessWidget {
   final IconData icon;
@@ -41,7 +40,7 @@ class NavBarItem extends StatelessWidget {
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(fontFamily: 'Inter',
                     color: inactiveColor,
                     fontSize: 12,
                     fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,

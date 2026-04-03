@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_colors.dart';
 
@@ -59,7 +58,7 @@ class ButtonDialog extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
+            style: TextStyle(fontFamily: 'Poppins',
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: txtColor,

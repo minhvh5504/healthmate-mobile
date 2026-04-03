@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_colors.dart';
 
@@ -75,7 +74,7 @@ class _InputTextFieldState extends State<InputTextField> {
         if (widget.label?.isNotEmpty ?? false) ...[
           Text(
             widget.label!,
-            style: GoogleFonts.inter(
+            style: TextStyle(fontFamily: 'Inter',
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.typoBlack,
@@ -89,14 +88,14 @@ class _InputTextFieldState extends State<InputTextField> {
           keyboardType: widget.keyboardType,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
-          style: GoogleFonts.inter(
+          style: TextStyle(fontFamily: 'Inter',
             fontSize: 14.sp,
             color: AppColors.typoHeading,
           ),
           decoration: InputDecoration(
             constraints: BoxConstraints(minHeight: 36.h),
             hintText: widget.hint,
-            hintStyle: GoogleFonts.inter(
+            hintStyle: TextStyle(fontFamily: 'Inter',
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.typoHeading.withOpacity(0.5),
@@ -145,7 +144,7 @@ class _InputTextFieldState extends State<InputTextField> {
                           padding: EdgeInsets.only(top: 10.h, right: 10.w),
                           child: Text(
                             widget.suffixText!,
-                            style: GoogleFonts.inter(
+                            style: TextStyle(fontFamily: 'Inter',
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.typoHeading,
@@ -160,7 +159,7 @@ class _InputTextFieldState extends State<InputTextField> {
           SizedBox(height: 6.h),
           Text(
             widget.errorText!,
-            style: GoogleFonts.inter(
+            style: TextStyle(fontFamily: 'Inter',
               fontSize: 12.sp,
               color: AppColors.typoError,
               fontWeight: FontWeight.w400,

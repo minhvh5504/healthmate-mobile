@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -48,7 +47,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
     final defaultPinTheme = PinTheme(
       width: 44.w,
       height: 44.h,
-      textStyle: GoogleFonts.inter(
+      textStyle: TextStyle(fontFamily: 'Inter',
         fontSize: 22.sp,
         fontWeight: FontWeight.w600,
         color: AppColors.typoHeading.withOpacity(0.8),
@@ -108,7 +107,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
                         // Title
                         Text(
                           'verify_account.title'.tr(),
-                          style: GoogleFonts.inter(
+                          style: TextStyle(fontFamily: 'Inter',
                             fontSize: 32.sp,
                             fontWeight: FontWeight.w800,
                             color: AppColors.typoBlack,
@@ -121,7 +120,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
                         // Subtitle
                         Text(
                           'verify_account.subtitle'.tr(),
-                          style: GoogleFonts.inter(
+                          style: TextStyle(fontFamily: 'Inter',
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.typoBody,
@@ -131,7 +130,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
                         // Email
                         Text(
                           state.email,
-                          style: GoogleFonts.inter(
+                          style: TextStyle(fontFamily: 'Inter',
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.typoHeading,
@@ -154,7 +153,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
                           autofocus: true,
                           preFilledWidget: Text(
                             '-',
-                            style: GoogleFonts.inter(
+                            style: TextStyle(fontFamily: 'Inter',
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.bgDisable.withOpacity(0.5),
@@ -231,7 +230,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
             SizedBox(width: 8.w),
             Text(
               state.errorMessage!,
-              style: GoogleFonts.inter(
+              style: TextStyle(fontFamily: 'Inter',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.typoError,
@@ -257,7 +256,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
           SizedBox(width: 4.w),
           Text(
             '${'verify_account.question_not_receive'.tr()} ',
-            style: GoogleFonts.inter(
+            style: TextStyle(fontFamily: 'Inter',
               fontSize: 12.sp,
               color: AppColors.typoBlack,
               fontWeight: FontWeight.w400,
@@ -266,7 +265,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
           if (isCountdown)
             Text(
               notifier.formatTime(state.resendSeconds),
-              style: GoogleFonts.inter(
+              style: TextStyle(fontFamily: 'Inter',
                 fontSize: 12.sp,
                 color: AppColors.typoBlack,
                 fontWeight: FontWeight.w600,
@@ -282,7 +281,7 @@ class _VerifyAccountPageState extends ConsumerState<VerifyAccountPage> {
                     },
               child: Text(
                 'verify_account.resend'.tr(),
-                style: GoogleFonts.inter(
+                style: TextStyle(fontFamily: 'Inter',
                   fontSize: 14.sp,
                   color: AppColors.typoHeading,
                   fontWeight: FontWeight.w700,

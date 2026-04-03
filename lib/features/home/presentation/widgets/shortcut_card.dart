@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class HomeShortcutCard extends StatelessWidget {
@@ -75,7 +74,7 @@ class HomeShortcutCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
+                      style: TextStyle(fontFamily: 'Inter',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.typoBlack,

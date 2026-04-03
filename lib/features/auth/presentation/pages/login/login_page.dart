@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/button/button.dart';
@@ -49,7 +48,7 @@ class LoginPage extends ConsumerWidget {
                         // Title
                         Text(
                           'login.title'.tr(),
-                          style: GoogleFonts.inter(
+                          style: TextStyle(fontFamily: 'Inter',
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w800,
                             color: AppColors.typoBlack,
@@ -62,7 +61,7 @@ class LoginPage extends ConsumerWidget {
                         // Subtitle
                         Text(
                           'login.subtitle'.tr(),
-                          style: GoogleFonts.inter(
+                          style: TextStyle(fontFamily: 'Inter',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.typoBody,
@@ -102,7 +101,7 @@ class LoginPage extends ConsumerWidget {
                             onTap: () => notifier.onForgotPassword(context),
                             child: Text(
                               'login.forgot_password'.tr(),
-                              style: GoogleFonts.inter(
+                              style: TextStyle(fontFamily: 'Inter',
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.typoBody,

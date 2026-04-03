@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class SettingsUserCard extends StatelessWidget {
   final String username;
@@ -76,7 +76,8 @@ class SettingsUserCard extends StatelessWidget {
         // Username
         Text(
           username,
-          style: GoogleFonts.poppins(
+          style: TextStyle(
+            fontFamily: 'Poppins',
             fontSize: 18.sp,
             fontWeight: FontWeight.w700,
             color: AppColors.typoBlack,
@@ -97,8 +98,9 @@ class SettingsUserCard extends StatelessWidget {
             SizedBox(width: 4.w),
             Text.rich(
               TextSpan(
-                text: 'Thành viên của ',
-                style: GoogleFonts.poppins(
+                text: 'settings.member_of'.tr(),
+                style: TextStyle(
+                  fontFamily: 'Poppins',
                   fontSize: 12.sp,
                   color: AppColors.typoBody,
                   fontWeight: FontWeight.w400,
@@ -106,7 +108,8 @@ class SettingsUserCard extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: 'HealthMate',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.bgPrimary,

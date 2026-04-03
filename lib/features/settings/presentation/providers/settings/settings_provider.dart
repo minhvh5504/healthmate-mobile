@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/network/api_client.dart';
-import '../../data/api/settings_api.dart';
-import '../../data/datasources/settings_remote_datasource.dart';
-import '../../data/repositories/settings_repository_impl.dart';
-import '../../domain/usecases/get_user_profile.dart';
+import '../../../../../core/network/api_client.dart';
+import '../../../data/api/settings_api.dart';
+import '../../../data/datasources/settings_remote_datasource.dart';
+import '../../../data/repositories/settings_repository_impl.dart';
+import '../../../domain/usecases/get_user_profile.dart';
 import 'settings_notifier.dart';
 
 /// Retrofit API
@@ -12,8 +12,9 @@ final settingsApiProvider = Provider<SettingsApi>((ref) {
 });
 
 /// DataSource
-final settingsRemoteDataSourceProvider =
-    Provider<SettingsRemoteDataSource>((ref) {
+final settingsRemoteDataSourceProvider = Provider<SettingsRemoteDataSource>((
+  ref,
+) {
   return SettingsRemoteDataSource(ref.read(settingsApiProvider));
 });
 
@@ -30,11 +31,12 @@ final getUserProfileUseCaseProvider = Provider<GetUserProfile>((ref) {
 });
 
 /// Notifier
-final settingsProvider =
-    StateNotifierProvider<SettingsNotifier, SettingsState>((ref) {
-  return SettingsNotifier(
-    ref.read(settingsRepositoryProvider),
-    ref.read(getUserProfileUseCaseProvider),
-    ref,
-  );
-});
+final settingsProvider = StateNotifierProvider<SettingsNotifier, SettingsState>(
+  (ref) {
+    return SettingsNotifier(
+      ref.read(settingsRepositoryProvider),
+      ref.read(getUserProfileUseCaseProvider),
+      ref,
+    );
+  },
+);

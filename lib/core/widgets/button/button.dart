@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_colors.dart';
 import '../../utils/helper.dart';
@@ -73,7 +72,7 @@ class Button extends StatelessWidget {
             // Title
             Text(
               text,
-              style: GoogleFonts.inter(
+              style: TextStyle(fontFamily: 'Inter',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 color: textColor ?? AppColors.typoWhite,
