@@ -207,7 +207,14 @@
     "subtitle": "Account settings to personalize your experience with HealthMate",
     "language": "Language",
     "vietnamese": "Vietnamese",
+    "english": "English",
     "change_password": "Change Password",
     "logout": "Logout"
+  },
+  "logout_dialog": {
+    "title": "Log out?",
+    "message": "You will no longer receive notifications and will lose your connection to the app. Are you sure you want to log out?",
+    "cancel": "Go back",
+    "confirm": "Log out"
   }
 }

@@ -34,7 +34,7 @@ class InfoRowTile extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: AppColors.typoBlack,
                 ),
               ),
@@ -54,10 +54,10 @@ class InfoRowTile extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                         color: value == '—'
                             ? AppColors.typoDisable
-                            : AppColors.typoBody,
+                            : AppColors.typoBody.withOpacity(0.6),
                       ),
                     ),
                   ),
