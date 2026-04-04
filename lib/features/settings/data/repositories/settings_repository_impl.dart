@@ -27,4 +27,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> updateNotificationTime(String id, String newTime) {
     return localDataSource.updateNotificationTime(id, newTime);
   }
+
+  @override
+  Future<void> changePassword(String currentPassword, String newPassword) {
+    return remoteDataSource.changePassword(currentPassword, newPassword);
+  }
 }

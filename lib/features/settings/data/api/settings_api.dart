@@ -11,4 +11,7 @@ abstract class SettingsApi {
 
   @GET('auth/profile')
   Future<UserProfileModel> getProfile();
+
+  @POST('auth/change-password')
+  Future<void> changePassword(@Body() Map<String, dynamic> body);
 }

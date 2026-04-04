@@ -50,12 +50,8 @@ class SettingsItemTile extends StatelessWidget {
                 ),
               )
             else
-              Icon(
-                icon,
-                size: 22.sp,
-                color: iconColor ?? AppColors.typoBody,
-              ),
-            SizedBox(width: 14.w),
+              Icon(icon, size: 22.sp, color: iconColor ?? AppColors.typoBody),
+            SizedBox(width: 8.w),
             Expanded(
               child: Text(
                 label ?? labelKey.tr(),
@@ -63,7 +59,9 @@ class SettingsItemTile extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
-                  color: isLogout ? const Color(0xFFFF5252) : AppColors.typoBlack,
+                  color: isLogout
+                      ? const Color(0xFFFF5252)
+                      : AppColors.typoBlack,
                 ),
               ),
             ),
@@ -73,10 +71,11 @@ class SettingsItemTile extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
-                  color: AppColors.typoBody,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.typoBody.withOpacity(0.6),
                 ),
               ),
-              SizedBox(width: 8.w),
+              SizedBox(width: 4.w),
             ],
             if (showArrow)
               Icon(

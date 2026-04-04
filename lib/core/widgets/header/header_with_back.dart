@@ -33,13 +33,25 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
           // Back icon
           if (showBack)
             InkWell(
-              borderRadius: BorderRadius.circular(50.r),
               onTap: onBack,
-              child: Padding(
-                padding: EdgeInsets.all(10.w),
+              borderRadius: BorderRadius.circular(50.r),
+              child: Container(
+                width: 36.w,
+                height: 36.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: Icon(
-                  Icons.arrow_back,
-                  size: 24.sp,
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 16.sp,
                   color: AppColors.typoBlack,
                 ),
               ),
@@ -53,7 +65,8 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
               child: Text(
                 title!,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: 'Poppins',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.typoBlack,

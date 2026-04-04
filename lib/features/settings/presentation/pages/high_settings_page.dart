@@ -5,17 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/high_settings/high_settings_provider.dart';
-import '../widgets/profile/profile_header.dart';
+import '../../../../core/widgets/header/profile_header.dart';
 import '../widgets/settings/settings_item_tile.dart';
-import '../widgets/settings/settings_user_card.dart';
-import '../widgets/settings/user_card_skeleton.dart';
 
 class HighSettingsPage extends ConsumerWidget {
   const HighSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(highSettingsProvider);
     final notifier = ref.read(highSettingsProvider.notifier);
 
     return Scaffold(
@@ -39,18 +36,6 @@ class HighSettingsPage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 12.h),
-
-                    // User card
-                    if (state.isLoading && state.profile == null)
-                      const UserCardSkeleton()
-                    else if (state.profile != null)
-                      SettingsUserCard(
-                        username: state.profile?.displayName ?? 'User',
-                        avatarUrl: state.profile?.avatarUrl,
-                        onEditAvatar: () {},
-                      ),
-
                     SizedBox(height: 24.h),
 
                     // Card container
