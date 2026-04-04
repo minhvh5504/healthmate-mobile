@@ -207,7 +207,14 @@
     "subtitle": "Thiết lập tài khoản để cá nhân hóa trải nghiệm của bạn với HealthMate",
     "language": "Ngôn ngữ",
     "vietnamese": "Tiếng Việt",
+    "english": "Tiếng Anh",
     "change_password": "Đổi mật khẩu",
     "logout": "Đăng xuất"
+  },
+  "logout_dialog": {
+    "title": "Đăng xuất?",
+    "message": "Bạn sẽ không nhận được thông báo nữa và mất kết nối với ứng dụng, chắc chắn muốn thoát.",
+    "cancel": "Quay lại",
+    "confirm": "Đăng xuất"
   }
 }

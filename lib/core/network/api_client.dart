@@ -2,9 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// import '../config/constant/auth_interceptor.dart';
-// import '../config/constant/error_interceptor.dart';
 import 'api_base.dart';
+import 'auth_interceptor.dart';
 
 class ApiClient {
   final Dio dio;
@@ -34,11 +33,8 @@ class ApiClient {
       ),
     );
 
-    // // Token interceptor
-    // dio.interceptors.add(AuthInterceptor(ref));
-
-    // // Error interceptor
-    // dio.interceptors.add(ErrorInterceptor(ref));
+    // Token interceptor
+    dio.interceptors.add(AuthInterceptor(ref));
 
     return ApiClient._(dio);
   }

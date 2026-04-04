@@ -74,8 +74,10 @@ class HighSettingsPage extends ConsumerWidget {
                             iconColor: const Color(0xFF4A90E2),
                             iconBg: const Color(0xFFF0F7FF),
                             labelKey: 'high_settings.language',
-                            trailing: 'high_settings.vietnamese'.tr(),
-                            onTap: notifier.onLanguage,
+                            trailing: context.locale.languageCode == 'vi'
+                                ? 'high_settings.vietnamese'.tr()
+                                : 'high_settings.english'.tr(),
+                            onTap: () => notifier.onLanguage(context),
                           ),
                           const SettingsDivider(),
                           SettingsItemTile(
@@ -93,7 +95,7 @@ class HighSettingsPage extends ConsumerWidget {
                             labelKey: 'high_settings.logout',
                             isLogout: true,
                             showArrow: false,
-                            onTap: notifier.onLogout,
+                            onTap: () => notifier.onLogout(context),
                           ),
                         ],
                       ),

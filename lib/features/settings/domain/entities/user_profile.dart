@@ -25,5 +25,6 @@ class UserProfile {
     this.allergies,
   });
 
-  String get displayName => fullName?.isNotEmpty == true ? fullName! : 'Joyer';
+  String get displayName =>
+      fullName?.isNotEmpty == true ? fullName! : email.split('@').first;
 }
