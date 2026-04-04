@@ -19,6 +19,7 @@ import '../../../features/settings/presentation/pages/notification_settings_page
 import '../../../features/settings/presentation/pages/high_settings_page.dart';
 import '../../../features/settings/presentation/pages/change_password_page.dart';
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
+import '../../../features/settings/presentation/pages/family_connection_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
 
@@ -82,6 +83,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.changepassword,
         builder: (context, state) => const ChangePasswordPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.familyConnection,
+        builder: (context, state) => const FamilyConnectionPage(),
       ),
 
       GoRoute(

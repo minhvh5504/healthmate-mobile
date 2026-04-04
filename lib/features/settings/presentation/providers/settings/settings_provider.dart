@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../data/api/settings_api.dart';
-import '../../../data/datasources/settings_local_datasource.dart';
 import '../../../data/datasources/settings_remote_datasource.dart';
 import '../../../data/repositories/settings_repository_impl.dart';
 import '../../../domain/usecases/get_notification_settings.dart';
@@ -21,17 +20,10 @@ final settingsRemoteDataSourceProvider = Provider<SettingsRemoteDataSource>((
   return SettingsRemoteDataSource(ref.read(settingsApiProvider));
 });
 
-final settingsLocalDataSourceProvider = Provider<SettingsLocalDataSource>((
-  ref,
-) {
-  return SettingsLocalDataSourceImpl();
-});
-
 /// Repository
 final settingsRepositoryProvider = Provider<SettingsRepositoryImpl>((ref) {
   return SettingsRepositoryImpl(
     remoteDataSource: ref.read(settingsRemoteDataSourceProvider),
-    localDataSource: ref.read(settingsLocalDataSourceProvider),
   );
 });
 
@@ -54,9 +46,6 @@ final updateNotificationTimeUseCaseProvider = Provider<UpdateNotificationTime>((
 /// Notifier
 final settingsProvider = StateNotifierProvider<SettingsNotifier, SettingsState>(
   (ref) {
-    return SettingsNotifier(
-      ref.read(getUserProfileUseCaseProvider),
-      ref,
-    );
+    return SettingsNotifier(ref.read(getUserProfileUseCaseProvider), ref);
   },
 );

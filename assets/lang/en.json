@@ -234,5 +234,10 @@
       "oauth_no_password": "This account was registered via Google and does not have a password",
       "unexpected": "An unexpected error occurred"
     }
+  },
+  "family_connection": {
+    "title": "Family Connection",
+    "subtitle": "Select a person to view or add new",
+    "button_add": "Add supporter"
   }
 }

@@ -1,17 +1,13 @@
+import '../../domain/entities/family_connection.dart';
 import '../../domain/entities/notification_time.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../domain/repositories/settings_repository.dart';
-import '../datasources/settings_local_datasource.dart';
 import '../datasources/settings_remote_datasource.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsRemoteDataSource remoteDataSource;
-  final SettingsLocalDataSource localDataSource;
 
-  SettingsRepositoryImpl({
-    required this.remoteDataSource,
-    required this.localDataSource,
-  });
+  SettingsRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<UserProfile> getProfile() {
@@ -20,16 +16,21 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<List<NotificationTime>> getNotificationSettings() {
-    return localDataSource.getNotificationSettings();
+    return remoteDataSource.getNotificationSettings();
   }
 
   @override
   Future<void> updateNotificationTime(String id, String newTime) {
-    return localDataSource.updateNotificationTime(id, newTime);
+    return remoteDataSource.updateNotificationTime(id, newTime);
   }
 
   @override
   Future<void> changePassword(String currentPassword, String newPassword) {
     return remoteDataSource.changePassword(currentPassword, newPassword);
+  }
+
+  @override
+  Future<List<FamilyMember>> getFamilyMembers() {
+    return remoteDataSource.getFamilyMembers();
   }
 }

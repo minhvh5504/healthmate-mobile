@@ -62,7 +62,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
 
   /// Handle Family Connect
   void onFamilyConnect() {
-    // AppRouter.router.go('/settings/family');
+    AppRouter.router.push(AppRoutes.familyConnection);
   }
 
   /// Handle Notifications

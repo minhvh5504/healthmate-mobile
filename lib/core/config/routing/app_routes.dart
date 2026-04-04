@@ -21,6 +21,7 @@ class AppRoutes {
   static const String notificationSettings = '/notification-settings';
   static const String highSettings = '/high-settings';
   static const String changepassword = '/change-password';
+  static const String familyConnection = '/family-connection';
 
   // Main
   static const String home = '/home';

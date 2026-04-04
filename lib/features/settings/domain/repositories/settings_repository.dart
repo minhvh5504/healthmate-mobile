@@ -1,3 +1,4 @@
+import '../entities/family_connection.dart';
 import '../entities/notification_time.dart';
 import '../entities/user_profile.dart';
 
@@ -6,4 +7,5 @@ abstract interface class SettingsRepository {
   Future<List<NotificationTime>> getNotificationSettings();
   Future<void> updateNotificationTime(String id, String newTime);
   Future<void> changePassword(String currentPassword, String newPassword);
+  Future<List<FamilyMember>> getFamilyMembers();
 }
