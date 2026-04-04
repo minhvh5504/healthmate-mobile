@@ -22,6 +22,7 @@ class AppRoutes {
   static const String highSettings = '/high-settings';
   static const String changepassword = '/change-password';
   static const String familyConnection = '/family-connection';
+  static const String addFamilyMember = '/add-family-member';
 
   // Main
   static const String home = '/home';

@@ -57,7 +57,7 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
 
   /// Handle Add Member
   void onAddMember() {
-    // AppRouter.router.push(AppRoutes.addFamilyMember);
+    AppRouter.router.push(AppRoutes.addFamilyMember);
   }
 
   /// Refresh member list
