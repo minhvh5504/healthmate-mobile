@@ -69,19 +69,20 @@ class Button extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Icon
+            if (icon != null) ...[icon!, SizedBox(width: 8.w)],
+
             // Title
             Text(
               text,
-              style: TextStyle(fontFamily: 'Inter',
+              style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 color: textColor ?? AppColors.typoWhite,
                 letterSpacing: -0.2,
               ),
             ),
-
-            // Icon
-            if (icon != null) ...[SizedBox(width: 12.w), icon!],
           ],
         ),
       ),

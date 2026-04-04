@@ -234,5 +234,10 @@
       "oauth_no_password": "Tài khoản của bạn được đăng ký bằng Google và không có mật khẩu",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     }
+  },
+  "family_connection": {
+    "title": "Kết nối gia đình",
+    "subtitle": "Chọn một người để xem hoặc thêm mới",
+    "button_add": "Thêm người hỗ trợ"
   }
 }
