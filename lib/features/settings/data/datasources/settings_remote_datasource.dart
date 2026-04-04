@@ -9,4 +9,11 @@ class SettingsRemoteDataSource {
   Future<UserProfile> getProfile() {
     return _api.getProfile();
   }
+
+  Future<void> changePassword(String currentPassword, String newPassword) {
+    return _api.changePassword({
+      'currentPassword': currentPassword,
+      'newPassword': newPassword,
+    });
+  }
 }

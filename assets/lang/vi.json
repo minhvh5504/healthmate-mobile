@@ -209,6 +209,8 @@
     "vietnamese": "Tiếng Việt",
     "english": "Tiếng Anh",
     "change_password": "Đổi mật khẩu",
+    "change_password_subtitle": "Hãy chắc chắn là bạn muốn đổi mật khẩu",
+    "update": "Cập nhật",
     "logout": "Đăng xuất"
   },
   "logout_dialog": {
@@ -216,5 +218,21 @@
     "message": "Bạn sẽ không nhận được thông báo nữa và mất kết nối với ứng dụng, chắc chắn muốn thoát.",
     "cancel": "Quay lại",
     "confirm": "Đăng xuất"
+  },
+  "change_password": {
+    "title": "Đổi mật khẩu",
+    "current_password_label": "Mật khẩu hiện tại",
+    "new_password_label": "Mật khẩu mới",
+    "confirm_password_label": "Xác nhận mật khẩu mới",
+    "button_submit": "Cập nhật mật khẩu",
+    "success_message": "Đổi mật khẩu thành công!",
+    "errors": {
+      "wrong_current_password": "Mật khẩu hiện tại không chính xác",
+      "same_password": "Mật khẩu mới không được giống mật khẩu cũ",
+      "confirm_mismatch": "Mật khẩu xác nhận không khớp",
+      "user_not_found": "Không tìm thấy người dùng",
+      "oauth_no_password": "Tài khoản của bạn được đăng ký bằng Google và không có mật khẩu",
+      "unexpected": "Đã xảy ra lỗi không mong muốn"
+    }
   }
 }

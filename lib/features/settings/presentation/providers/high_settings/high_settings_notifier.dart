@@ -91,7 +91,7 @@ class HighSettingsNotifier extends StateNotifier<HighSettingsState> {
 
   /// Handle Change Password
   void onChangePassword() {
-    // Navigate to change password page
+    AppRouter.router.go(AppRoutes.changepassword);
   }
 
   /// Handle Logout

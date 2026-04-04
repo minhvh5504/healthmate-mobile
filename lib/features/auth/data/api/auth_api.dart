@@ -41,7 +41,4 @@ abstract class AuthApi {
 
   @POST('auth/send-reset-password')
   Future<void> sendResetPassword(@Body() Map<String, dynamic> body);
-
-  @GET('auth/profile')
-  Future<dynamic> getProfile();
 }

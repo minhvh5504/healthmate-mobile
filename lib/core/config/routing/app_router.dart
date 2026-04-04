@@ -17,6 +17,7 @@ import '../../../features/settings/presentation/pages/settings_page.dart';
 import '../../../features/settings/presentation/pages/profile_page.dart';
 import '../../../features/settings/presentation/pages/notification_settings_page.dart';
 import '../../../features/settings/presentation/pages/high_settings_page.dart';
+import '../../../features/settings/presentation/pages/change_password_page.dart';
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
@@ -77,6 +78,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.highSettings,
         builder: (context, state) => const HighSettingsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.changepassword,
+        builder: (context, state) => const ChangePasswordPage(),
       ),
 
       GoRoute(

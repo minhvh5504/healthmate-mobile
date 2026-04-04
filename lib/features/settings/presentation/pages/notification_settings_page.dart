@@ -7,7 +7,7 @@ import '../../domain/entities/notification_time.dart';
 import '../providers/notifications/setting_noti_provider.dart';
 import '../providers/notifications/setting_noti_notifier.dart';
 
-import '../widgets/profile/profile_header.dart';
+import '../../../../core/widgets/header/profile_header.dart';
 
 class NotificationSettingsPage extends ConsumerWidget {
   const NotificationSettingsPage({super.key});

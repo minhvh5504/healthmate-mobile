@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/profile/profile_notifier.dart';
 import '../providers/profile/profile_provider.dart';
-import '../widgets/profile/profile_header.dart';
+import '../../../../core/widgets/header/profile_header.dart';
 import '../widgets/profile/info_row_tile.dart';
 import '../widgets/profile/profile_error_banner.dart';
 import '../widgets/profile/profile_skeleton.dart';
