@@ -6,10 +6,14 @@ import 'app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'package:flutter/services.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
   GoogleFonts.config.allowRuntimeFetching = false;
 
   await dotenv.load(fileName: '.env');

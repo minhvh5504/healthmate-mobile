@@ -104,6 +104,8 @@ class AppRouter {
         builder: (context, state, child) {
           final int currentIndex = _getNavIndex(state.uri.path);
           return Scaffold(
+            extendBody: true,
+            backgroundColor: Colors.transparent,
             body: child,
             bottomNavigationBar: CustomBottomNavBar(initialIndex: currentIndex),
           );

@@ -6,10 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 class HealthStatusSection extends StatelessWidget {
   final VoidCallback? onTap;
 
-  const HealthStatusSection({
-    super.key,
-    this.onTap,
-  });
+  const HealthStatusSection({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +22,8 @@ class HealthStatusSection extends StatelessWidget {
             // Illustration
             Image.asset(
               'assets/icons/home/not_found.png',
-              width: 240.sp,
-              height: 240.sp,
+              width: 200.sp,
+              height: 200.sp,
               fit: BoxFit.contain,
             ),
             SizedBox(height: 24.h),

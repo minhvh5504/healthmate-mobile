@@ -247,5 +247,21 @@
     "email_hint": "name@example.com",
     "button_submit": "Kết nối với người thân",
     "footer_text": "Bạn có thể kết nối tối đa {}/{} người hỗ trợ."
+  },
+  "medicine": {
+    "tab_schedule": "Lịch uống",
+    "tab_cabinet": "Hộp thuốc",
+    "today": "Hôm nay",
+    "empty_body": "Nhắc dùng thuốc, xem thông tin về sức khoẻ và nhiều thứ khác trong cùng một nơi. Hãy thêm viên thuốc đầu tiên!",
+    "button_add_first": "Thêm viên thuốc đầu tiên",
+    "errors": {
+      "unexpected": "Đã có lỗi xảy ra. Vui lòng thử lại."
+    }
+  },
+  "bottom_nav": {
+    "home": "Trang chủ",
+    "medicine": "Thuốc",
+    "health": "Sức khỏe",
+    "history": "Lịch sử"
   }
 }
