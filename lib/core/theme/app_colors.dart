@@ -26,6 +26,7 @@ class AppColors {
   // New Design Colors
   static const Color white = Color(0xFFFFFFFF);
   static const Color lightBlue = Color(0xFFDDE0F7);
+  static const Color lightPurple = Color(0xffAFAED5);
 
   // Gradient
   static const LinearGradient backgroundGradient = LinearGradient(
