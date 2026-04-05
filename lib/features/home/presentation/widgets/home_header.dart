@@ -5,11 +5,13 @@ import 'package:lucide_icons/lucide_icons.dart';
 class HomeHeader extends StatelessWidget {
   final VoidCallback onProfilePressed;
   final VoidCallback onNotificationPressed;
+  final String? avatarUrl;
 
   const HomeHeader({
     super.key,
     required this.onProfilePressed,
     required this.onNotificationPressed,
+    this.avatarUrl,
   });
 
   @override
@@ -30,9 +32,11 @@ class HomeHeader extends StatelessWidget {
                   height: 48.h,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/user/avatar.png'),
-                      fit: BoxFit.contain,
+                    image: DecorationImage(
+                      image: avatarUrl != null && avatarUrl!.isNotEmpty
+                          ? NetworkImage(avatarUrl!) as ImageProvider
+                          : const AssetImage('assets/images/user/avatar.png'),
+                      fit: BoxFit.cover,
                     ),
                     border: Border.all(color: Colors.white, width: 2.w),
                     boxShadow: [

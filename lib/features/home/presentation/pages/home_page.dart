@@ -15,6 +15,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeNotifier = ref.read(homeProvider.notifier);
+    final homeState = ref.watch(homeProvider);
 
     return Scaffold(
       body: Container(
@@ -29,6 +30,7 @@ class HomePage extends ConsumerWidget {
               HomeHeader(
                 onProfilePressed: homeNotifier.onProfile,
                 onNotificationPressed: homeNotifier.onNotification,
+                avatarUrl: homeState.profile?.avatarUrl,
               ),
 
               const SizedBox(height: 4),

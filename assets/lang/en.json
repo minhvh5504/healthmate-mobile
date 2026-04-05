@@ -247,5 +247,21 @@
     "email_hint": "name@example.com",
     "button_submit": "Connect with relative",
     "footer_text": "You can connect up to {}/{} supporters."
+  },
+  "medicine": {
+    "tab_schedule": "Schedule",
+    "tab_cabinet": "Medicine Cabinet",
+    "today": "Today",
+    "empty_body": "Track your medications, health info and more in one place. Add your first medicine!",
+    "button_add_first": "Add first medicine",
+    "errors": {
+      "unexpected": "Something went wrong. Please try again."
+    }
+  },
+  "bottom_nav": {
+    "home": "Home",
+    "medicine": "Medicine",
+    "health": "Health",
+    "history": "History"
   }
 }

@@ -75,6 +75,7 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/images/user/
+    - assets/images/health/
 
     - assets/lang/
 
