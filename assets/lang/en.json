@@ -254,6 +254,12 @@
     "today": "Today",
     "empty_body": "Track your medications, health info and more in one place. Add your first medicine!",
     "button_add_first": "Add first medicine",
+    "add_medicine": {
+      "title": "Add Medicine",
+      "search_hint": "Search medicine name...",
+      "scan_prescription": "Scan prescription",
+      "scan_box": "Scan medicine box"
+    },
     "errors": {
       "unexpected": "Something went wrong. Please try again."
     }

@@ -27,6 +27,7 @@ class AppRoutes {
   // Main
   static const String home = '/home';
   static const String medicine = '/medicine';
+  static const String addMedicine = '/add-medicine';
   static const String health = '/health';
   static const String history = '/history';
 }

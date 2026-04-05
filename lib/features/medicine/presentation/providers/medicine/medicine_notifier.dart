@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../settings/domain/entities/user_profile.dart';
 import '../../../../settings/presentation/providers/settings/settings_provider.dart';
+import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/config/routing/app_routes.dart';
 
 enum MedicineTab { schedule, cabinet }
 
@@ -72,6 +74,6 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
 
   /// Add medicine
   void onAddMedicine() {
-    // AppRouter.router.push(AppRoutes.addMedicine);
+    AppRouter.router.go(AppRoutes.addMedicine);
   }
 }

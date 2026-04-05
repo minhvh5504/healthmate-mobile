@@ -11,6 +11,7 @@ import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/medicine/presentation/pages/medicine_page.dart';
+import '../../../features/medicine/presentation/pages/add_medicine_page.dart';
 import '../../../features/health/presentation/pages/health_page.dart';
 import '../../../features/history/presentation/pages/history_page.dart';
 import '../../../features/settings/presentation/pages/settings_page.dart';
@@ -97,6 +98,11 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.notifications,
         builder: (context, state) => const NotificationPage(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.addMedicine,
+        builder: (context, state) => const AddMedicinePage(),
       ),
 
       // Shell Route
