@@ -7,8 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/presentation/providers/auth/auth_provider.dart';
 import 'no_auth_paths.dart';
 
-/// Handles proactive token refresh (before requests) and reactive refresh
-/// (on 401 responses), with concurrent-request deduplication.
 class AuthInterceptor extends Interceptor {
   final Ref ref;
 
@@ -17,8 +15,6 @@ class AuthInterceptor extends Interceptor {
   bool _isRefreshing = false;
   Completer<bool>? _refreshCompleter;
 
-  /// Ensures only one refresh call runs at a time.
-  /// Returns [true] if refresh succeeded, [false] otherwise.
   Future<bool> _refreshOnce() async {
     if (_isRefreshing) {
       return _refreshCompleter!.future;
@@ -28,10 +24,9 @@ class AuthInterceptor extends Interceptor {
     _refreshCompleter = Completer<bool>();
 
     try {
-      await ref.read(authProvider.notifier).refreshAccessToken();
-
-      final token = ref.read(authProvider).accessToken;
-      final success = token != null && token.isNotEmpty;
+      final success = await ref
+          .read(authProvider.notifier)
+          .refreshAccessToken();
 
       _refreshCompleter!.complete(success);
       return success;
@@ -47,16 +42,12 @@ class AuthInterceptor extends Interceptor {
     return noAuthPaths.any((p) => path.contains(p));
   }
 
-  /// Decodes the JWT [exp] claim without any third-party package.
-  /// Returns [true] when the token is expired or unparseable.
   bool _isTokenExpired(String token) {
     try {
       final parts = token.split('.');
       if (parts.length != 3) return true;
 
-      // JWT uses base64url encoding — normalise to standard base64.
       var payload = parts[1].replaceAll('-', '+').replaceAll('_', '/');
-      // Pad to a multiple of 4.
       payload = payload.padRight(
         payload.length + (4 - payload.length % 4) % 4,
         '=',
@@ -71,9 +62,13 @@ class AuthInterceptor extends Interceptor {
 
       final expiry = DateTime.fromMillisecondsSinceEpoch(
         (exp as num).toInt() * 1000,
+        isUtc: true,
       );
 
-      return DateTime.now().isAfter(expiry);
+      return DateTime.now()
+          .toUtc()
+          .add(const Duration(seconds: 30))
+          .isAfter(expiry);
     } catch (_) {
       return true;
     }
@@ -84,14 +79,11 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Skip auth for public endpoints.
     if (_isPublicPath(options.path)) {
       return handler.next(options);
     }
 
     final auth = ref.read(authProvider);
-
-    // Proactively refresh if current access token is expired.
     if (auth.accessToken != null && _isTokenExpired(auth.accessToken!)) {
       await _refreshOnce();
     }
@@ -110,7 +102,6 @@ class AuthInterceptor extends Interceptor {
       return handler.next(err);
     }
 
-    // Avoid infinite refresh loop for the refresh endpoint itself.
     if (_isPublicPath(err.requestOptions.path)) {
       return handler.next(err);
     }
@@ -118,20 +109,17 @@ class AuthInterceptor extends Interceptor {
     final refreshed = await _refreshOnce();
 
     if (!refreshed) {
-      // Refresh failed — let the UI handle the logged-out state.
       return handler.next(err);
     }
 
     final newToken = ref.read(authProvider).accessToken;
 
-    // Retry the original request with the updated token.
     try {
       final retryOptions = err.requestOptions;
       if (newToken != null) {
         retryOptions.headers['Authorization'] = 'Bearer $newToken';
       }
 
-      // dio.fetch re-uses existing interceptors, so create a plain Dio.
       final retryDio = Dio(
         BaseOptions(
           baseUrl: retryOptions.baseUrl,

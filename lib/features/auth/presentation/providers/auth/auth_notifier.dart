@@ -86,16 +86,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   /// Refresh access token
-  Future<void> refreshAccessToken() async {
+  Future<bool> refreshAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
     final oldRefreshToken = prefs.getString('refresh_token');
 
-    if (oldRefreshToken == null) return;
+    if (oldRefreshToken == null || oldRefreshToken.isEmpty) {
+      await logout();
+      return false;
+    }
 
     try {
       final result = await refreshTokenUseCase(oldRefreshToken);
 
-      if (result.accessToken.isEmpty || result.refreshToken.isEmpty) return;
+      if (result.accessToken.isEmpty) {
+        await logout();
+        return false;
+      }
 
       await prefs.setString('access_token', result.accessToken);
       await prefs.setString('refresh_token', result.refreshToken);
@@ -105,8 +111,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
         accessToken: result.accessToken,
         refreshToken: result.refreshToken,
       );
+      return true;
     } catch (e) {
-      return;
+      await logout();
+      return false;
     }
   }
 }

@@ -23,57 +23,59 @@ class NotificationSettingsPage extends ConsumerWidget {
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Use ProfileHeader with only onBack for this screen
-              ProfileHeader(onBack: () => notifier.onBack()),
+          child: state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Use ProfileHeader with only onBack for this screen
+                    ProfileHeader(onBack: () => notifier.onBack()),
 
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 12.h),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 12.h),
 
-                      // Notification Section Header
-                      _buildSectionHeader(
-                        Icons.notifications_active_rounded,
-                        'settings.notifications'.tr(),
-                      ),
-                      SizedBox(height: 16.h),
+                            // Notification Section Header
+                            _buildSectionHeader(
+                              Icons.notifications_active_rounded,
+                              'settings.notifications'.tr(),
+                            ),
+                            SizedBox(height: 16.h),
 
-                      // Main Notification Controls Card
-                      _buildNotificationControls(state, notifier),
+                            // Main Notification Controls Card
+                            _buildNotificationControls(state, notifier),
 
-                      SizedBox(height: 32.h),
+                            SizedBox(height: 32.h),
 
-                      // Time Settings Section Header
-                      _buildSectionHeader(
-                        Icons.access_time_filled_rounded,
-                        'settings.noti_time_settings'.tr(),
-                      ),
-                      Text(
-                        'settings.noti_time_desc'.tr(),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12.sp,
-                          color: AppColors.typoBody.withOpacity(0.6),
+                            // Time Settings Section Header
+                            _buildSectionHeader(
+                              Icons.access_time_filled_rounded,
+                              'settings.noti_time_settings'.tr(),
+                            ),
+                            Text(
+                              'settings.noti_time_desc'.tr(),
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12.sp,
+                                color: AppColors.typoBody.withOpacity(0.6),
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+
+                            // Time Settings List Card
+                            _buildTimeSettingsCard(state, notifier),
+
+                            SizedBox(height: 40.h),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 16.h),
-
-                      // Time Settings List Card
-                      _buildTimeSettingsCard(state, notifier),
-
-                      SizedBox(height: 40.h),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -261,7 +263,11 @@ class NotificationSettingsPage extends ConsumerWidget {
               color: iconColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(_getIconForId(item.id), color: iconColor, size: 20.sp),
+            child: Icon(
+              _getIconBySlug(item.slug),
+              color: iconColor,
+              size: 20.sp,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -296,8 +302,8 @@ class NotificationSettingsPage extends ConsumerWidget {
     );
   }
 
-  IconData _getIconForId(String id) {
-    switch (id) {
+  IconData _getIconBySlug(String slug) {
+    switch (slug) {
       case 'before_breakfast':
         return Icons.wb_sunny_rounded;
       case 'after_breakfast':
