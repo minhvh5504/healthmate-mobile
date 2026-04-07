@@ -3,7 +3,6 @@ import '../../../../../core/config/routing/app_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/notification_time.dart';
 import '../../../domain/usecases/get_notification_settings.dart';
-import '../../../domain/usecases/update_notification_time.dart';
 
 /// STATE
 class SettingNotiState {
@@ -38,12 +37,9 @@ class SettingNotiState {
 /// NOTIFIER
 class SettingNotiNotifier extends StateNotifier<SettingNotiState> {
   final GetNotificationSettings _getNotificationSettings;
-  final UpdateNotificationTime _updateNotificationTime;
 
-  SettingNotiNotifier(
-    this._getNotificationSettings,
-    this._updateNotificationTime,
-  ) : super(const SettingNotiState()) {
+  SettingNotiNotifier(this._getNotificationSettings)
+    : super(const SettingNotiState()) {
     _loadSettings();
   }
 
@@ -71,21 +67,5 @@ class SettingNotiNotifier extends StateNotifier<SettingNotiState> {
   /// Toggle sound
   void toggleSound(bool value) {
     state = state.copyWith(isSoundEnabled: value);
-  }
-
-  /// Update time
-  Future<void> updateTime(String id, String newTime) async {
-    try {
-      await _updateNotificationTime(id, newTime);
-      final newList = state.notificationTimes.map((item) {
-        if (item.id == id) {
-          return item.copyWith(time: newTime);
-        }
-        return item;
-      }).toList();
-      state = state.copyWith(notificationTimes: newList);
-    } catch (e) {
-      // Handle error
-    }
   }
 }

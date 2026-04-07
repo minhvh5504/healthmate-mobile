@@ -12,6 +12,20 @@ class SettingsRemoteDataSource {
     return _api.getProfile();
   }
 
+  Future<UserProfile> updateProfile(UserProfile profile) {
+    // Flattening for the current Backend DTO structure
+    final data = {
+      if (profile.fullName != null) 'fullName': profile.fullName,
+      if (profile.dateOfBirth != null)
+        'dateOfBirth': profile.dateOfBirth!.toUtc().toIso8601String(),
+      if (profile.gender != null) 'gender': profile.gender?.toLowerCase(),
+      if (profile.heightCm != null) 'heightCm': profile.heightCm,
+      if (profile.weightKg != null) 'weightKg': profile.weightKg,
+      if (profile.allergies != null) 'allergies': profile.allergies,
+    };
+    return _api.updateProfile(data);
+  }
+
   Future<void> changePassword(String currentPassword, String newPassword) {
     return _api.changePassword({
       'currentPassword': currentPassword,
@@ -22,10 +36,6 @@ class SettingsRemoteDataSource {
   /// Returns notification settings from API.
   Future<List<NotificationTime>> getNotificationSettings() async {
     return _api.getNotificationTimeSlots();
-  }
-
-  Future<void> updateNotificationTime(String id, String newTime) async {
-    await _api.updateNotificationTimeSlot(id, {'defaultTime': newTime});
   }
 
   /// Returns a mocked list of family members.

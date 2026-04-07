@@ -269,5 +269,21 @@
     "medicine": "Thuốc",
     "health": "Sức khỏe",
     "history": "Lịch sử"
+  },
+  "profile": {
+    "my_name": "Tên của tôi",
+    "gender": "Giới tính",
+    "update_birthday": "Cập nhật ngày sinh nhật",
+    "birthday_subtitle": "Hãy cho chúng tôi biết độ tuổi của bạn",
+    "why_ask": "Tại sao chúng tôi hỏi điều này",
+    "day": "Ngày",
+    "month": "Tháng",
+    "year": "Năm",
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác",
+    "save": "Lưu",
+    "date_invalid": "Ngày hoặc tháng không hợp lệ",
+    "year_invalid": "Năm sinh phải đủ 4 chữ số"
   }
 }

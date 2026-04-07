@@ -3,9 +3,7 @@ import '../../../../../core/network/api_client.dart';
 import '../../../data/api/settings_api.dart';
 import '../../../data/datasources/settings_remote_datasource.dart';
 import '../../../data/repositories/settings_repository_impl.dart';
-import '../../../domain/usecases/get_notification_settings.dart';
 import '../../../domain/usecases/get_user_profile.dart';
-import '../../../domain/usecases/update_notification_time.dart';
 import 'settings_notifier.dart';
 
 /// Retrofit API
@@ -30,17 +28,6 @@ final settingsRepositoryProvider = Provider<SettingsRepositoryImpl>((ref) {
 /// UseCase
 final getUserProfileUseCaseProvider = Provider<GetUserProfile>((ref) {
   return GetUserProfile(ref.read(settingsRepositoryProvider));
-});
-
-final getNotificationSettingsUseCaseProvider =
-    Provider<GetNotificationSettings>((ref) {
-      return GetNotificationSettings(ref.read(settingsRepositoryProvider));
-    });
-
-final updateNotificationTimeUseCaseProvider = Provider<UpdateNotificationTime>((
-  ref,
-) {
-  return UpdateNotificationTime(ref.read(settingsRepositoryProvider));
 });
 
 /// Notifier
