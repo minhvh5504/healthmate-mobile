@@ -2,8 +2,18 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
-    deprecated_member_use: ignore
-    use_build_context_synchronously: ignore
+    deprecated_member_use: warning
+    use_build_context_synchronously: warning
+    invalid_assignment: error
+    missing_required_param: error
+    return_of_invalid_type: error
+    argument_type_not_assignable: error
+    dead_code: error
+    unrelated_type_equality_checks: error
+    avoid_print: error
+    unnecessary_nullable_for_final_variable_declarations: warning
+    prefer_const_constructors: warning
+    depend_on_referenced_packages: warning
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
@@ -13,24 +23,6 @@ analyzer:
     - "ios/Flutter/**"
     - "android/**"
 
-language:
-  strict-casts: true
-  strict-inference: true
-  strict-raw-types: true
-
-errors:
-    invalid_assignment: error
-    missing_required_param: error        
-    return_of_invalid_type: error       
-    argument_type_not_assignable: error 
-    dead_code: error        
-    unrelated_type_equality_checks: error
-    avoid_print: error
-    unnecessary_nullable_for_final_variable_declarations: warning
-    prefer_const_constructors: warning
-    use_build_context_synchronously: warning
-    depend_on_referenced_packages: warning
-    deprecated_member_use: warning       
 
 linter:
   rules:

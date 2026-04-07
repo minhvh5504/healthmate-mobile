@@ -15,13 +15,13 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<List<NotificationTime>> getNotificationSettings() {
-    return remoteDataSource.getNotificationSettings();
+  Future<UserProfile> updateProfile(UserProfile profile) {
+    return remoteDataSource.updateProfile(profile);
   }
 
   @override
-  Future<void> updateNotificationTime(String id, String newTime) {
-    return remoteDataSource.updateNotificationTime(id, newTime);
+  Future<List<NotificationTime>> getNotificationSettings() {
+    return remoteDataSource.getNotificationSettings();
   }
 
   @override

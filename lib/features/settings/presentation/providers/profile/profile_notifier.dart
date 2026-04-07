@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/config/routing/app_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../domain/usecases/get_user_profile.dart';
+import '../../../domain/usecases/update_user_profile.dart';
+import '../../widgets/profile/profile_edit_popups.dart';
 
 /// STATE
 class ProfileState {
@@ -28,8 +31,10 @@ class ProfileState {
 /// NOTIFIER
 class ProfileNotifier extends StateNotifier<ProfileState> {
   final GetUserProfile _getUserProfile;
+  final UpdateUserProfile _updateUserProfile;
 
-  ProfileNotifier(this._getUserProfile) : super(const ProfileState()) {
+  ProfileNotifier(this._getUserProfile, this._updateUserProfile)
+    : super(const ProfileState()) {
     loadProfile();
   }
 
@@ -72,15 +77,58 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         '${date.year}';
   }
 
-  void onEditFullName() {}
+  void handleUpdateBirthDate(DateTime newValue) {
+    if (state.profile == null) return;
+    updateProfile(state.profile!.copyWith(dateOfBirth: newValue));
+  }
 
-  void onEditGender() {}
+  /// Update profile field
+  Future<void> updateProfile(UserProfile updatedProfile) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      await _updateUserProfile(updatedProfile);
+      if (!mounted) return;
+      await loadProfile();
+    } catch (e) {
+      if (!mounted) return;
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
+  }
 
-  void onEditBirthDate() {}
+  void handleUpdateFullName(String newValue) {
+    if (state.profile == null) return;
+    updateProfile(state.profile!.copyWith(fullName: newValue));
+  }
 
-  void onEditHeight() {}
+  void handleUpdateGender(String newValue) {
+    if (state.profile == null) return;
+    updateProfile(state.profile!.copyWith(gender: newValue));
+  }
 
-  void onEditWeight() {}
+  void onEditFullName(BuildContext context) {
+    if (state.profile == null) return;
+    ProfileEditPopups.showNameEdit(
+      context,
+      initialValue: state.profile!.fullName ?? '',
+      onSave: handleUpdateFullName,
+    );
+  }
 
-  void onEditEmail() {}
+  void onEditGender(BuildContext context) {
+    if (state.profile == null) return;
+    ProfileEditPopups.showGenderEdit(
+      context,
+      initialValue: state.profile!.gender,
+      onSave: handleUpdateGender,
+    );
+  }
+
+  void onEditBirthDate(BuildContext context) {
+    if (state.profile == null) return;
+    ProfileEditPopups.showBirthdayEdit(
+      context,
+      initialValue: state.profile!.dateOfBirth,
+      onSave: handleUpdateBirthDate,
+    );
+  }
 }

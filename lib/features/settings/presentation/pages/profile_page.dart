@@ -59,15 +59,23 @@ class ProfilePage extends ConsumerWidget {
                               InfoRowTile(
                                 label: 'settings.full_name'.tr(),
                                 value: state.profile?.fullName ?? '—',
-                                onTap: notifier.onEditFullName,
+                                onTap: () => notifier.onEditFullName(context),
                               ),
+
+                              const InfoRowDivider(),
+
+                              InfoRowTile(
+                                label: 'settings.email'.tr(),
+                                value: state.profile?.email ?? '—',
+                              ),
+
                               const InfoRowDivider(),
                               InfoRowTile(
                                 label: 'settings.gender'.tr(),
                                 value: ProfileNotifier.formatGender(
                                   state.profile?.gender,
                                 ),
-                                onTap: notifier.onEditGender,
+                                onTap: () => notifier.onEditGender(context),
                               ),
                               const InfoRowDivider(),
                               InfoRowTile(
@@ -75,7 +83,7 @@ class ProfilePage extends ConsumerWidget {
                                 value: ProfileNotifier.formatDate(
                                   state.profile?.dateOfBirth,
                                 ),
-                                onTap: notifier.onEditBirthDate,
+                                onTap: () => notifier.onEditBirthDate(context),
                               ),
                               const InfoRowDivider(),
                               InfoRowTile(
@@ -83,7 +91,6 @@ class ProfilePage extends ConsumerWidget {
                                 value: state.profile?.heightCm != null
                                     ? '${state.profile!.heightCm} cm'
                                     : '—',
-                                onTap: notifier.onEditHeight,
                               ),
                               const InfoRowDivider(),
                               InfoRowTile(
@@ -91,25 +98,12 @@ class ProfilePage extends ConsumerWidget {
                                 value: state.profile?.weightKg != null
                                     ? '${state.profile!.weightKg} kg'
                                     : '—',
-                                onTap: notifier.onEditWeight,
-                              ),
-                              const InfoRowDivider(),
-                              InfoRowTile(
-                                label: 'settings.email'.tr(),
-                                value: state.profile?.email ?? '—',
-                                onTap: notifier.onEditEmail,
                               ),
                             ],
                           ),
                         ),
                       ],
                       SizedBox(height: 16.h),
-                      if (state.errorMessage != null)
-                        ProfileErrorBanner(
-                          message: state.errorMessage!,
-                          onRetry: notifier.loadProfile,
-                        ),
-                      SizedBox(height: 32.h),
                     ],
                   ),
                 ),

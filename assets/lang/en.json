@@ -269,5 +269,21 @@
     "medicine": "Medicine",
     "health": "Health",
     "history": "History"
+  },
+  "profile": {
+    "my_name": "My Name",
+    "gender": "Gender",
+    "update_birthday": "Update Birthday",
+    "birthday_subtitle": "Let us know your age",
+    "why_ask": "Why we ask this",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "save": "Save",
+    "date_invalid": "Invalid day or month",
+    "year_invalid": "Year must be 4 digits"
   }
 }

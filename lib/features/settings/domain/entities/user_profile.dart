@@ -25,6 +25,34 @@ class UserProfile {
     this.allergies,
   });
 
+  UserProfile copyWith({
+    String? id,
+    String? email,
+    String? avatarUrl,
+    String? role,
+    bool? emailVerified,
+    String? fullName,
+    DateTime? dateOfBirth,
+    String? gender,
+    double? heightCm,
+    double? weightKg,
+    String? allergies,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      role: role ?? this.role,
+      emailVerified: emailVerified ?? this.emailVerified,
+      fullName: fullName ?? this.fullName,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      gender: gender ?? this.gender,
+      heightCm: heightCm ?? this.heightCm,
+      weightKg: weightKg ?? this.weightKg,
+      allergies: allergies ?? this.allergies,
+    );
+  }
+
   String get displayName =>
       fullName?.isNotEmpty == true ? fullName! : email.split('@').first;
 }
