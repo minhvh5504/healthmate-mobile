@@ -10,6 +10,9 @@
     "confirm": "Xác nhận",
     "cancel": "Hủy"
   },
+  "common": {
+    "cancel": "Huỷ bỏ"
+  },
   "register_intro": {
     "title": "Tạo tài khoản miễn phí\ncủa bạn",
     "subtitle": "Dữ liệu sức khỏe của bạn được bảo mật và phân tích chuyên sâu để mang lại kết quả tốt nhất.",
@@ -258,7 +261,10 @@
       "title": "Thêm thuốc",
       "search_hint": "Tìm tên thuốc...",
       "scan_prescription": "Chụp đơn thuốc",
-      "scan_box": "Chụp hộp thuốc"
+      "scan_box": "Chụp hộp thuốc",
+      "search_results": "Kết quả tìm kiếm",
+      "custom_medicine": "Thuốc tuỳ chỉnh",
+      "no_results": "Không tìm thấy kết quả"
     },
     "errors": {
       "unexpected": "Đã có lỗi xảy ra. Vui lòng thử lại."
