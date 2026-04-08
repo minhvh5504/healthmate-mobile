@@ -10,6 +10,9 @@
     "confirm": "Confirm",
     "cancel": "Cancel"
   },
+  "common": {
+    "cancel": "Cancel"
+  },
   "register_intro": {
     "title": "Create your\nfree account",
     "subtitle": "Your health data is secured and analyzed in depth to provide the best results.",
@@ -258,7 +261,10 @@
       "title": "Add Medicine",
       "search_hint": "Search medicine name...",
       "scan_prescription": "Scan prescription",
-      "scan_box": "Scan medicine box"
+      "scan_box": "Scan medicine box",
+      "search_results": "Search results",
+      "custom_medicine": "Custom medicine",
+      "no_results": "No results found"
     },
     "errors": {
       "unexpected": "Something went wrong. Please try again."
