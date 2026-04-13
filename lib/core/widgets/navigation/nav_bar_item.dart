@@ -40,7 +40,8 @@ class NavBarItem extends StatelessWidget {
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: 'Inter',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     color: inactiveColor,
                     fontSize: 12,
                     fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
@@ -52,14 +53,18 @@ class NavBarItem extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   height: 2,
                   transformAlignment: Alignment.center,
-                  transform: Matrix4.diagonal3Values(isActive ? 1.0 : 0.0, 1.0, 1.0),
+                  transform: Matrix4.diagonal3Values(
+                    isActive ? 1.0 : 0.0,
+                    1.0,
+                    1.0,
+                  ),
                   decoration: BoxDecoration(
                     color: activeColor,
                     borderRadius: BorderRadius.circular(2),
                     boxShadow: isActive
                         ? [
                             BoxShadow(
-                              color: activeColor.withOpacity(0.4),
+                              color: activeColor.withValues(alpha: 0.4),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),

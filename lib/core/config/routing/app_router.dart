@@ -22,6 +22,9 @@ import '../../../features/settings/presentation/pages/change_password_page.dart'
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
 import '../../../features/settings/presentation/pages/family_connection_page.dart';
 import '../../../features/settings/presentation/pages/add_family_member_page.dart';
+import '../../../features/medicine/presentation/pages/scan/scan_prescription_page.dart';
+import '../../../features/medicine/presentation/pages/scan/scan_medicine_box_page.dart';
+import '../../../features/medicine/presentation/pages/scan/review_scan_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
 
@@ -103,6 +106,21 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.addMedicine,
         builder: (context, state) => const AddMedicinePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.scanPrescription,
+        builder: (context, state) => const ScanPrescriptionPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.scanMedicineBox,
+        builder: (context, state) => const ScanMedicineBoxPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.reviewScan,
+        builder: (context, state) {
+          final taskId = state.extra as String;
+          return ReviewScanPage(taskId: taskId);
+        },
       ),
 
       // Shell Route

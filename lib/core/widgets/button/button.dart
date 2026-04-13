@@ -44,7 +44,7 @@ class Button extends StatelessWidget {
                       (color == AppColors.bgWhite
                               ? AppColors.typoBlack
                               : (color ?? AppColors.typoBlack))
-                          .withOpacity(0.15),
+                          .withValues(alpha: 0.15),
                   blurRadius: 16,
                   offset: const Offset(0, 8),
                 ),

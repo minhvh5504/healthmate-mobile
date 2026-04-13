@@ -26,11 +26,9 @@ class _MedicineCalendarStripState extends State<MedicineCalendarStrip> {
   void initState() {
     super.initState();
     final today = DateTime.now();
-    // Generate dates: 1 year before and 1 year after today
-    // To handle leap years and DST boundaries reliably, we compute year/month/day + i
-    _startDate = DateTime(today.year, today.month, today.day - 365);
+    _startDate = DateTime(today.year, today.month, today.day - 90);
     _days = List.generate(
-      731,
+      181,
       (i) => DateTime(_startDate.year, _startDate.month, _startDate.day + i),
     );
 
@@ -154,7 +152,7 @@ class _DayCell extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
+                    color: Colors.black.withValues(alpha: 0.06),
                     blurRadius: 15,
                     offset: const Offset(0, 4),
                   ),

@@ -14,7 +14,7 @@ class RegisterIntroPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(registerIntroNotifierProvider.notifier);
+    final notifier = ref.read(registerIntroProvider.notifier);
 
     return Scaffold(
       body: Container(
@@ -45,7 +45,8 @@ class RegisterIntroPage extends ConsumerWidget {
                 Text(
                   'register_intro.title'.tr(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: 'Inter',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w800,
                     color: AppColors.typoBlack,
@@ -60,7 +61,8 @@ class RegisterIntroPage extends ConsumerWidget {
                   child: Text(
                     'register_intro.subtitle'.tr(),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontFamily: 'Inter',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.typoBody,

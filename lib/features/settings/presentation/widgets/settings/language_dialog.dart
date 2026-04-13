@@ -52,7 +52,7 @@ class LanguageDialog extends StatelessWidget {
                     onTap: onClose,
                     child: Icon(
                       Icons.close,
-                      color: AppColors.typoDisable.withOpacity(0.6),
+                      color: AppColors.typoDisable.withValues(alpha: 0.6),
                       size: 24.sp,
                     ),
                   ),
@@ -68,7 +68,7 @@ class LanguageDialog extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: options.length,
               separatorBuilder: (context, index) => Divider(
-                color: AppColors.typoDisable.withOpacity(0.1),
+                color: AppColors.typoDisable.withValues(alpha: 0.1),
                 height: 1.h,
               ),
               itemBuilder: (context, index) {

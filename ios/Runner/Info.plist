@@ -56,5 +56,11 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>HealthMate needs access to the camera to scan prescriptions and medicine boxes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>HealthMate needs access to the photo library to upload prescription and medicine box images.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>HealthMate needs access to the microphone.</string>
 </dict>
 </plist>

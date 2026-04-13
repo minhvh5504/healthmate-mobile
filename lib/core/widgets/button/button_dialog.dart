@@ -36,7 +36,7 @@ class ButtonDialog extends StatelessWidget {
 
     final Color borderColor = isPrimary
         ? Colors.transparent
-        : AppColors.bgDisable.withOpacity(0.4);
+        : AppColors.bgDisable.withValues(alpha: 0.4);
 
     final Color txtColor =
         textColor ?? (isPrimary ? AppColors.typoWhite : AppColors.typoBody);
@@ -58,7 +58,8 @@ class ButtonDialog extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Poppins',
+            style: TextStyle(
+              fontFamily: 'Poppins',
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: txtColor,

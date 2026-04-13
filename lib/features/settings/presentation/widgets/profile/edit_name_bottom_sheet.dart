@@ -50,7 +50,7 @@ class _EditNameBottomSheetState extends State<EditNameBottomSheet> {
               fontWeight: FontWeight.w700,
               color: AppColors.typoNavi,
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppColors.bgHover),
               ),

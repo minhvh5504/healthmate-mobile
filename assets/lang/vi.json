@@ -268,7 +268,12 @@
     },
     "errors": {
       "unexpected": "Đã có lỗi xảy ra. Vui lòng thử lại."
-    }
+    },
+    "scan_processing": "Đang xử lý ảnh...",
+    "scan_success": "Xử lý thành công",
+    "scan_failed": "Ảnh không nhận diện được",
+    "tap_to_view": "Nhấn để xem",
+    "tap_to_retry": "Nhấn để thử lại"
   },
   "bottom_nav": {
     "home": "Trang chủ",

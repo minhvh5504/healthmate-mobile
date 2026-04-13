@@ -268,7 +268,12 @@
     },
     "errors": {
       "unexpected": "Something went wrong. Please try again."
-    }
+    },
+    "scan_processing": "Processing scan...",
+    "scan_success": "Scan successful",
+    "scan_failed": "Scan failed",
+    "tap_to_view": "Tap to view",
+    "tap_to_retry": "Tap to retry"
   },
   "bottom_nav": {
     "home": "Home",

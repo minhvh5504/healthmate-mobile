@@ -17,9 +17,9 @@ class ProfileErrorBanner extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: AppColors.bgError.withOpacity(0.08),
+        color: AppColors.bgError.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.bgError.withOpacity(0.3)),
+        border: Border.all(color: AppColors.bgError.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

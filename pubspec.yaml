@@ -1,7 +1,7 @@
 name: healthmate_mobile
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -32,7 +32,7 @@ dependencies:
   retrofit: ^4.9.0
   # environment variables
   flutter_dotenv: ^6.0.0
-  # heroicons 
+  # heroicons
   heroicons: ^0.11.0
   # pin input
   pinput: ^5.0.2
@@ -46,9 +46,15 @@ dependencies:
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
   firebase_messaging: ^16.0.4
-  # local notification
+  # push notification
   flutter_local_notifications: ^19.5.0
-  json_annotation: ^4.11.0
+
+  # scanning & image processing
+  google_mlkit_text_recognition: ^0.14.0
+  # image picker
+  image_picker: ^1.1.2
+  # permission handler
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +70,7 @@ flutter:
 
   assets:
     - .env
-    
+
     - assets/icons/
     - assets/icons/app/
     - assets/icons/auth/
@@ -76,6 +82,7 @@ flutter:
     - assets/images/onboarding/
     - assets/images/user/
     - assets/images/health/
+    - assets/images/scan/
 
     - assets/lang/
 

@@ -8,6 +8,7 @@ import '../widgets/settings/settings_close_button.dart';
 import '../widgets/settings/settings_menu_card.dart';
 import '../widgets/settings/settings_user_card.dart';
 import '../widgets/settings/user_card_skeleton.dart';
+import '../../../../core/providers/user_provider.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -17,6 +18,7 @@ class SettingsPage extends ConsumerWidget {
     // Watch state
     final state = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
+    final profile = ref.watch(userProfileProvider);
 
     return Scaffold(
       body: Container(
@@ -35,12 +37,12 @@ class SettingsPage extends ConsumerWidget {
                   child: Column(
                     children: [
                       // User card
-                      if (state.isLoading && state.profile == null)
+                      if (profile == null && state.isLoading)
                         const UserCardSkeleton()
                       else
                         SettingsUserCard(
-                          username: state.profile?.displayName ?? 'Joyer',
-                          avatarUrl: state.profile?.avatarUrl,
+                          username: profile?.displayName ?? 'Joyer',
+                          avatarUrl: profile?.avatarUrl,
                           onEditAvatar: notifier.onEditAvatar,
                         ),
 

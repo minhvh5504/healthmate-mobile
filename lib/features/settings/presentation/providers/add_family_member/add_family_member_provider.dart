@@ -1,10 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'add_family_member_notifier.dart';
 
-/// STATE NOTIFIER PROVIDER
+/// Provider
 final addFamilyMemberProvider =
-    StateNotifierProvider<AddFamilyMemberNotifier, AddFamilyMemberState>((
-      ref,
-    ) {
+    StateNotifierProvider<AddFamilyMemberNotifier, AddFamilyMemberState>((ref) {
       return AddFamilyMemberNotifier(ref);
     });

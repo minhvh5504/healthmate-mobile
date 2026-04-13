@@ -37,7 +37,7 @@ class AddMedicineSearchBar extends StatelessWidget {
                 border: Border.all(color: AppColors.lightPurple),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.lightPurple.withOpacity(0.1),
+                    color: AppColors.lightPurple.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -46,8 +46,11 @@ class AddMedicineSearchBar extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(width: 16.w),
-                  Icon(LucideIcons.search,
-                      color: AppColors.typoHeading, size: 20.w),
+                  Icon(
+                    LucideIcons.search,
+                    color: AppColors.typoHeading,
+                    size: 20.w,
+                  ),
                   SizedBox(width: 12.w),
                   Expanded(
                     child: TextField(
@@ -65,7 +68,7 @@ class AddMedicineSearchBar extends StatelessWidget {
                           fontFamily: 'Inter',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.typoBody.withOpacity(0.5),
+                          color: AppColors.typoBody.withValues(alpha: 0.5),
                         ),
                         border: InputBorder.none,
                         isDense: true,
@@ -85,7 +88,7 @@ class AddMedicineSearchBar extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
                         child: Icon(
                           LucideIcons.xCircle,
-                          color: AppColors.typoBody.withOpacity(0.3),
+                          color: AppColors.typoBody.withValues(alpha: 0.3),
                           size: 20.w,
                         ),
                       ),
@@ -105,7 +108,7 @@ class AddMedicineSearchBar extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w700, // Đậm như trong thiết kế
+                  fontWeight: FontWeight.w700, /// Bold as in design
                   color: AppColors.typoHeading,
                 ),
               ),

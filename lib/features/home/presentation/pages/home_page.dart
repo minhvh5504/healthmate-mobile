@@ -8,6 +8,7 @@ import '../widgets/shortcut_card.dart';
 
 import '../providers/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/user_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -15,7 +16,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeNotifier = ref.read(homeProvider.notifier);
-    final homeState = ref.watch(homeProvider);
+    final profile = ref.watch(userProfileProvider);
 
     return Scaffold(
       body: Container(
@@ -30,7 +31,7 @@ class HomePage extends ConsumerWidget {
               HomeHeader(
                 onProfilePressed: homeNotifier.onProfile,
                 onNotificationPressed: homeNotifier.onNotification,
-                avatarUrl: homeState.profile?.avatarUrl,
+                avatarUrl: profile?.avatarUrl,
               ),
 
               const SizedBox(height: 4),
@@ -47,7 +48,7 @@ class HomePage extends ConsumerWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         offset: const Offset(16, 0),
                       ),
