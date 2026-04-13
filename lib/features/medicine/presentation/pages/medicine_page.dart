@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../providers/medicine/medicine_notifier.dart';
 import '../providers/medicine/medicine_provider.dart';
 import '../widgets/medicine/medicine_calendar_strip.dart';
 import '../widgets/medicine/medicine_empty_state.dart';
 import '../widgets/medicine/medicine_header.dart';
 import '../widgets/medicine/medicine_skeleton.dart';
+import '../widgets/medicine/medicine_cabinet_content.dart';
+import '../../../../core/providers/user_provider.dart';
 
 class MedicinePage extends ConsumerWidget {
   const MedicinePage({super.key});
@@ -17,6 +18,7 @@ class MedicinePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(medicineProvider);
     final notifier = ref.read(medicineProvider.notifier);
+    final profile = ref.watch(userProfileProvider);
 
     return Scaffold(
       body: Container(
@@ -29,11 +31,11 @@ class MedicinePage extends ConsumerWidget {
             children: [
               SizedBox(height: 16.h),
 
-              // Tab bar
+              /// Tab bar
               MedicineTabBar(
                 selectedTab: state.selectedTab,
                 onTabSelected: notifier.selectTab,
-                avatarUrl: state.profile?.avatarUrl,
+                avatarUrl: profile?.avatarUrl,
               ),
 
               SizedBox(height: 8.h),
@@ -63,7 +65,7 @@ class MedicinePage extends ConsumerWidget {
                   ),
                 ),
 
-                //Tab content
+                ///Tab content
                 Expanded(child: _buildTabContent(state, notifier)),
               ],
             ],
@@ -79,7 +81,7 @@ class MedicinePage extends ConsumerWidget {
       case MedicineTab.schedule:
         return MedicineEmptyState(onAddMedicine: notifier.onAddMedicine);
       case MedicineTab.cabinet:
-        return MedicineEmptyState(onAddMedicine: notifier.onAddMedicine);
+        return const MedicineCabinetContent();
     }
   }
 

@@ -42,7 +42,7 @@ class AccountNotFoundDialog extends StatelessWidget {
               onTap: () => context.pop(),
               child: Icon(
                 Icons.close,
-                color: AppColors.typoBody.withOpacity(0.5),
+                color: AppColors.typoBody.withValues(alpha: 0.5),
                 size: 24.sp,
               ),
             ),
@@ -64,7 +64,8 @@ class AccountNotFoundDialog extends StatelessWidget {
                 Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: 'Inter',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w700,
                     color: AppColors.typoBlack,
@@ -76,9 +77,10 @@ class AccountNotFoundDialog extends StatelessWidget {
                 Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: 'Inter',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 15.sp,
-                    color: AppColors.typoBody.withOpacity(0.6),
+                    color: AppColors.typoBody.withValues(alpha: 0.6),
                     height: 1.4,
                   ),
                 ),

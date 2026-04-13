@@ -33,6 +33,6 @@ final getUserProfileUseCaseProvider = Provider<GetUserProfile>((ref) {
 /// Notifier
 final settingsProvider = StateNotifierProvider<SettingsNotifier, SettingsState>(
   (ref) {
-    return SettingsNotifier(ref.read(getUserProfileUseCaseProvider), ref);
+    return SettingsNotifier(ref);
   },
 );

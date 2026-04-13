@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/config/routing/app_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/medication.dart';
-import '../medication_provider.dart';
+import '../../../domain/usecases/search_medications.dart';
+import '../scan_medicine/scan_medicine_provider.dart' show scanMedicineProvider;
 
 /// State
 class AddMedicineState {
@@ -41,9 +42,14 @@ class AddMedicineState {
 /// Notifier
 class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
   final Ref ref;
+  final SearchMedications _searchMedications;
   Timer? _debounce;
 
-  AddMedicineNotifier(this.ref) : super(AddMedicineState());
+  AddMedicineNotifier({
+    required this.ref,
+    required SearchMedications searchMedications,
+  })  : _searchMedications = searchMedications,
+        super(AddMedicineState());
 
   @override
   void dispose() {
@@ -91,9 +97,7 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final results = await ref
-          .read(medicationRepositoryProvider)
-          .searchMedications(query);
+      final results = await _searchMedications(query);
       state = state.copyWith(searchResults: results, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -102,12 +106,14 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
 
   /// Handle scan prescription
   void onScanPrescription() {
-    // Implement prescription scan logic
+    ref.read(scanMedicineProvider.notifier).reset();
+    AppRouter.router.go(AppRoutes.scanPrescription);
   }
 
   /// Handle scan medicine box
   void onScanMedicineBox() {
-    // Implement medicine box scan logic
+    ref.read(scanMedicineProvider.notifier).reset();
+    AppRouter.router.go(AppRoutes.scanMedicineBox);
   }
 
   /// Handle close
@@ -117,6 +123,6 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
 
   /// Handle select medication
   void onSelectMedication(Medication medication) {
-    // Handle medication selection, e.g., navigate to detail or add to schedule
+    /// Handle medication selection, e.g., navigate to detail or add to schedule
   }
 }

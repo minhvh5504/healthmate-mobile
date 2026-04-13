@@ -96,14 +96,14 @@ class _AddMedicinePageState extends ConsumerState<AddMedicinePage> {
                       itemCount: state.searchResults.length + 1,
                       itemBuilder: (context, index) {
                         if (index == state.searchResults.length) {
-                          // Custom medicine option at the end
+                          /// Custom medicine option at the end
                           return _buildMedicationItem(
                             context,
                             title: state.searchQuery,
                             subtitle: 'medicine.add_medicine.custom_medicine'
                                 .tr(),
                             onTap: () {
-                              // Handle custom medicine
+                              /// Handle custom medicine
                             },
                           );
                         }
@@ -201,7 +201,7 @@ class _AddMedicinePageState extends ConsumerState<AddMedicinePage> {
             color: Color(0xFF1E293B),
           ),
         ),
-        // Divider(color: Colors.grey[100], height: 1),
+        /// Divider(color: Colors.grey[100], height: 1),
       ],
     );
   }

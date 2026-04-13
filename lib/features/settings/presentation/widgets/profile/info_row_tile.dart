@@ -57,7 +57,7 @@ class InfoRowTile extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: value == '—'
                             ? AppColors.typoDisable
-                            : AppColors.typoBody.withOpacity(0.6),
+                            : AppColors.typoBody.withValues(alpha: 0.6),
                       ),
                     ),
                   ),

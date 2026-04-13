@@ -60,7 +60,7 @@ class ConfirmDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(fontFamily: 'Inter',
                 fontSize: 15.sp,
-                color: AppColors.typoBody.withOpacity(0.8),
+                color: AppColors.typoBody.withValues(alpha: 0.8),
                 height: 1.5,
               ),
             ),

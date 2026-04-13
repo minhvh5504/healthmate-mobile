@@ -72,7 +72,7 @@ class SettingsItemTile extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.typoBody.withOpacity(0.6),
+                  color: AppColors.typoBody.withValues(alpha: 0.6),
                 ),
               ),
               SizedBox(width: 4.w),

@@ -61,7 +61,9 @@ class NotificationSettingsPage extends ConsumerWidget {
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12.sp,
-                                color: AppColors.typoBody.withOpacity(0.6),
+                                color: AppColors.typoBody.withValues(
+                                  alpha: 0.6,
+                                ),
                               ),
                             ),
                             SizedBox(height: 16.h),
@@ -110,7 +112,7 @@ class NotificationSettingsPage extends ConsumerWidget {
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -138,7 +140,9 @@ class NotificationSettingsPage extends ConsumerWidget {
                   boxShadow: state.isNotificationsEnabled
                       ? [
                           BoxShadow(
-                            color: const Color(0xFF7F66FF).withOpacity(0.3),
+                            color: const Color(
+                              0xFF7F66FF,
+                            ).withValues(alpha: 0.3),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -169,6 +173,7 @@ class NotificationSettingsPage extends ConsumerWidget {
             trailing: Switch.adaptive(
               value: state.isSoundEnabled,
               onChanged: notifier.toggleSound,
+              // ignore: deprecated_member_use
               activeColor: const Color(0xFF34D399),
             ),
           ),
@@ -188,7 +193,7 @@ class NotificationSettingsPage extends ConsumerWidget {
         Container(
           padding: EdgeInsets.all(12.r),
           decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
+            color: iconColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16.r),
           ),
           child: Icon(icon, color: iconColor, size: 24.sp),
@@ -221,7 +226,7 @@ class NotificationSettingsPage extends ConsumerWidget {
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -260,7 +265,7 @@ class NotificationSettingsPage extends ConsumerWidget {
           Container(
             padding: EdgeInsets.all(12.r),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.15),
+              color: iconColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(
@@ -284,7 +289,7 @@ class NotificationSettingsPage extends ConsumerWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.05),
+              color: iconColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Text(

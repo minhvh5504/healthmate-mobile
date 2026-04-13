@@ -7,7 +7,6 @@ import '../providers/profile/profile_notifier.dart';
 import '../providers/profile/profile_provider.dart';
 import '../../../../core/widgets/header/profile_header.dart';
 import '../widgets/profile/info_row_tile.dart';
-import '../widgets/profile/profile_error_banner.dart';
 import '../widgets/profile/profile_skeleton.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -48,7 +47,7 @@ class ProfilePage extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(16.r),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.06),
+                                color: Colors.black.withValues(alpha: 0.06),
                                 blurRadius: 16,
                                 offset: const Offset(0, 4),
                               ),

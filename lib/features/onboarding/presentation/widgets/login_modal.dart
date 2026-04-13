@@ -21,7 +21,9 @@ class LoginModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(onboardingNotifierProvider.select((s) => s.isLoading));
+    final isLoading = ref.watch(
+      onboardingNotifierProvider.select((s) => s.isLoading),
+    );
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -50,7 +52,8 @@ class LoginModal extends ConsumerWidget {
               const SizedBox(width: 24),
               Text(
                 'onboarding.login'.tr(),
-                style: TextStyle(fontFamily: 'Inter',
+                style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.typoBlack,
@@ -61,7 +64,7 @@ class LoginModal extends ConsumerWidget {
                 child: Icon(
                   Icons.close,
                   size: 24.sp,
-                  color: AppColors.typoBlack.withOpacity(0.5),
+                  color: AppColors.typoBlack.withValues(alpha: 0.5),
                 ),
               ),
             ],
@@ -80,21 +83,26 @@ class LoginModal extends ConsumerWidget {
           Row(
             children: [
               Expanded(
-                child: Divider(color: AppColors.typoDisable.withOpacity(0.6)),
+                child: Divider(
+                  color: AppColors.typoDisable.withValues(alpha: 0.6),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Text(
                   'login_modal.or'.tr(),
-                  style: TextStyle(fontFamily: 'Inter',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.typoDisable.withOpacity(0.8),
+                    color: AppColors.typoDisable.withValues(alpha: 0.8),
                   ),
                 ),
               ),
               Expanded(
-                child: Divider(color: AppColors.typoDisable.withOpacity(0.6)),
+                child: Divider(
+                  color: AppColors.typoDisable.withValues(alpha: 0.6),
+                ),
               ),
             ],
           ),
@@ -103,20 +111,20 @@ class LoginModal extends ConsumerWidget {
           // Continue with Google
           isLoading
               ? const Center(
-                child: CircularProgressIndicator(color: AppColors.lightBlue),
-              )
+                  child: CircularProgressIndicator(color: AppColors.lightBlue),
+                )
               : Button(
-                text: 'login_modal.continue_with_google'.tr(),
-                color: AppColors.bgWhite,
-                textColor: AppColors.typoBlack,
-                borderColor: Colors.grey[300],
-                icon: SvgPicture.asset(
-                  'assets/icons/auth/google.svg',
-                  width: 20.w,
-                  height: 20.h,
+                  text: 'login_modal.continue_with_google'.tr(),
+                  color: AppColors.bgWhite,
+                  textColor: AppColors.typoBlack,
+                  borderColor: Colors.grey[300],
+                  icon: SvgPicture.asset(
+                    'assets/icons/auth/google.svg',
+                    width: 20.w,
+                    height: 20.h,
+                  ),
+                  onPressed: onContinueWithGoogle,
                 ),
-                onPressed: onContinueWithGoogle,
-              ),
           SizedBox(height: 96.h),
         ],
       ),

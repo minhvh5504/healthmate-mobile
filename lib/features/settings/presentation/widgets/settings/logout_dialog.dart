@@ -68,7 +68,7 @@ class LogoutDialog extends StatelessWidget {
                   child: _DialogButton(
                     label: cancelText,
                     bgColor: AppColors.typoWhite,
-                    borderColor: AppColors.typoDisable.withOpacity(0.4),
+                    borderColor: AppColors.typoDisable.withValues(alpha: 0.4),
                     textColor: AppColors.typoBlack,
                     onTap: onCancel,
                   ),

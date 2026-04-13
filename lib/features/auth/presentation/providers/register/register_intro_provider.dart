@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'register_intro_notifier.dart';
 
-/// Notifier
-final registerIntroNotifierProvider =
+/// Provider
+final registerIntroProvider =
     StateNotifierProvider<RegisterIntroNotifier, RegisterIntroState>(
       (ref) => RegisterIntroNotifier(ref),
     );

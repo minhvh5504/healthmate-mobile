@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/presentation/providers/auth/auth_provider.dart';
 import 'no_auth_paths.dart';
@@ -83,12 +84,19 @@ class AuthInterceptor extends Interceptor {
       return handler.next(options);
     }
 
-    final auth = ref.read(authProvider);
-    if (auth.accessToken != null && _isTokenExpired(auth.accessToken!)) {
-      await _refreshOnce();
+    // authProvider.state may not have a token yet if loadAuth() is still running.
+    // Fallback to SharedPreferences to get the token directly.
+    var token = ref.read(authProvider).accessToken;
+    if (token == null) {
+      final prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('access_token');
     }
 
-    final token = ref.read(authProvider).accessToken;
+    if (token != null && _isTokenExpired(token)) {
+      await _refreshOnce();
+      token = ref.read(authProvider).accessToken;
+    }
+
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }

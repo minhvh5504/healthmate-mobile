@@ -49,14 +49,15 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
     final defaultPinTheme = PinTheme(
       width: 44.w,
       height: 44.h,
-      textStyle: TextStyle(fontFamily: 'Inter',
+      textStyle: TextStyle(
+        fontFamily: 'Inter',
         fontSize: 22.sp,
         fontWeight: FontWeight.w600,
-        color: AppColors.typoHeading.withOpacity(0.8),
+        color: AppColors.typoHeading.withValues(alpha: 0.8),
       ),
       decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.5),
-        border: Border.all(color: AppColors.bgDisable.withOpacity(0.1)),
+        color: AppColors.white.withValues(alpha: 0.5),
+        border: Border.all(color: AppColors.bgDisable.withValues(alpha: 0.1)),
         borderRadius: BorderRadius.circular(12.r),
       ),
     );
@@ -65,7 +66,7 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
     final focusedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration!.copyWith(
         border: Border.all(
-          color: AppColors.typoHeading.withOpacity(0.5),
+          color: AppColors.typoHeading.withValues(alpha: 0.5),
           width: 2.0,
         ),
         color: AppColors.white,
@@ -75,8 +76,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
     // Pin submitted
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration!.copyWith(
-        color: AppColors.white.withOpacity(0.8),
-        border: Border.all(color: AppColors.bgDisable.withOpacity(0.2)),
+        color: AppColors.white.withValues(alpha: 0.8),
+        border: Border.all(color: AppColors.bgDisable.withValues(alpha: 0.2)),
       ),
     );
 
@@ -109,7 +110,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
                         // Title
                         Text(
                           'verify_password.title'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 32.sp,
                             fontWeight: FontWeight.w800,
                             color: AppColors.typoBlack,
@@ -122,7 +124,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
                         // Subtitle
                         Text(
                           'verify_password.subtitle'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.typoBody,
@@ -132,7 +135,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
                         // Email
                         Text(
                           state.email,
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.typoHeading,
@@ -155,10 +159,11 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
                           autofocus: true,
                           preFilledWidget: Text(
                             '-',
-                            style: TextStyle(fontFamily: 'Inter',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.bgDisable.withOpacity(0.5),
+                              color: AppColors.bgDisable.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -219,7 +224,7 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
         decoration: BoxDecoration(
           color: const Color(0xFFFFFBFA),
           borderRadius: BorderRadius.circular(100.r),
-          border: Border.all(color: AppColors.bgError.withOpacity(0.5)),
+          border: Border.all(color: AppColors.bgError.withValues(alpha: 0.5)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -233,7 +238,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
             Flexible(
               child: Text(
                 state.errorMessage!,
-                style: TextStyle(fontFamily: 'Inter',
+                style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.typoError,
@@ -251,9 +257,9 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.5),
+        color: AppColors.white.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(100.r),
-        border: Border.all(color: AppColors.bgDisable.withOpacity(0.1)),
+        border: Border.all(color: AppColors.bgDisable.withValues(alpha: 0.1)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -262,7 +268,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
           SizedBox(width: 4.w),
           Text(
             '${'verify_password.question_not_receive'.tr()} ',
-            style: TextStyle(fontFamily: 'Inter',
+            style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12.sp,
               color: AppColors.typoBlack,
               fontWeight: FontWeight.w400,
@@ -271,7 +278,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
           if (isCountdown)
             Text(
               notifier.formatTime(state.resendSeconds),
-              style: TextStyle(fontFamily: 'Inter',
+              style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 12.sp,
                 color: AppColors.typoBlack,
                 fontWeight: FontWeight.w600,
@@ -287,7 +295,8 @@ class _VerifyPasswordPageState extends ConsumerState<VerifyPasswordPage> {
                     },
               child: Text(
                 'verify_password.resend'.tr(),
-                style: TextStyle(fontFamily: 'Inter',
+                style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 14.sp,
                   color: AppColors.typoHeading,
                   fontWeight: FontWeight.w700,

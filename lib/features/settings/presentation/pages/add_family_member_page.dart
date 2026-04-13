@@ -71,7 +71,7 @@ class AddFamilyMemberPage extends ConsumerWidget {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 12.sp,
-                        color: AppColors.typoBody.withOpacity(0.8),
+                        color: AppColors.typoBody.withValues(alpha: 0.8),
                         fontWeight: FontWeight.w400,
                       ),
                     ),

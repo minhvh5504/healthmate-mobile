@@ -65,7 +65,7 @@ class _InputTextFieldState extends State<InputTextField> {
   @override
   Widget build(BuildContext context) {
     final Color borderColor = widget.hasError
-        ? AppColors.bgError.withOpacity(0.6)
+        ? AppColors.bgError.withValues(alpha: 0.6)
         : Colors.grey.shade300;
 
     return Column(
@@ -74,7 +74,8 @@ class _InputTextFieldState extends State<InputTextField> {
         if (widget.label?.isNotEmpty ?? false) ...[
           Text(
             widget.label!,
-            style: TextStyle(fontFamily: 'Inter',
+            style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.typoBlack,
@@ -88,17 +89,19 @@ class _InputTextFieldState extends State<InputTextField> {
           keyboardType: widget.keyboardType,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
-          style: TextStyle(fontFamily: 'Inter',
+          style: TextStyle(
+            fontFamily: 'Inter',
             fontSize: 14.sp,
             color: AppColors.typoHeading,
           ),
           decoration: InputDecoration(
             constraints: BoxConstraints(minHeight: 36.h),
             hintText: widget.hint,
-            hintStyle: TextStyle(fontFamily: 'Inter',
+            hintStyle: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
-              color: AppColors.typoHeading.withOpacity(0.5),
+              color: AppColors.typoHeading.withValues(alpha: 0.5),
             ),
             filled: true,
             fillColor: AppColors.typoWhite,
@@ -118,8 +121,8 @@ class _InputTextFieldState extends State<InputTextField> {
               borderRadius: BorderRadius.circular(16.r),
               borderSide: BorderSide(
                 color: widget.hasError
-                    ? AppColors.bgError.withOpacity(0.6)
-                    : AppColors.typoHeading.withOpacity(0.5),
+                    ? AppColors.bgError.withValues(alpha: 0.6)
+                    : AppColors.typoHeading.withValues(alpha: 0.5),
                 width: 1.0.w,
               ),
             ),
@@ -144,7 +147,8 @@ class _InputTextFieldState extends State<InputTextField> {
                           padding: EdgeInsets.only(top: 10.h, right: 10.w),
                           child: Text(
                             widget.suffixText!,
-                            style: TextStyle(fontFamily: 'Inter',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.typoHeading,
@@ -159,7 +163,8 @@ class _InputTextFieldState extends State<InputTextField> {
           SizedBox(height: 6.h),
           Text(
             widget.errorText!,
-            style: TextStyle(fontFamily: 'Inter',
+            style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12.sp,
               color: AppColors.typoError,
               fontWeight: FontWeight.w400,

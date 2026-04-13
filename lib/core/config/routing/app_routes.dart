@@ -28,6 +28,9 @@ class AppRoutes {
   static const String home = '/home';
   static const String medicine = '/medicine';
   static const String addMedicine = '/add-medicine';
+  static const String scanPrescription = '/scan-prescription';
+  static const String scanMedicineBox = '/scan-medicine-box';
+  static const String reviewScan = '/review-scan';
   static const String health = '/health';
   static const String history = '/history';
 }

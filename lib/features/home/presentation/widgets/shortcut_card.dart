@@ -31,7 +31,7 @@ class HomeShortcutCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -74,7 +74,8 @@ class HomeShortcutCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontFamily: 'Inter',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.typoBlack,

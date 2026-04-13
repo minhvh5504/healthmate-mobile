@@ -1,29 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/network/api_client.dart';
-import '../../../data/api/settings_api.dart';
-import '../../../data/datasources/settings_remote_datasource.dart';
-import '../../../data/repositories/settings_repository_impl.dart';
 import '../../../domain/usecases/get_notification_settings.dart';
+import '../settings/settings_provider.dart';
 import 'setting_noti_notifier.dart';
-
-/// Retrofit API
-final settingsApiProvider = Provider<SettingsApi>((ref) {
-  return ApiClient(ref).create(SettingsApi.new);
-});
-
-/// DataSource
-final settingsRemoteDataSourceProvider = Provider<SettingsRemoteDataSource>((
-  ref,
-) {
-  return SettingsRemoteDataSource(ref.read(settingsApiProvider));
-});
-
-/// Repository
-final settingsRepositoryProvider = Provider<SettingsRepositoryImpl>((ref) {
-  return SettingsRepositoryImpl(
-    remoteDataSource: ref.read(settingsRemoteDataSourceProvider),
-  );
-});
 
 final getNotificationSettingsUseCaseProvider =
     Provider<GetNotificationSettings>((ref) {

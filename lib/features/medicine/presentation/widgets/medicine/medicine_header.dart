@@ -35,7 +35,7 @@ class MedicineTabBar extends StatelessWidget {
             onTap: () => onTabSelected(MedicineTab.cabinet),
           ),
           const Spacer(),
-          // User avatar + dropdown caret
+          /// User avatar + dropdown caret
           Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +54,7 @@ class MedicineTabBar extends StatelessWidget {
                   border: Border.all(color: Colors.white, width: 2.w),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
