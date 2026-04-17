@@ -55,4 +55,19 @@ class UserProfile {
 
   String get displayName =>
       fullName?.isNotEmpty == true ? fullName! : email.split('@').first;
+
+  double? get bmi {
+    if (heightCm == null || weightKg == null || heightCm! <= 0) return null;
+    final heightMeters = heightCm! / 100;
+    return weightKg! / (heightMeters * heightMeters);
+  }
+
+  String get bmiStatus {
+    final value = bmi;
+    if (value == null) return 'unknown';
+    if (value < 18.5) return 'underweight';
+    if (value < 25) return 'normal';
+    if (value < 30) return 'overweight';
+    return 'obese';
+  }
 }

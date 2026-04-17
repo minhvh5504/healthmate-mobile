@@ -15,6 +15,7 @@ class Button extends StatelessWidget {
     this.height,
     this.width,
     this.borderColor,
+    this.isLoading = false,
   });
 
   final String text;
@@ -25,10 +26,11 @@ class Button extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? borderColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    final bool isDisabled = onPressed == null;
+    final bool isDisabled = onPressed == null || isLoading;
 
     return Container(
       width: width ?? (getWidth(context) - 16 - 16),
@@ -51,7 +53,7 @@ class Button extends StatelessWidget {
               ],
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isDisabled ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: isDisabled
               ? AppColors.bgDisable
@@ -66,25 +68,34 @@ class Button extends StatelessWidget {
           ),
           shadowColor: Colors.transparent,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Icon
-            if (icon != null) ...[icon!, SizedBox(width: 8.w)],
+        child: isLoading
+            ? SizedBox(
+                width: 20.w,
+                height: 20.w,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: textColor ?? AppColors.typoWhite,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Icon
+                  if (icon != null) ...[icon!, SizedBox(width: 8.w)],
 
-            // Title
-            Text(
-              text,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: textColor ?? AppColors.typoWhite,
-                letterSpacing: -0.2,
+                  // Title
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: textColor ?? AppColors.typoWhite,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

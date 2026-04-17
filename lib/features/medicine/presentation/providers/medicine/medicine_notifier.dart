@@ -1,10 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../pages/medicine/widgets/medicine_options_popup.dart';
+import '../../pages/medicine/widgets/medicine_quantity_popup.dart';
 import '../../../../../core/providers/user_provider.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../features/auth/presentation/providers/auth/auth_provider.dart';
 import '../../../../auth/presentation/providers/auth/auth_notifier.dart';
 import '../../../domain/usecases/get_user_medications.dart';
+import '../../../domain/usecases/update_user_medication.dart';
 import '../../../domain/entities/user_medication.dart';
 import '../../../domain/entities/scan_task.dart';
 import '../../../domain/repositories/medication_repository.dart';
@@ -70,15 +77,18 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
   final MedicationRepository _repository;
   final GetUserMedications _getUserMedications;
   final CreateUserMedication _createUserMedication;
+  final UpdateUserMedication _updateUserMedication;
 
   MedicineNotifier({
     required this.ref,
     required MedicationRepository repository,
     required GetUserMedications getUserMedications,
     required CreateUserMedication createUserMedication,
+    required UpdateUserMedication updateUserMedication,
   }) : _repository = repository,
        _getUserMedications = getUserMedications,
        _createUserMedication = createUserMedication,
+       _updateUserMedication = updateUserMedication,
        super(MedicineState()) {
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.isLoggedIn && next.accessToken != null) {
@@ -123,6 +133,8 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
                 (m) => {
                   'name': m.medication?.name ?? 'Không xác định',
                   'genericName': m.medication?.genericName ?? 'Thuốc cơ bản',
+                  'manufacturer': m.medication?.manufacturer,
+                  'strength': m.medication?.strength,
                   'id': m.id,
                 },
               )
@@ -163,17 +175,14 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
 
   void deleteScanTask(String id) async {
     try {
-      // Optimistic update
       state = state.copyWith(
         scanTasks: state.scanTasks.where((t) => t.id != id).toList(),
       );
 
-      // Remove from server if it has a real ID
       if (!id.startsWith('temp_')) {
         await _repository.deleteScanTask(id);
       }
     } catch (e) {
-      // If error, refresh list to recover
       await fetchActiveMedications();
     }
   }
@@ -190,7 +199,6 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     }
 
     try {
-      /// 1. Create UserMedication records
       for (final userMed in task.userMedications!) {
         if (userMed.medicationId != null) {
           await _createUserMedication(
@@ -200,7 +208,6 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         }
       }
 
-      /// 2. Clear task from server
       await _repository.deleteScanTask(id);
 
       await fetchActiveMedications();
@@ -275,5 +282,140 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString(), isLoading: false);
     }
+  }
+
+  /// Medicine Options Logic
+  void onShowMedicineOptions(BuildContext context, UserMedication medication) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Medicine Options',
+      barrierColor: Colors.black.withValues(alpha: 0.1),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: AppColors.backgroundGradient,
+            ),
+            child: MedicineOptionsPopup(
+              medication: medication,
+              onEditDetails: () => onEditMedicineDetails(medication),
+              onChangeSchedule: () => onChangeMedicineSchedule(medication),
+              onAddMedicine: onAddMedicine,
+              onDeleteAll: () => onDeleteMedication(context, medication),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(opacity: anim1, child: child);
+      },
+    );
+  }
+
+  void onShowQuantityPopup(BuildContext context, UserMedication medication) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Medicine Quantity',
+      barrierColor: Colors.black.withValues(alpha: 0.1),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.backgroundGradient,
+                  ),
+                ),
+              ),
+              Center(
+                child: MedicineQuantityPopup(
+                  medication: medication,
+                  onSave: (newQuantity) {
+                    Navigator.pop(context);
+                    onUpdateMedicineQuantity(medication, newQuantity);
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(opacity: anim1, child: child);
+      },
+    );
+  }
+
+  void onUpdateMedicineQuantity(UserMedication medication, int newQuantity) {
+    // Optimistic update
+    final updatedActive = state.activeMedications.map((m) {
+      if (m.id == medication.id) {
+        return m.copyWith(stockCount: newQuantity);
+      }
+      return m;
+    }).toList();
+
+    state = state.copyWith(activeMedications: updatedActive);
+
+    // Call API
+    try {
+      _updateUserMedication(id: medication.id, stockCount: newQuantity);
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
+    }
+  }
+
+  void onEditMedicineDetails(UserMedication medication) {
+    AppRouter.router.push(
+      AppRoutes.medicineDetailPreview,
+      extra: {
+        'name': medication.medication?.name,
+        'manufacturer': medication.medication?.manufacturer,
+        'strength': medication.medication?.strength,
+        'genericName': medication.medication?.genericName,
+        'id': medication.id,
+      },
+    );
+  }
+
+  void onChangeMedicineSchedule(UserMedication medication) {
+    // Implement schedule change logic
+  }
+
+  void onDeleteMedication(BuildContext context, UserMedication medication) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('medicine.delete_dialog.title'.tr()),
+        content: Text('medicine.delete_dialog.message'.tr()),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(),
+            child: Text('medicine.delete_dialog.cancel'.tr()),
+          ),
+          TextButton(
+            onPressed: () {
+              context.pop();
+            },
+            child: Text(
+              'medicine.delete_dialog.confirm'.tr(),
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

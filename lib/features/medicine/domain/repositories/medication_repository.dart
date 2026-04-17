@@ -1,6 +1,7 @@
 import '../entities/medication.dart';
 import '../entities/user_medication.dart';
 import '../entities/scan_task.dart';
+import '../entities/medication_condition.dart';
 
 abstract class MedicationRepository {
   Future<List<Medication>> searchMedications(String query);
@@ -22,7 +23,9 @@ abstract class MedicationRepository {
     required String id,
     bool? isActive,
     String? dosage,
+    int? stockCount,
   });
 
   Future<List<UserMedication>> getUserMedications();
+  Future<List<MedicationCondition>> getMedicationConditions();
 }

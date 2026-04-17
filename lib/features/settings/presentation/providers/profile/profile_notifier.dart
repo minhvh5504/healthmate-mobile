@@ -5,7 +5,7 @@ import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../domain/usecases/get_user_profile.dart';
 import '../../../domain/usecases/update_user_profile.dart';
-import '../../widgets/profile/profile_edit_popups.dart';
+import '../../pages/profile/widgets/profile_edit_popups.dart';
 
 /// STATE
 class ProfileState {

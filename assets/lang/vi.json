@@ -273,7 +273,45 @@
     "scan_success": "Xử lý thành công",
     "scan_failed": "Ảnh không nhận diện được",
     "tap_to_view": "Nhấn để xem",
-    "tap_to_retry": "Nhấn để thử lại"
+    "tap_to_retry": "Nhấn để thử lại",
+    "in_use": "Đang dùng",
+    "used": "Đã dùng",
+    "no_name": "KHÔNG RÕ TÊN",
+    "daily": "Hàng ngày",
+    "stock_remaining": "Còn {} lần dùng",
+    "edit": "Sửa",
+    "add_stock": "Bổ sung",
+    "remaining_label": "Còn lại",
+    "strength_popup_title": "Thêm hàm lượng",
+    "strength_label": "Hàm lượng",
+    "save": "Lưu",
+    "only_if_needed": "CHỈ KHI CẦN",
+    "options_popup": {
+      "edit_details": "Sửa chi tiết thuốc",
+      "change_schedule": "Thay đổi lịch dùng",
+      "add_medicine": "Thêm thuốc",
+      "delete_all": "Xoá tất cả"
+    },
+    "delete_dialog": {
+      "title": "Xoá tất cả?",
+      "message": "Bạn có chắc chắn muốn xoá tất cả dữ liệu thuốc này?",
+      "cancel": "Hủy",
+      "confirm": "Xoá"
+    },
+    "condition": {
+      "title": "Điều trị",
+      "label": "Điều trị",
+      "other": "Khác",
+      "placeholder": "Điều kiện sức khỏe. Ví dụ: Ho",
+      "save": "Lưu",
+      "diabetes": "Đái tháo đường",
+      "angina": "Đau thắt ngực",
+      "high_cholesterol": "Mỡ máu cao",
+      "digestive_health": "Sức khỏe đường ruột",
+      "varicose_veins": "Suy giãn tĩnh mạch",
+      "heart_failure": "Suy tim",
+      "hypertension": "Tăng huyết áp"
+    }
   },
   "bottom_nav": {
     "home": "Trang chủ",
@@ -296,5 +334,13 @@
     "save": "Lưu",
     "date_invalid": "Ngày hoặc tháng không hợp lệ",
     "year_invalid": "Năm sinh phải đủ 4 chữ số"
+  },
+  "health_metrics": {
+    "bmi": "BMI",
+    "bmi_status_underweight": "Thiếu cân",
+    "bmi_status_normal": "Cân đối",
+    "bmi_status_overweight": "Thừa cân",
+    "bmi_status_obese": "Béo phì",
+    "bmi_status_unknown": "Chưa có chỉ số"
   }
 }

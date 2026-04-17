@@ -2,6 +2,8 @@ import '../api/medication_api.dart';
 import '../models/medication_model.dart';
 import '../models/user_medication_model.dart';
 import '../models/scan_task_model.dart';
+import '../models/medication_condition_model.dart';
+import '../../domain/entities/medication_condition.dart';
 
 class MedicationRemoteDataSource {
   final MedicationApi api;
@@ -74,5 +76,12 @@ class MedicationRemoteDataSource {
     final dataMap = response as Map<String, dynamic>;
     final List<dynamic> data = dataMap['data'] ?? [];
     return data.map((json) => UserMedicationModel.fromJson(json)).toList();
+  }
+
+  Future<List<MedicationCondition>> getMedicationConditions() async {
+    final response = await api.getMedicationConditions();
+    final dataMap = response as Map<String, dynamic>;
+    final List<dynamic> data = dataMap['data'] ?? [];
+    return data.map((json) => MedicationConditionModel.fromJson(json)).toList();
   }
 }
