@@ -1,6 +1,7 @@
 import '../../domain/entities/medication.dart';
 import '../../domain/entities/user_medication.dart';
 import '../../domain/entities/scan_task.dart';
+import '../../domain/entities/medication_condition.dart';
 import '../../domain/repositories/medication_repository.dart';
 import '../datasources/medication_remote_datasource.dart';
 
@@ -53,12 +54,14 @@ class MedicationRepositoryImpl implements MedicationRepository {
     required String id,
     bool? isActive,
     String? dosage,
+    int? stockCount,
   }) {
     return remoteDataSource.updateUserMedication(
       id: id,
       data: {
         if (isActive != null) 'isActive': isActive,
         if (dosage != null) 'dosage': dosage,
+        if (stockCount != null) 'stockCount': stockCount,
       },
     );
   }
@@ -66,5 +69,10 @@ class MedicationRepositoryImpl implements MedicationRepository {
   @override
   Future<List<UserMedication>> getUserMedications() {
     return remoteDataSource.getUserMedications();
+  }
+
+  @override
+  Future<List<MedicationCondition>> getMedicationConditions() {
+    return remoteDataSource.getMedicationConditions();
   }
 }

@@ -273,7 +273,45 @@
     "scan_success": "Scan successful",
     "scan_failed": "Scan failed",
     "tap_to_view": "Tap to view",
-    "tap_to_retry": "Tap to retry"
+    "tap_to_retry": "Tap to retry",
+    "in_use": "In use",
+    "used": "Used",
+    "no_name": "UNKNOWN NAME",
+    "daily": "Daily",
+    "stock_remaining": "{} uses remaining",
+    "edit": "Edit",
+    "add_stock": "Supplement",
+    "remaining_label": "Remaining",
+    "strength_popup_title": "Add strength",
+    "strength_label": "Strength",
+    "save": "Save",
+    "only_if_needed": "ONLY IF NEEDED",
+    "options_popup": {
+      "edit_details": "Edit medicine details",
+      "change_schedule": "Change schedule",
+      "add_medicine": "Add medicine",
+      "delete_all": "Delete all"
+    },
+    "delete_dialog": {
+      "title": "Delete all?",
+      "message": "Are you sure you want to delete all data for this medicine?",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "condition": {
+      "title": "Condition",
+      "label": "Therapy",
+      "other": "Other",
+      "placeholder": "Health condition. Example: Cough",
+      "save": "Save",
+      "diabetes": "Diabetes",
+      "angina": "Angina",
+      "high_cholesterol": "High Cholesterol",
+      "digestive_health": "Digestive Health",
+      "varicose_veins": "Varicose Veins",
+      "heart_failure": "Heart Failure",
+      "hypertension": "High Blood Pressure"
+    }
   },
   "bottom_nav": {
     "home": "Home",
@@ -296,5 +334,13 @@
     "save": "Save",
     "date_invalid": "Invalid day or month",
     "year_invalid": "Year must be 4 digits"
+  },
+  "health_metrics": {
+    "bmi": "BMI",
+    "bmi_status_underweight": "Underweight",
+    "bmi_status_normal": "Normal",
+    "bmi_status_overweight": "Overweight",
+    "bmi_status_obese": "Obese",
+    "bmi_status_unknown": "Unknown"
   }
 }

@@ -33,4 +33,5 @@ class AppRoutes {
   static const String reviewScan = '/review-scan';
   static const String health = '/health';
   static const String history = '/history';
+  static const String medicineDetailPreview = '/medicine-detail-preview';
 }

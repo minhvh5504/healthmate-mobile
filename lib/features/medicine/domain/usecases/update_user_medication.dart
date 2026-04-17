@@ -8,11 +8,13 @@ class UpdateUserMedication {
     required String id,
     bool? isActive,
     String? dosage,
+    int? stockCount,
   }) {
     return repository.updateUserMedication(
       id: id,
       isActive: isActive,
       dosage: dosage,
+      stockCount: stockCount,
     );
   }
 }

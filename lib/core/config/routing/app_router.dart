@@ -6,25 +6,28 @@ import '../../../features/auth/presentation/pages/forgotpassword/verify_password
 import '../../../features/auth/presentation/pages/login/login_page.dart';
 import '../../../features/auth/presentation/pages/register/register_page.dart';
 import '../../../features/auth/presentation/pages/register/verify_account_page.dart';
+import '../../../features/medicine/presentation/pages/add_medicine/add_medicine_page.dart';
+import '../../../features/medicine/presentation/pages/medicine/medicine_page.dart';
+import '../../../features/medicine/presentation/pages/scan/widgets/scan_medicine_box_page.dart';
+import '../../../features/medicine/presentation/pages/scan/widgets/scan_prescription_page.dart';
 import '../../../features/notifications/presentation/pages/notification_page.dart';
 import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
-import '../../../features/home/presentation/pages/home_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_page.dart';
-import '../../../features/medicine/presentation/pages/add_medicine_page.dart';
+import '../../../features/home/presentation/pages/home/home_page.dart';
+
 import '../../../features/health/presentation/pages/health_page.dart';
 import '../../../features/history/presentation/pages/history_page.dart';
-import '../../../features/settings/presentation/pages/settings_page.dart';
-import '../../../features/settings/presentation/pages/profile_page.dart';
-import '../../../features/settings/presentation/pages/notification_settings_page.dart';
-import '../../../features/settings/presentation/pages/high_settings_page.dart';
-import '../../../features/settings/presentation/pages/change_password_page.dart';
+import '../../../features/settings/presentation/pages/settings/settings_page.dart';
+import '../../../features/settings/presentation/pages/profile/profile_page.dart';
+import '../../../features/settings/presentation/pages/notification_settings/notification_settings_page.dart';
+import '../../../features/settings/presentation/pages/high_settings/high_settings_page.dart';
+import '../../../features/settings/presentation/pages/change_password/change_password_page.dart';
 import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
-import '../../../features/settings/presentation/pages/family_connection_page.dart';
-import '../../../features/settings/presentation/pages/add_family_member_page.dart';
-import '../../../features/medicine/presentation/pages/scan/scan_prescription_page.dart';
-import '../../../features/medicine/presentation/pages/scan/scan_medicine_box_page.dart';
+import '../../../features/settings/presentation/pages/family_connection/family_connection_page.dart';
+import '../../../features/settings/presentation/pages/add_family_member/add_family_member_page.dart';
+
 import '../../../features/medicine/presentation/pages/scan/review_scan_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_detail_preview/medicine_detail_preview_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
 
@@ -120,6 +123,13 @@ class AppRouter {
         builder: (context, state) {
           final taskId = state.extra as String;
           return ReviewScanPage(taskId: taskId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.medicineDetailPreview,
+        builder: (context, state) {
+          final medication = state.extra as Map<String, dynamic>;
+          return MedicineDetailPreviewPage(medication: medication);
         },
       ),
 

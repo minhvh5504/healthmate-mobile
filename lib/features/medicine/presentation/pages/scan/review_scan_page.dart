@@ -6,7 +6,10 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/widgets/button/button.dart';
 import '../../providers/medicine/medicine_provider.dart';
+import 'widgets/review_medication_card.dart';
+import 'widgets/delete_scan_task_popup.dart';
 
 class ReviewScanPage extends ConsumerStatefulWidget {
   final String taskId;
@@ -38,12 +41,32 @@ class _ReviewScanPageState extends ConsumerState<ReviewScanPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            LucideIcons.chevronLeft,
-            color: AppColors.typoHeading,
+        leadingWidth: 60.w,
+        leading: Center(
+          child: InkWell(
+            onTap: () => context.pop(),
+            borderRadius: BorderRadius.circular(50.r),
+            child: Container(
+              width: 36.w,
+              height: 36.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 16.sp,
+                color: AppColors.typoBlack,
+              ),
+            ),
           ),
-          onPressed: () => context.pop(),
         ),
         title: Text(
           'Xem lại thuốc của bạn',
@@ -90,35 +113,81 @@ class _ReviewScanPageState extends ConsumerState<ReviewScanPage> {
             ),
             SizedBox(height: 24.h),
             if (medications.isNotEmpty)
-              ...medications.map<Widget>((med) => _buildMedicationCard(med)),
+              ...medications.map<Widget>(
+                (med) => ReviewMedicationCard(medication: med),
+              ),
 
-            SizedBox(height: 32.h),
-            _buildOutlinedButton(
+            SizedBox(height: 70.h),
+            Button(
               text: 'Xóa tất cả thuốc',
               textColor: Colors.red,
-              onTap: () {
-                notifier.deleteScanTask(widget.taskId);
-                context.pop();
+              color: Colors.white,
+              onPressed: () {
+                showGeneralDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  barrierLabel: 'Delete Confirmation',
+                  barrierColor: Colors.black.withValues(alpha: 0.2),
+                  transitionDuration: const Duration(milliseconds: 300),
+                  pageBuilder: (context, anim1, anim2) {
+                    return Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: Stack(
+                        children: [
+                          GestureDetector(
+                            onTap: () => context.pop(),
+                            child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              decoration: const BoxDecoration(
+                                gradient: AppColors.backgroundGradient,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: DeleteScanTaskPopup(
+                              onConfirm: () {
+                                notifier.deleteScanTask(widget.taskId);
+                                context.pop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return FadeTransition(opacity: anim1, child: child);
+                  },
+                );
               },
+              height: 48.h,
+              width: double.infinity,
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
             if (medications.isNotEmpty)
-              _buildFilledButton(
+              Button(
                 text: 'Thêm vào hộp thuốc',
-                onTap: () {
+                onPressed: () {
                   notifier.saveMedicinesToCabinet(widget.taskId);
                   context.pop();
                 },
+                height: 48.h,
+                width: double.infinity,
               )
             else
-              _buildFilledButton(
+              Button(
                 text: 'Thêm thủ công',
-                onTap: () {
+                onPressed: () {
                   notifier.deleteScanTask(widget.taskId);
-                  context.pushReplacement(AppRoutes.addMedicine);
+                  context.pushReplacement(
+                    AppRoutes.medicineDetailPreview,
+                    extra: {'name': ''},
+                  );
                 },
+                height: 48.h,
+                width: double.infinity,
               ),
-            SizedBox(height: 32.h),
           ],
         ),
       ),
@@ -132,139 +201,6 @@ class _ReviewScanPageState extends ConsumerState<ReviewScanPage> {
       color: Colors.grey[300],
       alignment: Alignment.center,
       child: Icon(LucideIcons.image, size: 48.sp, color: Colors.grey),
-    );
-  }
-
-  Widget _buildMedicationCard(Map<String, dynamic> med) {
-    final String name = med['name'] ?? 'Không xác định';
-    final String genericName = med['genericName'] ?? 'Thuốc cơ bản';
-    return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: const BoxDecoration(
-              color: Color(0xFF5A5D7A),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              LucideIcons.moreHorizontal,
-              color: Colors.white,
-              size: 20.sp,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.typoHeading,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  genericName,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.typoBody.withValues(alpha: 0.6),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(LucideIcons.chevronRight, color: Colors.grey, size: 20.sp),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOutlinedButton({
-    required String text,
-    required Color textColor,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-            color: textColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFilledButton({
-    required String text,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        decoration: BoxDecoration(
-          color: const Color(0xFF141416),
-          borderRadius: BorderRadius.circular(30.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-      ),
     );
   }
 }

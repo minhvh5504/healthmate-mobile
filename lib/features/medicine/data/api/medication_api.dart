@@ -27,4 +27,7 @@ abstract class MedicationApi {
 
   @GET('user-medication')
   Future<dynamic> getUserMedications();
+
+  @GET('medication-conditions')
+  Future<dynamic> getMedicationConditions();
 }

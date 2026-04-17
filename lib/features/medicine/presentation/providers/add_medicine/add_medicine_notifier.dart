@@ -48,8 +48,8 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
   AddMedicineNotifier({
     required this.ref,
     required SearchMedications searchMedications,
-  })  : _searchMedications = searchMedications,
-        super(AddMedicineState());
+  }) : _searchMedications = searchMedications,
+       super(AddMedicineState());
 
   @override
   void dispose() {
@@ -123,6 +123,29 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
 
   /// Handle select medication
   void onSelectMedication(Medication medication) {
-    /// Handle medication selection, e.g., navigate to detail or add to schedule
+    AppRouter.router.push(
+      AppRoutes.medicineDetailPreview,
+      extra: {
+        'name': medication.name,
+        'manufacturer': medication.manufacturer,
+        'strength': medication.strength,
+        'genericName': medication.genericName,
+        'medicationId': medication.id,
+      },
+    );
+  }
+
+  /// Handle custom medicine
+  void onCustomMedicine(String name) {
+    AppRouter.router.push(
+      AppRoutes.medicineDetailPreview,
+      extra: {
+        'name': name,
+        'manufacturer': '',
+        'strength': '',
+        'genericName': '',
+        'medicationId': null,
+      },
+    );
   }
 }

@@ -9,9 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/config/routing/app_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
-import '../../widgets/settings/logout_dialog.dart';
-import '../../widgets/settings/language_dialog.dart';
 import '../../../../auth/presentation/providers/auth/auth_provider.dart';
+import '../../pages/high_settings/widgets/language_dialog.dart';
+import '../../pages/high_settings/widgets/logout_dialog.dart';
 import '../settings/settings_provider.dart';
 
 /// STATE
