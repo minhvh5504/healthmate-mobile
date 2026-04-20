@@ -17,13 +17,38 @@ abstract class MedicationRepository {
   Future<void> createUserMedication({
     required String medicationId,
     Map<String, dynamic>? scannedData,
+    String? frequency,
+    List<int>? selectedDays,
+    List<Map<String, dynamic>>? schedules,
+    String? startDate,
+    String? endDate,
+    bool? reminderEnabled,
+    int? stockCount,
+    int? lowStockThreshold,
+    bool? lowStockReminderEnabled,
+    String? conditionId,
+    String? conditionCustom,
   });
 
   Future<void> updateUserMedication({
     required String id,
     bool? isActive,
     String? dosage,
+    String? mealInstruction,
+    String? mealInstructionNote,
+    String? conditionId,
+    String? conditionCustom,
+    String? frequency,
+    List<int>? selectedDays,
+    List<Map<String, dynamic>>? schedules,
+    String? startDate,
+    String? endDate,
+    bool? reminderEnabled,
     int? stockCount,
+    int? lowStockThreshold,
+    bool? lowStockReminderEnabled,
+    String? medicationId,
+    Map<String, dynamic>? scannedData,
   });
 
   Future<List<UserMedication>> getUserMedications();

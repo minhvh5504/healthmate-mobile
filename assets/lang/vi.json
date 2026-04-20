@@ -286,6 +286,68 @@
     "strength_label": "Hàm lượng",
     "save": "Lưu",
     "only_if_needed": "CHỈ KHI CẦN",
+    "scan": {
+      "success_title": "Tuyệt vời!",
+      "success_message": "Bạn đã thiết lập thành công các loại thuốc của mình.",
+      "add_new": "Thêm thuốc mới",
+      "view_cabinet": "Xem hộp thuốc của tôi",
+      "complete": "Hoàn tất",
+      "unknown_name": "Không xác định",
+      "basic_medicine": "Thuốc cơ bản",
+      "results_found": "{} loại thuốc được tìm thấy! Vui lòng\nkiểm tra lại thông tin để tránh sai sót.",
+      "no_results_found": "Không tìm thấy thuốc nào!\nBạn có thể thử lại hoặc thêm thủ công.",
+      "review_title": "Xem lại thuốc của bạn",
+      "take_photo": "Chụp ảnh",
+      "upload_photo": "Tải ảnh lên",
+      "delete_all_title": "Xóa tất cả thuốc?",
+      "delete_all_message": "Điều này sẽ xóa tất cả các loại thuốc đã quét và ảnh đã tải lên. Bạn cần phải quét lại hoặc tải ảnh lên nếu muốn khởi động lại.",
+      "delete_confirm": "Xóa tất cả",
+      "go_back": "Quay lại xem lại",
+      "action": {
+        "delete_all": "Xoá tất cả",
+        "add_to_cabinet": "Thêm vào hộp thuốc",
+        "add_manually": "Thêm thủ công"
+      },
+      "tips": {
+        "box_title": "Mẹo để chụp ảnh thuốc rõ ràng",
+        "box_lighting": "Sử dụng ảnh rõ sáng, sắc nét. Tránh ánh sáng chói hoặc mờ.",
+        "box_content": "Chụp ảnh bao bì thuốc (hộp hoặc chai). Bạn có thể chụp nhiều loại trong cùng một ảnh.",
+        "box_clarity": "Đảm bảo tất cả tên thuốc đều rõ ràng và dễ đọc.",
+        "prescription_title": "Mẹo để chụp đơn thuốc",
+        "prescription_centering": "Đảm bảo toàn bộ đơn thuốc được căn giữa và rõ ràng trong khung.",
+        "prescription_lighting": "Hạn chế ánh sáng chói, bóng, và ảnh mờ.",
+        "prescription_best_results": "Để có kết quả tốt nhất, sử dụng đơn thuốc in điện tử. Các đơn viết tay có thể không được quét chính xác."
+      },
+      "error_permission": "Cấp quyền để quét.",
+      "error_no_text": "Không tìm thấy chữ."
+    },
+    "options": {
+      "save_info": "Lưu thông tin thuốc",
+      "stop_medicine": "Ngưng thuốc",
+      "stop_title": "Ngưng dùng thuốc này?",
+      "stop_message": "Bạn sẽ không nhận được lời nhắc cho loại thuốc này nữa. Bạn có chắc chắn muốn ngưng không?",
+      "stop_confirm": "Ngưng thuốc",
+      "keep_medicine": "Giữ lại thuốc"
+    },
+    "preview": {
+      "edit": "Chỉnh sửa",
+      "review": "Xem lại",
+      "info_subtitle": "thông tin thuốc",
+      "detail_subtitle": "chi tiết thuốc",
+      "name_label": "Tên",
+      "strength_label": "Hàm lượng",
+      "other": "Khác",
+      "unknown": "Không xác định",
+      "basic_medicine": "Thuốc cơ bản"
+    },
+    "stock": {
+      "title": "Số thuốc còn lại và đặt nhắc nhở thêm thuốc",
+      "remaining_times": "Còn {} lần dùng",
+      "reminder_off": "Đã tắt nhắc nhở",
+      "item_title_remaining": "Còn lại",
+      "item_title_reminder": "Nhắc thêm thuốc khi",
+      "threshold_label": "Khi còn dưới"
+    },
     "options_popup": {
       "edit_details": "Sửa chi tiết thuốc",
       "change_schedule": "Thay đổi lịch dùng",
@@ -311,6 +373,46 @@
       "varicose_veins": "Suy giãn tĩnh mạch",
       "heart_failure": "Suy tim",
       "hypertension": "Tăng huyết áp"
+    },
+    "reminder": {
+      "title": "Bạn uống thuốc này vào lúc nào?",
+      "start": "Bắt đầu",
+      "end": "Kết thúc",
+      "schedule": "Đặt lịch",
+      "add_dose": "Thêm liều khác",
+      "medicine_reminder": "Nhắc nhở dùng thuốc",
+      "today": "Hôm nay",
+      "none": "Không có",
+      "daily": "Hàng ngày",
+      "doses_count": "lần dùng",
+      "on": "Đã bật",
+      "off": "Đã tắt",
+      "save": "Lưu",
+      "update": "Lưu",
+      "continue": "Tiếp tục",
+      "frequency": "Tần suất",
+      "specific_days": "Ngày cụ thể trong tuần",
+      "as_needed": "Chỉ khi cần",
+      "mon": "T2",
+      "tue": "T3",
+      "wed": "T4",
+      "thu": "T5",
+      "fri": "T6",
+      "sat": "T7",
+      "sun": "CN",
+      "next": "Tiếp theo",
+      "change_time": "Đổi giờ",
+      "date_popup_message": "Các lời nhắc sẽ bị vô hiệu hóa sau ngày hết hạn.",
+      "month_year_format": "tháng {} năm {}",
+      "days_full": {
+        "sun": "CN",
+        "mon": "TH 2",
+        "tue": "TH 3",
+        "wed": "TH 4",
+        "thu": "TH 5",
+        "fri": "TH 6",
+        "sat": "TH 7"
+      }
     }
   },
   "bottom_nav": {
@@ -342,5 +444,15 @@
     "bmi_status_overweight": "Thừa cân",
     "bmi_status_obese": "Béo phì",
     "bmi_status_unknown": "Chưa có chỉ số"
+  },
+  "medicine_stock": {
+    "save": "Lưu",
+    "continue": "Tiếp tục",
+    "remaining_title": "Số thuốc còn lại",
+    "reminder_toggle": "Đặt lời nhắc khi thuốc sắp hết",
+    "count_label": "Số lượng thuốc hiện có",
+    "count_hint": "Nhập số lượng",
+    "low_stock_reminder": "Lời nhắc sắp hết thuốc",
+    "threshold_label": "Khi còn dưới"
   }
 }

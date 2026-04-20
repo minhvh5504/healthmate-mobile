@@ -8,6 +8,7 @@ class MedicationModel extends Medication {
     super.manufacturer,
     super.dosageForm,
     super.strength,
+    super.unit,
   });
 
   factory MedicationModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +19,7 @@ class MedicationModel extends Medication {
       manufacturer: json['manufacturer']?.toString(),
       dosageForm: json['dosageForm']?.toString(),
       strength: json['strength']?.toString(),
+      unit: json['unit']?.toString(),
     );
   }
 
@@ -28,5 +30,6 @@ class MedicationModel extends Medication {
         'manufacturer': manufacturer,
         'dosageForm': dosageForm,
         'strength': strength,
+        'unit': unit,
       };
 }

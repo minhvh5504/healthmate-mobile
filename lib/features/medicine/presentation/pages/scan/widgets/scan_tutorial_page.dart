@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widgets/header/header_with_back.dart';
@@ -82,7 +83,7 @@ class ScanTutorialPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Button(
-                      text: 'Chụp ảnh',
+                      text: 'medicine.scan.take_photo'.tr(),
                       onPressed: isLoading ? null : onTakePhoto,
                       color: AppColors.bgWhite,
                       textColor: AppColors.typoBlack,
@@ -90,7 +91,7 @@ class ScanTutorialPage extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     Button(
-                      text: 'Tải ảnh lên',
+                      text: 'medicine.scan.upload_photo'.tr(),
                       onPressed: isLoading ? null : onUploadPhoto,
                       color: AppColors.bgWhite,
                       textColor: AppColors.typoBlack,

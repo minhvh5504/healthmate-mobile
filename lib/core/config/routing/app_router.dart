@@ -6,10 +6,13 @@ import '../../../features/auth/presentation/pages/forgotpassword/verify_password
 import '../../../features/auth/presentation/pages/login/login_page.dart';
 import '../../../features/auth/presentation/pages/register/register_page.dart';
 import '../../../features/auth/presentation/pages/register/verify_account_page.dart';
+import '../../../features/medicine/domain/entities/user_medication.dart';
 import '../../../features/medicine/presentation/pages/add_medicine/add_medicine_page.dart';
 import '../../../features/medicine/presentation/pages/medicine/medicine_page.dart';
+import '../../../features/medicine/presentation/pages/scan/scan_page.dart';
 import '../../../features/medicine/presentation/pages/scan/widgets/scan_medicine_box_page.dart';
 import '../../../features/medicine/presentation/pages/scan/widgets/scan_prescription_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_review/medicine_review_page.dart';
 import '../../../features/notifications/presentation/pages/notification_page.dart';
 import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
@@ -26,8 +29,13 @@ import '../../../features/auth/presentation/pages/register/register_intro_page.d
 import '../../../features/settings/presentation/pages/family_connection/family_connection_page.dart';
 import '../../../features/settings/presentation/pages/add_family_member/add_family_member_page.dart';
 
-import '../../../features/medicine/presentation/pages/scan/review_scan_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_options/medicine_options_page.dart';
 import '../../../features/medicine/presentation/pages/medicine_detail_preview/medicine_detail_preview_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_reminder/medicine_reminder_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_stock/medicine_stock_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_detail_preview_edit/medicine_detail_preview_edit_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_reminder_edit/medicine_reminder_edit_page.dart';
+import '../../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
 import '../../widgets/navigation/custom_bottom_navigation.dart';
 import 'app_routes.dart';
 
@@ -122,14 +130,54 @@ class AppRouter {
         path: AppRoutes.reviewScan,
         builder: (context, state) {
           final taskId = state.extra as String;
-          return ReviewScanPage(taskId: taskId);
+          return ScanPage(taskId: taskId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.medicineReview,
+        builder: (context, state) {
+          final taskId = state.extra as String?;
+          return MedicineReviewPage(taskId: taskId);
         },
       ),
       GoRoute(
         path: AppRoutes.medicineDetailPreview,
+        builder: (context, state) => const MedicineDetailPreviewPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.medicineOptions,
         builder: (context, state) {
-          final medication = state.extra as Map<String, dynamic>;
-          return MedicineDetailPreviewPage(medication: medication);
+          final medication = state.extra as UserMedication?;
+          return MedicineOptionsPage(medication: medication);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.medicineReminder,
+        builder: (context, state) => const MedicineReminderPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.medicineStock,
+        builder: (context, state) => const MedicineStockPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.medicineDetailPreviewEdit,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return MedicineDetailPreviewEditPage(medication: extra);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.medicineReminderEdit,
+        builder: (context, state) {
+          final medication = state.extra as Map<String, dynamic>? ?? {};
+          return MedicineReminderEditPage(medication: medication);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.medicineStockEdit,
+        builder: (context, state) {
+          final medication = state.extra as Map<String, dynamic>? ?? {};
+          return MedicineStockEditPage(medication: medication);
         },
       ),
 

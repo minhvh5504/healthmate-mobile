@@ -5,6 +5,7 @@ class Medication {
   final String? manufacturer;
   final String? dosageForm;
   final String? strength;
+  final String? unit;
 
   const Medication({
     required this.id,
@@ -13,5 +14,6 @@ class Medication {
     this.manufacturer,
     this.dosageForm,
     this.strength,
+    this.unit,
   });
 }

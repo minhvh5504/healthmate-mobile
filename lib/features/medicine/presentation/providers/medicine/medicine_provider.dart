@@ -6,14 +6,12 @@ import '../../../data/repositories/medication_repository_impl.dart';
 import '../../../domain/repositories/medication_repository.dart';
 import '../../../domain/usecases/get_user_medications.dart';
 import '../../../domain/usecases/update_user_medication.dart';
-import '../../../domain/usecases/create_user_medication.dart';
 import 'medicine_notifier.dart';
 
 export '../../../domain/repositories/medication_repository.dart';
 export '../../../data/repositories/medication_repository_impl.dart';
 export '../../../domain/usecases/get_user_medications.dart';
 export '../../../domain/usecases/update_user_medication.dart';
-export '../../../domain/usecases/create_user_medication.dart';
 export '../../../domain/usecases/get_medication_conditions.dart';
 export 'medicine_notifier.dart';
 
@@ -36,30 +34,24 @@ final medicationRepositoryProvider = Provider<MedicationRepository>((ref) {
   );
 });
 
-/// Core UseCase Providers
+/// Usecase get user medications
 final getUserMedicationsUseCaseProvider = Provider<GetUserMedications>((ref) {
   return GetUserMedications(ref.read(medicationRepositoryProvider));
 });
 
+/// Usecase update user medication
 final updateUserMedicationUseCaseProvider = Provider<UpdateUserMedication>((
   ref,
 ) {
   return UpdateUserMedication(ref.read(medicationRepositoryProvider));
 });
 
-final createUserMedicationUseCaseProvider = Provider<CreateUserMedication>((
-  ref,
-) {
-  return CreateUserMedication(ref.read(medicationRepositoryProvider));
-});
-
-/// Global [StateNotifierProvider] for the Medicine screen.
+/// Provider
 final medicineProvider = StateNotifierProvider<MedicineNotifier, MedicineState>(
   (ref) => MedicineNotifier(
-    ref: ref,
-    repository: ref.read(medicationRepositoryProvider),
-    getUserMedications: ref.read(getUserMedicationsUseCaseProvider),
-    createUserMedication: ref.read(createUserMedicationUseCaseProvider),
-    updateUserMedication: ref.read(updateUserMedicationUseCaseProvider),
+    ref,
+    ref.read(medicationRepositoryProvider),
+    ref.read(getUserMedicationsUseCaseProvider),
+    ref.read(updateUserMedicationUseCaseProvider),
   ),
 );

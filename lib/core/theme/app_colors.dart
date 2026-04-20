@@ -40,4 +40,10 @@ class AppColors {
     end: Alignment.centerRight,
     colors: [Color(0xFF7F66FF), Color(0xFF00A3FF)],
   );
+
+  static const LinearGradient activeGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF7F66FF), Color(0xFF00A3FF)],
+  );
 }

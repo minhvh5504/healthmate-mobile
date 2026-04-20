@@ -11,4 +11,9 @@ final medicineDetailPreviewProvider =
     StateNotifierProvider<
       MedicineDetailPreviewNotifier,
       MedicineDetailPreviewState
-    >((ref) => MedicineDetailPreviewNotifier(ref: ref));
+    >((ref) {
+      return MedicineDetailPreviewNotifier(
+        ref,
+        ref.read(getMedicationConditionsUseCaseProvider),
+      );
+    });

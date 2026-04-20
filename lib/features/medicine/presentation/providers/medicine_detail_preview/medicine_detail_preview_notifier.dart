@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/medication.dart';
 import '../../../domain/entities/medication_condition.dart';
+import '../../../domain/usecases/get_medication_conditions.dart';
 import '../add_medicine/add_medicine_provider.dart';
-import 'medicine_detail_preview_provider.dart';
+import '../medicine_flow/medicine_flow_provider.dart';
 
 /// State
 class MedicineDetailPreviewState {
@@ -58,10 +61,11 @@ class MedicineDetailPreviewState {
 class MedicineDetailPreviewNotifier
     extends StateNotifier<MedicineDetailPreviewState> {
   final Ref ref;
+  final GetMedicationConditions _getMedicationConditions;
 
   Timer? _debounce;
 
-  MedicineDetailPreviewNotifier({required this.ref})
+  MedicineDetailPreviewNotifier(this.ref, this._getMedicationConditions)
     : super(MedicineDetailPreviewState());
 
   void init(Map<String, dynamic> medication) {
@@ -76,9 +80,17 @@ class MedicineDetailPreviewNotifier
   }
 
   void onContinue() {
-    /// Navigate to the next screen (e.g., schedule setup)
-    /// Pass state.medication data down
-    /// AppRouter.router.push(AppRoutes.nextScreen, extra: state.medication);
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateMedicineInfo(
+          name: state.name,
+          manufacturer: state.manufacturer,
+          genericName: state.genericName,
+          strength: state.strength,
+          medicationId: state.medicationId,
+        );
+
+    AppRouter.router.push(AppRoutes.medicineReminder);
   }
 
   void onBack() {
@@ -143,6 +155,16 @@ class MedicineDetailPreviewNotifier
       searchQuery: '',
       searchResults: [],
     );
+
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateMedicineInfo(
+          name: medication.name,
+          manufacturer: medication.manufacturer,
+          genericName: medication.genericName,
+          strength: medication.strength,
+          medicationId: medication.id,
+        );
   }
 
   void onCustomMedicine(String name) {
@@ -156,6 +178,10 @@ class MedicineDetailPreviewNotifier
       searchQuery: '',
       searchResults: [],
     );
+
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateMedicineInfo(name: name, medicationId: null);
   }
 
   void cancelSearch() {
@@ -173,16 +199,62 @@ class MedicineDetailPreviewNotifier
     updatedMedication[field] = value;
 
     state = state.copyWith(medication: updatedMedication);
+
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateMedicineInfo(
+          name: updatedMedication['name'],
+          manufacturer: updatedMedication['manufacturer'],
+          genericName: updatedMedication['genericName'],
+          strength: updatedMedication['strength'],
+          medicationId: updatedMedication['medicationId'],
+        );
+  }
+
+  void updateCondition(String? id, String? custom, String label) {
+    final updatedMedication = Map<String, dynamic>.from(state.medication);
+    updatedMedication['conditionId'] = id;
+    updatedMedication['conditionCustom'] = custom;
+    updatedMedication['genericName'] = label; // For UI display
+
+    state = state.copyWith(medication: updatedMedication);
+
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateCondition(
+          conditionId: id,
+          conditionCustom: custom,
+          genericName: label,
+        );
   }
 
   Future<void> fetchMedicationConditions() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final getConditionsUseCase = ref.read(
-        getMedicationConditionsUseCaseProvider,
+      final conditions = await _getMedicationConditions();
+      state = state.copyWith(
+        medicationConditions: conditions,
+        isLoading: false,
       );
-      final results = await getConditionsUseCase();
-      state = state.copyWith(medicationConditions: results, isLoading: false);
+
+      final conditionId = state.medication['conditionId'];
+      final currentGenericName = state.medication['genericName'];
+
+      if (conditionId != null &&
+          (currentGenericName == null ||
+              currentGenericName == '-' ||
+              currentGenericName.isEmpty)) {
+        final match = conditions.cast<MedicationCondition?>().firstWhere(
+          (c) => c?.id == conditionId,
+          orElse: () => null,
+        );
+        if (match != null) {
+          final label = 'medicine.condition.${match.slug}'.tr();
+          final updatedMedication = Map<String, dynamic>.from(state.medication);
+          updatedMedication['genericName'] = label;
+          state = state.copyWith(medication: updatedMedication);
+        }
+      }
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
