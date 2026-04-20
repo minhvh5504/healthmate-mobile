@@ -320,7 +320,7 @@ class _MedicineCabinetContentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medication.medication?.name.toUpperCase() ??
+                      medication.effectiveName.toUpperCase() != '-' ? medication.effectiveName.toUpperCase() :
                           'medicine.no_name'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
@@ -331,15 +331,20 @@ class _MedicineCabinetContentState
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      'medicine.daily'.tr(),
-
-                      /// Fallback/Placeholder
+                      medication.medication?.genericName ??
+                          'medicine.daily'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 13.sp,
-                        color: AppColors.typoBody.withValues(alpha: 0.6),
+                        fontWeight: FontWeight.w600,
+                        color:
+                            medication.condition != null ||
+                                medication.conditionCustom != null
+                            ? AppColors.typoDisable
+                            : AppColors.typoBody.withValues(alpha: 0.6),
                       ),
                     ),
+
                     Text(
                       'medicine.stock_remaining'.tr(
                         args: [(medication.stockCount ?? 30).toString()],

@@ -286,6 +286,68 @@
     "strength_label": "Strength",
     "save": "Save",
     "only_if_needed": "ONLY IF NEEDED",
+    "scan": {
+      "success_title": "Awesome!",
+      "success_message": "You have successfully set up your medications.",
+      "add_new": "Add new medicine",
+      "view_cabinet": "View my cabinet",
+      "complete": "Complete",
+      "unknown_name": "Unknown",
+      "basic_medicine": "Basic medicine",
+      "results_found": "{} medication(s) found! Please\ncheck the info to avoid errors.",
+      "no_results_found": "No medications found!\nYou can try again or add manually.",
+      "review_title": "Review your medications",
+      "take_photo": "Take photo",
+      "upload_photo": "Upload photo",
+      "delete_all_title": "Delete all medications?",
+      "delete_all_message": "This will delete all scanned medications and uploaded images. You will need to scan or upload again to restart.",
+      "delete_confirm": "Delete all",
+      "go_back": "Go back to review",
+      "action": {
+        "delete_all": "Delete all",
+        "add_to_cabinet": "Add to cabinet",
+        "add_manually": "Add manually"
+      },
+      "tips": {
+        "box_title": "Tips for clear medicine photos",
+        "box_lighting": "Use clear, bright photos. Avoid glare or blur.",
+        "box_content": "Take a photo of the packaging (box or bottle). You can take multiple types in one photo.",
+        "box_clarity": "Ensure all medicine names are clear and readable.",
+        "prescription_title": "Tips for scanning prescriptions",
+        "prescription_centering": "Ensure the entire prescription is centered and clear in the frame.",
+        "prescription_lighting": "Limit glare, shadows, and blurred images.",
+        "prescription_best_results": "For best results, use printed prescriptions. Handwritten ones may not scan accurately."
+      },
+      "error_permission": "Please grant permission to scan.",
+      "error_no_text": "No text found in the image."
+    },
+    "options": {
+      "save_info": "Save medicine info",
+      "stop_medicine": "Stop medication",
+      "stop_title": "Stop taking this medicine?",
+      "stop_message": "You will no longer receive reminders for this medicine. Are you sure you want to stop?",
+      "stop_confirm": "Stop medicine",
+      "keep_medicine": "Keep medicine"
+    },
+    "preview": {
+      "edit": "Edit",
+      "review": "Review",
+      "info_subtitle": "medicine info",
+      "detail_subtitle": "medicine details",
+      "name_label": "Name",
+      "strength_label": "Strength",
+      "other": "Other",
+      "unknown": "Unknown",
+      "basic_medicine": "Basic medicine"
+    },
+    "stock": {
+      "title": "Remaining medicine and replenishment reminders",
+      "remaining_times": "{} doses remaining",
+      "reminder_off": "Reminders off",
+      "item_title_remaining": "Remaining",
+      "item_title_reminder": "Remind me when",
+      "threshold_label": "When below"
+    },
     "options_popup": {
       "edit_details": "Edit medicine details",
       "change_schedule": "Change schedule",
@@ -311,6 +373,46 @@
       "varicose_veins": "Varicose Veins",
       "heart_failure": "Heart Failure",
       "hypertension": "High Blood Pressure"
+    },
+    "reminder": {
+      "title": "When do you take this medicine?",
+      "start": "Start",
+      "end": "End",
+      "frequency": "Frequency",
+      "schedule": "Schedule",
+      "add_dose": "Add dose",
+      "medicine_reminder": "Medicine reminder",
+      "today": "Today",
+      "none": "None",
+      "daily": "Daily",
+      "doses_count": "dose(s)",
+      "on": "On",
+      "off": "Off",
+      "save": "Save",
+      "update": "Save",
+      "continue": "Continue",
+      "specific_days": "Specific days of the week",
+      "as_needed": "Only when needed",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun",
+      "next": "Next",
+      "change_time": "Change time",
+      "date_popup_message": "Reminders will be disabled after the expiration date.",
+      "month_year_format": "month {} year {}",
+      "days_full": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
     }
   },
   "bottom_nav": {
@@ -342,5 +444,15 @@
     "bmi_status_overweight": "Overweight",
     "bmi_status_obese": "Obese",
     "bmi_status_unknown": "Unknown"
+  },
+  "medicine_stock": {
+    "save": "Save",
+    "continue": "Continue",
+    "remaining_title": "Remaining medicine",
+    "reminder_toggle": "Set reminder when low on stock",
+    "count_label": "Current stock count",
+    "count_hint": "Enter count",
+    "low_stock_reminder": "Low stock reminder",
+    "threshold_label": "When below"
   }
 }

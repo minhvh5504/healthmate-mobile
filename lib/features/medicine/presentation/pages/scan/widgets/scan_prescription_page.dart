@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/scan_medicine/scan_medicine_provider.dart';
@@ -12,12 +13,10 @@ class ScanPrescriptionPage extends ConsumerWidget {
     final state = ref.watch(scanMedicineProvider);
     final notifier = ref.read(scanMedicineProvider.notifier);
 
-    /// Set scan type on first build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifier.setScanType(ScanType.prescription);
     });
 
-    /// Listen for error messages
     ref.listen(scanMedicineProvider.select((s) => s.errorMessage), (
       previous,
       next,
@@ -30,26 +29,24 @@ class ScanPrescriptionPage extends ConsumerWidget {
     });
 
     return ScanTutorialPage(
-      title: 'Mẹo để chụp đơn thuốc',
+      title: 'medicine.scan.tips.prescription_title'.tr(),
       isLoading: state.isLoading,
       capturedImagePath: state.imagePath,
       onBack: notifier.onBack,
       onTakePhoto: notifier.onTakePhoto,
       onUploadPhoto: notifier.onUploadPhoto,
-      tips: const [
+      tips: [
         ScanTipItem(
-          icon: Icon(Icons.description_outlined),
-          text:
-              'Đảm bảo toàn bộ đơn thuốc được căn giữa và rõ ràng trong khung.',
+          icon: const Icon(Icons.description_outlined),
+          text: 'medicine.scan.tips.prescription_centering'.tr(),
         ),
         ScanTipItem(
-          icon: Icon(Icons.wb_sunny_outlined),
-          text: 'Hạn chế ánh sáng chói, bóng, và ảnh mờ.',
+          icon: const Icon(Icons.wb_sunny_outlined),
+          text: 'medicine.scan.tips.prescription_lighting'.tr(),
         ),
         ScanTipItem(
-          icon: Icon(Icons.calendar_today_outlined),
-          text:
-              'Để có kết quả tốt nhất, sử dụng đơn thuốc in điện tử. Các đơn viết tay có thể không được quét chính xác.',
+          icon: const Icon(Icons.calendar_today_outlined),
+          text: 'medicine.scan.tips.prescription_best_results'.tr(),
         ),
       ],
     );

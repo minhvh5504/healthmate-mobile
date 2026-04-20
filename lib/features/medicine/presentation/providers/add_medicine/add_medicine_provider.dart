@@ -12,8 +12,6 @@ final searchMedicationsUseCaseProvider = Provider<SearchMedications>((ref) {
 /// Provider
 final addMedicineProvider =
     StateNotifierProvider<AddMedicineNotifier, AddMedicineState>(
-      (ref) => AddMedicineNotifier(
-        ref: ref,
-        searchMedications: ref.read(searchMedicationsUseCaseProvider),
-      ),
+      (ref) =>
+          AddMedicineNotifier(ref, ref.read(searchMedicationsUseCaseProvider)),
     );

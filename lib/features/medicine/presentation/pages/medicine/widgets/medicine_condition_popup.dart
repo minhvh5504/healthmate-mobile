@@ -10,7 +10,7 @@ class MedicineConditionPopup extends StatefulWidget {
   final List<MedicationCondition> conditions;
   final bool isLoading;
   final String initialValue;
-  final Function(String) onSave;
+  final Function(String? id, String? custom, String label) onSave;
 
   const MedicineConditionPopup({
     super.key,
@@ -205,12 +205,14 @@ class _MedicineConditionPopupState extends State<MedicineConditionPopup> {
                 width: double.infinity,
                 onPressed: () {
                   if (_isOtherSelected) {
-                    widget.onSave(_customController.text);
+                    final custom = _customController.text;
+                    widget.onSave(null, custom, custom);
                   } else if (_selectedConditionId != null) {
                     final condition = widget.conditions.firstWhere(
                       (c) => c.id == _selectedConditionId,
                     );
-                    widget.onSave('medicine.condition.${condition.slug}'.tr());
+                    final label = 'medicine.condition.${condition.slug}'.tr();
+                    widget.onSave(condition.id, null, label);
                   }
                   context.pop();
                 },

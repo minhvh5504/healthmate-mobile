@@ -4,6 +4,7 @@ import '../../../../../core/config/routing/app_router.dart';
 import '../../../../../core/config/routing/app_routes.dart';
 import '../../../domain/entities/medication.dart';
 import '../../../domain/usecases/search_medications.dart';
+import '../medicine_flow/medicine_flow_provider.dart';
 import '../scan_medicine/scan_medicine_provider.dart' show scanMedicineProvider;
 
 /// State
@@ -45,11 +46,8 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
   final SearchMedications _searchMedications;
   Timer? _debounce;
 
-  AddMedicineNotifier({
-    required this.ref,
-    required SearchMedications searchMedications,
-  }) : _searchMedications = searchMedications,
-       super(AddMedicineState());
+  AddMedicineNotifier(this.ref, this._searchMedications)
+    : super(AddMedicineState());
 
   @override
   void dispose() {
@@ -107,45 +105,48 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
   /// Handle scan prescription
   void onScanPrescription() {
     ref.read(scanMedicineProvider.notifier).reset();
-    AppRouter.router.go(AppRoutes.scanPrescription);
+    AppRouter.router.push(AppRoutes.scanPrescription);
   }
 
   /// Handle scan medicine box
   void onScanMedicineBox() {
     ref.read(scanMedicineProvider.notifier).reset();
-    AppRouter.router.go(AppRoutes.scanMedicineBox);
+    AppRouter.router.push(AppRoutes.scanMedicineBox);
   }
 
   /// Handle close
   void onClose() {
-    AppRouter.router.go(AppRoutes.medicine);
+    AppRouter.router.pop();
   }
 
   /// Handle select medication
   void onSelectMedication(Medication medication) {
-    AppRouter.router.push(
-      AppRoutes.medicineDetailPreview,
-      extra: {
-        'name': medication.name,
-        'manufacturer': medication.manufacturer,
-        'strength': medication.strength,
-        'genericName': medication.genericName,
-        'medicationId': medication.id,
-      },
-    );
+    final data = {
+      'name': medication.name,
+      'manufacturer': medication.manufacturer,
+      'strength': medication.strength,
+      'genericName': medication.genericName,
+      'medicationId': medication.id,
+      'isUpdate': false,
+    };
+
+    ref.read(medicineFlowProvider.notifier).init(data);
+
+    AppRouter.router.push(AppRoutes.medicineDetailPreview, extra: data);
   }
 
   /// Handle custom medicine
   void onCustomMedicine(String name) {
-    AppRouter.router.push(
-      AppRoutes.medicineDetailPreview,
-      extra: {
-        'name': name,
-        'manufacturer': '',
-        'strength': '',
-        'genericName': '',
-        'medicationId': null,
-      },
-    );
+    final data = {
+      'name': name,
+      'manufacturer': '',
+      'strength': '',
+      'genericName': '',
+      'medicationId': null,
+      'isUpdate': false,
+    };
+    ref.read(medicineFlowProvider.notifier).init(data);
+
+    AppRouter.router.push(AppRoutes.medicineDetailPreview, extra: data);
   }
 }

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
@@ -36,7 +36,7 @@ class DeleteScanTaskPopup extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Text(
-                  'Xóa tất cả thuốc?',
+                  'medicine.scan.delete_all_title'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 20.sp,
@@ -48,7 +48,7 @@ class DeleteScanTaskPopup extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Text(
-              'Điều này sẽ xóa tất cả các loại thuốc đã quét và ảnh đã tải lên. Bạn cần phải quét lại hoặc tải ảnh lên nếu muốn khởi động lại.',
+              'medicine.scan.delete_all_message'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Inter',
@@ -60,7 +60,7 @@ class DeleteScanTaskPopup extends StatelessWidget {
             ),
             SizedBox(height: 32.h),
             Button(
-              text: 'Xóa tất cả',
+              text: 'medicine.scan.delete_confirm'.tr(),
               color: AppColors.typoError,
               onPressed: () {
                 onConfirm();
@@ -71,7 +71,7 @@ class DeleteScanTaskPopup extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Button(
-              text: 'Quay lại xem lại',
+              text: 'medicine.scan.go_back'.tr(),
               color: Colors.white,
               textColor: AppColors.typoBlack,
               borderColor: const Color(0xFFF1F5F9),

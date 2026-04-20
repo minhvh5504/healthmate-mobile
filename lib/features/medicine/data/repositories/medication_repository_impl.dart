@@ -42,10 +42,35 @@ class MedicationRepositoryImpl implements MedicationRepository {
   Future<void> createUserMedication({
     required String medicationId,
     Map<String, dynamic>? scannedData,
+    String? frequency,
+    List<int>? selectedDays,
+    List<Map<String, dynamic>>? schedules,
+    String? startDate,
+    String? endDate,
+    bool? reminderEnabled,
+    int? stockCount,
+    int? lowStockThreshold,
+    bool? lowStockReminderEnabled,
+    String? conditionId,
+    String? conditionCustom,
   }) {
     return remoteDataSource.createUserMedication(
       medicationId: medicationId,
       scannedData: scannedData,
+      data: {
+        if (frequency != null) 'frequency': frequency,
+        if (selectedDays != null) 'selectedDays': selectedDays,
+        if (schedules != null) 'schedules': schedules,
+        if (startDate != null) 'startDate': startDate,
+        if (endDate != null) 'endDate': endDate,
+        if (reminderEnabled != null) 'reminderEnabled': reminderEnabled,
+        if (stockCount != null) 'stockCount': stockCount,
+        if (lowStockThreshold != null) 'lowStockThreshold': lowStockThreshold,
+        if (lowStockReminderEnabled != null)
+          'lowStockReminderEnabled': lowStockReminderEnabled,
+        if (conditionId != null) 'conditionId': conditionId,
+        if (conditionCustom != null) 'conditionCustom': conditionCustom,
+      },
     );
   }
 
@@ -54,14 +79,44 @@ class MedicationRepositoryImpl implements MedicationRepository {
     required String id,
     bool? isActive,
     String? dosage,
+    String? mealInstruction,
+    String? mealInstructionNote,
+    String? conditionId,
+    String? conditionCustom,
+    String? frequency,
+    List<int>? selectedDays,
+    List<Map<String, dynamic>>? schedules,
+    String? startDate,
+    String? endDate,
+    bool? reminderEnabled,
     int? stockCount,
+    int? lowStockThreshold,
+    bool? lowStockReminderEnabled,
+    String? medicationId,
+    Map<String, dynamic>? scannedData,
   }) {
     return remoteDataSource.updateUserMedication(
       id: id,
       data: {
         if (isActive != null) 'isActive': isActive,
         if (dosage != null) 'dosage': dosage,
+        if (mealInstruction != null) 'mealInstruction': mealInstruction,
+        if (mealInstructionNote != null)
+          'mealInstructionNote': mealInstructionNote,
+        if (conditionId != null) 'conditionId': conditionId,
+        if (conditionCustom != null) 'conditionCustom': conditionCustom,
+        if (frequency != null) 'frequency': frequency,
+        if (selectedDays != null) 'selectedDays': selectedDays,
+        if (schedules != null) 'schedules': schedules,
+        if (startDate != null) 'startDate': startDate,
+        if (endDate != null) 'endDate': endDate,
+        if (reminderEnabled != null) 'reminderEnabled': reminderEnabled,
         if (stockCount != null) 'stockCount': stockCount,
+        if (lowStockThreshold != null) 'lowStockThreshold': lowStockThreshold,
+        if (lowStockReminderEnabled != null)
+          'lowStockReminderEnabled': lowStockReminderEnabled,
+        if (medicationId != null) 'medicationId': medicationId,
+        if (scannedData != null) 'scannedData': scannedData,
       },
     );
   }

@@ -23,7 +23,7 @@ class MedicineStrengthPopup extends StatefulWidget {
 class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
   late TextEditingController _amountController;
   late String _selectedUnit;
-  final List<String> _units = ['mL', 'IU', '%', 'mcg', 'mg', 'g'];
+  final List<String> _units = ['ML', 'IU', '%', 'MCG', 'MG', 'G'];
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
     final strength = widget.initialStrength;
     if (strength == '-' || strength.isEmpty) {
       _amountController = TextEditingController(text: '0');
-      _selectedUnit = 'mg';
+      _selectedUnit = 'MG';
       return;
     }
 
@@ -44,16 +44,15 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
 
     if (match != null) {
       _amountController = TextEditingController(text: match.group(1));
-      final String unit = match.group(2)?.trim() ?? 'mg';
-      if (!_units.contains(unit)) {
-        /// If unit is not in our list, default to mg or keep it
-        _selectedUnit = _units.contains(unit) ? unit : 'mg';
-      } else {
+      final String unit = (match.group(2)?.trim() ?? 'MG').toUpperCase();
+      if (_units.contains(unit)) {
         _selectedUnit = unit;
+      } else {
+        _selectedUnit = 'MG';
       }
     } else {
       _amountController = TextEditingController(text: '0');
-      _selectedUnit = 'mg';
+      _selectedUnit = 'MG';
     }
   }
 

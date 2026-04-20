@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/scan_medicine/scan_medicine_provider.dart';
@@ -12,12 +13,10 @@ class ScanMedicineBoxPage extends ConsumerWidget {
     final state = ref.watch(scanMedicineProvider);
     final notifier = ref.read(scanMedicineProvider.notifier);
 
-    /// Set scan type on first build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifier.setScanType(ScanType.medicineBox);
     });
 
-    /// Listen for error messages
     ref.listen(scanMedicineProvider.select((s) => s.errorMessage), (
       previous,
       next,
@@ -30,25 +29,24 @@ class ScanMedicineBoxPage extends ConsumerWidget {
     });
 
     return ScanTutorialPage(
-      title: 'Mẹo để chụp ảnh thuốc rõ ràng',
+      title: 'medicine.scan.tips.box_title'.tr(),
       isLoading: state.isLoading,
       capturedImagePath: state.imagePath,
       onBack: notifier.onBack,
       onTakePhoto: notifier.onTakePhoto,
       onUploadPhoto: notifier.onUploadPhoto,
-      tips: const [
+      tips: [
         ScanTipItem(
-          icon: Icon(Icons.wb_sunny_outlined),
-          text: 'Sử dụng ảnh rõ sáng, sắc nét. Tránh ánh sáng chói hoặc mờ.',
+          icon: const Icon(Icons.wb_sunny_outlined),
+          text: 'medicine.scan.tips.box_lighting'.tr(),
         ),
         ScanTipItem(
-          icon: Icon(Icons.crop_square_outlined),
-          text:
-              'Chụp ảnh bao bì thuốc (hộp hoặc chai). Bạn có thể chụp nhiều loại trong cùng một ảnh.',
+          icon: const Icon(Icons.crop_square_outlined),
+          text: 'medicine.scan.tips.box_content'.tr(),
         ),
         ScanTipItem(
-          icon: Icon(Icons.notes_rounded),
-          text: 'Đảm bảo tất cả tên thuốc đều rõ ràng và dễ đọc.',
+          icon: const Icon(Icons.notes_rounded),
+          text: 'medicine.scan.tips.box_clarity'.tr(),
         ),
       ],
     );

@@ -68,7 +68,7 @@ class MedicineOptionsPopup extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: Text(
-                      medication.medication?.name ?? 'medicine.no_name'.tr(),
+                      medication.effectiveName != '-' ? medication.effectiveName : 'medicine.no_name'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 22.sp,
