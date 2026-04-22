@@ -440,10 +440,22 @@
   "health_metrics": {
     "bmi": "BMI",
     "bmi_status_underweight": "Thiếu cân",
-    "bmi_status_normal": "Cân đối",
+    "bmi_status_normal": "Bình thường",
     "bmi_status_overweight": "Thừa cân",
     "bmi_status_obese": "Béo phì",
     "bmi_status_unknown": "Chưa có chỉ số"
+  },
+  "health": {
+    "title": "Sức khỏe",
+    "overview": "Tổng quan",
+    "weight": "Cân nặng",
+    "height": "Chiều cao",
+    "today": "HÔM NAY",
+    "days_ago": "30 NGÀY TRƯỚC",
+    "calculate_bmi": "Tính BMI",
+    "current_index": "CHỈ SỐ HIỆN TẠI",
+    "classification": "PHÂN LOẠI",
+    "you": "Bạn"
   },
   "medicine_stock": {
     "save": "Lưu",

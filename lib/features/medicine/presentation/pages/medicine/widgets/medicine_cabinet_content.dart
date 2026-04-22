@@ -87,6 +87,7 @@ class _MedicineCabinetContentState
           ...daDungList.map(
             (m) => _buildActiveMedicationCard(context, m, notifier),
           ),
+        SizedBox(height: 70.h),
       ],
     );
   }
@@ -320,8 +321,9 @@ class _MedicineCabinetContentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medication.effectiveName.toUpperCase() != '-' ? medication.effectiveName.toUpperCase() :
-                          'medicine.no_name'.tr(),
+                      medication.effectiveName.toUpperCase() != '-'
+                          ? medication.effectiveName.toUpperCase()
+                          : 'medicine.no_name'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 15.sp,

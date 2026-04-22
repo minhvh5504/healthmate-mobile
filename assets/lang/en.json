@@ -445,6 +445,18 @@
     "bmi_status_obese": "Obese",
     "bmi_status_unknown": "Unknown"
   },
+  "health": {
+    "title": "Health",
+    "overview": "Overview",
+    "weight": "Weight",
+    "height": "Height",
+    "today": "TODAY",
+    "days_ago": "30 DAYS AGO",
+    "calculate_bmi": "BMI Calculation",
+    "current_index": "CURRENT INDEX",
+    "classification": "CLASSIFICATION",
+    "you": "You"
+  },
   "medicine_stock": {
     "save": "Save",
     "continue": "Continue",

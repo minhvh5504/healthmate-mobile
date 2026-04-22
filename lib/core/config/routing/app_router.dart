@@ -18,7 +18,7 @@ import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../../features/onboarding/presentation/pages/splash_page.dart';
 import '../../../features/home/presentation/pages/home/home_page.dart';
 
-import '../../../features/health/presentation/pages/health_page.dart';
+import '../../../features/health/presentation/pages/health/health_page.dart';
 import '../../../features/history/presentation/pages/history_page.dart';
 import '../../../features/settings/presentation/pages/settings/settings_page.dart';
 import '../../../features/settings/presentation/pages/profile/profile_page.dart';
@@ -181,15 +181,22 @@ class AppRouter {
         },
       ),
 
-      // Shell Route
       ShellRoute(
         builder: (context, state, child) {
           final int currentIndex = _getNavIndex(state.uri.path);
           return Scaffold(
-            extendBody: true,
             backgroundColor: Colors.transparent,
-            body: child,
-            bottomNavigationBar: CustomBottomNavBar(initialIndex: currentIndex),
+            body: Stack(
+              children: [
+                child,
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: CustomBottomNavBar(initialIndex: currentIndex),
+                ),
+              ],
+            ),
           );
         },
         routes: [

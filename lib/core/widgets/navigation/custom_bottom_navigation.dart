@@ -17,59 +17,57 @@ class CustomBottomNavBar extends StatelessWidget {
     const Color activeColor = AppColors.typoNaviButton;
     const Color inactiveColor = AppColors.typoWhite;
 
-    return ColoredBox(
-      color: initialIndex == 0 ? Colors.white : Colors.transparent,
-      child: Container(
-        margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-        decoration: BoxDecoration(
-          color: navBgColor,
-          borderRadius: BorderRadius.circular(40),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            NavBarItem(
-              icon: LucideIcons.home,
-              label: 'bottom_nav.home'.tr(),
-              isActive: initialIndex == 0,
-              onTap: () => context.go(AppRoutes.home),
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            NavBarItem(
-              icon: LucideIcons.pill,
-              label: 'bottom_nav.medicine'.tr(),
-              isActive: initialIndex == 1,
-              onTap: () => context.go(AppRoutes.medicine),
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            NavBarItem(
-              icon: LucideIcons.heart,
-              label: 'bottom_nav.health'.tr(),
-              isActive: initialIndex == 2,
-              onTap: () => context.go(AppRoutes.health),
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            NavBarItem(
-              icon: LucideIcons.clipboardList,
-              label: 'bottom_nav.history'.tr(),
-              isActive: initialIndex == 3,
-              onTap: () => context.go(AppRoutes.history),
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: navBgColor,
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.typoBlack.withValues(alpha: 0.8),
+            blurRadius: 100,
+            spreadRadius: -50,
+            offset: const Offset(20, 20),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          NavBarItem(
+            icon: LucideIcons.home,
+            label: 'bottom_nav.home'.tr(),
+            isActive: initialIndex == 0,
+            onTap: () => context.go(AppRoutes.home),
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
+          ),
+          NavBarItem(
+            icon: LucideIcons.pill,
+            label: 'bottom_nav.medicine'.tr(),
+            isActive: initialIndex == 1,
+            onTap: () => context.go(AppRoutes.medicine),
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
+          ),
+          NavBarItem(
+            icon: LucideIcons.heart,
+            label: 'bottom_nav.health'.tr(),
+            isActive: initialIndex == 2,
+            onTap: () => context.go(AppRoutes.health),
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
+          ),
+          NavBarItem(
+            icon: LucideIcons.clipboardList,
+            label: 'bottom_nav.history'.tr(),
+            isActive: initialIndex == 3,
+            onTap: () => context.go(AppRoutes.history),
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
+          ),
+        ],
       ),
     );
   }
