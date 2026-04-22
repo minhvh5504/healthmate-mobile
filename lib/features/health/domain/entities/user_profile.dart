@@ -1,0 +1,97 @@
+class HealthDelta {
+  final double weightKg;
+  final double heightCm;
+  final int daysSinceLastUpdate;
+
+  const HealthDelta({
+    this.weightKg = 0,
+    this.heightCm = 0,
+    this.daysSinceLastUpdate = 0,
+  });
+
+  factory HealthDelta.fromJson(Map<String, dynamic> json) {
+    return HealthDelta(
+      weightKg: (json['weightKg'] as num?)?.toDouble() ?? 0,
+      heightCm: (json['heightCm'] as num?)?.toDouble() ?? 0,
+      daysSinceLastUpdate: (json['daysSinceLastUpdate'] as num?)?.toInt() ?? 0,
+    );
+  }
+}
+
+class UserProfile {
+  final String id;
+  final String email;
+  final String? avatarUrl;
+  final String? role;
+  final bool? emailVerified;
+  final String? fullName;
+  final DateTime? dateOfBirth;
+  final String? gender;
+  final double? heightCm;
+  final double? weightKg;
+  final String? allergies;
+  final HealthDelta? healthDelta;
+
+  const UserProfile({
+    required this.id,
+    required this.email,
+    this.avatarUrl,
+    this.role,
+    this.emailVerified,
+    this.fullName,
+    this.dateOfBirth,
+    this.gender,
+    this.heightCm,
+    this.weightKg,
+    this.allergies,
+    this.healthDelta,
+  });
+
+  UserProfile copyWith({
+    String? id,
+    String? email,
+    String? avatarUrl,
+    String? role,
+    bool? emailVerified,
+    String? fullName,
+    DateTime? dateOfBirth,
+    String? gender,
+    double? heightCm,
+    double? weightKg,
+    String? allergies,
+    HealthDelta? healthDelta,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      role: role ?? this.role,
+      emailVerified: emailVerified ?? this.emailVerified,
+      fullName: fullName ?? this.fullName,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      gender: gender ?? this.gender,
+      heightCm: heightCm ?? this.heightCm,
+      weightKg: weightKg ?? this.weightKg,
+      allergies: allergies ?? this.allergies,
+      healthDelta: healthDelta ?? this.healthDelta,
+    );
+  }
+
+  String get displayName =>
+      fullName?.isNotEmpty == true ? fullName! : email.split('@').first;
+
+  double? get bmi {
+    if (heightCm == null || weightKg == null || heightCm! <= 0) return null;
+    final heightMeters = heightCm! / 100;
+    return weightKg! / (heightMeters * heightMeters);
+  }
+
+  String get bmiStatus {
+    final value = bmi;
+    if (value == null) return 'unknown';
+    if (value < 18.5) return 'underweight';
+    if (value < 25) return 'normal';
+    if (value < 30) return 'overweight';
+    return 'obese';
+  }
+}
