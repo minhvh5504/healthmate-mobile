@@ -3,6 +3,7 @@ import 'package:healthmate_mobile/core/network/api_client.dart';
 import 'package:healthmate_mobile/features/health/data/api/health_api.dart';
 import 'package:healthmate_mobile/features/health/data/datasources/health_remote_datasource.dart';
 import 'package:healthmate_mobile/features/health/data/repositories/health_repository_impl.dart';
+import 'package:healthmate_mobile/features/health/domain/usecases/get_health_analysis.dart';
 import 'package:healthmate_mobile/features/health/domain/usecases/get_user_profile.dart';
 import 'package:healthmate_mobile/features/health/domain/usecases/update_user_profile.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_notifier.dart';
@@ -36,6 +37,11 @@ final updateUserProfileUseCaseProvider = Provider<UpdateUserProfile>((ref) {
   return UpdateUserProfile(ref.read(healthRepositoryProvider));
 });
 
+/// UseCase get health analysis
+final getHealthAnalysisUseCaseProvider = Provider<GetHealthAnalysis>((ref) {
+  return GetHealthAnalysis(ref.read(healthRepositoryProvider));
+});
+
 /// Notifier
 final healthProvider = StateNotifierProvider<HealthNotifier, HealthState>((
   ref,
@@ -43,5 +49,6 @@ final healthProvider = StateNotifierProvider<HealthNotifier, HealthState>((
   return HealthNotifier(
     ref.read(getUserProfileUseCaseProvider),
     ref.read(updateUserProfileUseCaseProvider),
+    ref.read(getHealthAnalysisUseCaseProvider),
   );
 });

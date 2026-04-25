@@ -2,7 +2,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
 import '../models/user_profile_model.dart';
-import '../models/notification_time_model.dart';
+import '../models/notification_time_slots_response.dart';
 
 part 'settings_api.g.dart';
 
@@ -20,5 +20,5 @@ abstract class SettingsApi {
   Future<void> changePassword(@Body() Map<String, dynamic> body);
 
   @GET('notification-time-slots')
-  Future<List<NotificationTimeModel>> getNotificationTimeSlots();
+  Future<NotificationTimeSlotsResponse> getNotificationTimeSlots();
 }

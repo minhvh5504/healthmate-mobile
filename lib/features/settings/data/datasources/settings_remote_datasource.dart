@@ -35,7 +35,8 @@ class SettingsRemoteDataSource {
 
   /// Returns notification settings from API.
   Future<List<NotificationTime>> getNotificationSettings() async {
-    return _api.getNotificationTimeSlots();
+    final response = await _api.getNotificationTimeSlots();
+    return response.data;
   }
 
   /// Returns a mocked list of family members.
