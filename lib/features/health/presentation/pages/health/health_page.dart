@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
-import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/health_header.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/health_content_area.dart';
 
 class HealthPage extends StatelessWidget {
@@ -13,13 +13,12 @@ class HealthPage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
-        child: const SafeArea(
+        child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HealthHeader(),
-              SizedBox(height: 4),
-              HealthContentArea(),
+              SizedBox(height: 8.h),
+              const HealthContentArea(),
             ],
           ),
         ),

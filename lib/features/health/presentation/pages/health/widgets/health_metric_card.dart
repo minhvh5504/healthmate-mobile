@@ -43,7 +43,7 @@ class HealthMetricCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(24.r),
           child: Padding(
-            padding: EdgeInsets.all(20.w),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,11 +67,11 @@ class HealthMetricCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 20.h),
                 Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 15,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -87,13 +87,19 @@ class HealthMetricCard extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                currentValue,
-                                style: TextStyle(
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.typoHeading,
-                                  height: 1,
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                    currentValue,
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.typoHeading,
+                                      height: 1,
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 4.w),
@@ -103,8 +109,9 @@ class HealthMetricCard extends StatelessWidget {
                                   unit,
                                   style: TextStyle(
                                     fontSize: 12.sp,
-                                    color:
-                                        AppColors.typoBody.withValues(alpha: 0.4),
+                                    color: AppColors.typoBody.withValues(
+                                      alpha: 0.4,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -114,7 +121,7 @@ class HealthMetricCard extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 1,
+                      flex: 12,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -130,13 +137,19 @@ class HealthMetricCard extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                difference,
-                                style: TextStyle(
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.typoHeading,
-                                  height: 1,
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                    difference,
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.typoHeading,
+                                      height: 1,
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 4.w),
@@ -146,8 +159,9 @@ class HealthMetricCard extends StatelessWidget {
                                   unit,
                                   style: TextStyle(
                                     fontSize: 12.sp,
-                                    color:
-                                        AppColors.typoBody.withValues(alpha: 0.4),
+                                    color: AppColors.typoBody.withValues(
+                                      alpha: 0.4,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,4 +1,5 @@
 import 'package:healthmate_mobile/features/health/data/api/health_api.dart';
+import 'package:healthmate_mobile/features/health/domain/entities/health_analysis.dart';
 import 'package:healthmate_mobile/features/health/domain/entities/user_profile.dart';
 
 class HealthRemoteDataSource {
@@ -21,5 +22,9 @@ class HealthRemoteDataSource {
       if (profile.allergies != null) 'allergies': profile.allergies,
     };
     return _api.updateProfile(data);
+  }
+
+  Future<HealthAnalysis> getHealthAnalysis() {
+    return _api.getHealthAnalysis();
   }
 }

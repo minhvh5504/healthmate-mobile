@@ -61,7 +61,7 @@ class BMICard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -146,34 +146,22 @@ class BMICard extends StatelessWidget {
                         Row(
                           children: [
                             _buildBarSegment(
-                              const Color(0xFF4FC3F7),
-                              true,
-                              false,
-                            ),
+                              const Color(0xFF3ABEF9),
+                            ), // Underweight
+                            SizedBox(width: 4.w),
+                            _buildBarSegment(const Color(0xFF50E38B)), // Normal
                             SizedBox(width: 4.w),
                             _buildBarSegment(
-                              const Color(0xFFB2EBF2),
-                              false,
-                              false,
-                            ),
+                              const Color(0xFFFFD620),
+                            ), // Overweight
                             SizedBox(width: 4.w),
-                            _buildBarSegment(
-                              const Color(0xFFFFE082),
-                              false,
-                              false,
-                            ),
-                            SizedBox(width: 4.w),
-                            _buildBarSegment(
-                              const Color(0xFFFF8A80),
-                              false,
-                              true,
-                            ),
+                            _buildBarSegment(const Color(0xFFFF7E8E)), // Obese
                           ],
                         ),
-                        // Marker - Chỉ hiện khi có dữ liệu BMI
+                        // Marker
                         if (bmi > 0)
                           Positioned(
-                            left: markerPosition - 15.w, // Căn giữa marker
+                            left: markerPosition - 15.w,
                             bottom: -28.h,
                             child: Column(
                               children: [
@@ -197,7 +185,7 @@ class BMICard extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 12.h),
+                SizedBox(height: 8.h),
               ],
             ),
           ),
@@ -206,38 +194,30 @@ class BMICard extends StatelessWidget {
     );
   }
 
-  /// Tính toán vị trí Marker dựa trên BMI
   double _calculateMarkerPosition(double totalWidth) {
     if (bmi <= 0) return 0;
 
     double percentage = 0;
     if (bmi < 18.5) {
-      // 0 - 18.5 -> Chiếm 25% đầu tiên (ô xanh dương)
       percentage = (bmi / 18.5) * 0.25;
     } else if (bmi < 25) {
-      // 18.5 - 25 -> Chiếm 25% tiếp theo (ô xanh nhạt)
       percentage = 0.25 + ((bmi - 18.5) / (25 - 18.5)) * 0.25;
     } else if (bmi < 30) {
-      // 25 - 30 -> Chiếm 25% tiếp theo (ô vàng)
       percentage = 0.5 + ((bmi - 25) / (30 - 25)) * 0.25;
     } else {
-      // > 30 -> Chiếm 25% cuối (ô đỏ)
       percentage = 0.75 + ((bmi - 30) / 10).clamp(0, 1) * 0.25;
     }
 
     return totalWidth * percentage;
   }
 
-  Widget _buildBarSegment(Color color, bool isFirst, bool isLast) {
+  Widget _buildBarSegment(Color color) {
     return Expanded(
       child: Container(
-        height: 10.h,
+        height: 12.h,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.horizontal(
-            left: isFirst ? Radius.circular(5.r) : Radius.zero,
-            right: isLast ? Radius.circular(5.r) : Radius.zero,
-          ),
+          borderRadius: BorderRadius.circular(10.r),
         ),
       ),
     );

@@ -11,9 +11,10 @@ class HealthDelta {
 
   factory HealthDelta.fromJson(Map<String, dynamic> json) {
     return HealthDelta(
-      weightKg: (json['weightKg'] as num?)?.toDouble() ?? 0,
-      heightCm: (json['heightCm'] as num?)?.toDouble() ?? 0,
-      daysSinceLastUpdate: (json['daysSinceLastUpdate'] as num?)?.toInt() ?? 0,
+      weightKg: double.tryParse(json['weightKg']?.toString() ?? '0') ?? 0,
+      heightCm: double.tryParse(json['heightCm']?.toString() ?? '0') ?? 0,
+      daysSinceLastUpdate:
+          int.tryParse(json['daysSinceLastUpdate']?.toString() ?? '0') ?? 0,
     );
   }
 }

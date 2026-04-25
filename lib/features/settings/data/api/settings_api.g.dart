@@ -95,12 +95,12 @@ class _SettingsApi implements SettingsApi {
   }
 
   @override
-  Future<List<NotificationTimeModel>> getNotificationTimeSlots() async {
+  Future<NotificationTimeSlotsResponse> getNotificationTimeSlots() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<NotificationTimeModel>>(
+    final _options = _setStreamType<NotificationTimeSlotsResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -110,15 +110,10 @@ class _SettingsApi implements SettingsApi {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<NotificationTimeModel> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late NotificationTimeSlotsResponse _value;
     try {
-      _value = _result.data!
-          .map(
-            (dynamic i) =>
-                NotificationTimeModel.fromJson(i as Map<String, dynamic>),
-          )
-          .toList();
+      _value = NotificationTimeSlotsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
