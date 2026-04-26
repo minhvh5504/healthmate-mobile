@@ -74,10 +74,10 @@ class MedicineReminderState {
 }
 
 class ScheduleDose {
-  final String time; // format "HH:mm"
-  final int doses;
+  final String time;
+  final int quantity;
 
-  ScheduleDose({required this.time, required this.doses});
+  ScheduleDose({required this.time, required this.quantity});
 }
 
 class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
@@ -96,7 +96,7 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
             DateTime.now().month,
             DateTime.now().day,
           ),
-          schedules: [ScheduleDose(time: '08:00', doses: 1)],
+          schedules: [ScheduleDose(time: '08:00', quantity: 1)],
         ),
       );
 
@@ -125,14 +125,25 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
     // Pre-populate existing schedules (from reminderSchedules API field)
     List<ScheduleDose> initialSchedules = state.schedules;
     final rawSchedules = medication['schedules'];
-    if (rawSchedules != null && rawSchedules is List && rawSchedules.isNotEmpty) {
+    if (rawSchedules != null &&
+        rawSchedules is List &&
+        rawSchedules.isNotEmpty) {
       initialSchedules = rawSchedules
-          .map((s) => ScheduleDose(
-                time: s['time']?.toString() ?? '08:00',
-                doses: (s['doses'] is int)
-                    ? s['doses']
-                    : int.tryParse(s['doses']?.toString() ?? '1') ?? 1,
-              ))
+          .map(
+            (s) => ScheduleDose(
+              time: s['time']?.toString() ?? '08:00',
+              quantity: (s['quantity'] is int)
+                  ? s['quantity']
+                  : (s['doses'] is int)
+                  ? s['doses']
+                  : int.tryParse(
+                          s['quantity']?.toString() ??
+                              s['doses']?.toString() ??
+                              '1',
+                        ) ??
+                        1,
+            ),
+          )
           .toList();
     }
 
@@ -259,9 +270,9 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
     state = state.copyWith(reminderEnabled: enabled);
   }
 
-  void addSchedule(String time, int doses) {
+  void addSchedule(String time, int quantity) {
     final updated = List<ScheduleDose>.from(state.schedules);
-    updated.add(ScheduleDose(time: time, doses: doses));
+    updated.add(ScheduleDose(time: time, quantity: quantity));
     state = state.copyWith(schedules: updated);
   }
 
@@ -275,12 +286,12 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
     state = state.copyWith(schedules: updated);
   }
 
-  void updateSchedule(int index, String? time, int? doses) {
+  void updateSchedule(int index, String? time, int? quantity) {
     final updated = List<ScheduleDose>.from(state.schedules);
     if (index >= 0 && index < updated.length) {
       updated[index] = ScheduleDose(
         time: time ?? updated[index].time,
-        doses: doses ?? updated[index].doses,
+        quantity: quantity ?? updated[index].quantity,
       );
       state = state.copyWith(schedules: updated);
     }
@@ -291,16 +302,18 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
   }
 
   Future<void> onSave() async {
-    ref.read(medicineFlowProvider.notifier).updateReminderConfig(
-      startDate: state.startDate,
-      endDate: state.endDate,
-      frequency: state.frequency,
-      selectedDays: state.selectedDays,
-      schedules: state.schedules
-          .map((s) => {'time': s.time, 'doses': s.doses})
-          .toList(),
-      reminderEnabled: state.reminderEnabled,
-    );
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateReminderConfig(
+          startDate: state.startDate,
+          endDate: state.endDate,
+          frequency: state.frequency,
+          selectedDays: state.selectedDays,
+          schedules: state.schedules
+              .map((s) => {'time': s.time, 'quantity': s.quantity})
+              .toList(),
+          reminderEnabled: state.reminderEnabled,
+        );
 
     await AppRouter.router.push(AppRoutes.medicineStock);
   }

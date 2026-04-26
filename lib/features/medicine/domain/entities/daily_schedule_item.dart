@@ -7,7 +7,9 @@ class DailyScheduleItem {
   final String? mealInstruction;
   final String status;
   final String? logId;
-  final DateTime? takenAt;
+  final DateTime? actualAt;
+  final int? actualQuantity;
+  final int? quantity; // Scheduled quantity
 
   const DailyScheduleItem({
     required this.userMedicationId,
@@ -18,6 +20,8 @@ class DailyScheduleItem {
     this.mealInstruction,
     required this.status,
     this.logId,
-    this.takenAt,
+    this.actualAt,
+    this.actualQuantity,
+    this.quantity,
   });
 }

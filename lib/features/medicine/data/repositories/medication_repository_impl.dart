@@ -142,17 +142,15 @@ class MedicationRepositoryImpl implements MedicationRepository {
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) {
     return remoteDataSource.createMedicationLog(
       userMedicationId: userMedicationId,
       reminderScheduleId: reminderScheduleId,
       status: status,
-      dosageTaken: dosageTaken,
-      note: note,
-      takenAt: takenAt,
+      actualQuantity: actualQuantity,
+      actualAt: actualAt,
     );
   }
 
@@ -160,16 +158,14 @@ class MedicationRepositoryImpl implements MedicationRepository {
   Future<void> updateMedicationLog({
     required String id,
     String? status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) {
     return remoteDataSource.updateMedicationLog(
       id: id,
       status: status,
-      dosageTaken: dosageTaken,
-      note: note,
-      takenAt: takenAt,
+      actualQuantity: actualQuantity,
+      actualAt: actualAt,
     );
   }
 }

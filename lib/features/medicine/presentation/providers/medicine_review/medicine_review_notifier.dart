@@ -23,7 +23,7 @@ class MedicineReviewState {
   List<dynamic> get schedules => medication['schedules'] ?? [];
 
   String get timeInfo => !isAsNeeded && schedules.isNotEmpty
-      ? '${schedules[0]['time']} • 1 ${medication['unit'] ?? 'viên'}'
+      ? '${schedules[0]['time']} • ${schedules[0]['quantity'] ?? schedules[0]['doses'] ?? 1} ${medication['unit'] ?? 'viên'}'
       : '';
 
   MedicineReviewState copyWith({

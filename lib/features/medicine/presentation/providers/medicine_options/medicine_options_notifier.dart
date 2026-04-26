@@ -33,15 +33,12 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
         'isUpdate': true,
         'name': medication.effectiveName,
         'manufacturer': medication.effectiveManufacturer,
-        'strength': medication.medication?.strength,
+        'dosage': medication.medication?.dosage,
         'genericName': medication.condition != null
             ? 'medicine.condition.${medication.condition!.slug}'.tr()
             : (medication.conditionCustom ??
                   medication.medication?.genericName),
         'medicationId': medication.medicationId,
-        'dosage': medication.dosage,
-        'mealInstruction': medication.mealInstruction,
-        'mealInstructionNote': medication.mealInstructionNote,
         'conditionId': medication.conditionId,
         'conditionCustom': medication.conditionCustom,
       },
@@ -58,7 +55,14 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
           final map = s as Map<String, dynamic>;
           return {
             'time': map['remindTime'] ?? map['time'],
-            'doses': int.tryParse(map['dosage']?.toString() ?? '1') ?? 1,
+            'quantity': (map['quantity'] is int)
+                ? map['quantity']
+                : int.tryParse(
+                        map['quantity']?.toString() ??
+                            map['dosage']?.toString() ??
+                            '1',
+                      ) ??
+                      1,
           };
         }).toList() ??
         [];
@@ -70,7 +74,7 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
         'isUpdate': true,
         'name': medication.effectiveName,
         'manufacturer': medication.effectiveManufacturer,
-        'strength': medication.medication?.strength,
+        'dosage': medication.medication?.dosage,
         'genericName': medication.condition != null
             ? 'medicine.condition.${medication.condition!.slug}'.tr()
             : (medication.conditionCustom ??

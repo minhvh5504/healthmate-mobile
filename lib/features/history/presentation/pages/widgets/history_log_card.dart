@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/theme/app_colors.dart';
-import '../../../../domain/entities/daily_schedule_item.dart';
-import 'medicine_logged_popup.dart';
-import 'medicine_schedule_popup.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../domain/entities/history_medication_log.dart';
 
-class MedicineScheduleCard extends StatelessWidget {
-  final DailyScheduleItem item;
+class HistoryLogCard extends StatelessWidget {
+  final HistoryMedicationLog log;
   final VoidCallback? onTap;
 
-  const MedicineScheduleCard({super.key, required this.item, this.onTap});
+  const HistoryLogCard({super.key, required this.log, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final status = item.status.toLowerCase();
+    final status = log.status.toLowerCase();
     final isTaken = status == 'taken';
     final isMissed = status == 'missed';
 
@@ -24,19 +22,7 @@ class MedicineScheduleCard extends StatelessWidget {
     if (isMissed) borderColor = AppColors.typoError;
 
     return GestureDetector(
-      onTap:
-          onTap ??
-          () {
-            if (status != 'pending') {
-              MedicineLoggedPopup.show(context, item);
-            } else {
-              final instruction = getMealInstructionText(
-                context,
-                item.mealInstruction,
-              );
-              MedicineSchedulePopup.show(context, item, instruction);
-            }
-          },
+      onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: EdgeInsets.only(bottom: 12.h),
@@ -72,7 +58,7 @@ class MedicineScheduleCard extends StatelessWidget {
                 ],
               ),
               child: Icon(
-                _getSectionIcon(item.remindTime),
+                _getSectionIcon(log.remindTime),
                 color: Colors.white,
                 size: 24.sp,
               ),
@@ -83,7 +69,7 @@ class MedicineScheduleCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.medicationName,
+                    log.medicationName ?? '-',
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 16.sp,
@@ -93,7 +79,7 @@ class MedicineScheduleCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    '${item.quantity ?? 1} ${'medicine.reminder.doses_count'.tr()}',
+                    '${log.actualQuantity ?? 1} ${'medicine.reminder.doses_count'.tr()}',
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 13.sp,
@@ -103,7 +89,7 @@ class MedicineScheduleCard extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    getMealInstructionText(context, item.mealInstruction),
+                    _getMealInstructionText(context, log.mealInstruction),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 13.sp,
@@ -160,7 +146,7 @@ class MedicineScheduleCard extends StatelessWidget {
     );
   }
 
-  String getMealInstructionText(BuildContext context, String? slug) {
+  String _getMealInstructionText(BuildContext context, String? slug) {
     if (slug == null || slug.isEmpty) return '-';
 
     final key = 'medicine.instruction.$slug';

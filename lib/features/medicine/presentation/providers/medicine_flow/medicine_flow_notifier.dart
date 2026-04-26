@@ -4,7 +4,7 @@ class MedicineFlowState {
   final String? name;
   final String? manufacturer;
   final String? genericName;
-  final String? strength;
+  final String? dosage;
   final String? medicationId;
   final DateTime? startDate;
   final DateTime? endDate;
@@ -25,7 +25,7 @@ class MedicineFlowState {
     this.name,
     this.manufacturer,
     this.genericName,
-    this.strength,
+    this.dosage,
     this.medicationId,
     this.startDate,
     this.endDate,
@@ -47,7 +47,7 @@ class MedicineFlowState {
     String? name,
     String? manufacturer,
     String? genericName,
-    String? strength,
+    String? dosage,
     String? medicationId,
     DateTime? startDate,
     DateTime? endDate,
@@ -68,7 +68,7 @@ class MedicineFlowState {
       name: name ?? this.name,
       manufacturer: manufacturer ?? this.manufacturer,
       genericName: genericName ?? this.genericName,
-      strength: strength ?? this.strength,
+      dosage: dosage ?? this.dosage,
       medicationId: medicationId ?? this.medicationId,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
@@ -93,7 +93,7 @@ class MedicineFlowState {
       'name': name,
       'manufacturer': manufacturer,
       'genericName': genericName,
-      'strength': strength,
+      'dosage': dosage,
       'medicationId': medicationId,
       'startDate': startDate?.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
@@ -121,7 +121,7 @@ class MedicineFlowNotifier extends StateNotifier<MedicineFlowState> {
       name: initialData['name'],
       manufacturer: initialData['manufacturer'],
       genericName: initialData['genericName'],
-      strength: initialData['strength'],
+      dosage: initialData['dosage'],
       medicationId: initialData['medicationId'],
       scannedData: initialData['scannedData'],
       conditionId: initialData['conditionId'],
@@ -133,14 +133,14 @@ class MedicineFlowNotifier extends StateNotifier<MedicineFlowState> {
     String? name,
     String? manufacturer,
     String? genericName,
-    String? strength,
+    String? dosage,
     String? medicationId,
   }) {
     state = state.copyWith(
       name: name,
       manufacturer: manufacturer,
       genericName: genericName,
-      strength: strength,
+      dosage: dosage,
       medicationId: medicationId,
     );
   }

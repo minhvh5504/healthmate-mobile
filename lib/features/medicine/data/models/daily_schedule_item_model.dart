@@ -10,7 +10,9 @@ class DailyScheduleItemModel extends DailyScheduleItem {
     super.mealInstruction,
     required super.status,
     super.logId,
-    super.takenAt,
+    super.actualAt,
+    super.actualQuantity,
+    super.quantity,
   });
 
   factory DailyScheduleItemModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +25,9 @@ class DailyScheduleItemModel extends DailyScheduleItem {
       mealInstruction: json['mealInstruction']?.toString(),
       status: json['status']?.toString() ?? 'PENDING',
       logId: json['logId']?.toString(),
-      takenAt: json['takenAt'] != null ? DateTime.parse(json['takenAt'].toString()) : null,
+      actualAt: json['actualAt'] != null ? DateTime.parse(json['actualAt'].toString()) : null,
+      actualQuantity: json['actualQuantity'] as int?,
+      quantity: json['quantity'] as int?,
     );
   }
 
@@ -36,6 +40,8 @@ class DailyScheduleItemModel extends DailyScheduleItem {
         'mealInstruction': mealInstruction,
         'status': status,
         'logId': logId,
-        'takenAt': takenAt?.toIso8601String(),
+        'actualAt': actualAt?.toIso8601String(),
+        'actualQuantity': actualQuantity,
+        'quantity': quantity,
       };
 }

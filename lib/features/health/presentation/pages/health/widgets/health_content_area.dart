@@ -49,30 +49,7 @@ class HealthContentArea extends ConsumerWidget {
                   color: AppColors.typoBlack,
                 ),
               ),
-              SizedBox(height: 2.h),
-              IntrinsicWidth(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'health.overview'.tr(),
-                      style: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.typoBlack,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Container(
-                      height: 3.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFF4D4D),
-                        borderRadius: BorderRadius.circular(2.r),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
               SizedBox(height: 24.h),
               if (profile != null) ...[
                 HealthMetricCard(

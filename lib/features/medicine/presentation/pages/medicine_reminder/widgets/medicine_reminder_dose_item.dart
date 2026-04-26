@@ -7,14 +7,14 @@ import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineReminderDoseItem extends StatelessWidget {
   final String time;
-  final int dose;
+  final int quantity;
   final VoidCallback onDelete;
   final VoidCallback onTimeTap;
 
   const MedicineReminderDoseItem({
     super.key,
     required this.time,
-    required this.dose,
+    required this.quantity,
     required this.onDelete,
     required this.onTimeTap,
   });
@@ -51,7 +51,7 @@ class MedicineReminderDoseItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '$time • $dose ${'medicine.reminder.doses_count'.tr()}',
+                        '$time • $quantity ${'medicine.reminder.doses_count'.tr()}',
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w700,

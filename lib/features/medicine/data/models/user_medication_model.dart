@@ -11,7 +11,6 @@ class UserMedicationModel extends UserMedication {
     required super.isActive,
     super.dosage,
     super.mealInstruction,
-    super.mealInstructionNote,
     super.conditionId,
     super.conditionCustom,
     super.scannedData,
@@ -24,6 +23,7 @@ class UserMedicationModel extends UserMedication {
     super.frequency,
     super.schedules,
     super.reminderSchedules,
+    super.quantity,
   });
 
   factory UserMedicationModel.fromJson(Map<String, dynamic> json) {
@@ -39,7 +39,6 @@ class UserMedicationModel extends UserMedication {
       isActive: json['isActive'] ?? false,
       dosage: json['dosage']?.toString(),
       mealInstruction: json['mealInstruction']?.toString(),
-      mealInstructionNote: json['mealInstructionNote']?.toString(),
       conditionId: json['conditionId']?.toString(),
       conditionCustom: json['conditionCustom']?.toString(),
       scannedData: json['scannedData'] as Map<String, dynamic>?,
@@ -52,28 +51,29 @@ class UserMedicationModel extends UserMedication {
       frequency: json['frequency']?.toString(),
       schedules: json['schedules'] as List<dynamic>?,
       reminderSchedules: json['reminderSchedules'] as List<dynamic>?,
+      quantity: json['quantity'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'medicationId': medicationId,
-        'isActive': isActive,
-        'condition': condition,
-        'dosage': dosage,
-        'mealInstruction': mealInstruction,
-        'mealInstructionNote': mealInstructionNote,
-        'conditionId': conditionId,
-        'conditionCustom': conditionCustom,
-        'scannedData': scannedData,
-        'stockCount': stockCount,
-        'lowStockThreshold': lowStockThreshold,
-        'reminderEnabled': reminderEnabled,
-        'lowStockReminderEnabled': lowStockReminderEnabled,
-        'startDate': startDate,
-        'endDate': endDate,
-        'frequency': frequency,
-        'schedules': schedules,
-        'reminderSchedules': reminderSchedules,
-      };
+    'id': id,
+    'medicationId': medicationId,
+    'isActive': isActive,
+    'condition': condition,
+    'dosage': dosage,
+    'mealInstruction': mealInstruction,
+    'conditionId': conditionId,
+    'conditionCustom': conditionCustom,
+    'scannedData': scannedData,
+    'stockCount': stockCount,
+    'lowStockThreshold': lowStockThreshold,
+    'reminderEnabled': reminderEnabled,
+    'lowStockReminderEnabled': lowStockReminderEnabled,
+    'startDate': startDate,
+    'endDate': endDate,
+    'frequency': frequency,
+    'schedules': schedules,
+    'reminderSchedules': reminderSchedules,
+    'quantity': quantity,
+  };
 }

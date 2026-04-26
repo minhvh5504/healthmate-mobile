@@ -9,6 +9,7 @@ import '../../../../../../core/config/routing/app_routes.dart';
 import '../../../../domain/entities/scan_task.dart';
 import '../../../providers/medicine/medicine_provider.dart';
 import '../../../../domain/entities/user_medication.dart';
+import 'medicine_empty_state.dart';
 
 class MedicineCabinetContent extends ConsumerStatefulWidget {
   const MedicineCabinetContent({super.key});
@@ -40,6 +41,15 @@ class _MedicineCabinetContentState
       final stock = m.stockCount ?? 30;
       return stock == 0;
     }).toList();
+
+    final bool isEmpty =
+        dangDungList.isEmpty && daDungList.isEmpty && scanTasks.isEmpty;
+
+    if (isEmpty) {
+      return Center(
+        child: MedicineEmptyState(onAddMedicine: notifier.onAddMedicine),
+      );
+    }
 
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),

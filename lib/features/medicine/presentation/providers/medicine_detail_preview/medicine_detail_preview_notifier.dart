@@ -53,7 +53,7 @@ class MedicineDetailPreviewState {
   String get name => medication['name'] ?? '-';
   String get manufacturer => medication['manufacturer'] ?? '-';
   String get genericName => medication['genericName'] ?? '-';
-  String get strength => medication['strength'] ?? '-';
+  String get dosage => medication['dosage'] ?? '-';
   String? get medicationId => medication['medicationId'];
 }
 
@@ -86,7 +86,7 @@ class MedicineDetailPreviewNotifier
           name: state.name,
           manufacturer: state.manufacturer,
           genericName: state.genericName,
-          strength: state.strength,
+          dosage: state.dosage,
           medicationId: state.medicationId,
         );
 
@@ -146,7 +146,7 @@ class MedicineDetailPreviewNotifier
     updatedMedication['name'] = medication.name;
     updatedMedication['manufacturer'] = medication.manufacturer;
     updatedMedication['genericName'] = medication.genericName;
-    updatedMedication['strength'] = medication.strength;
+    updatedMedication['dosage'] = medication.dosage;
     updatedMedication['medicationId'] = medication.id;
 
     state = state.copyWith(
@@ -162,7 +162,7 @@ class MedicineDetailPreviewNotifier
           name: medication.name,
           manufacturer: medication.manufacturer,
           genericName: medication.genericName,
-          strength: medication.strength,
+          dosage: medication.dosage,
           medicationId: medication.id,
         );
   }
@@ -206,7 +206,7 @@ class MedicineDetailPreviewNotifier
           name: updatedMedication['name'],
           manufacturer: updatedMedication['manufacturer'],
           genericName: updatedMedication['genericName'],
-          strength: updatedMedication['strength'],
+          dosage: updatedMedication['dosage'],
           medicationId: updatedMedication['medicationId'],
         );
   }

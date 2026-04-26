@@ -4,7 +4,7 @@ class Medication {
   final String? genericName;
   final String? manufacturer;
   final String? dosageForm;
-  final String? strength;
+  final String? dosage;
   final String? unit;
 
   const Medication({
@@ -13,7 +13,7 @@ class Medication {
     this.genericName,
     this.manufacturer,
     this.dosageForm,
-    this.strength,
+    this.dosage,
     this.unit,
   });
 }
