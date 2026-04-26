@@ -8,7 +8,7 @@ import '../../../../domain/entities/medication_condition.dart';
 import '../../../providers/medicine_detail_preview_edit/medicine_detail_preview_edit_notifier.dart';
 import '../../../providers/medicine_detail_preview_edit/medicine_detail_preview_edit_provider.dart';
 import '../../medicine/widgets/medicine_condition_popup.dart';
-import '../../medicine/widgets/medicine_strength_popup.dart';
+import '../../medicine/widgets/medicine_dosage_popup.dart';
 import 'medicine_details_card.dart';
 
 class MedicineDetailContentCard extends ConsumerWidget {
@@ -35,16 +35,16 @@ class MedicineDetailContentCard extends ConsumerWidget {
           ),
           DetailItemData(
             icon: LucideIcons.droplet,
-            label: 'medicine.preview.strength_label'.tr(),
+            label: 'medicine.preview.dosage_label'.tr(),
             value:
                 state.medication['dosage'] ??
-                state.medication['strength'] ??
+                state.medication['dosage'] ??
                 '-',
             field: 'dosage',
-            onTap: () => _showStrengthPopup(
+            onTap: () => _showDosagePopup(
               context,
               notifier,
-              state.medication['dosage'] ?? state.medication['strength'] ?? '',
+              state.medication['dosage'] ?? state.medication['dosage'] ?? '',
             ),
           ),
           DetailItemData(
@@ -67,7 +67,7 @@ class MedicineDetailContentCard extends ConsumerWidget {
     );
   }
 
-  void _showStrengthPopup(
+  void _showDosagePopup(
     BuildContext context,
     MedicineDetailPreviewEditNotifier notifier,
     String initialValue,
@@ -75,7 +75,7 @@ class MedicineDetailContentCard extends ConsumerWidget {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: 'Medicine Strength',
+      barrierLabel: 'Medicine Dosage',
       barrierColor: Colors.black.withValues(alpha: 0.2),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
@@ -94,8 +94,8 @@ class MedicineDetailContentCard extends ConsumerWidget {
                 ),
               ),
               Center(
-                child: MedicineStrengthPopup(
-                  initialStrength: initialValue,
+                child: MedicineDosagePopup(
+                  initialDosage: initialValue,
                   onSave: (value) {
                     notifier.updateField('dosage', value);
                     context.pop();

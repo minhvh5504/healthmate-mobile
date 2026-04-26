@@ -124,7 +124,7 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
     final data = {
       'name': medication.name,
       'manufacturer': medication.manufacturer,
-      'strength': medication.strength,
+      'dosage': medication.dosage,
       'genericName': medication.genericName,
       'medicationId': medication.id,
       'isUpdate': false,
@@ -140,7 +140,7 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
     final data = {
       'name': name,
       'manufacturer': '',
-      'strength': '',
+      'dosage': '',
       'genericName': '',
       'medicationId': null,
       'isUpdate': false,

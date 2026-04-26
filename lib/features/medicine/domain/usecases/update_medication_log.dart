@@ -8,16 +8,14 @@ class UpdateMedicationLog {
   Future<void> call({
     required String id,
     String? status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) {
     return repository.updateMedicationLog(
       id: id,
       status: status,
-      dosageTaken: dosageTaken,
-      note: note,
-      takenAt: takenAt,
+      actualQuantity: actualQuantity,
+      actualAt: actualAt,
     );
   }
 }

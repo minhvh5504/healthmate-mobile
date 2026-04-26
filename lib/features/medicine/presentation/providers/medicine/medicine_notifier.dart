@@ -165,7 +165,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
                   'manufacturer': m.effectiveManufacturer != '-'
                       ? m.effectiveManufacturer
                       : null,
-                  'strength': m.medication?.strength,
+                  'dosage': m.medication?.dosage,
                   'id': m.id,
                   'frequency': m.frequency,
                   'schedules': m.schedules,
@@ -377,15 +377,13 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         'isUpdate': true,
         'name': medication.effectiveName,
         'manufacturer': medication.effectiveManufacturer,
-        'strength': medication.medication?.strength,
+        'dosage': medication.medication?.dosage,
         'genericName': medication.condition != null
             ? 'medicine.condition.${medication.condition!.slug}'.tr()
             : (medication.conditionCustom ??
                   medication.medication?.genericName),
         'medicationId': medication.medicationId,
-        'dosage': medication.dosage,
         'mealInstruction': medication.mealInstruction,
-        'mealInstructionNote': medication.mealInstructionNote,
         'conditionId': medication.conditionId,
         'conditionCustom': medication.conditionCustom,
       },
@@ -398,7 +396,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
           final map = s as Map<String, dynamic>;
           return {
             'time': map['remindTime'] ?? map['time'],
-            'doses': int.tryParse(map['dosage']?.toString() ?? '1') ?? 1,
+            'quantity': map['quantity'] ?? 1,
           };
         }).toList() ??
         [];
@@ -488,18 +486,16 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
-    int? dosage,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) async {
     try {
       await _recordMedicationLog(
         userMedicationId: userMedicationId,
         reminderScheduleId: reminderScheduleId,
         status: status,
-        dosageTaken: dosage?.toString(),
-        note: note,
-        takenAt: takenAt,
+        actualQuantity: actualQuantity,
+        actualAt: actualAt,
       );
       await fetchDailySchedule();
     } catch (e) {
@@ -509,7 +505,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
 
   void onTakeMedication({
     required DailyScheduleItem item,
-    required int dosage,
+    int? quantity,
     String? selectedTime,
   }) {
     final date = state.selectedDate;
@@ -522,78 +518,66 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
       int.parse(parts[1]),
     );
 
+    final finalQuantity = quantity ?? item.quantity ?? 1;
+
     if (item.logId != null) {
       updateMedicationLog(
         id: item.logId!,
         status: 'taken',
-        dosage: dosage,
-        takenAt: takenDate,
-        note: 'Đã cập nhật: Dùng lúc ${DateFormat('HH:mm').format(takenDate)}',
+        actualQuantity: finalQuantity,
+        actualAt: takenDate,
       );
     } else {
       recordMedicationLog(
         userMedicationId: item.userMedicationId,
         reminderScheduleId: item.reminderScheduleId,
         status: 'taken',
-        dosage: dosage,
-        takenAt: takenDate,
-        note: 'Đã dùng lúc ${DateFormat('HH:mm').format(takenDate)}',
+        actualQuantity: finalQuantity,
+        actualAt: takenDate,
       );
     }
   }
 
-  void onMissMedication({
-    required DailyScheduleItem item,
-    required int dosage,
-  }) {
+  void onMissMedication({required DailyScheduleItem item, int? quantity}) {
+    final finalQuantity = quantity ?? item.quantity ?? 1;
+
     if (item.logId != null) {
       updateMedicationLog(
         id: item.logId!,
         status: 'missed',
-        dosage: dosage,
-        note: 'Đã cập nhật: Bỏ lỡ',
+        actualQuantity: finalQuantity,
       );
     } else {
       recordMedicationLog(
         userMedicationId: item.userMedicationId,
         reminderScheduleId: item.reminderScheduleId,
         status: 'missed',
-        dosage: dosage,
-        note: 'Người dùng chọn bỏ lỡ tại popup',
+        actualQuantity: finalQuantity,
       );
     }
   }
 
   void onChangeStatus(DailyScheduleItem item) {
-    final status = item.status.toLowerCase();
-    final isTaken = status == 'taken';
-    final dosage = int.tryParse(item.dosage ?? '1') ?? 1;
-
+    final isTaken = item.status.toLowerCase() == 'taken';
     if (isTaken) {
-      onMissMedication(item: item, dosage: dosage);
+      onMissMedication(item: item);
     } else {
-      onTakeMedication(
-        item: item,
-        dosage: dosage,
-        selectedTime: item.remindTime,
-      );
+      onTakeMedication(item: item, selectedTime: item.remindTime);
     }
   }
 
   Future<void> updateMedicationLog({
     required String id,
     String? status,
-    int? dosage,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) async {
     try {
       await _updateMedicationLog(
         id: id,
         status: status,
-        dosageTaken: dosage?.toString(),
-        note: note,
-        takenAt: takenAt,
+        actualQuantity: actualQuantity,
+        actualAt: actualAt,
       );
       await fetchDailySchedule();
     } catch (e) {

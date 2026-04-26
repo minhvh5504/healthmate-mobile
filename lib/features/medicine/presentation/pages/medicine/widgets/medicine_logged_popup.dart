@@ -64,7 +64,9 @@ class MedicineLoggedPopup extends ConsumerWidget {
     final actionIconColor = isTaken
         ? const Color(0xFFF04438)
         : AppColors.typoBlack;
-    final actionLabel = isTaken ? 'Đổi thành đã bỏ lỡ' : 'Đổi thành đã uống';
+    final actionLabel = isTaken
+        ? 'medicine.log_status.change_to_missed'.tr()
+        : 'medicine.log_status.change_to_taken'.tr();
 
     String statusText = '';
     final instruction = _getMealInstructionText(
@@ -72,9 +74,13 @@ class MedicineLoggedPopup extends ConsumerWidget {
       item.mealInstruction,
     ).toUpperCase();
     if (isTaken) {
-      statusText = 'ĐÃ UỐNG ${item.dosage ?? 1} LẦN $instruction';
+      statusText = 'medicine.log_status.taken_format'.tr(
+        args: [(item.dosage ?? 1).toString(), instruction],
+      );
     } else {
-      statusText = 'BỎ LỠ ${item.dosage ?? 1} LẦN $instruction';
+      statusText = 'medicine.log_status.missed_format'.tr(
+        args: [(item.dosage ?? 1).toString(), instruction],
+      );
     }
 
     return Container(

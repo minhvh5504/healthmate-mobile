@@ -9,7 +9,6 @@ class UserMedication {
   final bool isActive;
   final String? dosage;
   final String? mealInstruction;
-  final String? mealInstructionNote;
   final String? conditionId;
   final String? conditionCustom;
   final Map<String, dynamic>? scannedData;
@@ -22,6 +21,7 @@ class UserMedication {
   final String? frequency;
   final List<dynamic>? schedules;
   final List<dynamic>? reminderSchedules;
+  final int? quantity;
 
   const UserMedication({
     required this.id,
@@ -31,7 +31,6 @@ class UserMedication {
     required this.isActive,
     this.dosage,
     this.mealInstruction,
-    this.mealInstructionNote,
     this.conditionId,
     this.conditionCustom,
     this.scannedData,
@@ -44,13 +43,16 @@ class UserMedication {
     this.frequency,
     this.schedules,
     this.reminderSchedules,
+    this.quantity,
   });
 
-  String get effectiveName => 
+  String get effectiveName =>
       scannedData?['customName']?.toString() ?? medication?.name ?? '-';
-      
-  String get effectiveManufacturer => 
-      scannedData?['customManufacturer']?.toString() ?? medication?.manufacturer ?? '-';
+
+  String get effectiveManufacturer =>
+      scannedData?['customManufacturer']?.toString() ??
+      medication?.manufacturer ??
+      '-';
 
   UserMedication copyWith({
     String? id,
@@ -60,7 +62,6 @@ class UserMedication {
     bool? isActive,
     String? dosage,
     String? mealInstruction,
-    String? mealInstructionNote,
     String? conditionId,
     String? conditionCustom,
     Map<String, dynamic>? scannedData,
@@ -73,6 +74,7 @@ class UserMedication {
     String? frequency,
     List<dynamic>? schedules,
     List<dynamic>? reminderSchedules,
+    int? quantity,
   }) {
     return UserMedication(
       id: id ?? this.id,
@@ -82,7 +84,6 @@ class UserMedication {
       isActive: isActive ?? this.isActive,
       dosage: dosage ?? this.dosage,
       mealInstruction: mealInstruction ?? this.mealInstruction,
-      mealInstructionNote: mealInstructionNote ?? this.mealInstructionNote,
       conditionId: conditionId ?? this.conditionId,
       conditionCustom: conditionCustom ?? this.conditionCustom,
       scannedData: scannedData ?? this.scannedData,
@@ -96,6 +97,7 @@ class UserMedication {
       frequency: frequency ?? this.frequency,
       schedules: schedules ?? this.schedules,
       reminderSchedules: reminderSchedules ?? this.reminderSchedules,
+      quantity: quantity ?? this.quantity,
     );
   }
 }

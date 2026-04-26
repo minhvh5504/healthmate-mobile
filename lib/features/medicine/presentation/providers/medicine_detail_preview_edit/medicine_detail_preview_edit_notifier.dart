@@ -52,7 +52,7 @@ class MedicineDetailPreviewEditState {
   String get name => medication['name'] ?? '-';
   String get manufacturer => medication['manufacturer'] ?? '-';
   String get genericName => medication['genericName'] ?? '-';
-  String get strength => medication['strength'] ?? '-';
+  String get dosage => medication['dosage'] ?? '-';
   String? get medicationId => medication['medicationId'];
 }
 
@@ -79,7 +79,7 @@ class MedicineDetailPreviewEditNotifier
       initialMedication['name'] ??= med['name'];
       initialMedication['manufacturer'] ??= med['manufacturer'];
       initialMedication['genericName'] ??= med['genericName'];
-      initialMedication['strength'] ??= med['strength'];
+      initialMedication['dosage'] ??= med['dosage'];
       initialMedication['medicationId'] ??= med['id'];
     }
 
@@ -93,10 +93,7 @@ class MedicineDetailPreviewEditNotifier
       }
     }
 
-    if (initialMedication['dosage'] == null ||
-        initialMedication['dosage'] == '-') {
-      initialMedication['dosage'] = initialMedication['strength'];
-    }
+    // No longer need to sync dosage and dosage as we use dosage everywhere
 
     state = state.copyWith(medication: initialMedication);
     fetchMedicationConditions();
@@ -129,8 +126,6 @@ class MedicineDetailPreviewEditNotifier
         id: id,
         medicationId: state.medicationId,
         dosage: state.medication['dosage'],
-        mealInstruction: state.medication['mealInstruction'],
-        mealInstructionNote: state.medication['mealInstructionNote'],
         conditionId: state.medication['conditionId'],
         conditionCustom: state.medication['conditionCustom'],
         scannedData: currentScannedData,
@@ -194,7 +189,7 @@ class MedicineDetailPreviewEditNotifier
     updatedMedication['name'] = medication.name;
     updatedMedication['manufacturer'] = medication.manufacturer;
     updatedMedication['genericName'] = medication.genericName;
-    updatedMedication['strength'] = medication.strength;
+    updatedMedication['dosage'] = medication.dosage;
     updatedMedication['medicationId'] = medication.id;
 
     state = state.copyWith(
@@ -232,11 +227,7 @@ class MedicineDetailPreviewEditNotifier
     final updatedMedication = Map<String, dynamic>.from(state.medication);
     updatedMedication[field] = value;
 
-    if (field == 'dosage') {
-      updatedMedication['strength'] = value;
-    } else if (field == 'strength') {
-      updatedMedication['dosage'] = value;
-    }
+    // We only use dosage now
 
     state = state.copyWith(medication: updatedMedication);
   }

@@ -7,7 +7,7 @@ class MedicationModel extends Medication {
     super.genericName,
     super.manufacturer,
     super.dosageForm,
-    super.strength,
+    super.dosage,
     super.unit,
   });
 
@@ -18,7 +18,7 @@ class MedicationModel extends Medication {
       genericName: json['genericName']?.toString(),
       manufacturer: json['manufacturer']?.toString(),
       dosageForm: json['dosageForm']?.toString(),
-      strength: json['strength']?.toString(),
+      dosage: json['dosage']?.toString(),
       unit: json['unit']?.toString(),
     );
   }
@@ -29,7 +29,7 @@ class MedicationModel extends Medication {
         'genericName': genericName,
         'manufacturer': manufacturer,
         'dosageForm': dosageForm,
-        'strength': strength,
+        'dosage': dosage,
         'unit': unit,
       };
 }

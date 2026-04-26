@@ -74,9 +74,9 @@ class MedicineReminderEditState {
 
 class ScheduleDoseEdit {
   final String time; // format "HH:mm"
-  final int doses;
+  final int quantity;
 
-  ScheduleDoseEdit({required this.time, required this.doses});
+  ScheduleDoseEdit({required this.time, required this.quantity});
 }
 
 class MedicineReminderEditNotifier
@@ -97,7 +97,7 @@ class MedicineReminderEditNotifier
             DateTime.now().month,
             DateTime.now().day,
           ),
-          schedules: [ScheduleDoseEdit(time: '08:00', doses: 1)],
+          schedules: [ScheduleDoseEdit(time: '08:00', quantity: 1)],
         ),
       );
 
@@ -132,9 +132,16 @@ class MedicineReminderEditNotifier
           .map(
             (s) => ScheduleDoseEdit(
               time: s['time']?.toString() ?? '08:00',
-              doses: (s['doses'] is int)
+              quantity: (s['quantity'] is int)
+                  ? s['quantity']
+                  : (s['doses'] is int)
                   ? s['doses']
-                  : int.tryParse(s['doses']?.toString() ?? '1') ?? 1,
+                  : int.tryParse(
+                          s['quantity']?.toString() ??
+                              s['doses']?.toString() ??
+                              '1',
+                        ) ??
+                        1,
             ),
           )
           .toList();
@@ -261,9 +268,9 @@ class MedicineReminderEditNotifier
     state = state.copyWith(reminderEnabled: enabled);
   }
 
-  void addSchedule(String time, int doses) {
+  void addSchedule(String time, int quantity) {
     final updated = List<ScheduleDoseEdit>.from(state.schedules);
-    updated.add(ScheduleDoseEdit(time: time, doses: doses));
+    updated.add(ScheduleDoseEdit(time: time, quantity: quantity));
     state = state.copyWith(schedules: updated);
   }
 
@@ -277,12 +284,12 @@ class MedicineReminderEditNotifier
     state = state.copyWith(schedules: updated);
   }
 
-  void updateSchedule(int index, String? time, int? doses) {
+  void updateSchedule(int index, String? time, int? quantity) {
     final updated = List<ScheduleDoseEdit>.from(state.schedules);
     if (index >= 0 && index < updated.length) {
       updated[index] = ScheduleDoseEdit(
         time: time ?? updated[index].time,
-        doses: doses ?? updated[index].doses,
+        quantity: quantity ?? updated[index].quantity,
       );
       state = state.copyWith(schedules: updated);
     }
@@ -318,7 +325,7 @@ class MedicineReminderEditNotifier
           schedules: isAsNeeded
               ? null
               : state.schedules
-                    .map((s) => {'time': s.time, 'doses': s.doses})
+                    .map((s) => {'time': s.time, 'quantity': s.quantity})
                     .toList(),
           reminderEnabled: state.reminderEnabled,
         );

@@ -61,16 +61,14 @@ abstract class MedicationRepository {
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   });
 
   Future<void> updateMedicationLog({
     required String id,
     String? status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   });
 }

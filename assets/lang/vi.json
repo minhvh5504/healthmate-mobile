@@ -282,8 +282,8 @@
     "edit": "Sửa",
     "add_stock": "Bổ sung",
     "remaining_label": "Còn lại",
-    "strength_popup_title": "Thêm hàm lượng",
-    "strength_label": "Hàm lượng",
+    "dosage_popup_title": "Thêm hàm lượng",
+    "dosage_label": "Hàm lượng",
     "save": "Lưu",
     "only_if_needed": "CHỈ KHI CẦN",
     "scan": {
@@ -335,7 +335,7 @@
       "info_subtitle": "thông tin thuốc",
       "detail_subtitle": "chi tiết thuốc",
       "name_label": "Tên",
-      "strength_label": "Hàm lượng",
+      "dosage_label": "Hàm lượng",
       "other": "Khác",
       "unknown": "Không xác định",
       "basic_medicine": "Thuốc cơ bản"
@@ -427,6 +427,19 @@
       "after_meal": "Sau bữa ăn",
       "with_meal": "Trong bữa ăn",
       "empty_stomach": "Bụng đói"
+    },
+    "log_status": {
+      "time": "Thời gian",
+      "action_missed": "Bỏ lỡ",
+      "action_taken": "Đã dùng",
+      "change_to_missed": "Đổi thành đã bỏ lỡ",
+      "change_to_taken": "Đổi thành đã uống",
+      "taken_format": "ĐÃ UỐNG {} LẦN {}",
+      "missed_format": "BỎ LỠ {} LẦN {}",
+      "updated_missed": "Đã cập nhật: Bỏ lỡ",
+      "updated_taken": "Đã cập nhật: Dùng lúc {}",
+      "taken_at": "Đã dùng lúc {}",
+      "user_selected_missed": "Người dùng chọn bỏ lỡ tại popup"
     }
   },
   "bottom_nav": {
@@ -532,5 +545,39 @@
     "count_hint": "Nhập số lượng",
     "low_stock_reminder": "Lời nhắc sắp hết thuốc",
     "threshold_label": "Khi còn dưới"
+  },
+  "history": {
+    "title": "Lịch sử",
+    "monthly_adherence": "Tuân thủ hàng tháng",
+    "no_data": "Không có dữ liệu",
+    "date_format": "{}, {} thg {}",
+    "months": {
+      "1": "tháng 1",
+      "2": "tháng 2",
+      "3": "tháng 3",
+      "4": "tháng 4",
+      "5": "tháng 5",
+      "6": "tháng 6",
+      "7": "tháng 7",
+      "8": "tháng 8",
+      "9": "tháng 9",
+      "10": "tháng 10",
+      "11": "tháng 11",
+      "12": "tháng 12"
+    },
+    "month_short": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "11": "11",
+      "12": "12"
+    }
   }
 }

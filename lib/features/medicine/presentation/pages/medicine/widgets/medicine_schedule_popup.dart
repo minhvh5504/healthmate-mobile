@@ -73,14 +73,15 @@ class MedicineSchedulePopup extends ConsumerStatefulWidget {
 }
 
 class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
-  late int _dosage;
+  late int _quantity;
   String? _remindTime;
   late String _instructionSlug;
 
   @override
   void initState() {
     super.initState();
-    _dosage = int.tryParse(widget.item.dosage ?? '1') ?? 1;
+    _quantity =
+        widget.item.quantity ?? int.tryParse(widget.item.dosage ?? '1') ?? 1;
     _remindTime = widget.item.remindTime;
     _instructionSlug = widget.item.mealInstruction ?? 'before_breakfast';
   }
@@ -191,7 +192,7 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Thời gian',
+                      'medicine.log_status.time'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 14.sp,
@@ -283,8 +284,8 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        if (_dosage > 1) {
-                          setState(() => _dosage--);
+                        if (_quantity > 1) {
+                          setState(() => _quantity--);
                         }
                       },
                       child: _buildCircleIconButton(LucideIcons.minus),
@@ -301,7 +302,7 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                         ),
                         child: Center(
                           child: Text(
-                            '$_dosage',
+                            '$_quantity',
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 18.sp,
@@ -315,13 +316,13 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                     SizedBox(width: 12.w),
                     GestureDetector(
                       onTap: () {
-                        setState(() => _dosage++);
+                        setState(() => _quantity++);
                       },
                       child: _buildCircleIconButton(LucideIcons.plus),
                     ),
                     SizedBox(width: 16.w),
                     Text(
-                      'lần dùng',
+                      'medicine.reminder.doses_count'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 14.sp,
@@ -346,11 +347,11 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                 iconColor: const Color(0xFFF04438),
                 bgColor: Colors.white,
                 borderColor: AppColors.typoBlack.withValues(alpha: 0.2),
-                label: 'Bỏ lỡ',
+                label: 'medicine.log_status.action_missed'.tr(),
                 onTap: () {
                   ref
                       .read(medicineProvider.notifier)
-                      .onMissMedication(item: widget.item, dosage: _dosage);
+                      .onMissMedication(item: widget.item, quantity: _quantity);
                   context.pop();
                 },
               ),
@@ -360,13 +361,13 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                 iconColor: Colors.white,
                 bgColor: const Color(0xFF1E2135),
                 borderColor: const Color(0xFF1E2135),
-                label: 'Đã dùng',
+                label: 'medicine.log_status.action_taken'.tr(),
                 onTap: () {
                   ref
                       .read(medicineProvider.notifier)
                       .onTakeMedication(
                         item: widget.item,
-                        dosage: _dosage,
+                        quantity: _quantity,
                         selectedTime: _remindTime,
                       );
                   context.pop();

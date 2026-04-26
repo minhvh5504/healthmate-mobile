@@ -17,8 +17,8 @@ class MedicineReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String name = medication['name'] ?? 'medicine.scan.unknown_name'.tr();
-    final String strength = medication['strength'] ?? '';
-    final String fullName = strength.isNotEmpty ? '$name $strength' : name;
+    final String dosage = medication['dosage'] ?? '';
+    final String fullName = dosage.isNotEmpty ? '$name $dosage' : name;
 
     final String frequencySlug = medication['frequency'] ?? 'daily';
     final String frequency = frequencySlug == 'as_needed'

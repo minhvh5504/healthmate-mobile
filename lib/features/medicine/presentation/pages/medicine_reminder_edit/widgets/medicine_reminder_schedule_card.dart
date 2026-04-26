@@ -48,7 +48,7 @@ class MedicineReminderScheduleCard extends ConsumerWidget {
             final schedule = state.schedules[index];
             return MedicineReminderDoseItem(
               time: schedule.time,
-              dose: schedule.doses,
+              quantity: schedule.quantity,
               onDelete: () => notifier.removeSchedule(index),
               onTimeTap: () =>
                   _showTimePicker(context, notifier, index, schedule.time),

@@ -9,17 +9,15 @@ class RecordMedicationLog {
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) {
     return repository.createMedicationLog(
       userMedicationId: userMedicationId,
       reminderScheduleId: reminderScheduleId,
       status: status,
-      dosageTaken: dosageTaken,
-      note: note,
-      takenAt: takenAt,
+      actualQuantity: actualQuantity,
+      actualAt: actualAt,
     );
   }
 }

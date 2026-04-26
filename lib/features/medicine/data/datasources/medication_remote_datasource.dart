@@ -99,32 +99,28 @@ class MedicationRemoteDataSource {
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) async {
     await api.createMedicationLog({
       'userMedicationId': userMedicationId,
       if (reminderScheduleId != null) 'reminderScheduleId': reminderScheduleId,
       'status': status,
-      if (dosageTaken != null) 'dosageTaken': dosageTaken,
-      if (note != null) 'note': note,
-      if (takenAt != null) 'takenAt': takenAt.toUtc().toIso8601String(),
+      if (actualQuantity != null) 'actualQuantity': actualQuantity,
+      if (actualAt != null) 'actualAt': actualAt.toUtc().toIso8601String(),
     });
   }
 
   Future<void> updateMedicationLog({
     required String id,
     String? status,
-    String? dosageTaken,
-    String? note,
-    DateTime? takenAt,
+    int? actualQuantity,
+    DateTime? actualAt,
   }) async {
     await api.updateMedicationLog(id, {
       if (status != null) 'status': status,
-      if (dosageTaken != null) 'dosageTaken': dosageTaken,
-      if (note != null) 'note': note,
-      if (takenAt != null) 'takenAt': takenAt.toUtc().toIso8601String(),
+      if (actualQuantity != null) 'actualQuantity': actualQuantity,
+      if (actualAt != null) 'actualAt': actualAt.toUtc().toIso8601String(),
     });
   }
 }

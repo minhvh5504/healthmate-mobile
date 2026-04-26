@@ -282,8 +282,8 @@
     "edit": "Edit",
     "add_stock": "Supplement",
     "remaining_label": "Remaining",
-    "strength_popup_title": "Add strength",
-    "strength_label": "Strength",
+    "dosage_popup_title": "Add dosage",
+    "dosage_label": "Strength",
     "save": "Save",
     "only_if_needed": "ONLY IF NEEDED",
     "scan": {
@@ -335,7 +335,7 @@
       "info_subtitle": "medicine info",
       "detail_subtitle": "medicine details",
       "name_label": "Name",
-      "strength_label": "Strength",
+      "dosage_label": "Strength",
       "other": "Other",
       "unknown": "Unknown",
       "basic_medicine": "Basic medicine"
@@ -427,6 +427,19 @@
       "after_meal": "After meal",
       "with_meal": "With meal",
       "empty_stomach": "Empty stomach"
+    },
+    "log_status": {
+      "time": "Time",
+      "action_missed": "Missed",
+      "action_taken": "Taken",
+      "change_to_missed": "Change to missed",
+      "change_to_taken": "Change to taken",
+      "taken_format": "TAKEN {} TIME(S) {}",
+      "missed_format": "MISSED {} TIME(S) {}",
+      "updated_missed": "Updated: Missed",
+      "updated_taken": "Updated: Taken at {}",
+      "taken_at": "Taken at {}",
+      "user_selected_missed": "User selected missed from popup"
     }
   },
   "bottom_nav": {
@@ -525,5 +538,39 @@
     "count_hint": "Enter count",
     "low_stock_reminder": "Low stock reminder",
     "threshold_label": "When below"
+  },
+  "history": {
+    "title": "History",
+    "monthly_adherence": "Monthly adherence",
+    "no_data": "No data",
+    "date_format": "{}, {} {}",
+    "months": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
+    },
+    "month_short": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
+    }
   }
 }

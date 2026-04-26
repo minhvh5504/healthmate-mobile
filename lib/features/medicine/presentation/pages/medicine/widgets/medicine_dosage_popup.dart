@@ -6,21 +6,21 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 
-class MedicineStrengthPopup extends StatefulWidget {
-  final String initialStrength;
+class MedicineDosagePopup extends StatefulWidget {
+  final String initialDosage;
   final Function(String) onSave;
 
-  const MedicineStrengthPopup({
+  const MedicineDosagePopup({
     super.key,
-    required this.initialStrength,
+    required this.initialDosage,
     required this.onSave,
   });
 
   @override
-  State<MedicineStrengthPopup> createState() => _MedicineStrengthPopupState();
+  State<MedicineDosagePopup> createState() => _MedicineDosagePopupState();
 }
 
-class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
+class _MedicineDosagePopupState extends State<MedicineDosagePopup> {
   late TextEditingController _amountController;
   late String _selectedUnit;
   final List<String> _units = ['ML', 'IU', '%', 'MCG', 'MG', 'G'];
@@ -28,19 +28,19 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
   @override
   void initState() {
     super.initState();
-    _parseInitialStrength();
+    _parseInitialDosage();
   }
 
-  void _parseInitialStrength() {
-    final strength = widget.initialStrength;
-    if (strength == '-' || strength.isEmpty) {
+  void _parseInitialDosage() {
+    final dosage = widget.initialDosage;
+    if (dosage == '-' || dosage.isEmpty) {
       _amountController = TextEditingController(text: '0');
       _selectedUnit = 'MG';
       return;
     }
 
     final regExp = RegExp(r'^(\d+\.?\d*)\s*(\D*)$');
-    final match = regExp.firstMatch(strength.trim());
+    final match = regExp.firstMatch(dosage.trim());
 
     if (match != null) {
       _amountController = TextEditingController(text: match.group(1));
@@ -103,7 +103,7 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
                 children: [
                   // Title
                   Text(
-                    'medicine.strength_popup_title'.tr(),
+                    'medicine.dosage_popup_title'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 18.sp,
@@ -114,7 +114,7 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
                   ),
                   SizedBox(height: 8.h),
 
-                  // Strength Display/Input Container
+                  // Dosage Display/Input Container
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -129,7 +129,7 @@ class _MedicineStrengthPopupState extends State<MedicineStrengthPopup> {
                     child: Column(
                       children: [
                         Text(
-                          'medicine.strength_label'.tr(),
+                          'medicine.dosage_label'.tr(),
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 14.sp,
