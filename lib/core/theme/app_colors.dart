@@ -8,7 +8,7 @@ class AppColors {
   static const Color bgDisable = Color(0xFF9CA3AF);
   static const Color bgWhite = Color(0xFFFFFFFF);
   static const Color bgHover = Color(0xFFF1F5F9);
-  static const Color bgSuccess = Color(0xFF00BFA6);
+  static const Color bgSuccess = Color(0xFF2AC06D);
   static const Color bgError = Color(0xFFE53935);
   static const Color bgWarning = Color(0xFFFCB044);
 

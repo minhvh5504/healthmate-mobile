@@ -4,6 +4,7 @@ import '../models/user_medication_model.dart';
 import '../models/scan_task_model.dart';
 import '../models/medication_condition_model.dart';
 import '../../domain/entities/medication_condition.dart';
+import '../models/daily_schedule_model.dart';
 
 class MedicationRemoteDataSource {
   final MedicationApi api;
@@ -32,10 +33,10 @@ class MedicationRemoteDataSource {
       if (response == null || response is! Map) {
         throw Exception('Invalid scan response');
       }
-      
+
       final dataMap = response as Map<String, dynamic>;
       final dynamic data = dataMap['data'];
-      
+
       if (data == null) throw Exception('No data in scan response');
       return ScanTaskModel.fromJson(data as Map<String, dynamic>);
     } catch (e) {
@@ -85,5 +86,45 @@ class MedicationRemoteDataSource {
     final dataMap = response as Map<String, dynamic>;
     final List<dynamic> data = dataMap['data'] ?? [];
     return data.map((json) => MedicationConditionModel.fromJson(json)).toList();
+  }
+
+  Future<DailyScheduleModel> getDailySchedule(String date) async {
+    final response = await api.getDailySchedule(date);
+    final dataMap = response as Map<String, dynamic>;
+    final data = dataMap['data'] as Map<String, dynamic>;
+    return DailyScheduleModel.fromJson(data);
+  }
+
+  Future<void> createMedicationLog({
+    required String userMedicationId,
+    String? reminderScheduleId,
+    required String status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  }) async {
+    await api.createMedicationLog({
+      'userMedicationId': userMedicationId,
+      if (reminderScheduleId != null) 'reminderScheduleId': reminderScheduleId,
+      'status': status,
+      if (dosageTaken != null) 'dosageTaken': dosageTaken,
+      if (note != null) 'note': note,
+      if (takenAt != null) 'takenAt': takenAt.toUtc().toIso8601String(),
+    });
+  }
+
+  Future<void> updateMedicationLog({
+    required String id,
+    String? status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  }) async {
+    await api.updateMedicationLog(id, {
+      if (status != null) 'status': status,
+      if (dosageTaken != null) 'dosageTaken': dosageTaken,
+      if (note != null) 'note': note,
+      if (takenAt != null) 'takenAt': takenAt.toUtc().toIso8601String(),
+    });
   }
 }

@@ -256,7 +256,7 @@
     "tab_cabinet": "Hộp thuốc",
     "today": "Hôm nay",
     "empty_body": "Nhắc dùng thuốc, xem thông tin về sức khoẻ và nhiều thứ khác trong cùng một nơi. Hãy thêm viên thuốc đầu tiên!",
-    "button_add_first": "Thêm viên thuốc đầu tiên",
+    "button_add_first": "Thêm thuốc cần dùng",
     "add_medicine": {
       "title": "Thêm thuốc",
       "search_hint": "Tìm tên thuốc...",
@@ -413,6 +413,20 @@
         "fri": "TH 6",
         "sat": "TH 7"
       }
+    },
+    "instruction": {
+      "before_breakfast": "Trước bữa sáng",
+      "after_breakfast": "Sau bữa sáng",
+      "between_meals": "Giữa các bữa ăn",
+      "before_lunch": "Trước bữa trưa",
+      "after_lunch": "Sau bữa trưa",
+      "before_dinner": "Trước bữa tối",
+      "after_dinner": "Sau bữa tối",
+      "before_sleep": "Trước khi ngủ",
+      "before_meal": "Trước bữa ăn",
+      "after_meal": "Sau bữa ăn",
+      "with_meal": "Trong bữa ăn",
+      "empty_stomach": "Bụng đói"
     }
   },
   "bottom_nav": {

@@ -30,4 +30,13 @@ abstract class MedicationApi {
 
   @GET('medication-conditions')
   Future<dynamic> getMedicationConditions();
+
+  @GET('user-medication/daily-schedule')
+  Future<dynamic> getDailySchedule(@Query('date') String date);
+
+  @POST('medication-logs')
+  Future<dynamic> createMedicationLog(@Body() Map<String, dynamic> body);
+
+  @PATCH('medication-logs/{id}')
+  Future<dynamic> updateMedicationLog(@Path('id') String id, @Body() Map<String, dynamic> body);
 }

@@ -18,8 +18,8 @@ class CustomBottomNavBar extends StatelessWidget {
     const Color inactiveColor = AppColors.typoWhite;
 
     return Container(
-      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
       decoration: BoxDecoration(
         color: navBgColor,
         borderRadius: BorderRadius.circular(40),
