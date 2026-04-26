@@ -39,17 +39,17 @@ class MedicinePage extends ConsumerWidget {
 
               SizedBox(height: 8.h),
 
-              if (state.isLoading)
+              if (state.isLoading && state.isInitialLoad)
                 const MedicineSkeleton()
               else ...[
-                MedicineCalendarStrip(
-                  selectedDate: state.selectedDate,
-                  onDateSelected: notifier.selectDate,
-                ),
-
-                SizedBox(height: 8.h),
-
-                const MedicineDateLabel(),
+                if (state.selectedTab == MedicineTab.schedule) ...[
+                  MedicineCalendarStrip(
+                    selectedDate: state.selectedDate,
+                    onDateSelected: notifier.selectDate,
+                  ),
+                  SizedBox(height: 8.h),
+                  const MedicineDateLabel(),
+                ],
 
                 ///Tab content
                 const Expanded(child: MedicineTabContent()),

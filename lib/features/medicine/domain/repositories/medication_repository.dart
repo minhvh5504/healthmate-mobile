@@ -2,6 +2,7 @@ import '../entities/medication.dart';
 import '../entities/user_medication.dart';
 import '../entities/scan_task.dart';
 import '../entities/medication_condition.dart';
+import '../entities/daily_schedule.dart';
 
 abstract class MedicationRepository {
   Future<List<Medication>> searchMedications(String query);
@@ -53,4 +54,23 @@ abstract class MedicationRepository {
 
   Future<List<UserMedication>> getUserMedications();
   Future<List<MedicationCondition>> getMedicationConditions();
+  
+  Future<DailySchedule> getDailySchedule(String date);
+
+  Future<void> createMedicationLog({
+    required String userMedicationId,
+    String? reminderScheduleId,
+    required String status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  });
+
+  Future<void> updateMedicationLog({
+    required String id,
+    String? status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  });
 }

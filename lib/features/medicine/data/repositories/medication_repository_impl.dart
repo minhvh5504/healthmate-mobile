@@ -2,6 +2,7 @@ import '../../domain/entities/medication.dart';
 import '../../domain/entities/user_medication.dart';
 import '../../domain/entities/scan_task.dart';
 import '../../domain/entities/medication_condition.dart';
+import '../../domain/entities/daily_schedule.dart';
 import '../../domain/repositories/medication_repository.dart';
 import '../datasources/medication_remote_datasource.dart';
 
@@ -129,5 +130,46 @@ class MedicationRepositoryImpl implements MedicationRepository {
   @override
   Future<List<MedicationCondition>> getMedicationConditions() {
     return remoteDataSource.getMedicationConditions();
+  }
+
+  @override
+  Future<DailySchedule> getDailySchedule(String date) {
+    return remoteDataSource.getDailySchedule(date);
+  }
+
+  @override
+  Future<void> createMedicationLog({
+    required String userMedicationId,
+    String? reminderScheduleId,
+    required String status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  }) {
+    return remoteDataSource.createMedicationLog(
+      userMedicationId: userMedicationId,
+      reminderScheduleId: reminderScheduleId,
+      status: status,
+      dosageTaken: dosageTaken,
+      note: note,
+      takenAt: takenAt,
+    );
+  }
+
+  @override
+  Future<void> updateMedicationLog({
+    required String id,
+    String? status,
+    String? dosageTaken,
+    String? note,
+    DateTime? takenAt,
+  }) {
+    return remoteDataSource.updateMedicationLog(
+      id: id,
+      status: status,
+      dosageTaken: dosageTaken,
+      note: note,
+      takenAt: takenAt,
+    );
   }
 }

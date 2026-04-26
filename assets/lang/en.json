@@ -256,7 +256,7 @@
     "tab_cabinet": "Medicine Cabinet",
     "today": "Today",
     "empty_body": "Track your medications, health info and more in one place. Add your first medicine!",
-    "button_add_first": "Add first medicine",
+    "button_add_first": "Add medicine to take",
     "add_medicine": {
       "title": "Add Medicine",
       "search_hint": "Search medicine name...",
@@ -413,6 +413,20 @@
         "fri": "Fri",
         "sat": "Sat"
       }
+    },
+    "instruction": {
+      "before_breakfast": "Before breakfast",
+      "after_breakfast": "After breakfast",
+      "between_meals": "Between meals",
+      "before_lunch": "Before lunch",
+      "after_lunch": "After lunch",
+      "before_dinner": "Before dinner",
+      "after_dinner": "After dinner",
+      "before_sleep": "Before sleep",
+      "before_meal": "Before meal",
+      "after_meal": "After meal",
+      "with_meal": "With meal",
+      "empty_stomach": "Empty stomach"
     }
   },
   "bottom_nav": {
