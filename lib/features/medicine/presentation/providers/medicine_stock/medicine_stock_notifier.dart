@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/config/routing/app_router.dart';
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../medicine_flow/medicine_flow_provider.dart';
 
 class MedicineStockState {
@@ -39,8 +39,7 @@ class MedicineStockState {
 class MedicineStockNotifier extends StateNotifier<MedicineStockState> {
   final Ref ref;
 
-  MedicineStockNotifier(this.ref)
-    : super(MedicineStockState());
+  MedicineStockNotifier(this.ref) : super(MedicineStockState());
 
   void init(Map<String, dynamic> medication) {
     state = state.copyWith(
@@ -65,11 +64,13 @@ class MedicineStockNotifier extends StateNotifier<MedicineStockState> {
   }
 
   Future<void> onSave() async {
-    ref.read(medicineFlowProvider.notifier).updateStock(
-      stockCount: state.stockCount,
-      lowStockThreshold: state.lowStockThreshold,
-      lowStockReminderEnabled: state.lowStockReminderEnabled,
-    );
+    ref
+        .read(medicineFlowProvider.notifier)
+        .updateStock(
+          stockCount: state.stockCount,
+          lowStockThreshold: state.lowStockThreshold,
+          lowStockReminderEnabled: state.lowStockReminderEnabled,
+        );
 
     await AppRouter.router.push(AppRoutes.medicineReview);
   }

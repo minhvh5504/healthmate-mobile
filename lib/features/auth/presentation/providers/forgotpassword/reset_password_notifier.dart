@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../domain/usecases/reset_password.dart';
@@ -218,8 +218,7 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
       return 'reset_password.errors.invalid_token'.tr();
     }
 
-    if (cleanError == 'AUTH.USER_NOT_FOUND' || 
-        cleanError == 'User not found') {
+    if (cleanError == 'AUTH.USER_NOT_FOUND' || cleanError == 'User not found') {
       return 'reset_password.errors.user_not_found'.tr();
     }
 

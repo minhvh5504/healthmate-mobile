@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/config/routing/app_router.dart';
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../domain/entities/notification_time.dart';
 import '../../../domain/usecases/get_notification_settings.dart';
 

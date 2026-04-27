@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthmate_mobile/features/notifications/presentation/providers/notification_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends ConsumerWidget {
   final VoidCallback onProfilePressed;
   final VoidCallback onNotificationPressed;
   final String? avatarUrl;
@@ -15,7 +17,9 @@ class HomeHeader extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final unreadCount = ref.watch(notificationProvider).unreadCount;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 4.h),
       child: Row(
@@ -69,21 +73,51 @@ class HomeHeader extends StatelessWidget {
             ),
           ),
 
-          // Notification Bell
+          // Notification Bell with Badge
           InkWell(
             onTap: onNotificationPressed,
             borderRadius: BorderRadius.circular(28.r),
-            child: Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/icons/home/noti.png',
-                width: 28.sp,
-                height: 28.sp,
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/icons/home/noti.png',
+                    width: 28.sp,
+                    height: 28.sp,
+                  ),
+                ),
+                if (unreadCount > 0)
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 16.w,
+                        minHeight: 16.w,
+                      ),
+                      child: Center(
+                        child: Text(
+                          unreadCount > 9 ? '9+' : unreadCount.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

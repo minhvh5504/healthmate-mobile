@@ -5,10 +5,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
-import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/routing/app_router.dart';
 import '../../../domain/usecases/change_password.dart';
 
 class ChangePasswordState {

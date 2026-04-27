@@ -46,7 +46,8 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               effectiveTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'Inter',
+              style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 22.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.typoBlack,
@@ -58,7 +59,8 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'Inter',
+              style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 15.sp,
                 color: AppColors.typoBody.withValues(alpha: 0.8),
                 height: 1.5,

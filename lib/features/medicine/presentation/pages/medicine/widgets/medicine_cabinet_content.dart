@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_colors.dart';
-import '../../../../../../core/config/routing/app_routes.dart';
+import '../../../../../../core/routing/app_routes.dart';
 import '../../../../domain/entities/scan_task.dart';
 import '../../../providers/medicine/medicine_provider.dart';
 import '../../../../domain/entities/user_medication.dart';

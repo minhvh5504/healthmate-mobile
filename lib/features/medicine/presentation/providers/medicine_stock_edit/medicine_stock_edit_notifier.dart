@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/config/routing/app_router.dart';
+import '../../../../../core/routing/app_router.dart';
 import '../medicine/medicine_provider.dart';
 
 class MedicineStockEditState {
