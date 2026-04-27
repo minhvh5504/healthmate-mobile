@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/config/routing/app_router.dart';
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../domain/entities/user_medication.dart';
 import '../medicine/medicine_provider.dart';
 

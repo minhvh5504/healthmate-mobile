@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../../config/routing/app_routes.dart';
+import '../../providers/bottom_nav_provider.dart';
+import '../../routing/app_routes.dart';
 import '../../theme/app_colors.dart';
 import 'nav_bar_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
+class CustomBottomNavBar extends ConsumerWidget {
   final int initialIndex;
   const CustomBottomNavBar({super.key, required this.initialIndex});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void handleTap(String route) {
+      ref.read(bottomNavVisibleProvider.notifier).state = true;
+      context.go(route);
+    }
+
     const Color navBgColor = AppColors.typoNavi;
     const Color activeColor = AppColors.typoNaviButton;
     const Color inactiveColor = AppColors.typoWhite;
@@ -39,7 +46,7 @@ class CustomBottomNavBar extends StatelessWidget {
             icon: LucideIcons.home,
             label: 'bottom_nav.home'.tr(),
             isActive: initialIndex == 0,
-            onTap: () => context.go(AppRoutes.home),
+            onTap: () => handleTap(AppRoutes.home),
             activeColor: activeColor,
             inactiveColor: inactiveColor,
           ),
@@ -47,7 +54,7 @@ class CustomBottomNavBar extends StatelessWidget {
             icon: LucideIcons.pill,
             label: 'bottom_nav.medicine'.tr(),
             isActive: initialIndex == 1,
-            onTap: () => context.go(AppRoutes.medicine),
+            onTap: () => handleTap(AppRoutes.medicine),
             activeColor: activeColor,
             inactiveColor: inactiveColor,
           ),
@@ -55,7 +62,7 @@ class CustomBottomNavBar extends StatelessWidget {
             icon: LucideIcons.heart,
             label: 'bottom_nav.health'.tr(),
             isActive: initialIndex == 2,
-            onTap: () => context.go(AppRoutes.health),
+            onTap: () => handleTap(AppRoutes.health),
             activeColor: activeColor,
             inactiveColor: inactiveColor,
           ),
@@ -63,7 +70,7 @@ class CustomBottomNavBar extends StatelessWidget {
             icon: LucideIcons.clipboardList,
             label: 'bottom_nav.history'.tr(),
             isActive: initialIndex == 3,
-            onTap: () => context.go(AppRoutes.history),
+            onTap: () => handleTap(AppRoutes.history),
             activeColor: activeColor,
             inactiveColor: inactiveColor,
           ),

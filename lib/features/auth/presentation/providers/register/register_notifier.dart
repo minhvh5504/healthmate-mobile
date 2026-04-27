@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';

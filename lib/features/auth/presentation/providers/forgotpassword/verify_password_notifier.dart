@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/validation.dart';
 
 import '../../../domain/usecases/resend_code.dart';
@@ -171,7 +171,11 @@ class VerifyPasswordNotifier extends StateNotifier<VerifyPasswordState> {
 
       final email = state.email;
 
-      final response = await _verifyCodeUseCase(email, state.otpCode, 'forgotpassword');
+      final response = await _verifyCodeUseCase(
+        email,
+        state.otpCode,
+        'forgotpassword',
+      );
 
       state = state.copyWith(
         isLoading: false,

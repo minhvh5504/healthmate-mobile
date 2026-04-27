@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart' as gs;
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
@@ -85,8 +85,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state.passwordController.addListener(_validateAll);
   }
 
-
-
   /// Validate all input fields
   void _validateAll() {
     final emailText = state.emailController.text.trim();
@@ -150,8 +148,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     return null;
   }
-
-
 
   /// Set loading state
   void _setLoading(bool loading) {
@@ -267,8 +263,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('login_type', 'api');
     await prefs.setBool('isLogin', true);
-
-
 
     _setLoading(false);
 

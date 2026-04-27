@@ -579,5 +579,19 @@
       "11": "11",
       "12": "12"
     }
+  },
+  "notifications": {
+    "title": "Thông báo",
+    "mark_all_read": "Đánh dấu đã đọc tất cả",
+    "delete_all": "Xoá tất cả",
+    "empty_state": "Bạn chưa có thông báo nào",
+    "today": "HÔM NAY",
+    "earlier": "TRƯỚC ĐÓ",
+    "confirm_delete_title": "Xác nhận xóa",
+    "confirm_delete_message": "Bạn có chắc chắn muốn xóa thông báo này không?",
+    "confirm_mark_read_all_title": "Đánh dấu đã đọc",
+    "confirm_mark_read_all_message": "Bạn có chắc chắn muốn đánh dấu tất cả thông báo là đã đọc?",
+    "confirm_delete_all_title": "Xóa tất cả",
+    "confirm_delete_all_message": "Bạn có chắc chắn muốn xóa tất cả thông báo không?"
   }
 }

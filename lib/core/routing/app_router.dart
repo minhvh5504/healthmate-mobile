@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../features/auth/presentation/pages/forgotpassword/reset_password_page.dart';
-import '../../../features/auth/presentation/pages/forgotpassword/send_request_page.dart';
-import '../../../features/auth/presentation/pages/forgotpassword/verify_password_page.dart';
-import '../../../features/auth/presentation/pages/login/login_page.dart';
-import '../../../features/auth/presentation/pages/register/register_page.dart';
-import '../../../features/auth/presentation/pages/register/verify_account_page.dart';
-import '../../../features/medicine/domain/entities/user_medication.dart';
-import '../../../features/medicine/presentation/pages/add_medicine/add_medicine_page.dart';
-import '../../../features/medicine/presentation/pages/medicine/medicine_page.dart';
-import '../../../features/medicine/presentation/pages/scan/scan_page.dart';
-import '../../../features/medicine/presentation/pages/scan/widgets/scan_medicine_box_page.dart';
-import '../../../features/medicine/presentation/pages/scan/widgets/scan_prescription_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_review/medicine_review_page.dart';
-import '../../../features/notifications/presentation/pages/notification_page.dart';
-import '../../../features/onboarding/presentation/pages/onboarding_page.dart';
-import '../../../features/onboarding/presentation/pages/splash_page.dart';
-import '../../../features/home/presentation/pages/home/home_page.dart';
+import '../../features/auth/presentation/pages/forgotpassword/reset_password_page.dart';
+import '../../features/auth/presentation/pages/forgotpassword/send_request_page.dart';
+import '../../features/auth/presentation/pages/forgotpassword/verify_password_page.dart';
+import '../../features/auth/presentation/pages/login/login_page.dart';
+import '../../features/auth/presentation/pages/register/register_page.dart';
+import '../../features/auth/presentation/pages/register/verify_account_page.dart';
+import '../../features/medicine/domain/entities/user_medication.dart';
+import '../../features/medicine/presentation/pages/add_medicine/add_medicine_page.dart';
+import '../../features/medicine/presentation/pages/medicine/medicine_page.dart';
+import '../../features/medicine/presentation/pages/scan/scan_page.dart';
+import '../../features/medicine/presentation/pages/scan/widgets/scan_medicine_box_page.dart';
+import '../../features/medicine/presentation/pages/scan/widgets/scan_prescription_page.dart';
+import '../../features/medicine/presentation/pages/medicine_review/medicine_review_page.dart';
+import '../../features/notifications/presentation/pages/notification_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/onboarding/presentation/pages/splash_page.dart';
+import '../../features/home/presentation/pages/home/home_page.dart';
 
-import '../../../features/health/presentation/pages/health/health_page.dart';
-import '../../../features/history/presentation/pages/history_page.dart';
-import '../../../features/settings/presentation/pages/settings/settings_page.dart';
-import '../../../features/settings/presentation/pages/profile/profile_page.dart';
-import '../../../features/settings/presentation/pages/notification_settings/notification_settings_page.dart';
-import '../../../features/settings/presentation/pages/high_settings/high_settings_page.dart';
-import '../../../features/settings/presentation/pages/change_password/change_password_page.dart';
-import '../../../features/auth/presentation/pages/register/register_intro_page.dart';
-import '../../../features/settings/presentation/pages/family_connection/family_connection_page.dart';
-import '../../../features/settings/presentation/pages/add_family_member/add_family_member_page.dart';
+import '../../features/health/presentation/pages/health/health_page.dart';
+import '../../features/history/presentation/pages/history_page.dart';
+import '../../features/settings/presentation/pages/settings/settings_page.dart';
+import '../../features/settings/presentation/pages/profile/profile_page.dart';
+import '../../features/settings/presentation/pages/notification_settings/notification_settings_page.dart';
+import '../../features/settings/presentation/pages/high_settings/high_settings_page.dart';
+import '../../features/settings/presentation/pages/change_password/change_password_page.dart';
+import '../../features/auth/presentation/pages/register/register_intro_page.dart';
+import '../../features/settings/presentation/pages/family_connection/family_connection_page.dart';
+import '../../features/settings/presentation/pages/add_family_member/add_family_member_page.dart';
 
-import '../../../features/medicine/presentation/pages/medicine_options/medicine_options_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_detail_preview/medicine_detail_preview_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_reminder/medicine_reminder_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_stock/medicine_stock_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_detail_preview_edit/medicine_detail_preview_edit_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_reminder_edit/medicine_reminder_edit_page.dart';
-import '../../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
-import '../../widgets/navigation/custom_bottom_navigation.dart';
+import '../../features/medicine/presentation/pages/medicine_options/medicine_options_page.dart';
+import '../../features/medicine/presentation/pages/medicine_detail_preview/medicine_detail_preview_page.dart';
+import '../../features/medicine/presentation/pages/medicine_reminder/medicine_reminder_page.dart';
+import '../../features/medicine/presentation/pages/medicine_stock/medicine_stock_page.dart';
+import '../../features/medicine/presentation/pages/medicine_detail_preview_edit/medicine_detail_preview_edit_page.dart';
+import '../../features/medicine/presentation/pages/medicine_reminder_edit/medicine_reminder_edit_page.dart';
+import '../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
+import '../widgets/navigation/custom_bottom_navigation.dart';
+import '../providers/bottom_nav_provider.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -184,19 +187,47 @@ class AppRouter {
       ShellRoute(
         builder: (context, state, child) {
           final int currentIndex = _getNavIndex(state.uri.path);
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              children: [
-                child,
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: CustomBottomNavBar(initialIndex: currentIndex),
+          return Consumer(
+            builder: (context, ref, _) {
+              final isVisible = ref.watch(bottomNavVisibleProvider);
+
+              return Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: [
+                    NotificationListener<UserScrollNotification>(
+                      onNotification: (notification) {
+                        if (notification.direction == ScrollDirection.reverse) {
+                          if (isVisible) {
+                            ref.read(bottomNavVisibleProvider.notifier).state =
+                                false;
+                          }
+                        } else if (notification.direction ==
+                            ScrollDirection.forward) {
+                          if (!isVisible) {
+                            ref.read(bottomNavVisibleProvider.notifier).state =
+                                true;
+                          }
+                        }
+                        return false;
+                      },
+                      child: child,
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: AnimatedSlide(
+                        offset: isVisible ? Offset.zero : const Offset(0, 1.5),
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: CustomBottomNavBar(initialIndex: currentIndex),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
         routes: [

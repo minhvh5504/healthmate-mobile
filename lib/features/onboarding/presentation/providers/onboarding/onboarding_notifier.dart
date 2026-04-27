@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../auth/presentation/providers/login/login_provider.dart';
 import '../../widgets/login_modal.dart';
 
@@ -48,8 +48,9 @@ class OnboardingNotifier extends StateNotifier<OnboardingState> {
       backgroundColor: Colors.transparent,
       builder: (_) => LoginModal(
         onContinueWithEmail: () => onContinueWithEmail(context),
-        onContinueWithGoogle: () =>
-            ref.read(loginNotifierProvider.notifier).onContinueWithGoogle(context),
+        onContinueWithGoogle: () => ref
+            .read(loginNotifierProvider.notifier)
+            .onContinueWithGoogle(context),
       ),
     );
   }

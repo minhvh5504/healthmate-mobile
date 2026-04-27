@@ -572,5 +572,19 @@
       "11": "Nov",
       "12": "Dec"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "delete_all": "Delete all",
+    "empty_state": "You have no notifications",
+    "today": "TODAY",
+    "earlier": "EARLIER",
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_message": "Are you sure you want to delete this notification?",
+    "confirm_mark_read_all_title": "Mark as Read",
+    "confirm_mark_read_all_message": "Are you sure you want to mark all notifications as read?",
+    "confirm_delete_all_title": "Delete All",
+    "confirm_delete_all_message": "Are you sure you want to delete all notifications?"
   }
 }

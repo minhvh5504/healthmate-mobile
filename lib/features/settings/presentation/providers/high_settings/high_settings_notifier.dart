@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../../core/config/routing/app_router.dart';
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../../auth/presentation/providers/auth/auth_provider.dart';
 import '../../pages/high_settings/widgets/language_dialog.dart';

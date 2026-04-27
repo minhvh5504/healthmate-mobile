@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/config/routing/app_router.dart';
-import '../../../../../core/config/routing/app_routes.dart';
+import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../domain/usecases/create_user_medication.dart';
 import '../medicine/medicine_provider.dart';
 import '../medicine_flow/medicine_flow_provider.dart';

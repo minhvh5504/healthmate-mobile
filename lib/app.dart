@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'core/config/routing/app_router.dart';
+import 'core/routing/app_router.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});

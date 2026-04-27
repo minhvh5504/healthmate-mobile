@@ -48,6 +48,8 @@ dependencies:
   firebase_messaging: ^16.0.4
   # push notification
   flutter_local_notifications: ^19.5.0
+  # websocket (socket.io)
+  socket_io_client: ^3.0.2
 
   # scanning & image processing
   google_mlkit_text_recognition: ^0.14.0
