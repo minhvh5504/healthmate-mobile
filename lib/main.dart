@@ -12,6 +12,41 @@ import 'firebase_options.dart';
 import 'core/services/push_notification_service.dart';
 import 'core/handlers/notification_handler.dart';
 
+import 'core/providers/app_reset_provider.dart';
+
+class AppInitializer extends ConsumerStatefulWidget {
+  final Widget child;
+  const AppInitializer({super.key, required this.child});
+
+  @override
+  ConsumerState<AppInitializer> createState() => _AppInitializerState();
+}
+
+class _AppInitializerState extends ConsumerState<AppInitializer> {
+  @override
+  void initState() {
+    super.initState();
+    _initNotifications();
+  }
+
+  Future<void> _initNotifications() async {
+    await PushNotificationService.initialize(
+      onTokenRefresh: (token) async {
+        await ref.read(deviceTokenServiceProvider).registerToken(token);
+      },
+      onForegroundMessage: (message) {
+        debugPrint('Received foreground message: ${message.messageId}');
+      },
+      onMessageOpenedApp: NotificationHandler.handleNotificationTap,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -23,28 +58,20 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final container = ProviderContainer();
-
-  // Initialize Push Notifications
-  await PushNotificationService.initialize(
-    onTokenRefresh: (token) async {
-      await container.read(deviceTokenServiceProvider).registerToken(token);
-    },
-    onForegroundMessage: (message) {
-      debugPrint('Received foreground message: ${message.messageId}');
-    },
-    onMessageOpenedApp: NotificationHandler.handleNotificationTap,
-  );
-
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: EasyLocalization(
-        supportedLocales: const [Locale('vi'), Locale('en')],
-        path: 'assets/lang',
-        fallbackLocale: const Locale('vi'),
-        child: const MyApp(),
-      ),
+    ListenableBuilder(
+      listenable: AppResetProvider(),
+      builder: (context, child) {
+        return ProviderScope(
+          key: UniqueKey(),
+          child: EasyLocalization(
+            supportedLocales: const [Locale('vi'), Locale('en')],
+            path: 'assets/lang',
+            fallbackLocale: const Locale('vi'),
+            child: const AppInitializer(child: MyApp()),
+          ),
+        );
+      },
     ),
   );
 }

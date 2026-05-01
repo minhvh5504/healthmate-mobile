@@ -9,6 +9,7 @@ import '../../../domain/usecases/update_user_medication.dart';
 import '../../../domain/usecases/get_daily_schedule.dart';
 import '../../../domain/usecases/record_medication_log.dart';
 import '../../../domain/usecases/update_medication_log.dart';
+import '../../../domain/usecases/get_family_members.dart';
 import 'medicine_notifier.dart';
 
 export '../../../domain/repositories/medication_repository.dart';
@@ -51,7 +52,9 @@ final updateUserMedicationUseCaseProvider = Provider<UpdateUserMedication>((
   return UpdateUserMedication(ref.read(medicationRepositoryProvider));
 });
 
-final getDailyScheduleUseCaseProvider = Provider<GetDailyScheduleUseCase>((ref) {
+final getDailyScheduleUseCaseProvider = Provider<GetDailyScheduleUseCase>((
+  ref,
+) {
   return GetDailyScheduleUseCase(ref.read(medicationRepositoryProvider));
 });
 
@@ -65,6 +68,11 @@ final updateMedicationLogUseCaseProvider = Provider<UpdateMedicationLog>((ref) {
   return UpdateMedicationLog(ref.read(medicationRepositoryProvider));
 });
 
+/// Usecase get family members (Medicine version)
+final getFamilyMembersUseCaseProvider = Provider<GetFamilyMembers>((ref) {
+  return GetFamilyMembers(ref.read(medicationRepositoryProvider));
+});
+
 /// Provider
 final medicineProvider = StateNotifierProvider<MedicineNotifier, MedicineState>(
   (ref) => MedicineNotifier(
@@ -75,5 +83,6 @@ final medicineProvider = StateNotifierProvider<MedicineNotifier, MedicineState>(
     ref.read(getDailyScheduleUseCaseProvider),
     ref.read(recordMedicationLogUseCaseProvider),
     ref.read(updateMedicationLogUseCaseProvider),
+    ref.read(getFamilyMembersUseCaseProvider),
   ),
 );

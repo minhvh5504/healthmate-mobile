@@ -23,6 +23,7 @@ class AppRoutes {
   static const String changepassword = '/change-password';
   static const String familyConnection = '/family-connection';
   static const String addFamilyMember = '/add-family-member';
+  static const String familyAccept = '/family/accept';
 
   // Medicine
   static const String addMedicine = '/add-medicine';
@@ -34,7 +35,8 @@ class AppRoutes {
   static const String medicineOptions = '/medicine-options';
   static const String medicineReminder = '/medicine-reminder';
   static const String medicineStock = '/medicine-stock';
-  static const String medicineDetailPreviewEdit = '/medicine-detail-preview-edit';
+  static const String medicineDetailPreviewEdit =
+      '/medicine-detail-preview-edit';
   static const String medicineReminderEdit = '/medicine-reminder-edit';
   static const String medicineStockEdit = '/medicine-stock-edit';
 

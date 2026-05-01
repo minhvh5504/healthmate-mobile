@@ -41,14 +41,48 @@ class AddFamilyMemberPage extends ConsumerWidget {
                       SizedBox(height: 16.h),
 
                       // Email Field
-                      InputTextField(
-                        controller: state.emailController,
-                        label: 'add_family.email_label'.tr(),
-                        hint: 'add_family.email_hint'.tr(),
-                        keyboardType: TextInputType.emailAddress,
-                        hasError: state.errorMessage != null,
-                        errorText: state.errorMessage,
-                      ),
+                      if (!state.isSuccess)
+                        InputTextField(
+                          controller: state.emailController,
+                          label: 'add_family.email_label'.tr(),
+                          hint: 'add_family.email_hint'.tr(),
+                          keyboardType: TextInputType.emailAddress,
+                          hasError: state.errorMessage != null,
+                          errorText: state.errorMessage,
+                        ),
+
+                      if (state.isSuccess) ...[
+                        SizedBox(height: 100.h),
+                        Center(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.check_circle_outline,
+                                color: AppColors.bgPrimary,
+                                size: 80.sp,
+                              ),
+                              SizedBox(height: 24.h),
+                              Text(
+                                'add_family.success_title'.tr(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24.sp,
+                                  color: AppColors.typoHeading,
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(
+                                'add_family.success_subtitle'.tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.typoBody,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -59,23 +93,31 @@ class AddFamilyMemberPage extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
                   children: [
-                    Button(
-                      text: 'add_family.button_submit'.tr(),
-                      onPressed: state.isLoading
-                          ? null
-                          : () => notifier.onConnect(),
-                      color: AppColors.typoBlack,
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      'add_family.footer_text'.tr(args: ['0', '5']),
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12.sp,
-                        color: AppColors.typoBody.withValues(alpha: 0.8),
-                        fontWeight: FontWeight.w400,
+                    if (!state.isSuccess)
+                      Button(
+                        text: 'add_family.button_submit'.tr(),
+                        onPressed: state.isLoading
+                            ? null
+                            : () => notifier.onConnect(),
+                        color: AppColors.typoBlack,
+                      )
+                    else
+                      Button(
+                        text: 'add_family.button_done'.tr(),
+                        onPressed: () => notifier.onBack(),
+                        color: AppColors.bgPrimary,
                       ),
-                    ),
+                    SizedBox(height: 16.h),
+                    if (!state.isSuccess)
+                      Text(
+                        'add_family.footer_text'.tr(args: ['0', '5']),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12.sp,
+                          color: AppColors.typoBody.withValues(alpha: 0.8),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                   ],
                 ),
               ),

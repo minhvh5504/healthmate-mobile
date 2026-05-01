@@ -25,12 +25,12 @@ final settingsRepositoryProvider = Provider<SettingsRepositoryImpl>((ref) {
   );
 });
 
-/// UseCase
+/// UseCases
 final getUserProfileUseCaseProvider = Provider<GetUserProfile>((ref) {
   return GetUserProfile(ref.read(settingsRepositoryProvider));
 });
 
-/// Notifier
+/// Provider
 final settingsProvider = StateNotifierProvider<SettingsNotifier, SettingsState>(
   (ref) {
     return SettingsNotifier(ref);

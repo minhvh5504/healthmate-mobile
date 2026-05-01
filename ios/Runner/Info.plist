@@ -53,6 +53,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.604416099695-nuivl4a856dbmaamgpve417ivlvgjk6c</string>
+				<string>healthmate</string>
 			</array>
 		</dict>
 	</array>

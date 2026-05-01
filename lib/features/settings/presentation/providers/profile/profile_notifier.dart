@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/routing/app_router.dart';
@@ -59,11 +60,11 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     if (gender == null) return '—';
     switch (gender.toLowerCase()) {
       case 'male':
-        return 'Nam';
+        return 'profile.male'.tr();
       case 'female':
-        return 'Nữ';
+        return 'profile.female'.tr();
       case 'other':
-        return 'Khác';
+        return 'profile.other'.tr();
       default:
         return gender;
     }

@@ -8,10 +8,12 @@
     "error_title": "Oh no!",
     "back": "Back",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "retry": "Retry"
   },
   "common": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "retry": "Retry"
   },
   "register_intro": {
     "title": "Create your\nfree account",
@@ -241,7 +243,8 @@
   "family_connection": {
     "title": "Family Connection",
     "subtitle": "Select a person to view or add new",
-    "button_add": "Add supporter"
+    "button_add": "Add supporter",
+    "status_pending": "Waiting for verification"
   },
   "add_family": {
     "title": "Supporting each other, Living healthier",
@@ -249,7 +252,12 @@
     "email_label": "Email",
     "email_hint": "name@example.com",
     "button_submit": "Connect with relative",
-    "footer_text": "You can connect up to {}/{} supporters."
+    "button_done": "Done",
+    "success_title": "Awesome!",
+    "success_subtitle": "The connection invitation has been successfully sent to your relative.",
+    "footer_text": "You can connect up to {}/{} supporters.",
+    "invite_success": "Invitation sent successfully!",
+    "invite_failed": "Failed to send invitation. Please try again."
   },
   "medicine": {
     "tab_schedule": "Schedule",
@@ -440,6 +448,12 @@
       "updated_taken": "Updated: Taken at {}",
       "taken_at": "Taken at {}",
       "user_selected_missed": "User selected missed from popup"
+    },
+    "family_popup": {
+      "title": "Caring for relatives",
+      "subtitle": "Choose a person to view or add new",
+      "me": "me",
+      "add_supporter": "Add supporter"
     }
   },
   "bottom_nav": {

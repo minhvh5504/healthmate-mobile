@@ -1,4 +1,4 @@
-import '../../domain/entities/family_connection.dart';
+import '../../domain/entities/family_member.dart';
 
 class FamilyMemberModel extends FamilyMember {
   const FamilyMemberModel({

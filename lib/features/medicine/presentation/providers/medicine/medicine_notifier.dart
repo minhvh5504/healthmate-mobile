@@ -9,6 +9,7 @@ import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../pages/medicine/widgets/medicine_quantity_popup.dart';
 import '../../pages/medicine_options/widgets/stop_medication_popup.dart';
+import '../../pages/medicine/widgets/family_selection_bottom_sheet.dart';
 import '../../../../../core/providers/user_provider.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../features/auth/presentation/providers/auth/auth_provider.dart';
@@ -20,6 +21,8 @@ import '../../../domain/entities/scan_task.dart';
 import '../../../domain/entities/daily_schedule.dart';
 import '../../../domain/entities/daily_schedule_item.dart';
 import '../../../domain/repositories/medication_repository.dart';
+import '../../../domain/usecases/get_family_members.dart';
+import '../../../domain/entities/family_member.dart';
 
 enum MedicineTab { schedule, cabinet }
 
@@ -36,6 +39,8 @@ class MedicineState {
   final String? reviewImagePath;
   final DailySchedule? dailySchedule;
   final bool isInitialLoad;
+  final String? selectedFamilyMemberId;
+  final List<FamilyMember> familyMembers;
 
   MedicineState({
     this.selectedTab = MedicineTab.schedule,
@@ -49,6 +54,8 @@ class MedicineState {
     this.reviewImagePath,
     this.dailySchedule,
     this.isInitialLoad = true,
+    this.selectedFamilyMemberId,
+    this.familyMembers = const [],
   }) : selectedDate = selectedDate ?? DateTime.now();
 
   MedicineState copyWith({
@@ -63,6 +70,8 @@ class MedicineState {
     String? reviewImagePath,
     DailySchedule? dailySchedule,
     bool? isInitialLoad,
+    String? selectedFamilyMemberId,
+    List<FamilyMember>? familyMembers,
   }) {
     return MedicineState(
       selectedTab: selectedTab ?? this.selectedTab,
@@ -76,6 +85,9 @@ class MedicineState {
       reviewImagePath: reviewImagePath ?? this.reviewImagePath,
       dailySchedule: dailySchedule ?? this.dailySchedule,
       isInitialLoad: isInitialLoad ?? this.isInitialLoad,
+      selectedFamilyMemberId:
+          selectedFamilyMemberId ?? this.selectedFamilyMemberId,
+      familyMembers: familyMembers ?? this.familyMembers,
     );
   }
 }
@@ -89,6 +101,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
   final GetDailyScheduleUseCase _getDailySchedule;
   final RecordMedicationLog _recordMedicationLog;
   final UpdateMedicationLog _updateMedicationLog;
+  final GetFamilyMembers _getFamilyMembers;
 
   MedicineNotifier(
     this.ref,
@@ -98,12 +111,14 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     this._getDailySchedule,
     this._recordMedicationLog,
     this._updateMedicationLog,
+    this._getFamilyMembers,
   ) : super(MedicineState()) {
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.isLoggedIn && next.accessToken != null) {
         if (previous?.isLoggedIn != true) {
           ref.read(userProfileProvider.notifier).fetchProfile();
           fetchActiveMedications();
+          loadFamilyMembers();
         }
       }
     });
@@ -111,6 +126,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     if (auth.isLoggedIn && auth.accessToken != null) {
       ref.read(userProfileProvider.notifier).fetchProfile();
       fetchActiveMedications();
+      loadFamilyMembers();
     }
   }
 
@@ -140,9 +156,73 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     fetchDailySchedule();
   }
 
+  /// Select family member
+  void selectFamilyMember(String? id) {
+    state = state.copyWith(selectedFamilyMemberId: id);
+    fetchActiveMedications();
+  }
+
+  /// Handle family selection from UI
+  void onSelectFamilyMember(BuildContext context, String? id) {
+    selectFamilyMember(id);
+    Navigator.pop(context);
+  }
+
+  /// Load family members
+  Future<void> loadFamilyMembers() async {
+    try {
+      final members = await _getFamilyMembers();
+      if (!mounted) return;
+      state = state.copyWith(familyMembers: members);
+    } catch (e) {
+      // Quietly fail or handle error
+    }
+  }
+
   /// Add medicine
   void onAddMedicine() {
     AppRouter.router.push(AppRoutes.addMedicine);
+  }
+
+  /// Show family selection bottom sheet
+  void onShowFamilySelection(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Family Selection',
+      barrierColor: Colors.transparent,
+      transitionDuration: const Duration(milliseconds: 400),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.backgroundGradient,
+                  ),
+                ),
+              ),
+              const FamilySelectionBottomSheet(),
+            ],
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic)),
+          child: child,
+        );
+      },
+    );
   }
 
   void selectTaskForReview(String taskId) {
@@ -254,6 +334,8 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         _repository.getScanTasks(),
       ]);
 
+      if (!mounted) return;
+
       final medications = results[0] as List<UserMedication>;
       final serverTasks = results[1] as List<ScanTask>;
 
@@ -289,6 +371,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
 
       await fetchDailySchedule();
     } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: e.toString(), isLoading: false);
     }
   }
@@ -298,8 +381,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     try {
       final dateStr = DateFormat('yyyy-MM-dd').format(state.selectedDate);
       final schedule = await _getDailySchedule(dateStr);
+      if (!mounted) return;
       state = state.copyWith(dailySchedule: schedule);
     } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: e.toString());
     }
   }
@@ -497,8 +582,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         actualQuantity: actualQuantity,
         actualAt: actualAt,
       );
+      if (!mounted) return;
       await fetchDailySchedule();
     } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: e.toString());
     }
   }
@@ -579,8 +666,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         actualQuantity: actualQuantity,
         actualAt: actualAt,
       );
+      if (!mounted) return;
       await fetchDailySchedule();
     } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: e.toString());
     }
   }

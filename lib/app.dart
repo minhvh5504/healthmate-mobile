@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:toastification/toastification.dart';
 import 'core/routing/app_router.dart';
 
 class MyApp extends ConsumerWidget {
@@ -14,14 +15,16 @@ class MyApp extends ConsumerWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp.router(
-          title: 'HealthMate',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
-          routerConfig: AppRouter.router,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
+        return ToastificationWrapper(
+          child: MaterialApp.router(
+            title: 'HealthMate',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
+            routerConfig: ref.watch(routerProvider),
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+          ),
         );
       },
     );

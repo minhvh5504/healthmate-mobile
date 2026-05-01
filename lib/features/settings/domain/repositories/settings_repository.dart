@@ -8,4 +8,7 @@ abstract interface class SettingsRepository {
   Future<List<NotificationTime>> getNotificationSettings();
   Future<void> changePassword(String currentPassword, String newPassword);
   Future<List<FamilyMember>> getFamilyMembers();
+  Future<String?> inviteMember(String email);
+  Future<void> acceptInvitation(String relationshipId);
+  Future<void> acceptInvitationByToken(String token);
 }

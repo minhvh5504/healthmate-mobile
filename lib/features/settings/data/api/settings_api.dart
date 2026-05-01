@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 import '../models/user_profile_model.dart';
 import '../models/notification_time_slots_response.dart';
+import '../models/user_relationship_response.dart';
 
 part 'settings_api.g.dart';
 
@@ -21,4 +22,16 @@ abstract class SettingsApi {
 
   @GET('notification-time-slots')
   Future<NotificationTimeSlotsResponse> getNotificationTimeSlots();
+
+  @GET('user-relationships')
+  Future<UserRelationshipResponse> getUserRelationships();
+
+  @POST('user-relationships/invite')
+  Future<HttpResponse<dynamic>> inviteMember(@Body() Map<String, dynamic> body);
+
+  @PATCH('user-relationships/{id}/accept')
+  Future<void> acceptInvitation(@Path('id') String id);
+
+  @POST('user-relationships/accept-by-token')
+  Future<void> acceptInvitationByToken(@Body() Map<String, dynamic> body);
 }

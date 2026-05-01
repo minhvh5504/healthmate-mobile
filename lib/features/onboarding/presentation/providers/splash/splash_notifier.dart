@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/providers/app_state_provider.dart';
 
 /// STATE
 class SplashState {
@@ -79,6 +80,9 @@ class SplashNotifier extends StateNotifier<SplashState> {
       } else {
         context.go(AppRoutes.onboarding);
       }
+      
+      // Mark app as initialized for deep link handling
+      ref.read(appInitializedProvider.notifier).state = true;
     }
   }
 
