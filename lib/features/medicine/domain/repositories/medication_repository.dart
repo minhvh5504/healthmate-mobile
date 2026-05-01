@@ -3,6 +3,7 @@ import '../entities/user_medication.dart';
 import '../entities/scan_task.dart';
 import '../entities/medication_condition.dart';
 import '../entities/daily_schedule.dart';
+import '../entities/family_member.dart';
 
 abstract class MedicationRepository {
   Future<List<Medication>> searchMedications(String query);
@@ -54,7 +55,7 @@ abstract class MedicationRepository {
 
   Future<List<UserMedication>> getUserMedications();
   Future<List<MedicationCondition>> getMedicationConditions();
-  
+
   Future<DailySchedule> getDailySchedule(String date);
 
   Future<void> createMedicationLog({
@@ -71,4 +72,6 @@ abstract class MedicationRepository {
     int? actualQuantity,
     DateTime? actualAt,
   });
+
+  Future<List<FamilyMember>> getUserRelationships();
 }

@@ -1,6 +1,8 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
+import '../models/user_relationship_response.dart';
+
 part 'medication_api.g.dart';
 
 @RestApi()
@@ -39,4 +41,7 @@ abstract class MedicationApi {
 
   @PATCH('medication-logs/{id}')
   Future<dynamic> updateMedicationLog(@Path('id') String id, @Body() Map<String, dynamic> body);
+
+  @GET('user-relationships')
+  Future<UserRelationshipResponse> getUserRelationships();
 }

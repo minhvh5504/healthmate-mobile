@@ -40,11 +40,13 @@ import '../../features/medicine/presentation/pages/medicine_reminder_edit/medici
 import '../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
 import '../widgets/navigation/custom_bottom_navigation.dart';
 import '../providers/bottom_nav_provider.dart';
+import '../handlers/deeplink_handler.dart';
 import 'app_routes.dart';
 
-class AppRouter {
-  static final GoRouter router = GoRouter(
+final routerProvider = Provider<GoRouter>((ref) {
+  final router = GoRouter(
     initialLocation: AppRoutes.splash,
+    redirect: (context, state) => DeepLinkHandler.handleRedirect(ref, state),
     routes: [
       GoRoute(
         path: AppRoutes.splash,
@@ -110,6 +112,11 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.addFamilyMember,
         builder: (context, state) => const AddFamilyMemberPage(),
+      ),
+      // Deep link landing route — DeepLinkHandler will redirect from here
+      GoRoute(
+        path: AppRoutes.familyAccept,
+        builder: (context, state) => const FamilyConnectionPage(),
       ),
 
       GoRoute(
@@ -251,12 +258,18 @@ class AppRouter {
       ),
     ],
   );
+  AppRouter.router = router;
+  return router;
+});
 
-  static int _getNavIndex(String path) {
-    if (path.startsWith(AppRoutes.home)) return 0;
-    if (path.startsWith(AppRoutes.medicine)) return 1;
-    if (path.startsWith(AppRoutes.health)) return 2;
-    if (path.startsWith(AppRoutes.history)) return 3;
-    return 0;
-  }
+int _getNavIndex(String path) {
+  if (path.startsWith(AppRoutes.home)) return 0;
+  if (path.startsWith(AppRoutes.medicine)) return 1;
+  if (path.startsWith(AppRoutes.health)) return 2;
+  if (path.startsWith(AppRoutes.history)) return 3;
+  return 0;
+}
+
+class AppRouter {
+  static late GoRouter router;
 }

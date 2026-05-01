@@ -1,4 +1,3 @@
-/// Core domain entity for a family member connection.
 class FamilyMember {
   final String id; // Relationship ID
   final String userId; // Other user ID

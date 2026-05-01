@@ -5,6 +5,7 @@ import '../models/scan_task_model.dart';
 import '../models/medication_condition_model.dart';
 import '../../domain/entities/medication_condition.dart';
 import '../models/daily_schedule_model.dart';
+import '../models/family_member_model.dart';
 
 class MedicationRemoteDataSource {
   final MedicationApi api;
@@ -122,5 +123,10 @@ class MedicationRemoteDataSource {
       if (actualQuantity != null) 'actualQuantity': actualQuantity,
       if (actualAt != null) 'actualAt': actualAt.toUtc().toIso8601String(),
     });
+  }
+
+  Future<List<FamilyMemberModel>> getUserRelationships() async {
+    final response = await api.getUserRelationships();
+    return response.data;
   }
 }

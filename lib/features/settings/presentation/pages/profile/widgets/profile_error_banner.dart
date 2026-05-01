@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,7 +44,7 @@ class ProfileErrorBanner extends StatelessWidget {
           TextButton(
             onPressed: onRetry,
             child: Text(
-              'Thử lại',
+              'dialog.retry'.tr(),
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 12.sp,

@@ -39,18 +39,25 @@ class SettingsRemoteDataSource {
     return response.data;
   }
 
-  /// Returns a mocked list of family members.
+  /// Returns the list of family members from the API.
   Future<List<FamilyMemberModel>> getFamilyMembers() async {
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 800));
+    final response = await _api.getUserRelationships();
+    return response.data;
+  }
 
-    return [
-      const FamilyMemberModel(
-        id: '1',
-        name: 'Joyer5504',
-        avatar:
-            'https://ui-avatars.com/api/?name=Joyer5504&background=0D8ABC&color=fff',
-      ),
-    ];
+  Future<String?> inviteMember(String email) async {
+    final response = await _api.inviteMember({'email': email});
+    final data = response.data as Map<String, dynamic>;
+    // The link is inside the 'data' property of the standard API response helper
+    final responseData = data['data'] as Map<String, dynamic>?;
+    return responseData?['invitationLink'] as String?;
+  }
+
+  Future<void> acceptInvitation(String relationshipId) {
+    return _api.acceptInvitation(relationshipId);
+  }
+
+  Future<void> acceptInvitationByToken(String token) {
+    return _api.acceptInvitationByToken({'token': token});
   }
 }

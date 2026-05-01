@@ -33,4 +33,19 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<List<FamilyMember>> getFamilyMembers() {
     return remoteDataSource.getFamilyMembers();
   }
+
+  @override
+  Future<String?> inviteMember(String email) {
+    return remoteDataSource.inviteMember(email);
+  }
+
+  @override
+  Future<void> acceptInvitation(String relationshipId) {
+    return remoteDataSource.acceptInvitation(relationshipId);
+  }
+  
+  @override
+  Future<void> acceptInvitationByToken(String token) {
+    return remoteDataSource.acceptInvitationByToken(token);
+  }
 }

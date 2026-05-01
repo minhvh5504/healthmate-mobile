@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/providers/app_reset_provider.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../../auth/presentation/providers/auth/auth_provider.dart';
 import '../../pages/high_settings/widgets/language_dialog.dart';
@@ -120,6 +121,7 @@ class HighSettingsNotifier extends StateNotifier<HighSettingsState> {
 
           await ref.read(authProvider.notifier).logout();
 
+          AppResetProvider().reset();
           AppRouter.router.go(AppRoutes.splash);
         },
       ),

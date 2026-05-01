@@ -8,7 +8,8 @@
     "error_title": "Ôi không!",
     "back": "Quay lại",
     "confirm": "Xác nhận",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "retry": "Thử lại"
   },
   "common": {
     "cancel": "Huỷ bỏ"
@@ -241,7 +242,8 @@
   "family_connection": {
     "title": "Kết nối gia đình",
     "subtitle": "Chọn một người để xem hoặc thêm mới",
-    "button_add": "Thêm người hỗ trợ"
+    "button_add": "Thêm người hỗ trợ",
+    "status_pending": "Đang chờ xác nhận"
   },
   "add_family": {
     "title": "Hỗ trợ lẫn nhau, Sống khỏe mạnh hơn",
@@ -249,7 +251,12 @@
     "email_label": "Email",
     "email_hint": "name@example.com",
     "button_submit": "Kết nối với người thân",
-    "footer_text": "Bạn có thể kết nối tối đa {}/{} người hỗ trợ."
+    "button_done": "Hoàn tất",
+    "success_title": "Tuyệt vời!",
+    "success_subtitle": "Lời mời kết nối đã được gửi đến người thân của bạn thành công.",
+    "footer_text": "Bạn có thể kết nối tối đa {}/{} người hỗ trợ.",
+    "invite_success": "Đã gửi lời mời kết nối thành công!",
+    "invite_failed": "Gửi lời mời thất bại. Vui lòng thử lại."
   },
   "medicine": {
     "tab_schedule": "Lịch uống",
@@ -440,6 +447,12 @@
       "updated_taken": "Đã cập nhật: Dùng lúc {}",
       "taken_at": "Đã dùng lúc {}",
       "user_selected_missed": "Người dùng chọn bỏ lỡ tại popup"
+    },
+    "family_popup": {
+      "title": "Chăm sóc người thân",
+      "subtitle": "Chọn một người để xem hoặc thêm mới",
+      "me": "tôi",
+      "add_supporter": "Thêm người hỗ trợ"
     }
   },
   "bottom_nav": {

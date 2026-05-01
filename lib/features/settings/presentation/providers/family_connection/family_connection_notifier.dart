@@ -64,4 +64,16 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
   Future<void> onRefresh() async {
     await loadMembers();
   }
+
+  /// Accept invitation using a token (from deep link)
+  Future<void> acceptInvitationByToken(String token) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final acceptInvitation = ref.read(acceptInvitationUseCaseProvider);
+      await acceptInvitation(token: token);
+      await loadMembers(); // Refresh list after accepting
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
+  }
 }

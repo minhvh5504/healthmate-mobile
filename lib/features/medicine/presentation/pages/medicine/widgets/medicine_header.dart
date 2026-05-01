@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthmate_mobile/features/medicine/presentation/providers/medicine/medicine_provider.dart';
 import '../../../../../../core/theme/app_colors.dart';
-import '../../../providers/medicine/medicine_notifier.dart';
 
-class MedicineTabBar extends StatelessWidget {
+class MedicineTabBar extends ConsumerWidget {
   const MedicineTabBar({
     super.key,
     required this.selectedTab,
@@ -17,7 +18,8 @@ class MedicineTabBar extends StatelessWidget {
   final String? avatarUrl;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final medicineNotifier = ref.read(medicineProvider.notifier);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Row(
@@ -37,38 +39,42 @@ class MedicineTabBar extends StatelessWidget {
           const Spacer(),
 
           /// User avatar + dropdown caret
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: avatarUrl != null
-                        ? NetworkImage(avatarUrl!) as ImageProvider
-                        : const AssetImage('assets/images/user/avatar.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  border: Border.all(color: Colors.white, width: 2.w),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+          GestureDetector(
+            onTap: () => medicineNotifier.onShowFamilySelection(context),
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 40.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: avatarUrl != null
+                          ? NetworkImage(avatarUrl!) as ImageProvider
+                          : const AssetImage('assets/images/user/avatar.png'),
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                    border: Border.all(color: Colors.white, width: 2.w),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width: 4.w),
-              Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 18.sp,
-                color: AppColors.typoBody,
-              ),
-            ],
+                SizedBox(width: 4.w),
+                Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 18.sp,
+                  color: AppColors.typoBody,
+                ),
+              ],
+            ),
           ),
         ],
       ),

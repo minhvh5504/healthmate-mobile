@@ -3,6 +3,7 @@ import '../../domain/entities/user_medication.dart';
 import '../../domain/entities/scan_task.dart';
 import '../../domain/entities/medication_condition.dart';
 import '../../domain/entities/daily_schedule.dart';
+import '../../domain/entities/family_member.dart';
 import '../../domain/repositories/medication_repository.dart';
 import '../datasources/medication_remote_datasource.dart';
 
@@ -167,5 +168,10 @@ class MedicationRepositoryImpl implements MedicationRepository {
       actualQuantity: actualQuantity,
       actualAt: actualAt,
     );
+  }
+
+  @override
+  Future<List<FamilyMember>> getUserRelationships() {
+    return remoteDataSource.getUserRelationships();
   }
 }
