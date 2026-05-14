@@ -23,6 +23,7 @@ import '../../features/home/presentation/pages/home/home_page.dart';
 import '../../features/health/presentation/pages/health/health_page.dart';
 import '../../features/history/presentation/pages/history_page.dart';
 import '../../features/settings/presentation/pages/settings/settings_page.dart';
+import '../../features/chat/presentation/pages/chat/chat_page.dart';
 import '../../features/settings/presentation/pages/profile/profile_page.dart';
 import '../../features/settings/presentation/pages/notification_settings/notification_settings_page.dart';
 import '../../features/settings/presentation/pages/high_settings/high_settings_page.dart';
@@ -113,7 +114,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.addFamilyMember,
         builder: (context, state) => const AddFamilyMemberPage(),
       ),
-      // Deep link landing route — DeepLinkHandler will redirect from here
+
       GoRoute(
         path: AppRoutes.familyAccept,
         builder: (context, state) => const FamilyConnectionPage(),
@@ -189,6 +190,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           final medication = state.extra as Map<String, dynamic>? ?? {};
           return MedicineStockEditPage(medication: medication);
         },
+      ),
+
+      GoRoute(
+        path: AppRoutes.chat,
+        builder: (context, state) => const ChatPage(),
       ),
 
       ShellRoute(

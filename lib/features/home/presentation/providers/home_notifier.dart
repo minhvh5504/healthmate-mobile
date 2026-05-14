@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../core/routing/app_router.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/providers/user_provider.dart';
+import '../../../../core/providers/realtime_provider.dart';
 
 /// STATE
 class HomeState {
@@ -23,16 +25,26 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
   HomeNotifier(this.ref) : super(const HomeState()) {
     ref.read(userProfileProvider.notifier).fetchProfile();
+    _registerDeviceToken();
+  }
+
+  /// Register FCM device token
+  void _registerDeviceToken() {
+    FirebaseMessaging.instance.getToken().then((token) {
+      if (token != null) {
+        ref.read(deviceTokenServiceProvider).registerToken(token);
+      }
+    });
   }
 
   /// Handle ai assistant
   void onAiAssistant() {
-    // AppRouter.router.go(AppRoutes.ai);
+    AppRouter.router.push(AppRoutes.chat);
   }
 
   /// Handle connect relative
   void onConnectRelative() {
-    // AppRouter.router.go(AppRoutes.health);
+    AppRouter.router.push(AppRoutes.familyConnection);
   }
 
   /// Handle update health

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthmate_mobile/core/providers/realtime_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../domain/usecases/refresh_token_account.dart';
 
 /// STATE
@@ -76,6 +76,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   /// Logout
   Future<void> logout() async {
+    await ref.read(deviceTokenServiceProvider).unregisterToken();
+
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.remove('access_token');

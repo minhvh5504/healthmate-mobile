@@ -25,23 +25,25 @@ class DailyScheduleItemModel extends DailyScheduleItem {
       mealInstruction: json['mealInstruction']?.toString(),
       status: json['status']?.toString() ?? 'PENDING',
       logId: json['logId']?.toString(),
-      actualAt: json['actualAt'] != null ? DateTime.parse(json['actualAt'].toString()) : null,
+      actualAt: json['actualAt'] != null
+          ? DateTime.parse(json['actualAt'].toString())
+          : null,
       actualQuantity: json['actualQuantity'] as int?,
       quantity: json['quantity'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'userMedicationId': userMedicationId,
-        'reminderScheduleId': reminderScheduleId,
-        'medicationName': medicationName,
-        'dosage': dosage,
-        'remindTime': remindTime,
-        'mealInstruction': mealInstruction,
-        'status': status,
-        'logId': logId,
-        'actualAt': actualAt?.toIso8601String(),
-        'actualQuantity': actualQuantity,
-        'quantity': quantity,
-      };
+    'userMedicationId': userMedicationId,
+    'reminderScheduleId': reminderScheduleId,
+    'medicationName': medicationName,
+    'dosage': dosage,
+    'remindTime': remindTime,
+    'mealInstruction': mealInstruction,
+    'status': status,
+    'logId': logId,
+    'actualAt': actualAt?.toIso8601String(),
+    'actualQuantity': actualQuantity,
+    'quantity': quantity,
+  };
 }

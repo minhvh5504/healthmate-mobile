@@ -10,24 +10,45 @@ class DailyScheduleModel extends DailySchedule {
 
   factory DailyScheduleModel.fromJson(Map<String, dynamic> json) {
     return DailyScheduleModel(
-      morning: (json['morning'] as List<dynamic>?)
-              ?.map((item) => DailyScheduleItemModel.fromJson(item as Map<String, dynamic>))
+      morning:
+          (json['morning'] as List<dynamic>?)
+              ?.map(
+                (item) => DailyScheduleItemModel.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
               .toList() ??
           [],
-      afternoon: (json['afternoon'] as List<dynamic>?)
-              ?.map((item) => DailyScheduleItemModel.fromJson(item as Map<String, dynamic>))
+      afternoon:
+          (json['afternoon'] as List<dynamic>?)
+              ?.map(
+                (item) => DailyScheduleItemModel.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
               .toList() ??
           [],
-      evening: (json['evening'] as List<dynamic>?)
-              ?.map((item) => DailyScheduleItemModel.fromJson(item as Map<String, dynamic>))
+      evening:
+          (json['evening'] as List<dynamic>?)
+              ?.map(
+                (item) => DailyScheduleItemModel.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
               .toList() ??
           [],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'morning': (morning as List<DailyScheduleItemModel>).map((item) => item.toJson()).toList(),
-        'afternoon': (afternoon as List<DailyScheduleItemModel>).map((item) => item.toJson()).toList(),
-        'evening': (evening as List<DailyScheduleItemModel>).map((item) => item.toJson()).toList(),
-      };
+    'morning': (morning as List<DailyScheduleItemModel>)
+        .map((item) => item.toJson())
+        .toList(),
+    'afternoon': (afternoon as List<DailyScheduleItemModel>)
+        .map((item) => item.toJson())
+        .toList(),
+    'evening': (evening as List<DailyScheduleItemModel>)
+        .map((item) => item.toJson())
+        .toList(),
+  };
 }

@@ -76,5 +76,22 @@ class DeviceTokenService {
     }
   }
 
+  /// Unregister FCM token from the backend (on logout).
+  Future<void> unregisterToken() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(_key);
+
+      if (token == null) return;
+
+      final client = ApiClient(_ref);
+      await client.delete('device-tokens/$token');
+
+      await prefs.remove(_key);
+    } catch (e) {
+      // Non-critical
+    }
+  }
+
   String _getPlatform() => Platform.isIOS ? 'ios' : 'android';
 }

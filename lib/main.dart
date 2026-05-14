@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthmate_mobile/core/providers/socket_realtime_provider.dart';
 import 'app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -32,7 +31,7 @@ class _AppInitializerState extends ConsumerState<AppInitializer> {
   Future<void> _initNotifications() async {
     await PushNotificationService.initialize(
       onTokenRefresh: (token) async {
-        await ref.read(deviceTokenServiceProvider).registerToken(token);
+        debugPrint('[FCM] Token refreshed: $token');
       },
       onForegroundMessage: (message) {
         debugPrint('Received foreground message: ${message.messageId}');

@@ -1,16 +1,13 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ApiBaseDev {
-  static String get baseUrlDevelopment => dotenv.env['BASE_URL_DEV'] ?? '';
-}
-
-class ApiBaseProd {
-  static String get baseUrlProduction => dotenv.env['BASE_URL_PROD'] ?? '';
+class ApiBase {
+  // static String get baseUrl => dotenv.env['BASE_URL_DEV'] ?? '';
+  static String get baseUrl => dotenv.env['BASE_URL_PROD'] ?? '';
 }
 
 class ApiSocket {
-  static String get urlNotifications =>
-      dotenv.env['SOCKET_URL_NOTIFICATIONS'] ?? '';
+  // static String get urlNotifications => dotenv.env['SOCKET_URL_DEV'] ?? '';
+  static String get urlNotifications => dotenv.env['SOCKET_URL_PROD'] ?? '';
 }
 
 class ApiKey {

@@ -14,7 +14,7 @@ class ApiClient {
   factory ApiClient(Ref ref) {
     final dio = Dio(
       BaseOptions(
-        baseUrl: ApiBaseDev.baseUrlDevelopment,
+        baseUrl: ApiBase.baseUrl,
         connectTimeout: const Duration(seconds: 20),
         receiveTimeout: const Duration(seconds: 20),
         sendTimeout: const Duration(seconds: 20),
