@@ -11,6 +11,7 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
   final bool showBack;
   final bool showMore;
   final bool showTitle;
+  final double topPadding;
 
   const HeaderWithBack({
     super.key,
@@ -20,6 +21,7 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
     this.showBack = true,
     this.showMore = true,
     this.showTitle = true,
+    this.topPadding = 0,
   });
 
   @override
@@ -27,77 +29,80 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       height: preferredSize.height,
       color: Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Back icon
-          if (showBack)
-            InkWell(
-              onTap: onBack,
-              borderRadius: BorderRadius.circular(50.r),
-              child: Container(
-                width: 36.w,
-                height: 36.w,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+      child: Padding(
+        padding: EdgeInsets.only(top: topPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Back icon
+            if (showBack)
+              InkWell(
+                onTap: onBack,
+                borderRadius: BorderRadius.circular(50.r),
+                child: Container(
+                  width: 36.w,
+                  height: 36.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.08),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    size: 16.sp,
+                    color: AppColors.typoBlack,
+                  ),
                 ),
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  size: 16.sp,
-                  color: AppColors.typoBlack,
-                ),
-              ),
-            )
-          else
-            SizedBox(width: 44.w),
+              )
+            else
+              SizedBox(width: 44.w),
 
-          // Title
-          if (showTitle && title != null)
-            Expanded(
-              child: Text(
-                title!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.typoBlack,
+            // Title
+            if (showTitle && title != null)
+              Expanded(
+                child: Text(
+                  title!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.typoBlack,
+                  ),
                 ),
-              ),
-            )
-          else
-            const Spacer(),
+              )
+            else
+              const Spacer(),
 
-          // More icon
-          if (showMore)
-            InkWell(
-              borderRadius: BorderRadius.circular(50.r),
-              onTap: onMore,
-              child: Padding(
-                padding: EdgeInsets.all(10.w),
-                child: const HeroIcon(
-                  HeroIcons.ellipsisVertical,
-                  style: HeroIconStyle.solid,
-                  color: AppColors.typoBody,
-                  size: 22,
+            // More icon
+            if (showMore)
+              InkWell(
+                borderRadius: BorderRadius.circular(50.r),
+                onTap: onMore,
+                child: Padding(
+                  padding: EdgeInsets.all(10.w),
+                  child: const HeroIcon(
+                    HeroIcons.ellipsisVertical,
+                    style: HeroIconStyle.solid,
+                    color: AppColors.typoBody,
+                    size: 22,
+                  ),
                 ),
-              ),
-            )
-          else
-            SizedBox(width: 44.w),
-        ],
+              )
+            else
+              SizedBox(width: 44.w),
+          ],
+        ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + topPadding);
 }

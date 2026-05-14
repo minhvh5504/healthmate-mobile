@@ -26,34 +26,37 @@ class ScanTaskModel extends ScanTask {
     if (json['medication'] != null) {
       userMedications = [
         UserMedicationModel.fromJson({
-          'id': json['id'], // Use task ID or create a dummy? 
+          'id': json['id'], // Use task ID or create a dummy?
           'medicationId': json['medicationId'],
           'medication': json['medication'],
           'isActive': false,
           'scannedData': json['rawScannedData'],
-        })
+        }),
       ];
     } else {
-       // Even if failed, we can preserve the scanned data in a dummy entry
-       userMedications = [
-         UserMedicationModel(
-           id: json['id'],
-           medicationId: null,
-           medication: null,
-           isActive: false,
-           scannedData: json['rawScannedData'] is Map<String, dynamic> 
+      // Even if failed, we can preserve the scanned data in a dummy entry
+      userMedications = [
+        UserMedicationModel(
+          id: json['id'],
+          medicationId: null,
+          medication: null,
+          isActive: false,
+          scannedData: json['rawScannedData'] is Map<String, dynamic>
               ? json['rawScannedData'] as Map<String, dynamic>
               : null,
-         )
-       ];
+        ),
+      ];
     }
 
     return ScanTaskModel(
       id: json['id']?.toString() ?? '',
-      createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? '') ?? DateTime.now(),
+      createdAt:
+          DateTime.tryParse(json['createdAt']?.toString() ?? '') ??
+          DateTime.now(),
       status: status,
       userMedications: userMedications,
-      imagePath: (json['rawScannedData'] as Map?)?['imagePath']?.toString(), // If saved in raw data
+      imagePath: (json['rawScannedData'] as Map?)?['imagePath']
+          ?.toString(), // If saved in raw data
     );
   }
 }

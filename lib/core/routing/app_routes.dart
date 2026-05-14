@@ -40,6 +40,9 @@ class AppRoutes {
   static const String medicineReminderEdit = '/medicine-reminder-edit';
   static const String medicineStockEdit = '/medicine-stock-edit';
 
+  // Chat
+  static const String chat = '/chat';
+
   // Shell Route
   static const String home = '/home';
   static const String medicine = '/medicine';

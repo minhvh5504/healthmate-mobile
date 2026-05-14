@@ -600,5 +600,17 @@
     "confirm_mark_read_all_message": "Are you sure you want to mark all notifications as read?",
     "confirm_delete_all_title": "Delete All",
     "confirm_delete_all_message": "Are you sure you want to delete all notifications?"
+  },
+  "chat": {
+    "title": "AI Assistant",
+    "welcome": "Hello {}, what can I help you with?",
+    "previous_conversations": "Previous conversations",
+    "suggestion1": "How are my nutrition goals progressing?",
+    "suggestion2": "Can I review my step challenge progress?",
+    "suggestion3": "How can I improve my activity logging?",
+    "disclaimer": "If you feel unwell, seek medical help immediately. To report drug side effects or for more info, please check our disclaimer.",
+    "hint": "Ask me anything",
+    "error_empty": "Message cannot be empty",
+    "error_stream": "Connection lost. Please try again."
   }
 }

@@ -66,13 +66,20 @@ class SplashNotifier extends StateNotifier<SplashState> {
 
     await controller.forward();
 
+    if (!mounted) return;
+
     await Future.delayed(const Duration(milliseconds: 1200));
+
+    if (!mounted) return;
 
     if (!state.hasNavigated) {
       state = state.copyWith(hasNavigated: true);
 
       // Check login status
       final prefs = await SharedPreferences.getInstance();
+
+      if (!mounted) return;
+
       final isLoggedIn = prefs.getBool('isLogin') ?? false;
 
       if (isLoggedIn) {
@@ -80,7 +87,7 @@ class SplashNotifier extends StateNotifier<SplashState> {
       } else {
         context.go(AppRoutes.onboarding);
       }
-      
+
       // Mark app as initialized for deep link handling
       ref.read(appInitializedProvider.notifier).state = true;
     }
