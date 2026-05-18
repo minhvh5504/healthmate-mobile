@@ -4,36 +4,40 @@ import '../../../../../../core/theme/app_colors.dart';
 
 class HomeShortcutCard extends StatelessWidget {
   final String label;
+  final String? subtitle;
   final Widget icon;
   final VoidCallback onTap;
   final Color? backgroundColor;
   final Gradient? gradient;
-  final double? iconSize;
+  final double? iconWidth;
+  final double? iconHeight;
   final bool showIconContainer;
 
   const HomeShortcutCard({
     super.key,
     required this.label,
+    this.subtitle,
     required this.icon,
     required this.onTap,
     this.backgroundColor = Colors.white,
     this.gradient,
-    this.iconSize,
+    this.iconWidth,
+    this.iconHeight,
     this.showIconContainer = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.w,
+      constraints: BoxConstraints(minHeight: 116.h),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(24.r),
+        borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: const Color(0xFF6B7280).withValues(alpha: 0.08),
+            blurRadius: 22,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -41,15 +45,14 @@ class HomeShortcutCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(24.r),
+          borderRadius: BorderRadius.circular(18.r),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.w),
+            padding: EdgeInsets.fromLTRB(10.w, 14.h, 10.w, 13.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Icon Container
                 Container(
-                  padding: EdgeInsets.all(2.w),
+                  padding: EdgeInsets.all(gradient == null ? 10.w : 0),
                   decoration: showIconContainer
                       ? BoxDecoration(
                           color: gradient == null
@@ -60,30 +63,42 @@ class HomeShortcutCard extends StatelessWidget {
                         )
                       : null,
                   child: SizedBox(
-                    width: iconSize ?? 52.w,
-                    height: iconSize ?? 52.h,
+                    width: iconWidth ?? 52.w,
+                    height: iconHeight ?? 52.w,
                     child: Center(child: icon),
                   ),
                 ),
 
-                SizedBox(
-                  height: 44.h, // Fixed height for text area
-                  child: Center(
-                    child: Text(
-                      label,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.typoBlack,
-                        height: 1.2,
-                      ),
-                    ),
+                SizedBox(height: 10.h),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.typoBlack,
+                    height: 1.2,
                   ),
                 ),
+                if (subtitle != null) ...[
+                  SizedBox(height: 5.h),
+                  Text(
+                    subtitle!,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.typoBody,
+                      height: 1.18,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

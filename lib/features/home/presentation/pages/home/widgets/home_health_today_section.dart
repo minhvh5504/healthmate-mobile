@@ -12,20 +12,61 @@ class HomeHealthTodaySection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeNotifier = ref.read(homeProvider.notifier);
+    final homeState = ref.watch(homeProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'home.health_today'.tr(),
-          style: TextStyle(
-            fontSize: 22.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.typoBlack,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'home.medicine_today'.tr(),
+                style: TextStyle(
+                  fontSize: 21.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.typoBlack,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: homeNotifier.onMedicine,
+              borderRadius: BorderRadius.circular(999.r),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.88),
+                  borderRadius: BorderRadius.circular(999.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'home.view_all'.tr(),
+                      style: TextStyle(
+                        color: const Color(0xFF5D63F1),
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      size: 16.sp,
+                      color: const Color(0xFF5D63F1),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 8.h),
-        HealthStatusSection(onTap: homeNotifier.onUpdateHealth),
+        SizedBox(height: 12.h),
+        HealthStatusSection(
+          schedule: homeState.dailySchedule,
+          isLoading: homeState.isLoading,
+          onTap: homeNotifier.onMedicine,
+        ),
       ],
     );
   }

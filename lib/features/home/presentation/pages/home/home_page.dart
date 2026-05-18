@@ -5,6 +5,7 @@ import '../../../../../core/providers/user_provider.dart';
 import '../../providers/home_provider.dart';
 import 'widgets/home_header.dart';
 import 'widgets/home_content_area.dart';
+import 'widgets/home_skeleton.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -12,7 +13,12 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeNotifier = ref.read(homeProvider.notifier);
+    final homeState = ref.watch(homeProvider);
     final profile = ref.watch(userProfileProvider);
+
+    if (homeState.isLoading && homeState.dailySchedule == null) {
+      return const HomeSkeleton();
+    }
 
     return Scaffold(
       body: Container(
@@ -28,11 +34,9 @@ class HomePage extends ConsumerWidget {
                 onProfilePressed: homeNotifier.onProfile,
                 onNotificationPressed: homeNotifier.onNotification,
                 avatarUrl: profile?.avatarUrl,
+                displayName: profile?.displayName,
               ),
 
-              const SizedBox(height: 4),
-
-              // White Card Body
               const HomeContentArea(),
             ],
           ),
