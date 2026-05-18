@@ -171,8 +171,25 @@
   "home": {
     "shortcuts": "Shortcuts",
     "ai_assistant": "Ask AI Assistant",
+    "ai_assistant_subtitle": "Chat with AI",
     "connect_relative": "Connect Relative",
+    "connect_relative_subtitle": "Manage medication reminders with relatives",
     "health_today": "Health Today",
+    "medicine_today": "Today's Medication",
+    "view_all": "View all",
+    "greeting": "Hello! ",
+    "welcome": "Welcome back",
+    "dose_count": "{} dose(s)",
+    "meal_instruction": {
+      "before_breakfast": "Before breakfast",
+      "after_breakfast": "After breakfast",
+      "before_lunch": "Before lunch",
+      "after_lunch": "After lunch",
+      "before_dinner": "Before dinner",
+      "after_dinner": "After dinner",
+      "before_sleep": "Before sleep",
+      "between_meals": "Between meals"
+    },
     "no_changes_today": "No changes today",
     "update_to_track": "Please update to track your health"
   },

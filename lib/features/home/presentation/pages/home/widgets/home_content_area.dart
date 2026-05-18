@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import 'home_shortcuts_section.dart';
 import 'home_health_today_section.dart';
 
@@ -10,33 +9,15 @@ class HomeContentArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40.r),
-            topRight: Radius.circular(40.r),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(16, 0),
-            ),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 92.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HomeShortcutsSection(),
+            SizedBox(height: 14.h),
+            const HomeHealthTodaySection(),
           ],
-        ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HomeShortcutsSection(),
-              SizedBox(height: 16.h),
-              const HomeHealthTodaySection(),
-              SizedBox(height: 80.h),
-            ],
-          ),
         ),
       ),
     );

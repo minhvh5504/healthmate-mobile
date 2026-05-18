@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/core/providers/user_provider.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -69,10 +71,14 @@ class HealthHeader extends ConsumerWidget {
                 color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(
-                'assets/icons/home/noti.png',
+              child: SvgPicture.asset(
+                'assets/icons/home/bell.svg',
                 width: 28.sp,
                 height: 28.sp,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.bgPrimary,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),

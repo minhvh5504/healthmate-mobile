@@ -170,8 +170,25 @@
   "home": {
     "shortcuts": "Phím tắt",
     "ai_assistant": "Hỏi trợ lý AI",
+    "ai_assistant_subtitle": "Trò chuyện với AI",
     "connect_relative": "Kết nối người thân",
+    "connect_relative_subtitle": "Nhắc thuốc cùng người thân",
     "health_today": "Sức khoẻ hôm nay",
+    "medicine_today": "Thuốc hôm nay",
+    "view_all": "Xem tất cả",
+    "greeting": "Xin chào! ",
+    "welcome": "Chào mừng bạn",
+    "dose_count": "{} lần dùng",
+    "meal_instruction": {
+      "before_breakfast": "Trước bữa sáng",
+      "after_breakfast": "Sau bữa sáng",
+      "before_lunch": "Trước bữa trưa",
+      "after_lunch": "Sau bữa trưa",
+      "before_dinner": "Trước bữa tối",
+      "after_dinner": "Sau bữa tối",
+      "before_sleep": "Trước khi ngủ",
+      "between_meals": "Giữa các bữa ăn"
+    },
     "no_changes_today": "Chưa có thay đổi gì hôm nay",
     "update_to_track": "Vui lòng cập nhật để theo dõi sức khỏe"
   },

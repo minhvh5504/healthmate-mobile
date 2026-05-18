@@ -42,6 +42,7 @@ class SocketRealtimeService {
       );
       return;
     }
+    debugPrint('[SocketRealtimeService] Connecting to: $socketUrl');
 
     // Disconnect any existing socket before creating a new one
     disconnect();
@@ -49,7 +50,8 @@ class SocketRealtimeService {
     _socket = io.io(
       socketUrl,
       io.OptionBuilder()
-          .setTransports(['websocket'])
+          .setTransports(['websocket', 'polling'])
+          .enableForceNew()
           .disableAutoConnect()
           .setQuery({'token': accessToken})
           .enableReconnection()
