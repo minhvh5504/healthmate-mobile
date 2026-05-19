@@ -48,7 +48,7 @@ class BMICard extends StatelessWidget {
                     Icon(
                       LucideIcons.barChart2,
                       size: 32.sp,
-                      color: AppColors.typoHeading,
+                      color: AppColors.typoBlack,
                     ),
                     SizedBox(width: 12.w),
                     Text(
@@ -56,7 +56,7 @@ class BMICard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.typoHeading,
+                        color: AppColors.typoBlack,
                       ),
                     ),
                   ],
@@ -86,7 +86,7 @@ class BMICard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 32.sp,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.typoHeading,
+                                color: AppColors.typoBlack,
                                 height: 1,
                               ),
                             ),
@@ -168,14 +168,14 @@ class BMICard extends StatelessWidget {
                                 Icon(
                                   Icons.arrow_drop_up,
                                   size: 18.sp,
-                                  color: AppColors.typoHeading,
+                                  color: AppColors.typoBlack,
                                 ),
                                 Text(
                                   'health.you'.tr(),
                                   style: TextStyle(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.typoHeading,
+                                    color: AppColors.typoBlack,
                                   ),
                                 ),
                               ],

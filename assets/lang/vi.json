@@ -503,7 +503,7 @@
     "bmi_status_unknown": "Chưa có chỉ số"
   },
   "health": {
-    "title": "Sức khỏe",
+    "title": "Sức khỏe của tôi",
     "bmi_label": "BMI",
     "save_success": "Đã lưu chỉ số thành công",
     "update_failed": "Cập nhật chỉ số thất bại",

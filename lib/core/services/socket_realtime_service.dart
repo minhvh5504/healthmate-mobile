@@ -17,6 +17,7 @@ class RealtimeEvents {
 /// - Exposes streams for each event type
 class SocketRealtimeService {
   io.Socket? _socket;
+  String? _currentToken;
 
   // Stream controllers
   final _notificationController =
@@ -42,10 +43,20 @@ class SocketRealtimeService {
       );
       return;
     }
+
+    // Skip duplicate connect for the same token while still connected/connecting.
+    if (_socket != null && _currentToken == accessToken) {
+      debugPrint(
+        '[SocketRealtimeService] Skip connect: already using this token',
+      );
+      return;
+    }
+
     debugPrint('[SocketRealtimeService] Connecting to: $socketUrl');
 
     // Disconnect any existing socket before creating a new one
     disconnect();
+    _currentToken = accessToken;
 
     _socket = io.io(
       socketUrl,
@@ -55,8 +66,11 @@ class SocketRealtimeService {
           .disableAutoConnect()
           .setQuery({'token': accessToken})
           .enableReconnection()
-          .setReconnectionAttempts(999)
+          .setReconnectionAttempts(5)
           .setReconnectionDelay(3000)
+          .setReconnectionDelayMax(30000)
+          .setRandomizationFactor(0.5)
+          .setTimeout(20000)
           .build(),
     );
 
@@ -69,6 +83,17 @@ class SocketRealtimeService {
       })
       ..onConnectError((err) {
         debugPrint('[SocketRealtimeService] Connect error: $err');
+        // Stop spamming the server when the handshake keeps being rejected
+        // (e.g. HTTP 400 because of bad token / wrong namespace).
+        final errStr = err?.toString() ?? '';
+        if (errStr.contains('status code: 400') ||
+            errStr.contains('status code: 401') ||
+            errStr.contains('status code: 403')) {
+          debugPrint(
+            '[SocketRealtimeService] Auth/handshake rejected, stop reconnecting.',
+          );
+          _socket?.disconnect();
+        }
       })
       ..on(RealtimeEvents.notificationNew, (data) {
         debugPrint('[SocketRealtimeService] notification:new received');
@@ -95,6 +120,7 @@ class SocketRealtimeService {
   void disconnect() {
     _socket?.dispose();
     _socket = null;
+    _currentToken = null;
     debugPrint('[SocketRealtimeService] Disconnected & disposed');
   }
 

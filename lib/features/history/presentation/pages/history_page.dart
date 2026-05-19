@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -38,19 +39,25 @@ class HistoryPage extends ConsumerWidget {
                           fontWeight: FontWeight.w700,
                           color: AppColors.typoBlack,
                         ),
-                      ),
+                      ).animate().fadeIn(duration: 220.ms),
                       SizedBox(height: 24.h),
                       // Adherence Card
                       HistoryAdherenceCard(
                         percentage: state.monthlyAdherence,
                         focusedMonth: state.focusedMonth,
-                      ),
+                      ).animate().fadeIn(duration: 220.ms, delay: 60.ms),
                       SizedBox(height: 24.h),
                       // Calendar Card
-                      const HistoryCalendarCard(),
+                      const HistoryCalendarCard().animate().fadeIn(
+                        duration: 220.ms,
+                        delay: 120.ms,
+                      ),
                       SizedBox(height: 16.h),
                       // Log List
-                      const HistoryLogList(),
+                      const HistoryLogList().animate().fadeIn(
+                        duration: 220.ms,
+                        delay: 180.ms,
+                      ),
                       SizedBox(height: 48.h),
                     ],
                   ),

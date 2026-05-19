@@ -12,7 +12,12 @@ class NotificationEmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.notifications_none, size: 64.w, color: AppColors.typoDisable),
+          Image.asset(
+            'assets/icons/home/not_found.png',
+            width: 180.w,
+            height: 180.w,
+            fit: BoxFit.contain,
+          ),
           SizedBox(height: 16.h),
           Text(
             'notifications.empty_state'.tr(),

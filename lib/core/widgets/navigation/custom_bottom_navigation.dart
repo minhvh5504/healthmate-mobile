@@ -28,7 +28,7 @@ class CustomBottomNavBar extends ConsumerWidget {
       margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
       padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
       decoration: BoxDecoration(
-        color: navBgColor,
+        color: navBgColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
           BoxShadow(
