@@ -75,7 +75,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
           unreadCount: state.unreadCount + 1,
         );
       } catch (e) {
-        // Malformed payload — ignore
+        // Malformed payload
       }
     });
 
@@ -95,9 +95,17 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   Future<void> fetchNotifications() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final notifications = await _getNotifications();
+      // Ensure skeleton stays visible for at least 300ms even if API
+      // responds faster, to avoid flickering.
+      final results = await Future.wait([
+        _getNotifications(),
+        Future<void>.delayed(const Duration(milliseconds: 300)),
+      ]);
+      final notifications = results[0] as List<NotificationEntity>;
+      if (!mounted) return;
       state = state.copyWith(notifications: notifications, isLoading: false);
     } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }

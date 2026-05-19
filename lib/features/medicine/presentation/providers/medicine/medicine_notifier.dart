@@ -152,7 +152,20 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
 
   /// Select date
   void selectDate(DateTime date) {
-    state = state.copyWith(selectedDate: date, errorMessage: null);
+    // Clear schedule to show skeleton while fetching the new day's data.
+    state = MedicineState(
+      selectedTab: state.selectedTab,
+      selectedDate: date,
+      isLoading: state.isLoading,
+      scanTasks: state.scanTasks,
+      activeMedications: state.activeMedications,
+      inactiveMedications: state.inactiveMedications,
+      reviewMedications: state.reviewMedications,
+      reviewImagePath: state.reviewImagePath,
+      isInitialLoad: state.isInitialLoad,
+      selectedFamilyMemberId: state.selectedFamilyMemberId,
+      familyMembers: state.familyMembers,
+    );
     fetchDailySchedule();
   }
 
@@ -247,6 +260,8 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
                       : null,
                   'dosage': m.medication?.dosage,
                   'id': m.id,
+                  'medicationId': m.medicationId,
+                  'scannedData': m.scannedData,
                   'frequency': m.frequency,
                   'schedules': m.schedules,
                   'stockCount': m.stockCount,
@@ -527,6 +542,9 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
                   onConfirm: () {
                     // Update the medication to be inactive
                     onUpdateMedicineStatus(medication, false);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      AppRouter.router.go(AppRoutes.medicine);
+                    });
                   },
                 ),
               ),

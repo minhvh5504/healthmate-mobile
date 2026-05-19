@@ -62,7 +62,7 @@ class HealthMetricCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.typoHeading,
+                        color: AppColors.typoBlack,
                       ),
                     ),
                   ],
@@ -96,7 +96,7 @@ class HealthMetricCard extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.typoHeading,
+                                      color: AppColors.typoBlack,
                                       height: 1,
                                     ),
                                   ),
@@ -146,7 +146,7 @@ class HealthMetricCard extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.typoHeading,
+                                      color: AppColors.typoBlack,
                                       height: 1,
                                     ),
                                   ),

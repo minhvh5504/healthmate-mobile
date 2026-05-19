@@ -129,23 +129,50 @@ class ScanActionButtons extends ConsumerWidget {
   }
 
   void _showSuccessPopup(BuildContext context, ScanMedicineNotifier notifier) {
-    showDialog(
+    showGeneralDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => MedicineSuccessPopup(
-        onAddNew: () {
-          context.pop();
-          notifier.onAddNew();
-        },
-        onViewCabinet: () {
-          context.pop();
-          notifier.onViewCabinet();
-        },
-        onComplete: () {
-          context.pop();
-          notifier.onComplete();
-        },
-      ),
+      barrierDismissible: true,
+      barrierLabel: 'Add Medicine Success',
+      barrierColor: Colors.black.withValues(alpha: 0.2),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.backgroundGradient,
+                  ),
+                ),
+              ),
+              Center(
+                child: MedicineSuccessPopup(
+                  onAddNew: () {
+                    context.pop();
+                    notifier.onAddNew();
+                  },
+                  onViewCabinet: () {
+                    context.pop();
+                    notifier.onViewCabinet();
+                  },
+                  onComplete: () {
+                    context.pop();
+                    notifier.onComplete();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(opacity: anim1, child: child);
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -58,21 +59,16 @@ class _ScanIllustrationState extends State<ScanIllustration>
       child: Stack(
         alignment: Alignment.center,
         children: [
-          /// Background frame corners (decorative)
-          Container(
-            width: 180.w,
-            height: 200.w,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.transparent),
+          /// Dotted frame around the scan icon
+          DottedBorder(
+            options: RoundedRectDottedBorderOptions(
+              radius: Radius.circular(36.r),
+              color: AppColors.lightPurple,
+              strokeWidth: 2,
+              dashPattern: [6, 4],
+              padding: EdgeInsets.all(12.w),
             ),
-            child: Stack(
-              children: [
-                _buildCorner(top: 0, left: 0, isTop: true, isLeft: true),
-                _buildCorner(top: 0, right: 0, isTop: true, isLeft: false),
-                _buildCorner(bottom: 0, left: 0, isTop: false, isLeft: true),
-                _buildCorner(bottom: 0, right: 0, isTop: false, isLeft: false),
-              ],
-            ),
+            child: SizedBox(width: 180.w, height: 200.w),
           ),
 
           /// Main Image
@@ -179,50 +175,6 @@ class _ScanIllustrationState extends State<ScanIllustration>
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCorner({
-    double? top,
-    double? bottom,
-    double? left,
-    double? right,
-    required bool isTop,
-    required bool isLeft,
-  }) {
-    return Positioned(
-      top: top,
-      bottom: bottom,
-      left: left,
-      right: right,
-      child: Container(
-        width: 40.w,
-        height: 40.w,
-        decoration: BoxDecoration(
-          border: Border(
-            top: isTop
-                ? BorderSide(color: AppColors.lightPurple, width: 2.w)
-                : BorderSide.none,
-            bottom: !isTop
-                ? BorderSide(color: AppColors.lightPurple, width: 2.w)
-                : BorderSide.none,
-            left: isLeft
-                ? BorderSide(color: AppColors.lightPurple, width: 2.w)
-                : BorderSide.none,
-            right: !isLeft
-                ? BorderSide(color: AppColors.lightPurple, width: 2.w)
-                : BorderSide.none,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: isTop && isLeft ? Radius.circular(16.r) : Radius.zero,
-            topRight: isTop && !isLeft ? Radius.circular(16.r) : Radius.zero,
-            bottomLeft: !isTop && isLeft ? Radius.circular(16.r) : Radius.zero,
-            bottomRight: !isTop && !isLeft
-                ? Radius.circular(16.r)
-                : Radius.zero,
-          ),
-        ),
       ),
     );
   }

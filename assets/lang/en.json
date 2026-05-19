@@ -504,7 +504,7 @@
     "bmi_status_unknown": "Unknown"
   },
   "health": {
-    "title": "Health",
+    "title": "My Health",
     "bmi_label": "BMI",
     "save_success": "Health metrics saved successfully",
     "update_failed": "Failed to update health metrics",

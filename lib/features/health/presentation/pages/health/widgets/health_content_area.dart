@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,81 +22,54 @@ class HealthContentArea extends ConsumerWidget {
     final profile = healthState.userProfile;
 
     return Expanded(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40.r),
-            topRight: Radius.circular(40.r),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(16, 0),
-            ),
-          ],
-        ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'health.title'.tr(),
-                style: TextStyle(
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.typoBlack,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (profile != null) ...[
+              HealthMetricCard(
+                title: 'health.weight'.tr(),
+                iconPath: 'assets/icons/health/scale.png',
+                currentValue: profile.weightKg != null
+                    ? profile.weightKg!.toStringAsFixed(1)
+                    : '--',
+                unit: 'kg',
+                difference: healthState.weightDifference,
+                onTap: () => _showMetricPopup(
+                  context,
+                  WeightMetricPopup(initialValue: profile.weightKg ?? 0.0),
                 ),
-              ),
-
-              SizedBox(height: 24.h),
-              if (profile != null) ...[
-                HealthMetricCard(
-                  title: 'health.weight'.tr(),
-                  iconPath: 'assets/icons/health/scale.png',
-                  currentValue: profile.weightKg != null
-                      ? profile.weightKg!.toStringAsFixed(1)
-                      : '--',
-                  unit: 'kg',
-                  difference: healthState.weightDifference,
-                  onTap: () => _showMetricPopup(
-                    context,
-                    WeightMetricPopup(initialValue: profile.weightKg ?? 0.0),
-                  ),
+              ).animate().fadeIn(duration: 220.ms, delay: 0.ms),
+              SizedBox(height: 8.h),
+              HealthMetricCard(
+                title: 'health.height'.tr(),
+                iconPath: 'assets/icons/health/flame.png',
+                currentValue: profile.heightCm != null
+                    ? profile.heightCm!.toStringAsFixed(1)
+                    : '--',
+                unit: 'cm',
+                difference: healthState.heightDifference,
+                onTap: () => _showMetricPopup(
+                  context,
+                  HeightMetricPopup(initialValue: profile.heightCm ?? 0.0),
                 ),
-                SizedBox(height: 8.h),
-                HealthMetricCard(
-                  title: 'health.height'.tr(),
-                  iconPath: 'assets/icons/health/flame.png',
-                  currentValue: profile.heightCm != null
-                      ? profile.heightCm!.toStringAsFixed(1)
-                      : '--',
-                  unit: 'cm',
-                  difference: healthState.heightDifference,
-                  onTap: () => _showMetricPopup(
-                    context,
-                    HeightMetricPopup(initialValue: profile.heightCm ?? 0.0),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                BMICard(
+              ).animate().fadeIn(duration: 220.ms, delay: 60.ms),
+              SizedBox(height: 8.h),
+              BMICard(
+                bmi: profile.bmi ?? 0,
+                status: HealthNotifier.formatBMIStatus(profile.bmiStatus),
+                statusColor: HealthNotifier.getBMIColor(profile.bmiStatus),
+                onTap: () => BMIPopup.show(
+                  context,
                   bmi: profile.bmi ?? 0,
                   status: HealthNotifier.formatBMIStatus(profile.bmiStatus),
                   statusColor: HealthNotifier.getBMIColor(profile.bmiStatus),
-                  onTap: () => BMIPopup.show(
-                    context,
-                    bmi: profile.bmi ?? 0,
-                    status: HealthNotifier.formatBMIStatus(profile.bmiStatus),
-                    statusColor: HealthNotifier.getBMIColor(profile.bmiStatus),
-                  ),
                 ),
-              ],
-              SizedBox(height: 80.h),
+              ).animate().fadeIn(duration: 220.ms, delay: 120.ms),
             ],
-          ),
+            SizedBox(height: 80.h),
+          ],
         ),
       ),
     );
@@ -128,7 +103,7 @@ class HealthContentArea extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeScaleTransition(animation: anim1, child: child);
       },
     );
   }

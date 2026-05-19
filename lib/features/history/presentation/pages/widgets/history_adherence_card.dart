@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class HistoryAdherenceCard extends StatelessWidget {
@@ -19,7 +20,8 @@ class HistoryAdherenceCard extends StatelessWidget {
     final String monthYearStr = 'medicine.reminder.month_year_format'.tr(
       args: [focusedMonth.month.toString(), focusedMonth.year.toString()],
     );
-    final int percentInt = (percentage * 100).round();
+    final double clamped = percentage.clamp(0.0, 1.0);
+    final int percentInt = (clamped * 100).round();
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
@@ -36,31 +38,25 @@ class HistoryAdherenceCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Circular Progress Indicator
-          SizedBox(
-            width: 72.w,
-            height: 72.w,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CircularProgressIndicator(
-                  value: percentage,
-                  strokeWidth: 6.w,
-                  backgroundColor: AppColors.bgHover,
-                  color: AppColors.bgPrimary,
-                ),
-                Center(
-                  child: Text(
-                    '$percentInt%',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.typoBlack,
-                    ),
-                  ),
-                ),
-              ],
+          // Circular Percent Indicator (animated)
+          CircularPercentIndicator(
+            radius: 36.w,
+            lineWidth: 6.w,
+            percent: clamped,
+            animation: true,
+            animationDuration: 800,
+            animateFromLastPercent: true,
+            circularStrokeCap: CircularStrokeCap.round,
+            backgroundColor: AppColors.bgHover,
+            progressColor: AppColors.bgPrimary,
+            center: Text(
+              '$percentInt%',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.typoBlack,
+              ),
             ),
           ),
           SizedBox(width: 20.w),

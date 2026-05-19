@@ -8,6 +8,7 @@ import '../../../../../../core/widgets/button/button.dart';
 import '../../../providers/medicine/medicine_provider.dart';
 import 'medicine_empty_state.dart';
 import 'medicine_schedule_card.dart';
+import 'medicine_skeleton.dart';
 
 class MedicineScheduleContent extends ConsumerWidget {
   const MedicineScheduleContent({super.key});
@@ -20,9 +21,7 @@ class MedicineScheduleContent extends ConsumerWidget {
     final schedule = state.dailySchedule;
 
     if (schedule == null) {
-      return const Center(
-        child: CircularProgressIndicator(color: AppColors.typoPrimary),
-      );
+      return const MedicineScheduleListSkeleton();
     }
 
     final hasData =

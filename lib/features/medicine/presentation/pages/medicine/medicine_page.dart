@@ -19,43 +19,49 @@ class MedicinePage extends ConsumerWidget {
     final notifier = ref.read(medicineProvider.notifier);
     final profile = ref.watch(userProfileProvider);
 
+    final isInitialLoading = state.isLoading && state.isInitialLoad;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16.h),
+          child: isInitialLoading
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 16.h),
+                    const Expanded(child: MedicineSkeleton()),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 16.h),
 
-              /// Tab bar
-              MedicineTabBar(
-                selectedTab: state.selectedTab,
-                onTabSelected: notifier.selectTab,
-                avatarUrl: profile?.avatarUrl,
-              ),
+                    /// Tab bar
+                    MedicineTabBar(
+                      selectedTab: state.selectedTab,
+                      onTabSelected: notifier.selectTab,
+                      avatarUrl: profile?.avatarUrl,
+                    ),
 
-              SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
 
-              if (state.isLoading && state.isInitialLoad)
-                const MedicineSkeleton()
-              else ...[
-                if (state.selectedTab == MedicineTab.schedule) ...[
-                  MedicineCalendarStrip(
-                    selectedDate: state.selectedDate,
-                    onDateSelected: notifier.selectDate,
-                  ),
-                  SizedBox(height: 8.h),
-                  const MedicineDateLabel(),
-                ],
+                    if (state.selectedTab == MedicineTab.schedule) ...[
+                      MedicineCalendarStrip(
+                        selectedDate: state.selectedDate,
+                        onDateSelected: notifier.selectDate,
+                      ),
+                      SizedBox(height: 8.h),
+                      const MedicineDateLabel(),
+                    ],
 
-                ///Tab content
-                const Expanded(child: MedicineTabContent()),
-              ],
-            ],
-          ),
+                    /// Tab content
+                    const Expanded(child: MedicineTabContent()),
+                  ],
+                ),
         ),
       ),
     );

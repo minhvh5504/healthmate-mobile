@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/button/button.dart';
@@ -70,7 +71,8 @@ class OnBoardingItem extends StatelessWidget {
                                 return Text(
                                   titles[index],
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontFamily: 'Inter',
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
                                     fontSize: 24.sp,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.typoBlack,
@@ -81,23 +83,19 @@ class OnBoardingItem extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 20.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              titles.length,
-                              (index) => AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                margin: EdgeInsets.symmetric(horizontal: 4.w),
-                                width: currentIndex == index ? 24.w : 8.w,
-                                height: 7.h,
-                                decoration: BoxDecoration(
-                                  color: currentIndex == index
-                                      ? AppColors.typoBlack
-                                      : AppColors.bgDisable,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                              ),
+                          SmoothPageIndicator(
+                            controller: controller,
+                            count: titles.length,
+                            effect: ExpandingDotsEffect(
+                              activeDotColor: AppColors.typoBlack,
+                              dotColor: AppColors.bgDisable,
+                              dotHeight: 7.h,
+                              dotWidth: 8.w,
+                              expansionFactor: 3,
+                              spacing: 8.w,
+                              radius: 12.r,
                             ),
+                            onDotClicked: onPageChanged,
                           ),
                           SizedBox(height: 36.h),
                           SizedBox(
@@ -108,7 +106,8 @@ class OnBoardingItem extends StatelessWidget {
                           RichText(
                             text: TextSpan(
                               text: '${'onboarding.have_account'.tr()} ',
-                              style: TextStyle(fontFamily: 'Inter',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
                                 color: AppColors.typoBody,
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
@@ -116,7 +115,8 @@ class OnBoardingItem extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: 'onboarding.login'.tr(),
-                                  style: TextStyle(fontFamily: 'Inter',
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
                                     color: AppColors.typoBlack,
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w600,
