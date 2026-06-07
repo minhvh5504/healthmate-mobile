@@ -15,7 +15,7 @@ final realtimeServiceProvider = Provider<SocketRealtimeService>((ref) {
     final token = next.accessToken;
     if (token != null && prev?.accessToken != token) {
       service.connect(token);
-      
+
       // Also trigger device token registration on login
       FirebaseMessaging.instance.getToken().then((fcmToken) {
         if (fcmToken != null) {
@@ -31,7 +31,7 @@ final realtimeServiceProvider = Provider<SocketRealtimeService>((ref) {
   final initialToken = ref.read(authProvider).accessToken;
   if (initialToken != null) {
     service.connect(initialToken);
-    
+
     // Trigger initial registration
     FirebaseMessaging.instance.getToken().then((fcmToken) {
       if (fcmToken != null) {
@@ -57,6 +57,9 @@ class DeviceTokenService {
 
   /// Register (or refresh) FCM token with the backend.
   Future<void> registerToken(String token) async {
+    final auth = _ref.read(authProvider);
+    if (!auth.isLoggedIn || auth.accessToken == null) return;
+
     try {
       final prefs = await SharedPreferences.getInstance();
       final saved = prefs.getString(_key);

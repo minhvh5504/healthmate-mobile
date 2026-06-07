@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 
@@ -56,7 +57,7 @@ class _MedicineIllustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/images/health/mailbox.png',
+      AppImages.healthMailbox,
       width: 180.w,
       height: 180.w,
       fit: BoxFit.contain,

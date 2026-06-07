@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../providers/home_provider.dart';
 import 'shortcut_card.dart';
@@ -20,42 +20,44 @@ class HomeShortcutsSection extends ConsumerWidget {
         Text(
           'home.shortcuts'.tr(),
           style: TextStyle(
-            fontSize: 21.sp,
-            fontWeight: FontWeight.w800,
+            fontSize: 22.sp,
+            fontWeight: FontWeight.bold,
             color: AppColors.typoBlack,
           ),
         ),
-        SizedBox(height: 18.h),
+        SizedBox(height: 8.h),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // AI Assistant card
             Expanded(
               child: HomeShortcutCard(
                 label: 'home.ai_assistant'.tr(),
                 subtitle: 'home.ai_assistant_subtitle'.tr(),
                 onTap: homeNotifier.onAiAssistant,
                 backgroundColor: Colors.white,
-                iconWidth: 54.w,
-                iconHeight: 54.w,
-                gradient: const RadialGradient(
-                  colors: [Color(0xFF8ED8FF), Color(0xFF4DADF0)],
-                  radius: 0.72,
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFE2E8F0), Color(0xFF93C5FD)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                icon: Image.asset(
-                  'assets/icons/home/ai.png',
-                  fit: BoxFit.contain,
-                ),
+                icon: Image.asset(AppIcons.ai, fit: BoxFit.contain),
               ),
             ),
-            SizedBox(width: 14.w),
+            SizedBox(width: 22.w),
+            // Connect relative card
             Expanded(
               child: HomeShortcutCard(
                 label: 'home.connect_relative'.tr(),
                 subtitle: 'home.connect_relative_subtitle'.tr(),
                 onTap: homeNotifier.onConnectRelative,
                 backgroundColor: Colors.white,
-                iconWidth: 30.w,
-                iconHeight: 30.w,
-                icon: SvgPicture.asset('assets/icons/home/send.svg'),
+                icon: Image.asset(
+                  AppIcons.sendPng,
+                  fit: BoxFit.contain,
+                  height: 28.h,
+                  width: 28.w,
+                ),
               ),
             ),
           ],

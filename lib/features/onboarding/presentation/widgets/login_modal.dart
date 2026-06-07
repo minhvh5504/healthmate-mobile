@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/constants/constant_url.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/button/button.dart';
 import '../providers/onboarding/onboarding_provider.dart';
@@ -59,12 +60,28 @@ class LoginModal extends ConsumerWidget {
                   color: AppColors.typoBlack,
                 ),
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () => context.pop(),
-                child: Icon(
-                  Icons.close,
-                  size: 24.sp,
-                  color: AppColors.typoBlack.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(50.r),
+                child: Container(
+                  width: 36.w,
+                  height: 36.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.08),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.close,
+                    size: 24.sp,
+                    color: AppColors.typoBlack.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
             ],
@@ -119,7 +136,7 @@ class LoginModal extends ConsumerWidget {
                   textColor: AppColors.typoBlack,
                   borderColor: Colors.grey[300],
                   icon: SvgPicture.asset(
-                    'assets/icons/auth/google.svg',
+                    AppIcons.google,
                     width: 20.w,
                     height: 20.h,
                   ),

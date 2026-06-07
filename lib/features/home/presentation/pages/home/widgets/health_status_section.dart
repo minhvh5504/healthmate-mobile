@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../medicine/domain/entities/daily_schedule.dart';
 import '../../../../../medicine/domain/entities/daily_schedule_item.dart';
@@ -168,7 +169,7 @@ class _MedicineTodayEmpty extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/icons/home/not_found.png',
+              AppIcons.notFound,
               width: 200.sp,
               height: 200.sp,
               fit: BoxFit.contain,

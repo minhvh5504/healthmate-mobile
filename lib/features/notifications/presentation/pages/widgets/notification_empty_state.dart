@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../../../../core/constants/constant_url.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class NotificationEmptyState extends StatelessWidget {
@@ -13,7 +14,7 @@ class NotificationEmptyState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/icons/home/not_found.png',
+            AppIcons.notFound,
             width: 180.w,
             height: 180.w,
             fit: BoxFit.contain,

@@ -37,7 +37,7 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
     final fullName = user?.displayName ?? '';
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 120.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

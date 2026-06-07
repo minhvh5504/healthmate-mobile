@@ -57,6 +57,9 @@ class DeviceTokenService {
 
   /// Register (or refresh) FCM token with the backend.
   Future<void> registerToken(String token) async {
+    final auth = _ref.read(authProvider);
+    if (!auth.isLoggedIn || auth.accessToken == null) return;
+
     try {
       final prefs = await SharedPreferences.getInstance();
       final saved = prefs.getString(_key);
@@ -65,7 +68,7 @@ class DeviceTokenService {
       if (saved == token) return;
 
       final client = ApiClient(_ref);
-      await client.post('device-tokens', {
+      await client.post('notifications/device-tokens', {
         'token': token,
         'platform': _getPlatform(),
       });
@@ -85,7 +88,7 @@ class DeviceTokenService {
       if (token == null) return;
 
       final client = ApiClient(_ref);
-      await client.delete('device-tokens/$token');
+      await client.delete('notifications/device-tokens/$token');
 
       await prefs.remove(_key);
     } catch (e) {

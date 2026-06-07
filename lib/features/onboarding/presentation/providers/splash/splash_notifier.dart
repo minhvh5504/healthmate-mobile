@@ -42,10 +42,12 @@ class SplashState {
 /// NOTIFIER
 class SplashNotifier extends StateNotifier<SplashState> {
   final Ref ref;
+  bool _animationDisposed = false;
   SplashNotifier(this.ref) : super(const SplashState());
 
   /// Initialize when screen opens
   Future<void> init(BuildContext context, TickerProvider vsync) async {
+    _animationDisposed = false;
     final controller = AnimationController(
       vsync: vsync,
       duration: const Duration(milliseconds: 1800),
@@ -64,13 +66,17 @@ class SplashNotifier extends StateNotifier<SplashState> {
       fadeAnim: fadeAnim,
     );
 
-    await controller.forward();
+    try {
+      await controller.forward();
+    } on TickerCanceled {
+      return;
+    }
 
     if (!mounted) return;
 
     await Future.delayed(const Duration(milliseconds: 1200));
 
-    if (!mounted) return;
+    if (!mounted || !context.mounted) return;
 
     if (!state.hasNavigated) {
       state = state.copyWith(hasNavigated: true);
@@ -93,10 +99,18 @@ class SplashNotifier extends StateNotifier<SplashState> {
     }
   }
 
+  void disposeAnimation() {
+    final controller = state.controller;
+    if (controller == null || _animationDisposed) return;
+
+    _animationDisposed = true;
+    controller.dispose();
+  }
+
   /// Dispose
   @override
   void dispose() {
-    state.controller?.dispose();
+    disposeAnimation();
     super.dispose();
   }
 }

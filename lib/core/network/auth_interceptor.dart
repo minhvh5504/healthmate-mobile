@@ -13,8 +13,8 @@ class AuthInterceptor extends Interceptor {
 
   AuthInterceptor(this.ref);
 
-  bool _isRefreshing = false;
-  Completer<bool>? _refreshCompleter;
+  static bool _isRefreshing = false;
+  static Completer<bool>? _refreshCompleter;
 
   Future<bool> _refreshOnce() async {
     if (_isRefreshing) {
@@ -35,7 +35,10 @@ class AuthInterceptor extends Interceptor {
       _refreshCompleter!.complete(false);
       return false;
     } finally {
+      // Reset so the next call starts a fresh refresh cycle instead of
+      // returning the already-completed future from a previous attempt.
       _isRefreshing = false;
+      _refreshCompleter = null;
     }
   }
 

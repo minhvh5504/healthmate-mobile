@@ -1,8 +1,11 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/features/chat/domain/entities/chat_message.dart';
 import 'package:healthmate_mobile/features/chat/presentation/providers/chat/chat_notifier.dart';
 import 'chat_bubble.dart';
+import 'chat_skeleton.dart';
 import 'chat_starter_view.dart';
 
 class ChatBody extends StatelessWidget {
@@ -23,12 +26,28 @@ class ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+        return FadeThroughTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          fillColor: Colors.transparent,
+          child: child,
+        );
+      },
+      child: _buildChild(),
+    );
+  }
+
+  Widget _buildChild() {
     if (state.isLoading && !hasMessages) {
-      return const Center(child: CircularProgressIndicator());
+      return const ChatSkeleton(key: ValueKey('chat-skeleton'));
     }
 
     if (!hasMessages) {
       return ChatStarterView(
+        key: const ValueKey('chat-starter'),
         onSuggestionTap: notifier.sendMessage,
         onHistoryTap: notifier.fetchHistory,
         onBack: onBack,
@@ -39,9 +58,10 @@ class ChatBody extends StatelessWidget {
         state.streamingContent != null && state.streamingContent!.isNotEmpty;
 
     return ListView.builder(
+      key: const ValueKey('chat-messages'),
       controller: scrollController,
       reverse: true,
-      padding: EdgeInsets.symmetric(vertical: 16.h),
+      padding: EdgeInsets.fromLTRB(0, 16.h, 0, 112.h),
       itemCount: state.messages.length + (showStreaming ? 1 : 0),
       itemBuilder: (context, index) {
         if (showStreaming) {
@@ -65,7 +85,16 @@ class ChatBody extends StatelessWidget {
           return ChatBubble(message: message);
         } else {
           final messageIndex = state.messages.length - 1 - index;
-          return ChatBubble(message: state.messages[messageIndex]);
+          final message = state.messages[messageIndex];
+          return ChatBubble(message: message)
+              .animate()
+              .fadeIn(duration: 220.ms)
+              .slideY(
+                begin: 0.08,
+                end: 0,
+                duration: 220.ms,
+                curve: Curves.easeOut,
+              );
         }
       },
     );

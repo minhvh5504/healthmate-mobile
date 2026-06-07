@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class SettingsUserCard extends StatelessWidget {
@@ -91,11 +92,7 @@ class SettingsUserCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/icons/setting/health.png',
-              width: 16.w,
-              height: 16.w,
-            ),
+            Image.asset(AppIcons.settingHealth, width: 16.w, height: 16.w),
             SizedBox(width: 4.w),
             Text.rich(
               TextSpan(
@@ -132,6 +129,6 @@ class _DefaultAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/images/user/avatar.png', fit: BoxFit.cover);
+    return Image.asset(AppImages.userAvatar, fit: BoxFit.cover);
   }
 }

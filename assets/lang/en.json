@@ -628,6 +628,9 @@
     "disclaimer": "If you feel unwell, seek medical help immediately. To report drug side effects or for more info, please check our disclaimer.",
     "hint": "Ask me anything",
     "error_empty": "Message cannot be empty",
-    "error_stream": "Connection lost. Please try again."
+    "error_stream": "Connection lost. Please try again.",
+    "clear_history": "Clear chat history",
+    "confirm_clear_title": "Clear history?",
+    "confirm_clear_message": "Are you sure you want to clear the entire chat history?"
   }
 }

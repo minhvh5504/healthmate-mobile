@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../constants/constant_url.dart';
 import '../../theme/app_colors.dart';
 import '../button/button.dart';
 
@@ -36,7 +37,7 @@ class ConfirmDialog extends StatelessWidget {
           children: [
             // SVG Icon
             SvgPicture.asset(
-              'assets/icons/popup/error_email.svg',
+              AppIcons.popupErrorEmail,
               width: 90.w,
               height: 90.w,
             ),

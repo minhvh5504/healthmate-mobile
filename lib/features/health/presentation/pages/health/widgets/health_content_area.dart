@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/bmi_popup.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_provider.dart';
@@ -30,7 +31,7 @@ class HealthContentArea extends ConsumerWidget {
             if (profile != null) ...[
               HealthMetricCard(
                 title: 'health.weight'.tr(),
-                iconPath: 'assets/icons/health/scale.png',
+                iconPath: AppIcons.healthScale,
                 currentValue: profile.weightKg != null
                     ? profile.weightKg!.toStringAsFixed(1)
                     : '--',
@@ -44,7 +45,7 @@ class HealthContentArea extends ConsumerWidget {
               SizedBox(height: 8.h),
               HealthMetricCard(
                 title: 'health.height'.tr(),
-                iconPath: 'assets/icons/health/flame.png',
+                iconPath: AppIcons.healthFlame,
                 currentValue: profile.heightCm != null
                     ? profile.heightCm!.toStringAsFixed(1)
                     : '--',

@@ -24,6 +24,12 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -50,29 +56,55 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         state.messages.isNotEmpty || state.streamingContent != null;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: hasMessages
-          ? ChatHeader(
-              hasMessages: hasMessages,
-              onBack: () => Navigator.pop(context),
-            )
-          : null,
+      backgroundColor: Colors.transparent,
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
-        child: Column(
-          children: [
-            Expanded(
-              child: ChatBody(
-                state: state,
-                notifier: notifier,
-                scrollController: _scrollController,
-                hasMessages: hasMessages,
-                onBack: () => Navigator.pop(context),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (hasMessages)
+                ChatHeader(
+                  hasMessages: hasMessages,
+                  onBack: () => Navigator.pop(context),
+                  onClearHistory: notifier.clearHistory,
+                ),
+              Expanded(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: ChatBody(
+                        state: state,
+                        notifier: notifier,
+                        scrollController: _scrollController,
+                        hasMessages: hasMessages,
+                        onBack: () => Navigator.pop(context),
+                      ),
+                    ),
+                    if (state.errorMessage != null)
+                      Positioned(
+                        left: 16.w,
+                        right: 16.w,
+                        bottom: 96.h,
+                        child: _buildErrorBanner(state, notifier),
+                      ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: ChatInput(
+                        onSend: notifier.sendMessage,
+                        isLoading: state.isLoading,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (state.errorMessage != null) _buildErrorBanner(state, notifier),
-            ChatInput(onSend: notifier.sendMessage, isLoading: state.isLoading),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -81,7 +113,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   Widget _buildErrorBanner(ChatState state, ChatNotifier notifier) {
     return Container(
       padding: EdgeInsets.all(8.r),
-      color: AppColors.typoError.withValues(alpha: 0.1),
+      decoration: BoxDecoration(
+        color: AppColors.bgWhite,
+        borderRadius: BorderRadius.circular(18.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.typoBlack.withValues(alpha: 0.12),
+            blurRadius: 24,
+            spreadRadius: -10,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Expanded(

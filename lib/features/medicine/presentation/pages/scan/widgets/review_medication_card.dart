@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../../core/constants/constant_url.dart';
 
 import '../../../../../../core/theme/app_colors.dart';
 
@@ -33,15 +35,13 @@ class ReviewMedicationCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: const BoxDecoration(
-              color: Color(0xFF5A5D7A),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              LucideIcons.moreHorizontal,
-              color: Colors.white,
-              size: 20.sp,
+            width: 48.w,
+            height: 48.w,
+            alignment: Alignment.center,
+            child: SvgPicture.asset(
+              AppIcons.medicineMoreLight,
+              width: 48.w,
+              height: 48.w,
             ),
           ),
           SizedBox(width: 16.w),
@@ -55,7 +55,7 @@ class ReviewMedicationCard extends StatelessWidget {
                     fontFamily: 'Inter',
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.typoHeading,
+                    color: AppColors.typoBlack,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
