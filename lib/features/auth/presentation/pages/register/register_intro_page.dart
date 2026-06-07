@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../../core/constants/constant_url.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/button/button.dart';
 import '../../../../../core/widgets/header/header_with_back.dart';
@@ -88,7 +89,7 @@ class RegisterIntroPage extends ConsumerWidget {
   Widget _buildIllustration() {
     return Center(
       child: SvgPicture.asset(
-        'assets/icons/auth/locker.svg',
+        AppIcons.locker,
         width: double.infinity,
         height: 240.w,
         fit: BoxFit.contain,

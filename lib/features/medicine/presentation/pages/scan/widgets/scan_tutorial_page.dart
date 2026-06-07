@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/widgets/header/header_with_back.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 import 'scan_illustration.dart';
@@ -55,9 +56,7 @@ class ScanTutorialPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ScanIllustration(
-                        imagePath:
-                            capturedImagePath ??
-                            'assets/images/scan/scan_tutorial.png',
+                        imagePath: capturedImagePath ?? AppImages.scanTutorial,
                         isScanning: isLoading,
                       ),
                       SizedBox(height: 16.h),

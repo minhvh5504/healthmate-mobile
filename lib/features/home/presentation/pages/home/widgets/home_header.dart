@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/features/notifications/presentation/providers/notification_provider.dart';
 
@@ -50,9 +51,7 @@ class HomeHeader extends ConsumerWidget {
                           image: DecorationImage(
                             image: avatarUrl != null && avatarUrl!.isNotEmpty
                                 ? NetworkImage(avatarUrl!) as ImageProvider
-                                : const AssetImage(
-                                    'assets/images/user/avatar.png',
-                                  ),
+                                : const AssetImage(AppImages.userAvatar),
                             fit: BoxFit.cover,
                           ),
                           border: Border.all(color: Colors.white, width: 2.w),
@@ -69,7 +68,7 @@ class HomeHeader extends ConsumerWidget {
                         bottom: -2.h,
                         right: -4.w,
                         child: SvgPicture.asset(
-                          'assets/icons/home/list.svg',
+                          AppIcons.homeList,
                           height: 24.h,
                           width: 24.w,
                         ),
@@ -155,7 +154,7 @@ class HomeHeader extends ConsumerWidget {
                     shape: BoxShape.circle,
                   ),
                   child: SvgPicture.asset(
-                    'assets/icons/home/bell.svg',
+                    AppIcons.bell,
                     colorFilter: const ColorFilter.mode(
                       AppColors.bgPrimary,
                       BlendMode.srcIn,

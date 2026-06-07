@@ -634,6 +634,9 @@
     "disclaimer": "Nếu bạn cảm thấy không khỏe, hãy tìm kiếm sự trợ giúp y tế ngay lập tức. Để báo cáo tác dụng phụ của thuốc hoặc để biết thêm thông tin, vui lòng kiểm tra miễn trừ trách nhiệm của chúng tôi.",
     "hint": "Hỏi tôi bất cứ điều gì",
     "error_empty": "Tin nhắn không được để trống",
-    "error_stream": "Mất kết nối. Vui lòng thử lại."
+    "error_stream": "Mất kết nối. Vui lòng thử lại.",
+    "clear_history": "Xóa lịch sử chat",
+    "confirm_clear_title": "Xóa lịch sử?",
+    "confirm_clear_message": "Bạn có chắc chắn muốn xóa toàn bộ lịch sử trò chuyện này không?"
   }
 }

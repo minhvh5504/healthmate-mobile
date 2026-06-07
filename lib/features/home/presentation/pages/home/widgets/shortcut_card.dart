@@ -29,10 +29,10 @@ class HomeShortcutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 116.h),
+      constraints: BoxConstraints(minHeight: 120.h),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(18.r),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF6B7280).withValues(alpha: 0.08),
@@ -45,14 +45,14 @@ class HomeShortcutCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(18.r),
+          borderRadius: BorderRadius.circular(20.r),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(10.w, 14.h, 10.w, 13.h),
+            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 4.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.all(gradient == null ? 10.w : 0),
+                  padding: EdgeInsets.all(gradient == null ? 8.w : 0),
                   decoration: showIconContainer
                       ? BoxDecoration(
                           color: gradient == null
@@ -63,13 +63,13 @@ class HomeShortcutCard extends StatelessWidget {
                         )
                       : null,
                   child: SizedBox(
-                    width: iconWidth ?? 52.w,
-                    height: iconHeight ?? 52.w,
+                    width: iconWidth ?? 42.w,
+                    height: iconHeight ?? 42.w,
                     child: Center(child: icon),
                   ),
                 ),
 
-                SizedBox(height: 10.h),
+                SizedBox(height: 9.h),
                 Text(
                   label,
                   textAlign: TextAlign.center,

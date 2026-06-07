@@ -66,35 +66,21 @@ class ScanActionButtons extends ConsumerWidget {
             );
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            width: double.infinity,
+            height: 48.h,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(28.r),
             ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.delete_outline, // or LucideIcons.trash_2
-                  color: AppColors.typoError,
-                  size: 24.sp,
-                ),
-                SizedBox(width: 12.w),
-                Text(
-                  'medicine.scan.action.delete_all'.tr(),
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.typoError,
-                  ),
-                ),
-                const Spacer(),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: const Color(0xFFCBD5E1),
-                  size: 24.sp,
-                ),
-              ],
+            alignment: Alignment.center,
+            child: Text(
+              'medicine.scan.action.delete_all'.tr(),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.typoError,
+              ),
             ),
           ),
         ),

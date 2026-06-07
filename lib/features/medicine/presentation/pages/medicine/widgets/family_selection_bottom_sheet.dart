@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/features/medicine/presentation/providers/medicine/medicine_provider.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/providers/user_provider.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/routing/app_router.dart';
@@ -139,7 +140,7 @@ class _MemberItem extends StatelessWidget {
                 image: DecorationImage(
                   image: avatarUrl != null
                       ? NetworkImage(avatarUrl!) as ImageProvider
-                      : const AssetImage('assets/images/user/avatar.png'),
+                      : const AssetImage(AppImages.userAvatar),
                   fit: BoxFit.cover,
                 ),
               ),

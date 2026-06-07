@@ -116,7 +116,7 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
 
   /// Handle close
   void onClose() {
-    AppRouter.router.pop();
+    AppRouter.router.go(AppRoutes.medicine);
   }
 
   /// Handle select medication

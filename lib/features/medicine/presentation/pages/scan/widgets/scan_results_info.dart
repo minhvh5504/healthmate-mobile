@@ -43,7 +43,7 @@ class ScanResultsInfo extends ConsumerWidget {
             fontFamily: 'Inter',
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.typoHeading.withValues(alpha: 0.8),
+            color: AppColors.typoBlack,
           ),
         ),
       ],

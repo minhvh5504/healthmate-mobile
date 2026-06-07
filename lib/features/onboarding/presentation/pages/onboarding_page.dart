@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../core/constants/constant_url.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/onboarding/onboarding_provider.dart';
 import '../widgets/onboarding_item.dart';
@@ -17,17 +18,17 @@ class OnboardingPage extends ConsumerWidget {
     final List<Map<String, String>> data = [
       {
         'title': 'onboarding.page1.title'.tr(),
-        'image': 'assets/images/onboarding/onboard.png',
+        'image': AppImages.onboard,
         'buttonText': 'onboarding.button_start'.tr(),
       },
       {
         'title': 'onboarding.page2.title'.tr(),
-        'image': 'assets/images/onboarding/onboard.png',
+        'image': AppImages.onboard,
         'buttonText': 'onboarding.button_start'.tr(),
       },
       {
         'title': 'onboarding.page3.title'.tr(),
-        'image': 'assets/images/onboarding/onboard.png',
+        'image': AppImages.onboard,
         'buttonText': 'onboarding.button_start'.tr(),
       },
     ];

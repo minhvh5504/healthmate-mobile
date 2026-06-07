@@ -59,15 +59,26 @@ dependencies:
   image_picker: ^1.1.2
   # permission handler
   permission_handler: ^11.3.1
+  # table calendar
   table_calendar: ^3.2.0
+  # intl
   intl: ^0.20.2
+  # flutter client sse
   flutter_client_sse: ^2.0.3
+  # smooth page indicator
   smooth_page_indicator: ^2.0.1
+  # dropdown button2
   dropdown_button2: ^3.1.0
+  # animations
   animations: ^2.2.0
   flutter_animate: ^4.5.2
+  # dotted border
   dotted_border: ^3.1.0
+  # percent indicator
   percent_indicator: ^4.2.5
+
+  # lottie
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +100,7 @@ flutter:
     - assets/icons/auth/
     - assets/icons/popup/
     - assets/icons/home/
+    - assets/icons/medicine/
     - assets/icons/setting/
 
     - assets/images/
@@ -100,6 +112,8 @@ flutter:
     - assets/lang/
 
     - assets/fonts/
+
+    - assets/lottie/
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package

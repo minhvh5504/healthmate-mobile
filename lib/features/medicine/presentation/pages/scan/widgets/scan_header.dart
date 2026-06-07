@@ -46,7 +46,7 @@ class ScanHeader extends StatelessWidget implements PreferredSizeWidget {
           fontFamily: 'Inter',
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          color: AppColors.typoHeading,
+          color: AppColors.typoBlack,
         ),
       ),
       centerTitle: true,

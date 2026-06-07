@@ -129,4 +129,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
   void clearError() {
     state = state.copyWith(errorMessage: null);
   }
+
+  void clearHistory() {
+    state = ChatState();
+  }
 }
