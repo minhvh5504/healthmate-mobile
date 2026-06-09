@@ -54,6 +54,7 @@ class AddMedicineSearchBar extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: TextField(
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       controller: controller,
                       onChanged: onChanged,
                       style: TextStyle(

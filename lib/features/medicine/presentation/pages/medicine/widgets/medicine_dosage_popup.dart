@@ -145,6 +145,8 @@ class _MedicineDosagePopupState extends State<MedicineDosagePopup> {
                           children: [
                             IntrinsicWidth(
                               child: TextField(
+                                onTapOutside: (_) =>
+                                    FocusScope.of(context).unfocus(),
                                 controller: _amountController,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(

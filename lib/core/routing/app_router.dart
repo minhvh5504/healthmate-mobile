@@ -18,7 +18,6 @@ import '../../features/medicine/presentation/pages/medicine_review/medicine_revi
 import '../../features/notifications/presentation/pages/notification_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_page.dart';
-import '../../features/home/presentation/pages/home/home_page.dart';
 
 import '../../features/health/presentation/pages/health/health_page.dart';
 import '../../features/history/presentation/pages/history_page.dart';
@@ -39,6 +38,7 @@ import '../../features/medicine/presentation/pages/medicine_stock/medicine_stock
 import '../../features/medicine/presentation/pages/medicine_detail_preview_edit/medicine_detail_preview_edit_page.dart';
 import '../../features/medicine/presentation/pages/medicine_reminder_edit/medicine_reminder_edit_page.dart';
 import '../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
+import '../widgets/chat/floating_chat_button.dart';
 import '../widgets/navigation/custom_bottom_navigation.dart';
 import '../providers/bottom_nav_provider.dart';
 import '../handlers/deeplink_handler.dart';
@@ -226,6 +226,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       },
                       child: child,
                     ),
+                    const Positioned.fill(child: FloatingChatButton()),
                     Positioned(
                       left: 0,
                       right: 0,
@@ -244,10 +245,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           );
         },
         routes: [
-          GoRoute(
-            path: AppRoutes.home,
-            builder: (context, state) => const HomePage(),
-          ),
           GoRoute(
             path: AppRoutes.medicine,
             builder: (context, state) => const MedicinePage(),
@@ -269,10 +266,9 @@ final routerProvider = Provider<GoRouter>((ref) {
 });
 
 int _getNavIndex(String path) {
-  if (path.startsWith(AppRoutes.home)) return 0;
-  if (path.startsWith(AppRoutes.medicine)) return 1;
-  if (path.startsWith(AppRoutes.health)) return 2;
-  if (path.startsWith(AppRoutes.history)) return 3;
+  if (path.startsWith(AppRoutes.medicine)) return 0;
+  if (path.startsWith(AppRoutes.health)) return 1;
+  if (path.startsWith(AppRoutes.history)) return 2;
   return 0;
 }
 

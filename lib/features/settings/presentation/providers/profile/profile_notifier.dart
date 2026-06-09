@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/routing/app_router.dart';
+import '../../../../../core/providers/user_provider.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../domain/usecases/get_user_profile.dart';
@@ -33,8 +34,9 @@ class ProfileState {
 class ProfileNotifier extends StateNotifier<ProfileState> {
   final GetUserProfile _getUserProfile;
   final UpdateUserProfile _updateUserProfile;
+  final Ref _ref;
 
-  ProfileNotifier(this._getUserProfile, this._updateUserProfile)
+  ProfileNotifier(this._getUserProfile, this._updateUserProfile, this._ref)
     : super(const ProfileState()) {
     loadProfile();
   }
@@ -46,6 +48,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       final profile = await _getUserProfile();
       if (!mounted) return;
       state = state.copyWith(profile: profile, isLoading: false);
+      _ref.read(userProfileProvider.notifier).updateProfile(profile);
     } catch (e) {
       if (!mounted) return;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -88,8 +91,11 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await _updateUserProfile(updatedProfile);
+      final profile = await _getUserProfile();
       if (!mounted) return;
-      await loadProfile();
+
+      state = state.copyWith(profile: profile, isLoading: false);
+      _ref.read(userProfileProvider.notifier).updateProfile(profile);
     } catch (e) {
       if (!mounted) return;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -98,7 +104,11 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   void handleUpdateFullName(String newValue) {
     if (state.profile == null) return;
-    updateProfile(state.profile!.copyWith(fullName: newValue));
+
+    final fullName = newValue.trim();
+    if (fullName.isEmpty) return;
+
+    updateProfile(state.profile!.copyWith(fullName: fullName));
   }
 
   void handleUpdateGender(String newValue) {

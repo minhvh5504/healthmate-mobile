@@ -3,33 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:healthmate_mobile/core/constants/constant_url.dart';
-import 'package:healthmate_mobile/core/theme/app_colors.dart';
-import 'package:healthmate_mobile/features/notifications/presentation/providers/notification_provider.dart';
+import 'package:go_router/go_router.dart';
 
-class HomeHeader extends ConsumerWidget {
-  final VoidCallback onProfilePressed;
-  final VoidCallback onNotificationPressed;
-  final String? avatarUrl;
-  final String? displayName;
+import '../../constants/constant_url.dart';
+import '../../providers/user_provider.dart';
+import '../../routing/app_routes.dart';
+import '../../theme/app_colors.dart';
+import '../../../features/notifications/presentation/providers/notification_provider.dart';
 
-  const HomeHeader({
-    super.key,
-    required this.onProfilePressed,
-    required this.onNotificationPressed,
-    this.avatarUrl,
-    this.displayName,
-  });
+class AppHeader extends ConsumerWidget {
+  const AppHeader({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(userProfileProvider);
     final unreadCount = ref.watch(notificationProvider).unreadCount;
-    final name = displayName?.trim().isNotEmpty == true
-        ? displayName!.trim()
+    final name = profile?.displayName.trim().isNotEmpty == true
+        ? profile!.displayName.trim()
         : 'Joyer';
+    final avatarUrl = profile?.avatarUrl;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(20.w, 18.h, 20.w, 18.h),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +33,7 @@ class HomeHeader extends ConsumerWidget {
             child: Row(
               children: [
                 InkWell(
-                  onTap: onProfilePressed,
+                  onTap: () => context.go(AppRoutes.settings),
                   borderRadius: BorderRadius.circular(24.r),
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -49,8 +44,8 @@ class HomeHeader extends ConsumerWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: avatarUrl != null && avatarUrl!.isNotEmpty
-                                ? NetworkImage(avatarUrl!) as ImageProvider
+                            image: avatarUrl != null && avatarUrl.isNotEmpty
+                                ? NetworkImage(avatarUrl) as ImageProvider
                                 : const AssetImage(AppImages.userAvatar),
                             fit: BoxFit.cover,
                           ),
@@ -68,7 +63,7 @@ class HomeHeader extends ConsumerWidget {
                         bottom: -2.h,
                         right: -4.w,
                         child: SvgPicture.asset(
-                          AppIcons.homeList,
+                          AppIcons.menuBadge,
                           height: 24.h,
                           width: 24.w,
                         ),
@@ -84,7 +79,7 @@ class HomeHeader extends ConsumerWidget {
                     children: [
                       Text.rich(
                         TextSpan(
-                          text: 'home.greeting'.tr(),
+                          text: 'app_header.greeting'.tr(),
                           children: [
                             TextSpan(
                               text: name,
@@ -122,7 +117,7 @@ class HomeHeader extends ConsumerWidget {
                             ),
                             SizedBox(width: 4.w),
                             Text(
-                              'home.welcome'.tr(),
+                              'app_header.welcome'.tr(),
                               style: TextStyle(
                                 color: const Color(0xFF5D63F1),
                                 fontSize: 11.sp,
@@ -139,28 +134,19 @@ class HomeHeader extends ConsumerWidget {
             ),
           ),
           SizedBox(width: 12.w),
-
           InkWell(
-            onTap: onNotificationPressed,
+            onTap: () => context.push(AppRoutes.notifications),
             borderRadius: BorderRadius.circular(28.r),
             child: Stack(
               children: [
-                Container(
-                  width: 40.w,
-                  height: 40.w,
-                  padding: EdgeInsets.all(7.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(
-                    AppIcons.bell,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.bgPrimary,
-                      BlendMode.srcIn,
-                    ),
+                SvgPicture.asset(
+                  AppIcons.bell,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.bgPrimary,
+                    BlendMode.srcIn,
                   ),
                 ),
+
                 if (unreadCount > 0)
                   Positioned(
                     top: 4,

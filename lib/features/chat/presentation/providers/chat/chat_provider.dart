@@ -6,6 +6,7 @@ import '../../../data/repositories/chat_repository_impl.dart';
 import '../../../domain/repositories/chat_repository.dart';
 import '../../../domain/usecases/send_chat_message.dart';
 import '../../../domain/usecases/get_chat_history.dart';
+import '../../../domain/usecases/clear_chat_history.dart';
 import 'chat_notifier.dart';
 
 export 'chat_notifier.dart';
@@ -38,12 +39,18 @@ final getChatHistoryUseCaseProvider = Provider<GetChatHistory>((ref) {
   return GetChatHistory(ref.read(chatRepositoryProvider));
 });
 
+/// Usecase Clear History
+final clearChatHistoryUseCaseProvider = Provider<ClearChatHistory>((ref) {
+  return ClearChatHistory(ref.read(chatRepositoryProvider));
+});
+
 /// StateNotifier Provider
 final chatProvider = StateNotifierProvider.autoDispose<ChatNotifier, ChatState>(
   (ref) {
     return ChatNotifier(
       ref.read(sendChatMessageUseCaseProvider),
       ref.read(getChatHistoryUseCaseProvider),
+      ref.read(clearChatHistoryUseCaseProvider),
       ref,
     );
   },

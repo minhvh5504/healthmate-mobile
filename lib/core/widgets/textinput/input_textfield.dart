@@ -17,6 +17,8 @@ class InputTextField extends StatefulWidget {
   final String? suffixText;
   final VoidCallback? onTap;
   final bool? obscureText;
+  final FocusNode? focusNode;
+  final ValueChanged<bool>? onFocusChanged;
 
   const InputTextField({
     super.key,
@@ -33,6 +35,8 @@ class InputTextField extends StatefulWidget {
     this.suffixText,
     this.onTap,
     this.obscureText,
+    this.focusNode,
+    this.onFocusChanged,
   });
 
   @override
@@ -43,10 +47,15 @@ class _InputTextFieldState extends State<InputTextField> {
   bool _isObscured = true;
   bool _showSuffixIcon = false;
   late VoidCallback _textListener;
+  late final FocusNode _focusNode;
+  late final bool _ownsFocusNode;
 
   @override
   void initState() {
     super.initState();
+    _ownsFocusNode = widget.focusNode == null;
+    _focusNode = widget.focusNode ?? FocusNode();
+    _showSuffixIcon = widget.controller.text.isNotEmpty;
     _textListener = () {
       final shouldShow = widget.controller.text.isNotEmpty;
       if (shouldShow != _showSuffixIcon && mounted) {
@@ -54,12 +63,24 @@ class _InputTextFieldState extends State<InputTextField> {
       }
     };
     widget.controller.addListener(_textListener);
+    _focusNode.addListener(_handleFocusChanged);
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_textListener);
+    _focusNode.removeListener(_handleFocusChanged);
+    if (_ownsFocusNode) {
+      _focusNode.dispose();
+    }
     super.dispose();
+  }
+
+  void _handleFocusChanged() {
+    widget.onFocusChanged?.call(_focusNode.hasFocus);
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -84,11 +105,18 @@ class _InputTextFieldState extends State<InputTextField> {
           SizedBox(height: 6.h),
         ],
         TextField(
+          focusNode: _focusNode,
+          onTapOutside: (_) => _focusNode.unfocus(),
           controller: widget.controller,
           obscureText: widget.isPassword ? _isObscured : false,
           keyboardType: widget.keyboardType,
           readOnly: widget.readOnly,
-          onTap: widget.onTap,
+          onTap: () {
+            if (!_focusNode.hasFocus) {
+              _focusNode.requestFocus();
+            }
+            widget.onTap?.call();
+          },
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 14.sp,

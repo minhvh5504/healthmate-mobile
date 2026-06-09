@@ -56,7 +56,7 @@ class MedicineReviewActionButtons extends ConsumerWidget {
                       },
                       onComplete: () {
                         Navigator.pop(context);
-                        AppRouter.router.go(AppRoutes.home);
+                        AppRouter.router.go(AppRoutes.medicine);
                       },
                     ),
                   ),

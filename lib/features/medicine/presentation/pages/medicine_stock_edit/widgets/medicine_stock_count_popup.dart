@@ -99,6 +99,7 @@ class _MedicineStockCountPopupState extends State<MedicineStockCountPopup> {
                 ),
                 Expanded(
                   child: TextField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     controller: _controller,
                     textAlign: TextAlign.end,
                     keyboardType: TextInputType.number,

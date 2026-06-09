@@ -70,6 +70,7 @@ class _ChatInputState extends State<ChatInput> {
           children: [
             Expanded(
               child: TextField(
+                onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 controller: _controller,
                 maxLines: 4,
                 minLines: 1,
@@ -104,24 +105,15 @@ class _ChatInputState extends State<ChatInput> {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: widget.isLoading
-                      ? SizedBox(
-                          width: sendIconSize,
-                          height: sendIconSize,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ),
-                        )
-                      : SvgPicture.asset(
-                          AppIcons.send,
-                          width: sendIconSize,
-                          height: sendIconSize,
-                          colorFilter: const ColorFilter.mode(
-                            Colors.white,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                  child: SvgPicture.asset(
+                    AppIcons.send,
+                    width: sendIconSize,
+                    height: sendIconSize,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -90,10 +90,11 @@ class ChatHeader extends StatelessWidget implements PreferredSizeWidget {
       showMore: true,
       onBack: onBack,
       onMore: () => _showMenu(context),
-      topPadding: 16.h,
+      topPadding: 0,
+      horizontalPadding: 16.w,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 16.h);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

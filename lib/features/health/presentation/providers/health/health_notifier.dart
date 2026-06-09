@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthmate_mobile/core/providers/user_provider.dart';
 import 'package:healthmate_mobile/features/health/domain/entities/health_analysis.dart';
 import 'package:healthmate_mobile/features/health/domain/entities/user_profile.dart';
 import 'package:healthmate_mobile/features/health/domain/usecases/get_health_analysis.dart';
@@ -55,11 +56,13 @@ class HealthNotifier extends StateNotifier<HealthState> {
   final GetUserProfile _getUserProfile;
   final UpdateUserProfile _updateUserProfile;
   final GetHealthAnalysis _getHealthAnalysis;
+  final Ref _ref;
 
   HealthNotifier(
     this._getUserProfile,
     this._updateUserProfile,
     this._getHealthAnalysis,
+    this._ref,
   ) : super(const HealthState()) {
     fetchProfile();
   }
@@ -235,6 +238,7 @@ class HealthNotifier extends StateNotifier<HealthState> {
       if (!mounted) return;
 
       _updateStateWithProfile(profile);
+      await _ref.read(userProfileProvider.notifier).fetchProfile(force: true);
       await fetchHealthAnalysis();
     } catch (e) {
       if (!mounted) return;
@@ -269,32 +273,12 @@ class HealthNotifier extends StateNotifier<HealthState> {
         weightKg: weight,
       );
 
-      var result = await _updateUserProfile(updatedProfile);
+      await _updateUserProfile(updatedProfile);
+      final profile = await _getUserProfile();
       if (!mounted) return;
 
-      if (state.userProfile != null) {
-        final oldProfile = state.userProfile!;
-
-        final weightDeltaChange =
-            (result.weightKg ?? 0) - (oldProfile.weightKg ?? 0);
-        final heightDeltaChange =
-            (result.heightCm ?? 0) - (oldProfile.heightCm ?? 0);
-        final existingDelta = oldProfile.healthDelta;
-
-        result = result.copyWith(
-          email: result.email.isEmpty ? oldProfile.email : result.email,
-          avatarUrl: result.avatarUrl ?? oldProfile.avatarUrl,
-          role: result.role ?? oldProfile.role,
-          emailVerified: result.emailVerified ?? oldProfile.emailVerified,
-          healthDelta: HealthDelta(
-            weightKg: (existingDelta?.weightKg ?? 0) + weightDeltaChange,
-            heightCm: (existingDelta?.heightCm ?? 0) + heightDeltaChange,
-            daysSinceLastUpdate: existingDelta?.daysSinceLastUpdate ?? 0,
-          ),
-        );
-      }
-
-      _updateStateWithProfile(result);
+      _updateStateWithProfile(profile);
+      await _ref.read(userProfileProvider.notifier).fetchProfile(force: true);
     } catch (e) {
       if (!mounted) return;
       state = state.copyWith(isLoading: false, errorMessage: e.toString());

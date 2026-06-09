@@ -168,31 +168,6 @@
       "unexpected": "An unexpected error occurred"
     }
   },
-  "home": {
-    "shortcuts": "Shortcuts",
-    "ai_assistant": "Ask AI Assistant",
-    "ai_assistant_subtitle": "Chat with AI",
-    "connect_relative": "Connect Relative",
-    "connect_relative_subtitle": "Manage medication reminders with relatives",
-    "health_today": "Health Today",
-    "medicine_today": "Today's Medication",
-    "view_all": "View all",
-    "greeting": "Hello! ",
-    "welcome": "Welcome back",
-    "dose_count": "{} dose(s)",
-    "meal_instruction": {
-      "before_breakfast": "Before breakfast",
-      "after_breakfast": "After breakfast",
-      "before_lunch": "Before lunch",
-      "after_lunch": "After lunch",
-      "before_dinner": "Before dinner",
-      "after_dinner": "After dinner",
-      "before_sleep": "Before sleep",
-      "between_meals": "Between meals"
-    },
-    "no_changes_today": "No changes today",
-    "update_to_track": "Please update to track your health"
-  },
   "settings": {
     "title": "Settings",
     "basic_info": "Basic Information",
@@ -281,7 +256,6 @@
     "tab_cabinet": "Medicine Cabinet",
     "today": "Today",
     "empty_body": "Track your medications, health info and more in one place. Add your first medicine!",
-    "button_add_first": "Add medicine to take",
     "add_medicine": {
       "title": "Add Medicine",
       "search_hint": "Search medicine name...",
@@ -474,7 +448,6 @@
     }
   },
   "bottom_nav": {
-    "home": "Home",
     "medicine": "Medicine",
     "health": "Health",
     "history": "History"
@@ -632,5 +605,9 @@
     "clear_history": "Clear chat history",
     "confirm_clear_title": "Clear history?",
     "confirm_clear_message": "Are you sure you want to clear the entire chat history?"
+  },
+  "app_header": {
+    "greeting": "Hello! ",
+    "welcome": "Welcome back"
   }
 }

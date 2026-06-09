@@ -43,6 +43,7 @@ class _EditNameBottomSheetState extends State<EditNameBottomSheet> {
         children: [
           SizedBox(height: 40.h),
           TextField(
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
             controller: _controller,
             textAlign: TextAlign.center,
             autofocus: true,

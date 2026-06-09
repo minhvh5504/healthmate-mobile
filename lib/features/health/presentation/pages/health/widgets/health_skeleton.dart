@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/widgets/header/app_header.dart';
 
 /// Skeleton placeholder shown while Health profile is loading.
 class HealthSkeleton extends StatelessWidget {
@@ -16,30 +17,27 @@ class HealthSkeleton extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
-          child: Shimmer.fromColors(
-            baseColor: const Color(0xFFE2E8F0),
-            highlightColor: const Color(0xFFF8FAFC),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 8.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 24.w,
-                    vertical: 8.h,
-                  ),
-                  child: _SkeletonLine(width: 220.w, height: 28.h),
-                ),
-                SizedBox(height: 8.h),
-                Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AppHeader(),
+              Expanded(
+                child: Shimmer.fromColors(
+                  baseColor: const Color(0xFFE2E8F0),
+                  highlightColor: const Color(0xFFF8FAFC),
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 8.h,
+                          ),
+                          child: _SkeletonLine(width: 220.w, height: 28.h),
+                        ),
+                        SizedBox(height: 8.h),
                         const _MetricCardSkeleton(),
                         SizedBox(height: 8.h),
                         const _MetricCardSkeleton(),
@@ -49,8 +47,8 @@ class HealthSkeleton extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

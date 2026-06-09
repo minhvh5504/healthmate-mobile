@@ -14,7 +14,7 @@ class NotificationEmptyState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            AppIcons.notFound,
+            AppImages.notFound,
             width: 180.w,
             height: 180.w,
             fit: BoxFit.contain,

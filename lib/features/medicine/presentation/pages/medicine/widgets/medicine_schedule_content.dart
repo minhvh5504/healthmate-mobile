@@ -33,7 +33,7 @@ class MedicineScheduleContent extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       children: [
         if (!hasData)
-          MedicineEmptyState(onAddMedicine: notifier.onAddMedicine)
+          const MedicineEmptyState()
         else
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

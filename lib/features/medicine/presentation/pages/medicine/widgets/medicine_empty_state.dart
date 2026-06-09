@@ -7,9 +7,16 @@ import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 
 class MedicineEmptyState extends StatelessWidget {
-  const MedicineEmptyState({super.key, required this.onAddMedicine});
+  const MedicineEmptyState({
+    super.key,
+    this.actionLabel,
+    this.onActionPressed,
+    this.actionIcon = LucideIcons.package,
+  });
 
-  final VoidCallback onAddMedicine;
+  final String? actionLabel;
+  final VoidCallback? onActionPressed;
+  final IconData actionIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +34,20 @@ class MedicineEmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
                 color: AppColors.typoBody,
-                height: 1.5,
               ),
             ),
-            SizedBox(height: 24.h),
-            Button(
-              height: 50.h,
-              icon: Icon(
-                LucideIcons.plusSquare,
-                size: 24.sp,
-                color: Colors.white,
+            if (actionLabel != null && onActionPressed != null) ...[
+              SizedBox(height: 24.h),
+              Button(
+                height: 50.h,
+                icon: Icon(actionIcon, size: 24.sp, color: Colors.white),
+                text: actionLabel!,
+                onPressed: onActionPressed!,
               ),
-              text: 'medicine.button_add_first'.tr(),
-              onPressed: onAddMedicine,
-            ),
+            ],
           ],
         ),
       ),
@@ -57,7 +61,7 @@ class _MedicineIllustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      AppImages.healthMailbox,
+      AppImages.notFound,
       width: 180.w,
       height: 180.w,
       fit: BoxFit.contain,

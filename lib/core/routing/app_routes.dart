@@ -44,7 +44,6 @@ class AppRoutes {
   static const String chat = '/chat';
 
   // Shell Route
-  static const String home = '/home';
   static const String medicine = '/medicine';
   static const String health = '/health';
   static const String history = '/history';

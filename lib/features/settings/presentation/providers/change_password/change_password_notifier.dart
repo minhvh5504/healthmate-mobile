@@ -165,7 +165,7 @@ class ChangePasswordNotifier extends StateNotifier<ChangePasswordState> {
         state.newPasswordController.text,
       );
 
-      AppRouter.router.go(AppRoutes.home);
+      AppRouter.router.go(AppRoutes.medicine);
     } catch (e) {
       state = state.copyWith(isLoading: false);
       _handleFailure(context, e);

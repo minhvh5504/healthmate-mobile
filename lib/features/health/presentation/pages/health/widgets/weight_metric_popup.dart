@@ -251,6 +251,7 @@ class _WeightMetricPopupState extends ConsumerState<WeightMetricPopup> {
                           ),
                         ),
                         TextField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: _controller,
                           focusNode: _focusNode,
                           inputFormatters: [MetricInputFormatter()],
