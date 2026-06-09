@@ -49,7 +49,11 @@ class _MedicineCabinetContentState
 
     if (isEmpty) {
       return Center(
-        child: MedicineEmptyState(onAddMedicine: notifier.onAddMedicine),
+        child: MedicineEmptyState(
+          actionLabel: 'medicine.add_medicine.title'.tr(),
+          actionIcon: LucideIcons.plusSquare,
+          onActionPressed: notifier.onAddMedicine,
+        ),
       );
     }
 

@@ -11,6 +11,10 @@ class MedicineDateLabel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(medicineProvider);
+    if (!_isToday(state.selectedDate)) {
+      return const SizedBox.shrink();
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Center(
@@ -27,15 +31,16 @@ class MedicineDateLabel extends ConsumerWidget {
     );
   }
 
-  String _formatDateLabel(DateTime date, BuildContext context) {
+  bool _isToday(DateTime date) {
     final now = DateTime.now();
-    final isToday =
-        date.year == now.year && date.month == now.month && date.day == now.day;
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
+  }
+
+  String _formatDateLabel(DateTime date, BuildContext context) {
     final locale = EasyLocalization.of(context)?.currentLocale?.languageCode;
     final formatted = DateFormat('d MMM', locale).format(date);
-    if (isToday) {
-      return '${'medicine.today'.tr()}, $formatted';
-    }
-    return formatted;
+    return '${'medicine.today'.tr()}, $formatted';
   }
 }

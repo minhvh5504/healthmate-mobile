@@ -102,6 +102,7 @@ class _MedicineLowStockPopupState extends State<MedicineLowStockPopup> {
                 SizedBox(
                   width: 40.w,
                   child: TextField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     controller: _controller,
                     textAlign: TextAlign.end,
                     keyboardType: TextInputType.number,

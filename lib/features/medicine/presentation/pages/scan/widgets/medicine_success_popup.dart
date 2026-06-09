@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 
@@ -58,10 +60,10 @@ class MedicineSuccessPopup extends StatelessWidget {
                 color: Color(0xFFF2F4FB),
               ),
               child: Center(
-                child: Icon(
-                  LucideIcons.briefcase,
-                  color: const Color(0xFF7A7EAC),
-                  size: 40.sp,
+                child: SvgPicture.asset(
+                  AppIcons.medicineDictionary,
+                  width: 40.w,
+                  height: 40.w,
                 ),
               ),
             ),

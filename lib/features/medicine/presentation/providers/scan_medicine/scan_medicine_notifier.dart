@@ -265,7 +265,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
 
   void onAddNew() => AppRouter.router.push(AppRoutes.scanMedicineBox);
   void onViewCabinet() => AppRouter.router.go(AppRoutes.medicine);
-  void onComplete() => AppRouter.router.go(AppRoutes.home);
+  void onComplete() => AppRouter.router.go(AppRoutes.medicine);
 
   void reset() {
     _safeSetState(ScanMedicineState(scanType: state.scanType));

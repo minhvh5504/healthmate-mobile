@@ -22,11 +22,16 @@ class ChatRepositoryImpl implements ChatRepository {
     final historyModels = history
         .map((e) => ChatMessageModel.fromEntity(e))
         .toList();
-    
+
     return _remoteDataSource.sendMessage(
       message: message,
       token: token,
       history: historyModels,
     );
+  }
+
+  @override
+  Future<void> clearChatHistory() {
+    return _remoteDataSource.clearChatHistory();
   }
 }

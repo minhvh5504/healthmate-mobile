@@ -19,5 +19,6 @@ final profileProvider = StateNotifierProvider<ProfileNotifier, ProfileState>((
   return ProfileNotifier(
     ref.read(getUserProfileUseCaseProvider),
     ref.read(updateUserProfileUseCaseProvider),
+    ref,
   );
 });

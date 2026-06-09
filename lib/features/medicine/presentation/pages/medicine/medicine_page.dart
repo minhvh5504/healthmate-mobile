@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthmate_mobile/core/widgets/header/app_header.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../providers/medicine/medicine_provider.dart';
 import 'widgets/medicine_calendar_strip.dart';
@@ -28,17 +29,18 @@ class MedicinePage extends ConsumerWidget {
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
           child: isInitialLoading
-              ? Column(
+              ? const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 16.h),
-                    const Expanded(child: MedicineSkeleton()),
+                    AppHeader(),
+                    Expanded(child: MedicineSkeleton()),
                   ],
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 16.h),
+                    const AppHeader(),
+                    SizedBox(height: 8.h),
 
                     /// Tab bar
                     MedicineTabBar(

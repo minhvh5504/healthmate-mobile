@@ -89,7 +89,7 @@ class SplashNotifier extends StateNotifier<SplashState> {
       final isLoggedIn = prefs.getBool('isLogin') ?? false;
 
       if (isLoggedIn) {
-        context.go(AppRoutes.home);
+        context.go(AppRoutes.medicine);
       } else {
         context.go(AppRoutes.onboarding);
       }

@@ -167,31 +167,6 @@
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     }
   },
-  "home": {
-    "shortcuts": "Phím tắt",
-    "ai_assistant": "Hỏi trợ lý AI",
-    "ai_assistant_subtitle": "Trò chuyện với AI",
-    "connect_relative": "Kết nối người thân",
-    "connect_relative_subtitle": "Nhắc thuốc cùng người thân",
-    "health_today": "Sức khoẻ hôm nay",
-    "medicine_today": "Thuốc hôm nay",
-    "view_all": "Xem tất cả",
-    "greeting": "Xin chào! ",
-    "welcome": "Chào mừng bạn",
-    "dose_count": "{} lần dùng",
-    "meal_instruction": {
-      "before_breakfast": "Trước bữa sáng",
-      "after_breakfast": "Sau bữa sáng",
-      "before_lunch": "Trước bữa trưa",
-      "after_lunch": "Sau bữa trưa",
-      "before_dinner": "Trước bữa tối",
-      "after_dinner": "Sau bữa tối",
-      "before_sleep": "Trước khi ngủ",
-      "between_meals": "Giữa các bữa ăn"
-    },
-    "no_changes_today": "Chưa có thay đổi gì hôm nay",
-    "update_to_track": "Vui lòng cập nhật để theo dõi sức khỏe"
-  },
   "settings": {
     "title": "Cài đặt",
     "basic_info": "Thông tin cơ bản",
@@ -280,7 +255,6 @@
     "tab_cabinet": "Hộp thuốc",
     "today": "Hôm nay",
     "empty_body": "Nhắc dùng thuốc, xem thông tin về sức khoẻ và nhiều thứ khác trong cùng một nơi. Hãy thêm viên thuốc đầu tiên!",
-    "button_add_first": "Thêm thuốc cần dùng",
     "add_medicine": {
       "title": "Thêm thuốc",
       "search_hint": "Tìm tên thuốc...",
@@ -473,7 +447,6 @@
     }
   },
   "bottom_nav": {
-    "home": "Trang chủ",
     "medicine": "Thuốc",
     "health": "Sức khỏe",
     "history": "Lịch sử"
@@ -638,5 +611,9 @@
     "clear_history": "Xóa lịch sử chat",
     "confirm_clear_title": "Xóa lịch sử?",
     "confirm_clear_message": "Bạn có chắc chắn muốn xóa toàn bộ lịch sử trò chuyện này không?"
+  },
+  "app_header": {
+    "greeting": "Xin chào! ",
+    "welcome": "Chào mừng bạn"
   }
 }

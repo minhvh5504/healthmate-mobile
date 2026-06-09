@@ -50,5 +50,6 @@ final healthProvider = StateNotifierProvider<HealthNotifier, HealthState>((
     ref.read(getUserProfileUseCaseProvider),
     ref.read(updateUserProfileUseCaseProvider),
     ref.read(getHealthAnalysisUseCaseProvider),
+    ref,
   );
 });

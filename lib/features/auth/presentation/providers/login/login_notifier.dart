@@ -246,7 +246,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       if (context.mounted) {
         context.pop();
-        context.go(AppRoutes.home);
+        context.go(AppRoutes.medicine);
       }
     } catch (e) {
       _handleFailure(context, e);
@@ -266,7 +266,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     _setLoading(false);
 
-    context.go(AppRoutes.home);
+    context.go(AppRoutes.medicine);
   }
 
   /// Handle failure

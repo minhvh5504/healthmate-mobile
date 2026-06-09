@@ -19,4 +19,4 @@ const String appName = 'HealthMate';
 // String privacyPolicyLink = 'https://www.wondapro.com/wondapro-privacy-policy';
 
 // Support
-// String supportLink = 'support@wondapro.com';
+const String supportLink = 'minhvh5504@gmail.com';

@@ -178,7 +178,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
       state = state.copyWith(isLoading: false, isSuccess: true);
 
-      context.go(AppRoutes.home);
+      context.go(AppRoutes.medicine);
     } catch (e) {
       _resetErrorTimer();
       _handleFailure(context, e);

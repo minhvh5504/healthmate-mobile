@@ -177,6 +177,7 @@ class _MedicineConditionPopupState extends State<MedicineConditionPopup> {
                     ),
                   ),
                   child: TextField(
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     controller: _customController,
                     autofocus: true,
                     style: TextStyle(

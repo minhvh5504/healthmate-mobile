@@ -9,4 +9,7 @@ abstract class ChatApi {
 
   @GET('ai/history')
   Future<dynamic> getChatHistory();
+
+  @DELETE('ai/history')
+  Future<dynamic> clearChatHistory();
 }

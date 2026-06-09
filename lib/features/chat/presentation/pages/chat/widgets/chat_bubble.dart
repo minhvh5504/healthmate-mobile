@@ -60,17 +60,6 @@ class _AssistantMessage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: 12.w, bottom: 4.h),
-            child: Text(
-              'HealthMate AI',
-              style: TextStyle(
-                color: AppColors.typoBody.withValues(alpha: 0.7),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(16.w),

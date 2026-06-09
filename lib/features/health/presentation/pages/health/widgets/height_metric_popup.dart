@@ -37,10 +37,7 @@ class MetricInputFormatter extends TextInputFormatter {
 class HeightMetricPopup extends ConsumerStatefulWidget {
   final double initialValue;
 
-  const HeightMetricPopup({
-    super.key,
-    required this.initialValue,
-  });
+  const HeightMetricPopup({super.key, required this.initialValue});
 
   @override
   ConsumerState<HeightMetricPopup> createState() => _HeightMetricPopupState();
@@ -254,6 +251,7 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                           ),
                         ),
                         TextField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: _controller,
                           focusNode: _focusNode,
                           inputFormatters: [MetricInputFormatter()],
@@ -299,10 +297,8 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
               height: 48.h,
               width: double.infinity,
               isLoading: ref.watch(healthProvider).isLoading,
-              onPressed: () => notifier.saveMetric(
-                context: context,
-                height: _currentValue,
-              ),
+              onPressed: () =>
+                  notifier.saveMetric(context: context, height: _currentValue),
             ),
           ],
         ),

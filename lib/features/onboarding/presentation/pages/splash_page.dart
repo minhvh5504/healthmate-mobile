@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/lottie_animation.dart';
-import '../../../../core/constants/strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/splash/splash_notifier.dart';
 import '../providers/splash/splash_provider.dart';
@@ -64,16 +63,16 @@ class _SplashPageState extends ConsumerState<SplashPage>
                         controller: state.controller,
                       ),
                     ),
-                    Text(
-                      appName,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: isLandscape ? 24.sp : 24.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.typoHeading,
-                        letterSpacing: 0,
-                      ),
-                    ),
+                    // Text(
+                    //   appName,
+                    //   style: TextStyle(
+                    //     fontFamily: 'Inter',
+                    //     fontSize: isLandscape ? 24.sp : 24.sp,
+                    //     fontWeight: FontWeight.bold,
+                    //     color: AppColors.typoHeading,
+                    //     letterSpacing: 0,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

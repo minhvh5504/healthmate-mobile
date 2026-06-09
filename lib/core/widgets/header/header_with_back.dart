@@ -12,6 +12,7 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
   final bool showMore;
   final bool showTitle;
   final double topPadding;
+  final double horizontalPadding;
 
   const HeaderWithBack({
     super.key,
@@ -22,6 +23,7 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
     this.showMore = true,
     this.showTitle = true,
     this.topPadding = 0,
+    this.horizontalPadding = 0,
   });
 
   @override
@@ -30,7 +32,11 @@ class HeaderWithBack extends StatelessWidget implements PreferredSizeWidget {
       height: preferredSize.height,
       color: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.only(top: topPadding),
+        padding: EdgeInsets.only(
+          left: horizontalPadding,
+          top: topPadding,
+          right: horizontalPadding,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

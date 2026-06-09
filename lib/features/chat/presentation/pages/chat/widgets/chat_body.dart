@@ -54,22 +54,28 @@ class ChatBody extends StatelessWidget {
       );
     }
 
-    final showStreaming =
-        state.streamingContent != null && state.streamingContent!.isNotEmpty;
+    final streamingContent = state.streamingContent;
+    final showAssistantDraft =
+        state.isLoading ||
+        (streamingContent != null && streamingContent.isNotEmpty);
+    final assistantDraftContent =
+        streamingContent != null && streamingContent.isNotEmpty
+        ? streamingContent
+        : '...';
 
     return ListView.builder(
       key: const ValueKey('chat-messages'),
       controller: scrollController,
       reverse: true,
       padding: EdgeInsets.fromLTRB(0, 16.h, 0, 112.h),
-      itemCount: state.messages.length + (showStreaming ? 1 : 0),
+      itemCount: state.messages.length + (showAssistantDraft ? 1 : 0),
       itemBuilder: (context, index) {
-        if (showStreaming) {
+        if (showAssistantDraft) {
           if (index == 0) {
             return ChatBubble(
               message: ChatMessage(
-                id: 'streaming',
-                content: state.streamingContent!,
+                id: 'assistant-draft',
+                content: assistantDraftContent,
                 role: 'assistant',
                 createdAt: DateTime.now(),
               ),

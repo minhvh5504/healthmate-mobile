@@ -20,7 +20,8 @@ class UserProfileModel extends UserProfile {
         ? json['data'] as Map<String, dynamic>
         : json;
 
-    final pSource = raw;
+    final profile = raw['profile'] as Map<String, dynamic>?;
+    final pSource = profile ?? raw;
 
     return UserProfileModel(
       id: raw['userId']?.toString() ?? raw['id']?.toString() ?? '',

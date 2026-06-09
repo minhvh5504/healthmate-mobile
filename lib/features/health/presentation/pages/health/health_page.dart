@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
+import 'package:healthmate_mobile/core/widgets/header/app_header.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/health_content_area.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/health_skeleton.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_provider.dart';
@@ -28,14 +29,14 @@ class HealthPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8.h),
+              const AppHeader(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 0.h),
                 child: Text(
                   'health.title'.tr(),
                   style: TextStyle(
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700,
                     color: AppColors.typoBlack,
                   ),
                 ).animate().fadeIn(duration: 220.ms),

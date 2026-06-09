@@ -15,6 +15,10 @@ class ChatRemoteDataSource {
     return data.map((json) => ChatMessageModel.fromJson(json)).toList();
   }
 
+  Future<void> clearChatHistory() async {
+    await api.clearChatHistory();
+  }
+
   Stream<String> sendMessage({
     required String message,
     required String token,

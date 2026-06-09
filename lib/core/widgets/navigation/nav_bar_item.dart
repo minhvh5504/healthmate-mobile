@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NavBarItem extends StatelessWidget {
   final IconData icon;
@@ -23,59 +24,42 @@ class NavBarItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedScale(
-            scale: isActive ? 1.1 : 1.0,
-            duration: const Duration(milliseconds: 200),
-            child: Icon(icon, color: inactiveColor, size: 28),
-          ),
-          const SizedBox(height: 4),
-          IntrinsicWidth(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 200),
+      child: SizedBox.expand(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: inactiveColor, size: 24.sp),
+            SizedBox(height: 5.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Inter',
                     color: inactiveColor,
-                    fontSize: 12,
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                  ),
-                  child: Text(label, textAlign: TextAlign.center),
-                ),
-                const SizedBox(height: 6),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  height: 2,
-                  transformAlignment: Alignment.center,
-                  transform: Matrix4.diagonal3Values(
-                    isActive ? 1.0 : 0.0,
-                    1.0,
-                    1.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: activeColor,
-                    borderRadius: BorderRadius.circular(2),
-                    boxShadow: isActive
-                        ? [
-                            BoxShadow(
-                              color: activeColor.withValues(alpha: 0.4),
-                              blurRadius: 4,
-                              offset: const Offset(0, 1),
-                            ),
-                          ]
-                        : null,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    height: 1.05,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 6.h),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: isActive ? 24.w : 0,
+              height: 2.h,
+              decoration: BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.circular(2.r),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

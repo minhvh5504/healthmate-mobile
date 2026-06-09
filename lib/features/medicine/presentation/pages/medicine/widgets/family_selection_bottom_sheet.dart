@@ -37,7 +37,7 @@ class FamilySelectionBottomSheet extends ConsumerWidget {
               fontFamily: 'Poppins',
               fontSize: 28.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.typoHeading,
+              color: AppColors.typoBlack,
             ),
           ),
           SizedBox(height: 8.h),
@@ -153,14 +153,10 @@ class _MemberItem extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: isSelected
-                      ? AppColors.bgPrimary
-                      : AppColors.typoHeading,
+                  color: isSelected ? AppColors.bgPrimary : AppColors.typoBlack,
                 ),
               ),
             ),
-            if (isSelected)
-              Icon(Icons.check_circle, color: AppColors.bgPrimary, size: 24.sp),
           ],
         ),
       ),
@@ -198,7 +194,7 @@ class _AddSupporterButton extends StatelessWidget {
               ),
               child: Icon(
                 Icons.person_add_alt_1_outlined,
-                color: AppColors.typoHeading,
+                color: AppColors.typoBody,
                 size: 24.sp,
               ),
             ),
@@ -209,7 +205,7 @@ class _AddSupporterButton extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.typoHeading,
+                color: AppColors.typoBlack,
               ),
             ),
           ],

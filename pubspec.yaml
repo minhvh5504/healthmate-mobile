@@ -52,6 +52,8 @@ dependencies:
   flutter_local_notifications: ^19.5.0
   # websocket (socket.io)
   socket_io_client: ^3.0.2
+  # open external links / email
+  url_launcher: ^6.3.1
 
   # scanning & image processing
   google_mlkit_text_recognition: ^0.14.0
@@ -99,7 +101,7 @@ flutter:
     - assets/icons/app/
     - assets/icons/auth/
     - assets/icons/popup/
-    - assets/icons/home/
+    - assets/icons/navigation/
     - assets/icons/medicine/
     - assets/icons/setting/
 
@@ -107,6 +109,7 @@ flutter:
     - assets/images/onboarding/
     - assets/images/user/
     - assets/images/health/
+    - assets/images/search/
     - assets/images/scan/
 
     - assets/lang/

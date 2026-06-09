@@ -3,6 +3,7 @@ import 'package:healthmate_mobile/features/auth/presentation/providers/auth/auth
 import '../../../domain/entities/chat_message.dart';
 import '../../../domain/usecases/send_chat_message.dart';
 import '../../../domain/usecases/get_chat_history.dart';
+import '../../../domain/usecases/clear_chat_history.dart';
 
 /// State
 class ChatState {
@@ -18,17 +19,23 @@ class ChatState {
     this.errorMessage,
   });
 
+  static const _unset = Object();
+
   ChatState copyWith({
     List<ChatMessage>? messages,
     bool? isLoading,
-    String? streamingContent,
-    String? errorMessage,
+    Object? streamingContent = _unset,
+    Object? errorMessage = _unset,
   }) {
     return ChatState(
       messages: messages ?? this.messages,
       isLoading: isLoading ?? this.isLoading,
-      streamingContent: streamingContent ?? this.streamingContent,
-      errorMessage: errorMessage ?? this.errorMessage,
+      streamingContent: streamingContent == _unset
+          ? this.streamingContent
+          : streamingContent as String?,
+      errorMessage: errorMessage == _unset
+          ? this.errorMessage
+          : errorMessage as String?,
     );
   }
 }
@@ -37,10 +44,15 @@ class ChatState {
 class ChatNotifier extends StateNotifier<ChatState> {
   final SendChatMessage _sendChatMessage;
   final GetChatHistory _getChatHistory;
+  final ClearChatHistory _clearChatHistory;
   final Ref _ref;
 
-  ChatNotifier(this._sendChatMessage, this._getChatHistory, this._ref)
-    : super(ChatState());
+  ChatNotifier(
+    this._sendChatMessage,
+    this._getChatHistory,
+    this._clearChatHistory,
+    this._ref,
+  ) : super(ChatState());
 
   Future<void> fetchHistory() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
@@ -130,7 +142,15 @@ class ChatNotifier extends StateNotifier<ChatState> {
     state = state.copyWith(errorMessage: null);
   }
 
-  void clearHistory() {
-    state = ChatState();
+  Future<void> clearHistory() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      await _clearChatHistory();
+      if (!mounted) return;
+      state = ChatState();
+    } catch (e) {
+      if (!mounted) return;
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
   }
 }

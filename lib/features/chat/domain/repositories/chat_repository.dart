@@ -10,4 +10,6 @@ abstract class ChatRepository {
 
   /// Fetches chat history from the backend if needed
   Future<List<ChatMessage>> getChatHistory();
+
+  Future<void> clearChatHistory();
 }

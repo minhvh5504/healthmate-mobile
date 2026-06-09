@@ -173,6 +173,7 @@ class _DateInput extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           TextField(
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
             controller: controller,
             focusNode: focusNode,
             onChanged: onChanged,
