@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/theme/app_colors.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class AddMedicineActionCard extends StatelessWidget {
   const AddMedicineActionCard({
@@ -19,34 +19,39 @@ class AddMedicineActionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 104.h,
+        height: 62.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppColors.lightPurple),
+          borderRadius: BorderRadius.circular(22.r),
+          border: Border.all(color: const Color(0xFFB8B3EA), width: 1.1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 10,
+              blurRadius: 12,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Icon(icon, size: 28.sp, color: AppColors.typoBlack),
-            SizedBox(height: 12.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.typoBlack,
+            SizedBox(width: 36.w),
+            Icon(icon, size: 30.sp, color: const Color(0xFF263238)),
+            SizedBox(width: 24.w),
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF202A2F),
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
+            Icon(LucideIcons.chevronRight, size: 26.sp, color: Colors.black),
+            SizedBox(width: 18.w),
           ],
         ),
       ),

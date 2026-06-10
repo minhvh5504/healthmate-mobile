@@ -17,7 +17,7 @@ abstract class MedicationRepository {
   Future<void> deleteScanTask(String id);
 
   Future<void> createUserMedication({
-    required String medicationId,
+    String? medicationId,
     Map<String, dynamic>? scannedData,
     String? frequency,
     List<int>? selectedDays,

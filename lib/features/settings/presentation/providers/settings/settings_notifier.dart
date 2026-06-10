@@ -59,7 +59,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
     final uri = Uri(
       scheme: 'mailto',
       path: supportLink,
-      queryParameters: const {'subject': 'HealthMate Support - Feedback'},
+      queryParameters: const {'subject': 'Contact for Support'},
     );
 
     final opened = await _tryLaunchSupportEmail(uri);

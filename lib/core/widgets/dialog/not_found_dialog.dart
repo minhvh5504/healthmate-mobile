@@ -13,6 +13,7 @@ class AccountNotFoundDialog extends StatelessWidget {
   final String primaryButtonText;
   final String secondaryButtonText;
   final String? iconPath;
+  final bool showIcon;
   final VoidCallback onPrimaryPressed;
   final VoidCallback onSecondaryPressed;
 
@@ -23,6 +24,7 @@ class AccountNotFoundDialog extends StatelessWidget {
     required this.primaryButtonText,
     required this.secondaryButtonText,
     this.iconPath,
+    this.showIcon = true,
     required this.onPrimaryPressed,
     required this.onSecondaryPressed,
   });
@@ -54,12 +56,14 @@ class AccountNotFoundDialog extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(
-                  iconPath ?? AppIcons.popupErrorEmail,
-                  width: 100.w,
-                  height: 100.w,
-                ),
-                SizedBox(height: 24.h),
+                if (showIcon) ...[
+                  SvgPicture.asset(
+                    iconPath ?? AppIcons.popupErrorEmail,
+                    width: 100.w,
+                    height: 100.w,
+                  ),
+                  SizedBox(height: 24.h),
+                ],
 
                 // Title
                 Text(

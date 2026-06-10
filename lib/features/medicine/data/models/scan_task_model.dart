@@ -21,6 +21,8 @@ class ScanTaskModel extends ScanTask {
       status = ScanStatus.failed;
     }
 
+    final rawScannedData = _normalizeRawScannedData(json);
+
     // Map medication to a UserMedication if it exists
     List<UserMedication>? userMedications;
     if (json['medication'] != null) {
@@ -30,7 +32,7 @@ class ScanTaskModel extends ScanTask {
           'medicationId': json['medicationId'],
           'medication': json['medication'],
           'isActive': false,
-          'scannedData': json['rawScannedData'],
+          'scannedData': rawScannedData,
         }),
       ];
     } else {
@@ -41,9 +43,7 @@ class ScanTaskModel extends ScanTask {
           medicationId: null,
           medication: null,
           isActive: false,
-          scannedData: json['rawScannedData'] is Map<String, dynamic>
-              ? json['rawScannedData'] as Map<String, dynamic>
-              : null,
+          scannedData: rawScannedData,
         ),
       ];
     }
@@ -55,8 +55,36 @@ class ScanTaskModel extends ScanTask {
           DateTime.now(),
       status: status,
       userMedications: userMedications,
-      imagePath: (json['rawScannedData'] as Map?)?['imagePath']
-          ?.toString(), // If saved in raw data
+      imagePath: rawScannedData?['imagePath']?.toString(),
     );
+  }
+
+  static Map<String, dynamic>? _normalizeRawScannedData(
+    Map<String, dynamic> json,
+  ) {
+    final raw = json['rawScannedData'] ?? json['scannedData'];
+    final normalized = <String, dynamic>{};
+
+    if (raw is Map) {
+      raw.forEach((key, value) {
+        if (key != null) normalized[key.toString()] = value;
+      });
+    } else if (raw != null) {
+      normalized['raw'] = raw.toString();
+    }
+
+    final scannedText =
+        json['scannedText'] ?? json['recognizedText'] ?? json['text'];
+    if (scannedText != null &&
+        (normalized['scannedText']?.toString().isNotEmpty != true)) {
+      normalized['scannedText'] = scannedText.toString();
+    }
+
+    final lines = json['lines'];
+    if (lines != null && normalized['lines'] == null) {
+      normalized['lines'] = lines;
+    }
+
+    return normalized.isEmpty ? null : normalized;
   }
 }
