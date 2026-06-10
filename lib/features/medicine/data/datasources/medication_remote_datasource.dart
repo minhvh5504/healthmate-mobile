@@ -57,12 +57,13 @@ class MedicationRemoteDataSource {
   }
 
   Future<void> createUserMedication({
-    required String medicationId,
+    String? medicationId,
     Map<String, dynamic>? scannedData,
     Map<String, dynamic>? data,
   }) async {
     await api.createUserMedication({
-      'medicationId': medicationId,
+      if (medicationId != null && medicationId.isNotEmpty)
+        'medicationId': medicationId,
       if (scannedData != null) 'scannedData': scannedData,
       if (data != null) ...data,
     });

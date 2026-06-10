@@ -13,46 +13,42 @@ class HistorySkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 24.h),
-          _SkeletonBlock(
-            width: 200.w,
-            height: 28.h,
-          ).animate().fadeIn(duration: 220.ms),
-          SizedBox(height: 24.h),
-          const _AdherenceCardSkeleton().animate().fadeIn(
-            duration: 220.ms,
-            delay: 60.ms,
-          ),
-          SizedBox(height: 24.h),
-          const _CalendarCardSkeleton().animate().fadeIn(
-            duration: 220.ms,
-            delay: 120.ms,
-          ),
-          SizedBox(height: 24.h),
-          _SkeletonBlock(
-            width: 220.w,
-            height: 22.h,
-          ).animate().fadeIn(duration: 220.ms, delay: 180.ms),
-          SizedBox(height: 16.h),
-          ...List.generate(
-            3,
-            (index) => Padding(
-              padding: EdgeInsets.only(bottom: 12.h),
-              child: const _LogCardSkeleton().animate().fadeIn(
-                duration: 220.ms,
-                delay: (240 + 60 * index).ms,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 24.h),
+        _SkeletonBlock(
+          width: 200.w,
+          height: 28.h,
+        ).animate().fadeIn(duration: 220.ms),
+        SizedBox(height: 24.h),
+        const _AdherenceCardSkeleton().animate().fadeIn(
+          duration: 220.ms,
+          delay: 60.ms,
+        ),
+        SizedBox(height: 24.h),
+        const _CalendarCardSkeleton().animate().fadeIn(
+          duration: 220.ms,
+          delay: 120.ms,
+        ),
+        SizedBox(height: 24.h),
+        _SkeletonBlock(
+          width: 220.w,
+          height: 22.h,
+        ).animate().fadeIn(duration: 220.ms, delay: 180.ms),
+        SizedBox(height: 16.h),
+        ...List.generate(
+          3,
+          (index) => Padding(
+            padding: EdgeInsets.only(bottom: 12.h),
+            child: const _LogCardSkeleton().animate().fadeIn(
+              duration: 220.ms,
+              delay: (240 + 60 * index).ms,
             ),
           ),
-          SizedBox(height: 48.h),
-        ],
-      ),
+        ),
+        SizedBox(height: 48.h),
+      ],
     );
   }
 }

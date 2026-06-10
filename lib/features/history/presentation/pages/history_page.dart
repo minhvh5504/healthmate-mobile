@@ -24,16 +24,16 @@ class HistoryPage extends ConsumerWidget {
         height: double.infinity,
         decoration: const BoxDecoration(color: Color(0xFFF2F4FD)),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const AppHeader(),
-              Expanded(
-                child: state.isLoading && state.isInitialLoad
-                    ? const HistorySkeleton()
-                    : SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const AppHeader(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: state.isLoading && state.isInitialLoad
+                      ? const HistorySkeleton()
+                      : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 8.h),
@@ -47,19 +47,16 @@ class HistoryPage extends ConsumerWidget {
                               ),
                             ).animate().fadeIn(duration: 220.ms),
                             SizedBox(height: 24.h),
-                            // Adherence Card
                             HistoryAdherenceCard(
                               percentage: state.monthlyAdherence,
                               focusedMonth: state.focusedMonth,
                             ).animate().fadeIn(duration: 220.ms, delay: 60.ms),
                             SizedBox(height: 24.h),
-                            // Calendar Card
                             const HistoryCalendarCard().animate().fadeIn(
                               duration: 220.ms,
                               delay: 120.ms,
                             ),
                             SizedBox(height: 16.h),
-                            // Log List
                             const HistoryLogList().animate().fadeIn(
                               duration: 220.ms,
                               delay: 180.ms,
@@ -67,9 +64,9 @@ class HistoryPage extends ConsumerWidget {
                             SizedBox(height: 48.h),
                           ],
                         ),
-                      ),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

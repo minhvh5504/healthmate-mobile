@@ -5,7 +5,7 @@ class CreateUserMedication {
   CreateUserMedication(this.repository);
 
   Future<void> call({
-    required String medicationId,
+    String? medicationId,
     Map<String, dynamic>? scannedData,
     String? frequency,
     List<int>? selectedDays,

@@ -47,7 +47,31 @@ class UserMedication {
   });
 
   String get effectiveName =>
-      scannedData?['customName']?.toString() ?? medication?.name ?? '-';
+      scannedData?['customName']?.toString() ??
+      medication?.name ??
+      _firstScannedTextLine ??
+      '-';
+
+  String? get _firstScannedTextLine {
+    final lines = scannedData?['lines'];
+    if (lines is List) {
+      for (final line in lines) {
+        final value = line?.toString().trim();
+        if (value != null && value.isNotEmpty) return value;
+      }
+    }
+
+    final scannedText =
+        scannedData?['scannedText']?.toString() ??
+        scannedData?['raw']?.toString();
+    if (scannedText == null) return null;
+
+    for (final line in scannedText.split('\n')) {
+      final value = line.trim();
+      if (value.isNotEmpty) return value;
+    }
+    return null;
+  }
 
   String get effectiveManufacturer =>
       scannedData?['customManufacturer']?.toString() ??

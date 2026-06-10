@@ -54,7 +54,7 @@ class FamilySelectionBottomSheet extends ConsumerWidget {
           // Me item
           _MemberItem(
             name:
-                '${userProfile?.fullName ?? "Me"} (${"medicine.family_popup.me".tr()})',
+                '${userProfile?.fullName ?? "Me"} (${'medicine.family_popup.me'.tr()})',
             avatarUrl: userProfile?.avatarUrl,
             isSelected: medicineState.selectedFamilyMemberId == null,
             onTap: () => medicineNotifier.onSelectFamilyMember(context, null),

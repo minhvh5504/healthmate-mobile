@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,23 +14,23 @@ class AddMedicineActionButtons extends ConsumerWidget {
     final notifier = ref.read(addMedicineProvider.notifier);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Row(
+      padding: EdgeInsets.symmetric(horizontal: 28.w),
+      child: Column(
         children: [
-          Expanded(
-            child: AddMedicineActionCard(
-              icon: LucideIcons.scanLine,
-              label: 'medicine.add_medicine.scan_prescription'.tr(),
-              onTap: notifier.onScanPrescription,
+          Text(
+            'Hoặc thêm nhanh bằng',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF68758C),
             ),
           ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: AddMedicineActionCard(
-              icon: LucideIcons.camera,
-              label: 'medicine.add_medicine.scan_box'.tr(),
-              onTap: notifier.onScanMedicineBox,
-            ),
+          SizedBox(height: 26.h),
+          AddMedicineActionCard(
+            icon: LucideIcons.camera,
+            label: 'Bắt đầu chụp',
+            onTap: notifier.onScanMedicineBox,
           ),
         ],
       ),

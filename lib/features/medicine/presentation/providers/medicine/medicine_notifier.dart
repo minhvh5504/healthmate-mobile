@@ -216,9 +216,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: AppColors.backgroundGradient,
-                  ),
+                  color: Colors.transparent,
                 ),
               ),
               const FamilySelectionBottomSheet(),

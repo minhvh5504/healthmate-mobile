@@ -69,6 +69,7 @@ class NotificationMoreMenu {
         builder: (context) => AccountNotFoundDialog(
           title: 'notifications.confirm_mark_read_all_title'.tr(),
           message: 'notifications.confirm_mark_read_all_message'.tr(),
+          showIcon: false,
           primaryButtonText: 'dialog.confirm'.tr(),
           secondaryButtonText: 'dialog.cancel'.tr(),
           onPrimaryPressed: () => confirmed = true,
@@ -86,6 +87,7 @@ class NotificationMoreMenu {
         builder: (context) => AccountNotFoundDialog(
           title: 'notifications.confirm_delete_all_title'.tr(),
           message: 'notifications.confirm_delete_all_message'.tr(),
+          showIcon: false,
           primaryButtonText: 'dialog.delete'.tr(),
           secondaryButtonText: 'dialog.cancel'.tr(),
           onPrimaryPressed: () => confirmed = true,

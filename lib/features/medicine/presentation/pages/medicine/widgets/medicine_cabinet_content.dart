@@ -242,7 +242,7 @@ class _MedicineCabinetContentState
           context.push(AppRoutes.reviewScan, extra: task.id);
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(28.r),
@@ -282,7 +282,7 @@ class _MedicineCabinetContentState
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w800,
                         color: task.status == ScanStatus.failed
@@ -295,7 +295,7 @@ class _MedicineCabinetContentState
                       subtitle,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 13.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: task.status == ScanStatus.failed
                             ? AppColors.typoHeading
@@ -366,7 +366,7 @@ class _MedicineCabinetContentState
                           : 'medicine.no_name'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
                         color: AppColors.typoBlack,
                       ),
@@ -379,7 +379,7 @@ class _MedicineCabinetContentState
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.typoBody.withValues(alpha: 0.72),
                       ),
@@ -393,7 +393,7 @@ class _MedicineCabinetContentState
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
                         color: AppColors.typoBody.withValues(alpha: 0.72),
                       ),
@@ -424,7 +424,7 @@ class _MedicineCabinetContentState
                     'medicine.edit'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w800,
                       color: AppColors.typoBlack,
                     ),
@@ -449,7 +449,7 @@ class _MedicineCabinetContentState
                     'medicine.add_stock'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),

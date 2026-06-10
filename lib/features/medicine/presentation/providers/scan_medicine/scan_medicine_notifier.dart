@@ -228,28 +228,20 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
 
     _safeSetState(state.copyWith(isLoading: true));
     try {
-      var createdCount = 0;
       for (final med in medications) {
-        final medicationId = med['medicationId']?.toString();
-        if (medicationId != null && medicationId.isNotEmpty) {
-          await _createUserMedication(
-            medicationId: medicationId,
-            scannedData: med['scannedData'] is Map<String, dynamic>
-                ? med['scannedData'] as Map<String, dynamic>
-                : null,
-          );
-          createdCount++;
-        }
-      }
-      if (createdCount == 0) {
-        _safeSetState(
-          state.copyWith(
-            isLoading: false,
-            errorMessage:
-                'No medicationId found in review. Cannot add to cabinet.',
-          ),
+        final rawMedicationId = med['medicationId']?.toString();
+        final medicationId =
+            rawMedicationId != null && rawMedicationId.isNotEmpty
+            ? rawMedicationId
+            : null;
+        final scannedData = med['scannedData'] is Map<String, dynamic>
+            ? med['scannedData'] as Map<String, dynamic>
+            : null;
+
+        await _createUserMedication(
+          medicationId: medicationId,
+          scannedData: scannedData,
         );
-        return false;
       }
       await _deleteScanTask(taskId);
       await ref.read(medicineProvider.notifier).fetchActiveMedications();

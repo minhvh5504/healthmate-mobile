@@ -68,13 +68,22 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
           ),
           SizedBox(height: 20.h),
           // Welcome Title
-          Text(
-            'chat.welcome'.tr(args: [fullName]),
-            style: TextStyle(
-              color: AppColors.typoHeading,
-              fontSize: 28.sp,
-              fontWeight: FontWeight.bold,
-              height: 1.2,
+          RichText(
+            text: TextSpan(
+              style: TextStyle(
+                fontSize: 28.sp,
+                fontWeight: FontWeight.bold,
+                height: 1.2,
+                color: AppColors.typoBlack,
+              ),
+              children: [
+                TextSpan(text: 'chat.welcome_prefix'.tr()),
+                TextSpan(
+                  text: fullName,
+                  style: const TextStyle(color: AppColors.typoHeading),
+                ),
+                TextSpan(text: 'chat.welcome_body'.tr()),
+              ],
             ),
           ),
           SizedBox(height: 16.h),
@@ -111,7 +120,7 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
               ),
             ),
           ),
-          SizedBox(height: 80.h),
+          SizedBox(height: 36.h),
           // Suggestions
           _buildSuggestionCard('chat.suggestion1'.tr()),
           _buildSuggestionCard('chat.suggestion2'.tr()),
@@ -126,7 +135,7 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
               height: 1.4,
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 24.h),
         ],
       ),
     );

@@ -69,6 +69,7 @@ class ChatHeader extends StatelessWidget implements PreferredSizeWidget {
         builder: (context) => AccountNotFoundDialog(
           title: 'chat.confirm_clear_title'.tr(),
           message: 'chat.confirm_clear_message'.tr(),
+          showIcon: false,
           primaryButtonText: 'dialog.confirm'.tr(),
           secondaryButtonText: 'dialog.cancel'.tr(),
           onPrimaryPressed: () => confirmed = true,
