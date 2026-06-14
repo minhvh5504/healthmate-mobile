@@ -7,6 +7,7 @@ import '../../../../../../core/theme/app_colors.dart';
 import '../../../providers/medicine_reminder/medicine_reminder_notifier.dart';
 import '../../../providers/medicine_reminder/medicine_reminder_provider.dart';
 import 'medicine_reminder_dose_item.dart';
+import 'medicine_reminder_quantity_popup.dart';
 import 'medicine_reminder_time_popup.dart';
 
 class MedicineReminderScheduleCard extends ConsumerWidget {
@@ -50,23 +51,30 @@ class MedicineReminderScheduleCard extends ConsumerWidget {
               time: schedule.time,
               quantity: schedule.quantity,
               onDelete: () => notifier.removeSchedule(index),
-              onTimeTap: () =>
-                  _showTimePicker(context, notifier, index, schedule.time),
+              onTimeTap: () => _showTimePicker(
+                context,
+                notifier,
+                index: index,
+                initialTime: schedule.time,
+                initialQuantity: schedule.quantity,
+              ),
             );
           },
         ),
         SizedBox(height: 4.h),
-        _buildAddDoseButton(notifier),
+        _buildAddDoseButton(context, notifier),
       ],
     );
   }
 
   void _showTimePicker(
     BuildContext context,
-    MedicineReminderNotifier notifier,
-    int index,
-    String initialTime,
-  ) {
+    MedicineReminderNotifier notifier, {
+    required String initialTime,
+    required int initialQuantity,
+    int? index,
+  }) {
+    final parentContext = context;
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -92,7 +100,75 @@ class MedicineReminderScheduleCard extends ConsumerWidget {
                 child: MedicineReminderTimePopup(
                   initialTime: initialTime,
                   onSave: (newTime) {
-                    notifier.updateSchedule(index, newTime, null);
+                    Navigator.pop(context);
+                    _showQuantityPicker(
+                      parentContext,
+                      notifier,
+                      index: index,
+                      time: newTime,
+                      initialQuantity: initialQuantity,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  void _showQuantityPicker(
+    BuildContext context,
+    MedicineReminderNotifier notifier, {
+    required String time,
+    required int initialQuantity,
+    int? index,
+  }) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Quantity Picker',
+      barrierColor: Colors.black.withValues(alpha: 0.2),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.backgroundGradient,
+                  ),
+                ),
+              ),
+              Center(
+                child: MedicineReminderQuantityPopup(
+                  initialQuantity: initialQuantity,
+                  onSave: (quantity) {
+                    if (index == null) {
+                      notifier.addSchedule(time, quantity);
+                    } else {
+                      notifier.updateSchedule(index, time, quantity);
+                    }
                     Navigator.pop(context);
                   },
                 ),
@@ -102,12 +178,26 @@ class MedicineReminderScheduleCard extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
 
-  Widget _buildAddDoseButton(MedicineReminderNotifier notifier) {
+  Widget _buildAddDoseButton(
+    BuildContext context,
+    MedicineReminderNotifier notifier,
+  ) {
     return Padding(
       padding: EdgeInsets.only(left: 8.w),
       child: Row(
@@ -123,7 +213,12 @@ class MedicineReminderScheduleCard extends ConsumerWidget {
           SizedBox(width: 12.w),
           Expanded(
             child: InkWell(
-              onTap: notifier.addDefaultSchedule,
+              onTap: () => _showTimePicker(
+                context,
+                notifier,
+                initialTime: '08:00',
+                initialQuantity: 1,
+              ),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                 decoration: BoxDecoration(

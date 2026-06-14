@@ -31,7 +31,7 @@ class HealthContentArea extends ConsumerWidget {
             if (profile != null) ...[
               HealthMetricCard(
                 title: 'health.weight'.tr(),
-                iconPath: AppIcons.healthScale,
+                iconPath: AppIcons.healthWeight,
                 currentValue: profile.weightKg != null
                     ? profile.weightKg!.toStringAsFixed(1)
                     : '--',
@@ -45,7 +45,7 @@ class HealthContentArea extends ConsumerWidget {
               SizedBox(height: 8.h),
               HealthMetricCard(
                 title: 'health.height'.tr(),
-                iconPath: AppIcons.healthFlame,
+                iconPath: AppIcons.healthHeight,
                 currentValue: profile.heightCm != null
                     ? profile.heightCm!.toStringAsFixed(1)
                     : '--',

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import '../api/medication_api.dart';
 import '../models/medication_model.dart';
 import '../models/user_medication_model.dart';
@@ -20,16 +23,18 @@ class MedicationRemoteDataSource {
   }
 
   Future<ScanTaskModel> scan({
-    required String scannedText,
+    String? scannedText,
     String? shape,
     Map<String, dynamic>? rawData,
+    String? imagePath,
   }) async {
     try {
-      final response = await api.scan({
-        'scannedText': scannedText,
-        if (shape != null) 'shape': shape,
-        if (rawData != null) 'rawScannedData': rawData,
-      });
+      final response = await api.scan(
+        scannedText,
+        shape,
+        rawData == null ? null : jsonEncode(rawData),
+        imagePath == null ? null : File(imagePath),
+      );
 
       if (response == null || response is! Map) {
         throw Exception('Invalid scan response');
@@ -103,6 +108,7 @@ class MedicationRemoteDataSource {
     required String status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) async {
     await api.createMedicationLog({
       'userMedicationId': userMedicationId,
@@ -110,6 +116,7 @@ class MedicationRemoteDataSource {
       'status': status,
       if (actualQuantity != null) 'actualQuantity': actualQuantity,
       if (actualAt != null) 'actualAt': actualAt.toUtc().toIso8601String(),
+      if (mealInstruction != null) 'mealInstruction': mealInstruction,
     });
   }
 
@@ -118,11 +125,13 @@ class MedicationRemoteDataSource {
     String? status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) async {
     await api.updateMedicationLog(id, {
       if (status != null) 'status': status,
       if (actualQuantity != null) 'actualQuantity': actualQuantity,
       if (actualAt != null) 'actualAt': actualAt.toUtc().toIso8601String(),
+      if (mealInstruction != null) 'mealInstruction': mealInstruction,
     });
   }
 

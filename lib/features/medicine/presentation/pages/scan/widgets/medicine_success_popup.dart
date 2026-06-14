@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../../../core/constants/constant_url.dart';
+import '../../../../../../core/constants/lottie_animation.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 
@@ -51,22 +49,7 @@ class MedicineSuccessPopup extends StatelessWidget {
             ),
             SizedBox(height: 24.h),
 
-            // Icon Container
-            Container(
-              width: 100.w,
-              height: 100.w,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFFF2F4FB),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  AppIcons.medicineDictionary,
-                  width: 40.w,
-                  height: 40.w,
-                ),
-              ),
-            ),
+            LottieAnimation.success(size: 150.w),
             SizedBox(height: 24.h),
 
             Text(

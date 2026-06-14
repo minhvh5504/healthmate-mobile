@@ -33,7 +33,7 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
         'isUpdate': true,
         'name': medication.effectiveName,
         'manufacturer': medication.effectiveManufacturer,
-        'dosage': medication.medication?.dosage,
+        'dosage': medication.dosage ?? medication.medication?.dosage,
         'genericName': medication.condition != null
             ? 'medicine.condition.${medication.condition!.slug}'.tr()
             : (medication.conditionCustom ??
@@ -54,6 +54,7 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
         medication.reminderSchedules?.map((s) {
           final map = s as Map<String, dynamic>;
           return {
+            'id': map['id'],
             'time': map['remindTime'] ?? map['time'],
             'quantity': (map['quantity'] is int)
                 ? map['quantity']
@@ -74,7 +75,7 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
         'isUpdate': true,
         'name': medication.effectiveName,
         'manufacturer': medication.effectiveManufacturer,
-        'dosage': medication.medication?.dosage,
+        'dosage': medication.dosage ?? medication.medication?.dosage,
         'genericName': medication.condition != null
             ? 'medicine.condition.${medication.condition!.slug}'.tr()
             : (medication.conditionCustom ??

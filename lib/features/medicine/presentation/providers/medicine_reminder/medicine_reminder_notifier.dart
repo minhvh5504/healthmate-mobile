@@ -220,6 +220,10 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
     state = state.copyWith(frequency: frequency);
   }
 
+  void updateFrequencyAndDays(String frequency, List<int> days) {
+    state = state.copyWith(frequency: frequency, selectedDays: days);
+  }
+
   void toggleDay(int day) {
     final updated = List<int>.from(state.selectedDays);
     if (updated.contains(day)) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NavBarItem extends StatelessWidget {
-  final IconData icon;
+  final dynamic icon;
   final String label;
   final bool isActive;
   final VoidCallback onTap;
@@ -28,7 +29,17 @@ class NavBarItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: inactiveColor, size: 24.sp),
+            if (icon is IconData)
+              Icon(icon as IconData, color: inactiveColor, size: 24.sp)
+            else if (icon is String)
+              SvgPicture.asset(
+                icon as String,
+                width: 24.w,
+                height: 24.w,
+                colorFilter: ColorFilter.mode(inactiveColor, BlendMode.srcIn),
+              )
+            else
+              const SizedBox.shrink(),
             SizedBox(height: 5.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 2.w),

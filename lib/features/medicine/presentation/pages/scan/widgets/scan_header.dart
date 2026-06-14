@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class ScanHeader extends StatelessWidget implements PreferredSizeWidget {
-  const ScanHeader({super.key});
+  final String? title;
+
+  const ScanHeader({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class ScanHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        'medicine.scan.review_title'.tr(),
+        title ?? 'medicine.scan.review_title'.tr(),
         style: TextStyle(
           fontFamily: 'Inter',
           fontSize: 18.sp,

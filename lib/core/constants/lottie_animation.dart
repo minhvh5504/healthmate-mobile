@@ -5,12 +5,11 @@ class LottieAnimation {
   static LottieBuilder welcome({
     AnimationController? controller,
     void Function(LottieComposition)? onLoaded,
-  }) =>
-      Lottie.asset(
-        'assets/lottie/welcome.json',
-        controller: controller,
-        onLoaded: onLoaded,
-      );
+  }) => Lottie.asset(
+    'assets/lottie/welcome.json',
+    controller: controller,
+    onLoaded: onLoaded,
+  );
 
   static LottieBuilder get premiumPls =>
       Lottie.asset('assets/lottie/premium_pls.json', height: 120, width: 120);
@@ -25,10 +24,13 @@ class LottieAnimation {
       Lottie.asset('assets/lottie/pomodoro_2.json', height: size ?? 200);
 
   static LottieBuilder get cheering =>
-      Lottie.asset('assets/lottie/cheering.json', height: 120);
+      Lottie.asset('assets/lottie/cheering.json', height: 160);
 
-  static LottieBuilder get success =>
-      Lottie.asset('assets/lottie/success.json', height: 400, width: 400);
+  static LottieBuilder success({double? size}) => Lottie.asset(
+    'assets/lottie/success.json',
+    height: size ?? 400,
+    width: size ?? 400,
+  );
 
   static LottieBuilder get addFile =>
       Lottie.asset('assets/lottie/add_file.json', height: 120);

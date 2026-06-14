@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class HealthMetricCard extends StatelessWidget {
   final String title;
@@ -43,19 +42,13 @@ class HealthMetricCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(24.r),
           child: Padding(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(12.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Icon(
-                      title.contains('Cân Nặng') || title.contains('Weight')
-                          ? LucideIcons.scale
-                          : LucideIcons.flame,
-                      size: 32.sp,
-                      color: const Color(0xFFB0C4DE),
-                    ),
+                    Image.asset(iconPath, width: 48.w, height: 48.w),
                     SizedBox(width: 12.w),
                     Text(
                       title,

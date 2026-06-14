@@ -123,7 +123,7 @@ class MedicineReviewActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Button(
-          text: 'Hủy thêm thuốc',
+          text: 'medicine.scan.cancel_add'.tr(),
           onPressed: () => _showCancelConfirmation(context, notifier),
           color: Colors.white,
           textColor: AppColors.typoError,
@@ -132,7 +132,7 @@ class MedicineReviewActionButtons extends ConsumerWidget {
         ),
         SizedBox(height: 12.h),
         Button(
-          text: 'Thêm vào hộp thuốc',
+          text: 'medicine.scan.add_to_cabinet'.tr(),
           onPressed: () => notifier.onSaveInfo(),
           height: 48.h,
           width: double.infinity,

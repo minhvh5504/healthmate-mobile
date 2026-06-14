@@ -7,33 +7,39 @@ import 'settings_item_tile.dart';
 typedef SettingsMenuItem = ({
   String labelKey,
   IconData icon,
+  Color iconColor,
   void Function(SettingsNotifier) onTap,
 });
 
 final List<SettingsMenuItem> settingsMenuItems = [
   (
     labelKey: 'settings.basic_info',
-    icon: Icons.person_outline_rounded,
+    icon: Icons.person_rounded,
+    iconColor: const Color(0xFF4A90E2),
     onTap: (n) => n.onBasicInfo(),
   ),
   (
     labelKey: 'settings.family_connect',
-    icon: Icons.people_outline_rounded,
+    icon: Icons.people_rounded,
+    iconColor: const Color(0xFF7F66FF),
     onTap: (n) => n.onFamilyConnect(),
   ),
   (
     labelKey: 'settings.notifications',
-    icon: Icons.notifications_none_rounded,
+    icon: Icons.notifications_rounded,
+    iconColor: const Color(0xFFFF9F0A),
     onTap: (n) => n.onNotifications(),
   ),
   (
     labelKey: 'settings.advanced',
-    icon: Icons.settings_outlined,
+    icon: Icons.settings_rounded,
+    iconColor: const Color(0xFF7E8CA0),
     onTap: (n) => n.onAdvanced(),
   ),
   (
     labelKey: 'settings.support',
-    icon: Icons.help_outline_rounded,
+    icon: Icons.help_rounded,
+    iconColor: const Color(0xFF34C759),
     onTap: (n) => n.onSupport(),
   ),
 ];
@@ -62,6 +68,7 @@ class SettingsMenuCard extends StatelessWidget {
             SettingsItemTile(
               labelKey: settingsMenuItems[i].labelKey,
               icon: settingsMenuItems[i].icon,
+              iconColor: settingsMenuItems[i].iconColor,
               onTap: () => settingsMenuItems[i].onTap(notifier),
             ),
             if (i < settingsMenuItems.length - 1) const SettingsDivider(),

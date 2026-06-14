@@ -19,14 +19,16 @@ class MedicationRepositoryImpl implements MedicationRepository {
 
   @override
   Future<ScanTask> scan({
-    required String scannedText,
+    String? scannedText,
     String? shape,
     Map<String, dynamic>? rawData,
+    String? imagePath,
   }) {
     return remoteDataSource.scan(
       scannedText: scannedText,
       shape: shape,
       rawData: rawData,
+      imagePath: imagePath,
     );
   }
 
@@ -145,6 +147,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
     required String status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) {
     return remoteDataSource.createMedicationLog(
       userMedicationId: userMedicationId,
@@ -152,6 +155,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
       status: status,
       actualQuantity: actualQuantity,
       actualAt: actualAt,
+      mealInstruction: mealInstruction,
     );
   }
 
@@ -161,12 +165,14 @@ class MedicationRepositoryImpl implements MedicationRepository {
     String? status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) {
     return remoteDataSource.updateMedicationLog(
       id: id,
       status: status,
       actualQuantity: actualQuantity,
       actualAt: actualAt,
+      mealInstruction: mealInstruction,
     );
   }
 

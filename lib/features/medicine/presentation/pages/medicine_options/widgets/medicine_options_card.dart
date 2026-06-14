@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../domain/entities/user_medication.dart';
 import '../../../providers/medicine/medicine_provider.dart';
 import '../../../providers/medicine_options/medicine_options_provider.dart';
@@ -44,7 +45,7 @@ class MedicineOptionsCard extends ConsumerWidget {
             ),
           ] else ...[
             MedicineDetailItem(
-              icon: LucideIcons.pill,
+              icon: AppIcons.medicine,
               title: 'medicine.options_popup.edit_details'.tr(),
               onTap: () {
                 notifier.onEditDetails(latestMedication);
@@ -52,7 +53,7 @@ class MedicineOptionsCard extends ConsumerWidget {
             ),
             _buildDivider(),
             MedicineDetailItem(
-              icon: LucideIcons.clock,
+              icon: AppIcons.medicineClock,
               title: 'medicine.options_popup.change_schedule'.tr(),
               onTap: () {
                 notifier.onSchedule(latestMedication);
@@ -61,7 +62,7 @@ class MedicineOptionsCard extends ConsumerWidget {
           ],
           _buildDivider(),
           MedicineDetailItem(
-            icon: LucideIcons.plus,
+            icon: AppIcons.medicineDictionary,
             title: 'medicine.options_popup.add_medicine'.tr(),
             onTap: () {
               notifier.onAddMedicine(latestMedication);
@@ -70,7 +71,7 @@ class MedicineOptionsCard extends ConsumerWidget {
           if (latestMedication != null) ...[
             _buildDivider(),
             MedicineDetailItem(
-              icon: LucideIcons.trash2,
+              icon: AppIcons.stop,
               title: 'medicine.options.stop_medicine'.tr(),
               onTap: () {
                 notifier.onStopMedication(context, latestMedication);

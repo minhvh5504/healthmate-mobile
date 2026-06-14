@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -12,14 +14,23 @@ abstract class MedicationApi {
   @GET('medication/search')
   Future<dynamic> searchMedications(@Query('q') String query);
 
+  @MultiPart()
   @POST('user-medication/scan')
-  Future<dynamic> scan(@Body() Map<String, dynamic> body);
+  Future<dynamic> scan(
+    @Part(name: 'scannedText') String? scannedText,
+    @Part(name: 'shape') String? shape,
+    @Part(name: 'rawScannedData') String? rawScannedData,
+    @Part(name: 'file') File? file,
+  );
 
   @POST('user-medication')
   Future<dynamic> createUserMedication(@Body() Map<String, dynamic> body);
 
   @PATCH('user-medication/{id}')
-  Future<dynamic> updateUserMedication(@Path('id') String id, @Body() Map<String, dynamic> body);
+  Future<dynamic> updateUserMedication(
+    @Path('id') String id,
+    @Body() Map<String, dynamic> body,
+  );
 
   @GET('user-medication/scan-tasks')
   Future<dynamic> getScanTasks();
@@ -40,7 +51,10 @@ abstract class MedicationApi {
   Future<dynamic> createMedicationLog(@Body() Map<String, dynamic> body);
 
   @PATCH('medication-logs/{id}')
-  Future<dynamic> updateMedicationLog(@Path('id') String id, @Body() Map<String, dynamic> body);
+  Future<dynamic> updateMedicationLog(
+    @Path('id') String id,
+    @Body() Map<String, dynamic> body,
+  );
 
   @GET('user-relationships')
   Future<UserRelationshipResponse> getUserRelationships();

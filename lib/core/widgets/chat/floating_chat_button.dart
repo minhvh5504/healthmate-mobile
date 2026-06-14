@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../constants/constant_url.dart';
 import '../../routing/app_routes.dart';
-import '../../theme/app_colors.dart';
 
 class FloatingChatButton extends StatefulWidget {
   const FloatingChatButton({super.key});
@@ -25,10 +23,10 @@ class _FloatingChatButtonState extends State<FloatingChatButton> {
   EdgeInsets _dragMargin(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
     return EdgeInsets.fromLTRB(
-      20.w,
-      padding.top + 16.h,
-      20.w,
-      padding.bottom + 104.h,
+      8.w,
+      padding.top + 8.h,
+      8.w,
+      padding.bottom + 80.h,
     );
   }
 
@@ -99,7 +97,7 @@ class _FloatingChatButtonState extends State<FloatingChatButton> {
               AnimatedPositioned(
                 left: currentPosition.dx,
                 top: currentPosition.dy,
-                duration: _isDragging ? 55.ms : 220.ms,
+                duration: _isDragging ? Duration.zero : 400.ms,
                 curve: _isDragging ? Curves.linear : Curves.easeOutCubic,
                 child: GestureDetector(
                   onTap: _openChat,
@@ -114,13 +112,44 @@ class _FloatingChatButtonState extends State<FloatingChatButton> {
                       );
                     });
                   },
-                  onPanEnd: (_) => setState(() => _isDragging = false),
-                  onPanCancel: () => setState(() => _isDragging = false),
+                  onPanEnd: (details) {
+                    setState(() {
+                      _isDragging = false;
+
+                      // Calculate slide offset based on release velocity (inertia)
+                      final velocity = details.velocity.pixelsPerSecond;
+                      const double kInertiaFactor = 0.15;
+                      final targetPosition = Offset(
+                        currentPosition.dx + velocity.dx * kInertiaFactor,
+                        currentPosition.dy + velocity.dy * kInertiaFactor,
+                      );
+
+                      _position = _clampPosition(
+                        targetPosition,
+                        bounds,
+                        buttonSize,
+                        margin,
+                      );
+                    });
+                  },
+                  onPanCancel: () {
+                    setState(() {
+                      _isDragging = false;
+                    });
+                  },
                   child: AnimatedScale(
-                    scale: _isDragging ? 1.06 : 1,
-                    duration: 140.ms,
+                    scale: _isDragging ? 1.08 : 1.0,
+                    duration: 150.ms,
                     curve: Curves.easeOutCubic,
-                    child: const _ChatButtonFace(),
+                    child: AnimatedRotation(
+                      turns: _isDragging ? 0.04 : 0.0,
+                      duration: 150.ms,
+                      curve: Curves.easeOutCubic,
+                      child: _ChatButtonFace(
+                        isDragging: _isDragging,
+                        size: buttonSize,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -133,40 +162,34 @@ class _FloatingChatButtonState extends State<FloatingChatButton> {
 }
 
 class _ChatButtonFace extends StatelessWidget {
-  const _ChatButtonFace();
+  const _ChatButtonFace({required this.isDragging, required this.size});
+  final bool isDragging;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              width: 60.w,
-              height: 60.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.chatSendButton,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.chatSendButton.withValues(alpha: 0.28),
-                    blurRadius: 24,
-                    offset: const Offset(0, 12),
-                  ),
-                ],
+    return AnimatedContainer(
+          duration: 150.ms,
+          curve: Curves.easeOutCubic,
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.transparent,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDragging ? 0.20 : 0.12),
+                blurRadius: isDragging ? 28.r : 20.r,
+                offset: isDragging ? Offset(0, 14.h) : Offset(0, 8.h),
               ),
-              child: Center(
-                child: SvgPicture.asset(
-                  AppIcons.chat,
-                  width: 30.w,
-                  height: 30.w,
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
+          child: Image.asset(
+            AppImages.aiChatIdle,
+            width: size,
+            height: size,
+            fit: BoxFit.contain,
+          ),
         )
         .animate()
         .fadeIn(duration: 180.ms)

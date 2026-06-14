@@ -58,7 +58,18 @@ class BMIPopup extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -257,7 +268,7 @@ class BMIPopup extends ConsumerWidget {
                           HealthNotifier.formatPeerDescription(
                             analysis?.peerDescription,
                           ).toUpperCase(),
-                          analysis?.peerBMI?.toStringAsFixed(1) ?? '--',
+                          analysis?.peerBMI?.toStringAsFixed(1) ?? '0.0',
                           const Color(0xFFF5F3FF),
                         ),
                       ),

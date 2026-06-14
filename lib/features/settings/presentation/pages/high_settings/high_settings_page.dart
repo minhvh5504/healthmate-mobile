@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/constants/constant_url.dart';
 import '../../providers/high_settings/high_settings_provider.dart';
 import '../../../../../core/widgets/header/profile_header.dart';
 import '../settings/widgets/settings_item_tile.dart';
@@ -59,9 +60,16 @@ class HighSettingsPage extends ConsumerWidget {
                             iconColor: const Color(0xFF4A90E2),
                             iconBg: const Color(0xFFF0F7FF),
                             labelKey: 'high_settings.language',
-                            trailing: context.locale.languageCode == 'vi'
-                                ? 'high_settings.vietnamese'.tr()
-                                : 'high_settings.english'.tr(),
+                            trailingWidget: ClipOval(
+                              child: Image.asset(
+                                context.locale.languageCode == 'vi'
+                                    ? AppIcons.flagVi
+                                    : AppIcons.flagEn,
+                                width: 20.w,
+                                height: 20.w,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                             onTap: () => notifier.onLanguage(context),
                           ),
                           const SettingsDivider(),

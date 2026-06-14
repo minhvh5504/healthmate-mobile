@@ -41,14 +41,43 @@ class _MedicationApi implements MedicationApi {
   }
 
   @override
-  Future<dynamic> scan(Map<String, dynamic> body) async {
+  Future<dynamic> scan(
+    String? scannedText,
+    String? shape,
+    String? rawScannedData,
+    File? file,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body);
+    final _data = FormData();
+    if (scannedText != null) {
+      _data.fields.add(MapEntry('scannedText', scannedText));
+    }
+    if (shape != null) {
+      _data.fields.add(MapEntry('shape', shape));
+    }
+    if (rawScannedData != null) {
+      _data.fields.add(MapEntry('rawScannedData', rawScannedData));
+    }
+    if (file != null) {
+      _data.files.add(
+        MapEntry(
+          'file',
+          MultipartFile.fromFileSync(
+            file.path,
+            filename: file.path.split('/').last,
+          ),
+        ),
+      );
+    }
     final _options = _setStreamType<dynamic>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
           .compose(
             _dio.options,
             'user-medication/scan',

@@ -26,7 +26,7 @@ class LanguageDialog extends StatelessWidget {
       insetPadding: EdgeInsets.symmetric(horizontal: 32.w),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.r)),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 280.h),
+        padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 24.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -79,19 +79,32 @@ class LanguageDialog extends StatelessWidget {
                   onTap: () => onSelect(option.locale),
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          option.name,
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.typoBlack,
+                        // Flag icon
+                        ClipOval(
+                          child: Image.asset(
+                            option.flagAsset,
+                            width: 32.w,
+                            height: 32.w,
+                            fit: BoxFit.cover,
                           ),
                         ),
+                        SizedBox(width: 14.w),
+                        // Language name
+                        Expanded(
+                          child: Text(
+                            option.name,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.typoBlack,
+                            ),
+                          ),
+                        ),
+                        // Check icon
                         if (isSelected)
                           Container(
                             width: 24.w,
@@ -122,6 +135,11 @@ class LanguageDialog extends StatelessWidget {
 class LanguageOption {
   final String name;
   final String locale;
+  final String flagAsset;
 
-  LanguageOption({required this.name, required this.locale});
+  LanguageOption({
+    required this.name,
+    required this.locale,
+    required this.flagAsset,
+  });
 }

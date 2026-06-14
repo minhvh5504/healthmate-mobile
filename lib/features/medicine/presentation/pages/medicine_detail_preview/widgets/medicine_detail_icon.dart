@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../../core/constants/constant_url.dart';
+import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineDetailIcon extends StatelessWidget {
   const MedicineDetailIcon({super.key});
@@ -11,28 +13,29 @@ class MedicineDetailIcon extends StatelessWidget {
       width: 80.w,
       height: 80.w,
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F4FB),
+        gradient: AppColors.backgroundGradient,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withValues(alpha: 0.8),
+            color: const Color(0xFF434B94).withValues(alpha: 0.12),
             blurRadius: 20,
-            offset: const Offset(-5, -5),
+            offset: const Offset(0, 8),
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(5, 5),
+            color: const Color(0xFF434B94).withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Center(
-        child: RotationTransition(
-          turns: const AlwaysStoppedAnimation(45 / 360),
-          child: Icon(
-            LucideIcons.pill,
-            size: 32.sp,
-            color: const Color(0xFF5A5D7A),
+        child: SvgPicture.asset(
+          AppIcons.medicine,
+          width: 32.sp,
+          height: 32.sp,
+          colorFilter: const ColorFilter.mode(
+            Color(0xFF5A5D7A),
+            BlendMode.srcIn,
           ),
         ),
       ),

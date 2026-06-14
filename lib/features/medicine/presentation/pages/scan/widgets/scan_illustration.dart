@@ -81,8 +81,8 @@ class _ScanIllustrationState extends State<ScanIllustration>
               return Transform.scale(
                 scale: scale,
                 child: Container(
-                  width: 160.w,
-                  height: 160.w,
+                  width: 180.w,
+                  height: 180.w,
                   padding: EdgeInsets.all(2.w),
                   decoration: BoxDecoration(
                     color: Colors.white,

@@ -55,7 +55,9 @@ class MedicineReminderDatePopup extends ConsumerWidget {
                       SizedBox(height: 16.h),
                     ],
                     Opacity(
-                      opacity: (isEndDate && !state.isEndDateEnabled) ? 0.3 : 1.0,
+                      opacity: (isEndDate && !state.isEndDateEnabled)
+                          ? 0.3
+                          : 1.0,
                       child: IgnorePointer(
                         ignoring: isEndDate && !state.isEndDateEnabled,
                         child: _buildCalendar(state, notifier, context),
@@ -123,6 +125,8 @@ class MedicineReminderDatePopup extends ConsumerWidget {
               onChanged: (val) => notifier.toggleEndDateEnabled(val),
               activeThumbColor: const Color(0xFF22C55E),
               activeTrackColor: const Color(0xFF22C55E).withValues(alpha: 0.2),
+              inactiveThumbColor: AppColors.typoDisable,
+              inactiveTrackColor: AppColors.typoDisable.withValues(alpha: 0.2),
             ),
           ],
         ),

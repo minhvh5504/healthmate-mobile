@@ -26,7 +26,7 @@ class _MedicineQuantityPopupState extends State<MedicineQuantityPopup> {
   @override
   void initState() {
     super.initState();
-    _quantity = widget.medication.stockCount ?? 30;
+    _quantity = widget.medication.stockCount ?? 0;
   }
 
   @override

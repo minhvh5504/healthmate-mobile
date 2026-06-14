@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -92,29 +93,32 @@ class _MedicineCalendarStripState extends State<MedicineCalendarStrip> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80.h,
-      child: ListView.separated(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        itemCount: _days.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8.w),
-        itemBuilder: (context, index) {
-          final day = _days[index];
-          final isSelected = _isSameDay(day, widget.selectedDate);
-          final isToday = _isSameDay(day, DateTime.now());
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: SizedBox(
+        height: 80.h,
+        child: ListView.separated(
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          itemCount: _days.length,
+          separatorBuilder: (_, __) => SizedBox(width: 8.w),
+          itemBuilder: (context, index) {
+            final day = _days[index];
+            final isSelected = _isSameDay(day, widget.selectedDate);
+            final isToday = _isSameDay(day, DateTime.now());
 
-          return _DayCell(
-            day: day,
-            isSelected: isSelected,
-            isToday: isToday,
-            onTap: () {
-              widget.onDateSelected(day);
-              _scrollToIndex(index);
-            },
-          );
-        },
+            return _DayCell(
+              day: day,
+              isSelected: isSelected,
+              isToday: isToday,
+              onTap: () {
+                widget.onDateSelected(day);
+                _scrollToIndex(index);
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -138,7 +142,7 @@ class _DayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekdayLabel = _weekdayShort(day.weekday);
+    final weekdayLabel = _weekdayShort(context, day.weekday);
     final dayLabel = day.day.toString();
 
     return GestureDetector(
@@ -200,15 +204,15 @@ class _DayCell extends StatelessWidget {
     );
   }
 
-  String _weekdayShort(int weekday) {
-    const labels = {
-      1: 'TH 2',
-      2: 'TH 3',
-      3: 'TH 4',
-      4: 'TH 5',
-      5: 'TH 6',
-      6: 'TH 7',
-      7: 'CN',
+  String _weekdayShort(BuildContext context, int weekday) {
+    final labels = {
+      1: 'medicine.weekdays_short.mon'.tr(),
+      2: 'medicine.weekdays_short.tue'.tr(),
+      3: 'medicine.weekdays_short.wed'.tr(),
+      4: 'medicine.weekdays_short.thu'.tr(),
+      5: 'medicine.weekdays_short.fri'.tr(),
+      6: 'medicine.weekdays_short.sat'.tr(),
+      7: 'medicine.weekdays_short.sun'.tr(),
     };
     return labels[weekday] ?? '';
   }

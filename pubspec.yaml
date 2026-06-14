@@ -40,6 +40,8 @@ dependencies:
   pinput: ^5.0.2
   # shimmer
   shimmer: ^3.0.0
+  # cached image
+  cached_network_image: ^3.4.1
   # easy localization
   easy_localization: ^3.0.8
   # google sign in
@@ -104,11 +106,12 @@ flutter:
     - assets/icons/navigation/
     - assets/icons/medicine/
     - assets/icons/setting/
+    - assets/icons/health/
+    - assets/icons/flags/
 
     - assets/images/
     - assets/images/onboarding/
     - assets/images/user/
-    - assets/images/health/
     - assets/images/search/
     - assets/images/scan/
 

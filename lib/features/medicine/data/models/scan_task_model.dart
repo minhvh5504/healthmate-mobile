@@ -23,30 +23,7 @@ class ScanTaskModel extends ScanTask {
 
     final rawScannedData = _normalizeRawScannedData(json);
 
-    // Map medication to a UserMedication if it exists
-    List<UserMedication>? userMedications;
-    if (json['medication'] != null) {
-      userMedications = [
-        UserMedicationModel.fromJson({
-          'id': json['id'], // Use task ID or create a dummy?
-          'medicationId': json['medicationId'],
-          'medication': json['medication'],
-          'isActive': false,
-          'scannedData': rawScannedData,
-        }),
-      ];
-    } else {
-      // Even if failed, we can preserve the scanned data in a dummy entry
-      userMedications = [
-        UserMedicationModel(
-          id: json['id'],
-          medicationId: null,
-          medication: null,
-          isActive: false,
-          scannedData: rawScannedData,
-        ),
-      ];
-    }
+    final userMedications = _parseUserMedications(json, rawScannedData);
 
     return ScanTaskModel(
       id: json['id']?.toString() ?? '',
@@ -55,8 +32,44 @@ class ScanTaskModel extends ScanTask {
           DateTime.now(),
       status: status,
       userMedications: userMedications,
-      imagePath: rawScannedData?['imagePath']?.toString(),
+      imagePath:
+          json['imageUrl']?.toString() ??
+          json['imagePath']?.toString() ??
+          rawScannedData?['imageUrl']?.toString() ??
+          rawScannedData?['imagePath']?.toString(),
     );
+  }
+
+  static List<UserMedication>? _parseUserMedications(
+    Map<String, dynamic> json,
+    Map<String, dynamic>? rawScannedData,
+  ) {
+    final rawList = json['userMedications'] ?? json['medications'];
+    if (rawList is List) {
+      return rawList
+          .whereType<Map>()
+          .map(
+            (item) => UserMedicationModel.fromJson({
+              ...item.cast<String, dynamic>(),
+              'isActive': item['isActive'] ?? false,
+            }),
+          )
+          .toList();
+    }
+
+    if (json['medication'] != null) {
+      return [
+        UserMedicationModel.fromJson({
+          'id': json['id'],
+          'medicationId': json['medicationId'],
+          'medication': json['medication'],
+          'isActive': false,
+          'scannedData': rawScannedData,
+        }),
+      ];
+    }
+
+    return null;
   }
 
   static Map<String, dynamic>? _normalizeRawScannedData(

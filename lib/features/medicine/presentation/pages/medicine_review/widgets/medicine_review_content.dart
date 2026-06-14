@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../providers/medicine/medicine_provider.dart';
 import '../../../providers/medicine_flow/medicine_flow_provider.dart';
 import '../../../providers/medicine_review/medicine_review_provider.dart';
@@ -29,6 +32,60 @@ class _MedicineReviewContentState extends ConsumerState<MedicineReviewContent> {
         ref.read(medicineReviewProvider.notifier).init(flowData);
       }
     });
+  }
+
+  Widget _buildReviewImage(String imagePath) {
+    final isRemote =
+        imagePath.startsWith('http://') || imagePath.startsWith('https://');
+
+    if (isRemote) {
+      return CachedNetworkImage(
+        imageUrl: imagePath,
+        cacheKey: imagePath,
+        width: 140.w,
+        height: 140.w,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => _buildImageShimmer(),
+        errorWidget: (context, url, error) => _buildImageError(),
+      );
+    }
+
+    return Image.file(
+      File(imagePath),
+      width: 140.w,
+      height: 140.w,
+      fit: BoxFit.cover,
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded || frame != null) {
+          return child;
+        }
+        return _buildImageShimmer();
+      },
+      errorBuilder: (_, __, ___) => _buildImageError(),
+    );
+  }
+
+  Widget _buildImageShimmer() {
+    return Shimmer.fromColors(
+      baseColor: const Color(0xFFE2E8F0),
+      highlightColor: const Color(0xFFF8FAFC),
+      period: const Duration(milliseconds: 1400),
+      child: Container(width: 140.w, height: 140.w, color: Colors.white),
+    );
+  }
+
+  Widget _buildImageError() {
+    return Container(
+      width: 140.w,
+      height: 140.w,
+      color: const Color(0xFFF1F5F9),
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_not_supported_outlined,
+        size: 32.sp,
+        color: const Color(0xFF94A3B8),
+      ),
+    );
   }
 
   @override
@@ -63,7 +120,7 @@ class _MedicineReviewContentState extends ConsumerState<MedicineReviewContent> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24.r),
-                child: Image.file(File(imagePath), fit: BoxFit.cover),
+                child: _buildReviewImage(imagePath),
               ),
             ),
           ),
@@ -72,7 +129,7 @@ class _MedicineReviewContentState extends ConsumerState<MedicineReviewContent> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Text(
-            'Thêm thuốc vào hộp! Vui lòng kiểm tra lại thông tin để tránh sai sót.',
+            'medicine.scan.review_message'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Inter',

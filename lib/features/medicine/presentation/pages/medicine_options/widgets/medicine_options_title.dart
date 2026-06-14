@@ -26,7 +26,7 @@ class MedicineOptionsTitle extends ConsumerWidget {
         latestMedication?.effectiveName ??
         flowState.name ??
         'medicine.no_name'.tr();
-    final stock = latestMedication?.stockCount ?? 30;
+    final stock = latestMedication?.stockCount ?? 0;
 
     return Column(
       children: [

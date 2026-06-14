@@ -4,12 +4,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:healthmate_mobile/features/medicine/presentation/providers/medicine/medicine_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../domain/entities/daily_schedule_item.dart';
 import '../../medicine_reminder_edit/widgets/medicine_reminder_time_popup.dart';
+import 'medicine_log_success_dialog.dart';
 
 class MedicineSchedulePopup extends ConsumerStatefulWidget {
   final DailyScheduleItem item;
@@ -62,7 +65,18 @@ class MedicineSchedulePopup extends ConsumerStatefulWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -127,36 +141,11 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
           SizedBox(height: 8.h),
 
           // Main Icon
-          Container(
-            width: 80.w,
-            height: 80.w,
-            decoration: const BoxDecoration(
-              color: Color(0xFF535874), // Dark slate blue
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                    3,
-                    (index) => Container(
-                      width: 6.w,
-                      height: 6.w,
-                      margin: EdgeInsets.symmetric(horizontal: 2.w),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFB1B6C1),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+          Center(
+            child: SvgPicture.asset(
+              AppIcons.medicineMoreLight,
+              width: 80.sp,
+              height: 80.sp,
             ),
           ),
 
@@ -235,8 +224,19 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                             );
                           },
                           transitionBuilder: (context, anim1, anim2, child) {
-                            return FadeTransition(opacity: anim1, child: child);
-                          },
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
+      },
                         );
                       },
                       child: Container(
@@ -348,11 +348,15 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                 bgColor: Colors.white,
                 borderColor: AppColors.typoBlack.withValues(alpha: 0.2),
                 label: 'medicine.log_status.action_missed'.tr(),
-                onTap: () {
-                  ref
+                onTap: () async {
+                  final navigator = Navigator.of(context, rootNavigator: true);
+                  context.pop();
+                  final success = await ref
                       .read(medicineProvider.notifier)
                       .onMissMedication(item: widget.item, quantity: _quantity);
-                  context.pop();
+                  if (success && navigator.mounted) {
+                    MedicineLogSuccessDialog.show(navigator.context);
+                  }
                 },
               ),
               SizedBox(width: 40.w),
@@ -362,15 +366,19 @@ class _MedicineSchedulePopupState extends ConsumerState<MedicineSchedulePopup> {
                 bgColor: const Color(0xFF1E2135),
                 borderColor: const Color(0xFF1E2135),
                 label: 'medicine.log_status.action_taken'.tr(),
-                onTap: () {
-                  ref
+                onTap: () async {
+                  final navigator = Navigator.of(context, rootNavigator: true);
+                  context.pop();
+                  final success = await ref
                       .read(medicineProvider.notifier)
                       .onTakeMedication(
                         item: widget.item,
                         quantity: _quantity,
                         selectedTime: _remindTime,
                       );
-                  context.pop();
+                  if (success && navigator.mounted) {
+                    MedicineLogSuccessDialog.show(navigator.context);
+                  }
                 },
               ),
             ],

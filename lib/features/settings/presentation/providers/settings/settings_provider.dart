@@ -4,6 +4,7 @@ import '../../../data/api/settings_api.dart';
 import '../../../data/datasources/settings_remote_datasource.dart';
 import '../../../data/repositories/settings_repository_impl.dart';
 import '../../../domain/usecases/get_user_profile.dart';
+import '../../../domain/usecases/upload_user_avatar.dart';
 import 'settings_notifier.dart';
 
 /// Retrofit API
@@ -30,9 +31,13 @@ final getUserProfileUseCaseProvider = Provider<GetUserProfile>((ref) {
   return GetUserProfile(ref.read(settingsRepositoryProvider));
 });
 
+final uploadUserAvatarUseCaseProvider = Provider<UploadUserAvatar>((ref) {
+  return UploadUserAvatar(ref.read(settingsRepositoryProvider));
+});
+
 /// Provider
 final settingsProvider = StateNotifierProvider<SettingsNotifier, SettingsState>(
   (ref) {
-    return SettingsNotifier(ref);
+    return SettingsNotifier(ref, ref.read(uploadUserAvatarUseCaseProvider));
   },
 );

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/constants/constant_url.dart';
 import '../../../../../core/providers/app_reset_provider.dart';
 import '../../../domain/entities/user_profile.dart';
 import '../../../../auth/presentation/providers/auth/auth_provider.dart';
@@ -78,8 +79,16 @@ class HighSettingsNotifier extends StateNotifier<HighSettingsState> {
         currentLocale: context.locale.languageCode,
         onClose: ctx.pop,
         options: [
-          LanguageOption(name: 'high_settings.vietnamese'.tr(), locale: 'vi'),
-          LanguageOption(name: 'high_settings.english'.tr(), locale: 'en'),
+          LanguageOption(
+            name: 'high_settings.vietnamese'.tr(),
+            locale: 'vi',
+            flagAsset: AppIcons.flagVi,
+          ),
+          LanguageOption(
+            name: 'high_settings.english'.tr(),
+            locale: 'en',
+            flagAsset: AppIcons.flagEn,
+          ),
         ],
         onSelect: (localeCode) {
           context.setLocale(Locale(localeCode));

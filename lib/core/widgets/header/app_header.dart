@@ -141,6 +141,8 @@ class AppHeader extends ConsumerWidget {
               children: [
                 SvgPicture.asset(
                   AppIcons.bell,
+                  width: 28.w,
+                  height: 28.w,
                   colorFilter: const ColorFilter.mode(
                     AppColors.bgPrimary,
                     BlendMode.srcIn,
@@ -149,8 +151,8 @@ class AppHeader extends ConsumerWidget {
 
                 if (unreadCount > 0)
                   Positioned(
-                    top: 4,
-                    right: 4,
+                    top: -3,
+                    right: 1,
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: const BoxDecoration(
@@ -158,15 +160,15 @@ class AppHeader extends ConsumerWidget {
                         shape: BoxShape.circle,
                       ),
                       constraints: BoxConstraints(
-                        minWidth: 16.w,
-                        minHeight: 16.w,
+                        minWidth: 12.w,
+                        minHeight: 12.w,
                       ),
                       child: Center(
                         child: Text(
                           unreadCount > 9 ? '9+' : unreadCount.toString(),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 10.sp,
+                            fontSize: 8.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -52,8 +52,7 @@ class _MedicineReminderTimePopupState extends State<MedicineReminderTimePopup> {
         children: [
           _buildHeader(context),
           SizedBox(height: 24.h),
-          _buildTopIcon(),
-          SizedBox(height: 24.h),
+
           _buildPicker(),
           SizedBox(height: 32.h),
           Button(
@@ -99,20 +98,6 @@ class _MedicineReminderTimePopupState extends State<MedicineReminderTimePopup> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildTopIcon() {
-    return Container(
-      width: 60.w,
-      height: 60.w,
-      decoration: const BoxDecoration(
-        color: AppColors.typoHeading,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Icon(LucideIcons.clock, color: Colors.white, size: 32.sp),
       ),
     );
   }

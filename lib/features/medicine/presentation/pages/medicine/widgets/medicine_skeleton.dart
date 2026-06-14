@@ -28,7 +28,7 @@ class MedicineSkeleton extends StatelessWidget {
           child: ListView.separated(
             padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 100.h),
             itemCount: 4,
-            separatorBuilder: (_, __) => SizedBox(height: 12.h),
+            separatorBuilder: (_, __) => SizedBox(height: 8.h),
             itemBuilder: (context, index) =>
                 const MedicineScheduleCardSkeleton().animate().fadeIn(
                   duration: 220.ms,
@@ -52,7 +52,7 @@ class MedicineScheduleListSkeleton extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       itemCount: itemCount,
-      separatorBuilder: (_, __) => SizedBox(height: 12.h),
+      separatorBuilder: (_, __) => SizedBox(height: 8.h),
       itemBuilder: (context, index) => const MedicineScheduleCardSkeleton()
           .animate()
           .fadeIn(duration: 220.ms, delay: (60 * index).ms),

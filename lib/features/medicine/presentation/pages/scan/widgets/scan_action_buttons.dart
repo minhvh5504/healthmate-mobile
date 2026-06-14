@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../../core/routing/app_routes.dart';
+import '../../../../domain/entities/scan_task.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
 import '../../../providers/medicine/medicine_provider.dart';
@@ -19,9 +20,21 @@ class ScanActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medicineState = ref.watch(medicineProvider);
+    final scanTask = medicineState.scanTasks.cast<ScanTask?>().firstWhere(
+      (task) => task?.id == taskId,
+      orElse: () => null,
+    );
+    final isFailed = scanTask?.status == ScanStatus.failed;
     final medications = medicineState.reviewMedications;
+    final hasMatchedMedications = medications.any(
+      (med) => med['isMatched'] == true,
+    );
     final medicineNotifier = ref.read(medicineProvider.notifier);
     final scanNotifier = ref.read(scanMedicineProvider.notifier);
+
+    if (isFailed) {
+      return _buildFailedActions(context, medicineNotifier);
+    }
 
     return Column(
       children: [
@@ -61,8 +74,19 @@ class ScanActionButtons extends ConsumerWidget {
                 );
               },
               transitionBuilder: (context, anim1, anim2, child) {
-                return FadeTransition(opacity: anim1, child: child);
-              },
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
+      },
             );
           },
           child: Container(
@@ -85,7 +109,7 @@ class ScanActionButtons extends ConsumerWidget {
           ),
         ),
         SizedBox(height: 8.h),
-        if (medications.isNotEmpty)
+        if (hasMatchedMedications)
           Button(
             text: 'medicine.scan.action.add_to_cabinet'.tr(),
             onPressed: () async {
@@ -104,12 +128,45 @@ class ScanActionButtons extends ConsumerWidget {
               medicineNotifier.deleteScanTask(taskId);
               context.pushReplacement(
                 AppRoutes.medicineDetailPreview,
-                extra: {'name': '', 'isUpdate': false},
+                extra: {
+                  'name': medications.isNotEmpty
+                      ? medications.first['name']?.toString() ?? ''
+                      : '',
+                  'isUpdate': false,
+                },
               );
             },
             height: 48.h,
             width: double.infinity,
           ),
+      ],
+    );
+  }
+
+  Widget _buildFailedActions(BuildContext context, MedicineNotifier notifier) {
+    return Column(
+      children: [
+        Button(
+          text: 'medicine.scan.action.skip'.tr(),
+          onPressed: () {
+            notifier.deleteScanTask(taskId);
+            context.go(AppRoutes.medicine);
+          },
+          color: Colors.white,
+          textColor: AppColors.typoError,
+          borderColor: const Color(0xFFC9C3DD),
+          height: 56.h,
+          width: double.infinity,
+        ),
+        SizedBox(height: 12.h),
+        Button(
+          text: 'medicine.scan.retry'.tr(),
+          onPressed: () {
+            context.pushReplacement(AppRoutes.scanMedicineBox, extra: taskId);
+          },
+          height: 56.h,
+          width: double.infinity,
+        ),
       ],
     );
   }
@@ -157,7 +214,18 @@ class ScanActionButtons extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }

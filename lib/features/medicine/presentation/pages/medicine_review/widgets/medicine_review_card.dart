@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineReviewCard extends StatelessWidget {
@@ -27,12 +28,18 @@ class MedicineReviewCard extends StatelessWidget {
 
     final bool isAsNeeded = frequencySlug == 'as_needed';
     final List<dynamic> schedules = medication['schedules'] ?? [];
+    final quantity = schedules.isNotEmpty
+        ? int.tryParse(schedules[0]['quantity']?.toString() ?? '1') ?? 1
+        : 1;
+    final unit = medication['unit'] ?? 'medicine.unit_default'.tr();
     final String timeInfo = !isAsNeeded && schedules.isNotEmpty
-        ? '${schedules[0]['time']} • 1 ${medication['unit'] ?? 'viên'}'
+        ? '${schedules[0]['time']} • $quantity $unit'
         : '';
 
     final int stockCount = medication['stockCount'] ?? 0;
-    final String stockInfo = 'Còn $stockCount ${medication['unit'] ?? 'viên'}';
+    final String stockInfo = 'medicine.stock_remaining'.tr(
+      args: [stockCount.toString()],
+    );
 
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
@@ -49,15 +56,21 @@ class MedicineReviewCard extends StatelessWidget {
         ],
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: const BoxDecoration(
-              color: Color(0xFF8E92BC), // Custom purple-gray from screenshot
-              shape: BoxShape.circle,
+            width: 64.w,
+            height: 64.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFF6C63FF),
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            child: Icon(LucideIcons.pill, color: Colors.white, size: 24.sp),
+            alignment: Alignment.center,
+            child: SvgPicture.asset(
+              AppIcons.medicineLight,
+              width: 30.w,
+              height: 30.w,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -70,7 +83,7 @@ class MedicineReviewCard extends StatelessWidget {
                     fontFamily: 'Inter',
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.typoHeading,
+                    color: AppColors.typoBlack,
                   ),
                 ),
                 SizedBox(height: 4.h),

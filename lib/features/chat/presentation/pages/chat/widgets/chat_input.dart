@@ -45,9 +45,6 @@ class _ChatInputState extends State<ChatInput> {
 
   @override
   Widget build(BuildContext context) {
-    final sendButtonPadding = 12.r;
-    final sendIconSize = 22.r;
-
     return SafeArea(
       top: false,
       minimum: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
@@ -94,25 +91,76 @@ class _ChatInputState extends State<ChatInput> {
               ),
             ),
             SizedBox(width: 10.w),
-            GestureDetector(
+            _SendButton(
               onTap: _handleSend,
-              child: Container(
-                padding: EdgeInsets.all(sendButtonPadding),
-                decoration: BoxDecoration(
-                  color: widget.isLoading
-                      ? AppColors.bgDisable
-                      : AppColors.chatSendButton,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppIcons.send,
-                    width: sendIconSize,
-                    height: sendIconSize,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
-                    ),
+              isLoading: widget.isLoading,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SendButton extends StatefulWidget {
+  final VoidCallback onTap;
+  final bool isLoading;
+
+  const _SendButton({
+    required this.onTap,
+    required this.isLoading,
+  });
+
+  @override
+  State<_SendButton> createState() => _SendButtonState();
+}
+
+class _SendButtonState extends State<_SendButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final double buttonSize = 44.w;
+    final double iconSize = 20.w;
+
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      child: AnimatedScale(
+        scale: _isPressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOutCubic,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: buttonSize,
+              height: buttonSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.isLoading
+                    ? AppColors.bgDisable
+                    : AppColors.chatSendButton,
+                boxShadow: widget.isLoading
+                    ? null
+                    : [
+                        BoxShadow(
+                          color: AppColors.chatSendButton.withValues(alpha: 0.28),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  AppIcons.send,
+                  width: iconSize,
+                  height: iconSize,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
                   ),
                 ),
               ),

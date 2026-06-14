@@ -8,8 +8,15 @@ import '../../../../../core/widgets/header/header_with_back.dart';
 
 class NotificationHeader extends StatelessWidget {
   final NotificationNotifier notifier;
+  final NotificationFilter selectedFilter;
+  final ValueChanged<NotificationFilter> onFilterChanged;
 
-  const NotificationHeader({super.key, required this.notifier});
+  const NotificationHeader({
+    super.key,
+    required this.notifier,
+    required this.selectedFilter,
+    required this.onFilterChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +32,90 @@ class NotificationHeader extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: _NotificationFilterTabs(
+            selectedFilter: selectedFilter,
+            onChanged: onFilterChanged,
+          ),
+        ),
+        SizedBox(height: 12.h),
+      ],
+    );
+  }
+}
+
+class _NotificationFilterTabs extends StatelessWidget {
+  final NotificationFilter selectedFilter;
+  final ValueChanged<NotificationFilter> onChanged;
+
+  const _NotificationFilterTabs({
+    required this.selectedFilter,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 56.h,
+      padding: EdgeInsets.all(4.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F4F8),
+        borderRadius: BorderRadius.circular(14.r),
+      ),
+      child: Row(
+        children: [
+          _buildTab(
+            filter: NotificationFilter.all,
+            label: 'notifications.filter_all'.tr(),
+          ),
+          _buildTab(
+            filter: NotificationFilter.today,
+            label: 'notifications.filter_today'.tr(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTab({
+    required NotificationFilter filter,
+    required String label,
+  }) {
+    final isSelected = selectedFilter == filter;
+
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => onChanged(filter),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.white : Colors.transparent,
+            borderRadius: BorderRadius.circular(12.r),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]
+                : null,
+          ),
           child: Text(
-            'notifications.title'.tr(),
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 28.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.typoBlack,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
+              color: isSelected ? AppColors.typoPrimary : AppColors.typoNavi,
             ),
           ),
         ),
-        SizedBox(height: 24.h),
-      ],
+      ),
     );
   }
 }

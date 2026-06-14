@@ -40,9 +40,7 @@ class AddFamilyMemberPage extends ConsumerWidget {
                     children: [
                       SizedBox(height: 16.h),
 
-                      // Email Field
-                      if (!state.isSuccess)
-                        InputTextField(
+                      InputTextField(
                           controller: state.emailController,
                           label: 'add_family.email_label'.tr(),
                           hint: 'add_family.email_hint'.tr(),
@@ -50,39 +48,6 @@ class AddFamilyMemberPage extends ConsumerWidget {
                           hasError: state.errorMessage != null,
                           errorText: state.errorMessage,
                         ),
-
-                      if (state.isSuccess) ...[
-                        SizedBox(height: 100.h),
-                        Center(
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.check_circle_outline,
-                                color: AppColors.bgPrimary,
-                                size: 80.sp,
-                              ),
-                              SizedBox(height: 24.h),
-                              Text(
-                                'add_family.success_title'.tr(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24.sp,
-                                  color: AppColors.typoHeading,
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                'add_family.success_subtitle'.tr(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: AppColors.typoBody,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ],
                   ),
                 ),
@@ -93,23 +58,15 @@ class AddFamilyMemberPage extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
                   children: [
-                    if (!state.isSuccess)
-                      Button(
+                    Button(
                         text: 'add_family.button_submit'.tr(),
                         onPressed: state.isLoading
                             ? null
                             : () => notifier.onConnect(),
                         color: AppColors.typoBlack,
-                      )
-                    else
-                      Button(
-                        text: 'add_family.button_done'.tr(),
-                        onPressed: () => notifier.onBack(),
-                        color: AppColors.bgPrimary,
                       ),
                     SizedBox(height: 16.h),
-                    if (!state.isSuccess)
-                      Text(
+                    Text(
                         'add_family.footer_text'.tr(args: ['0', '5']),
                         style: TextStyle(
                           fontFamily: 'Poppins',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/forgotpassword/reset_password_page.dart';
@@ -40,7 +39,6 @@ import '../../features/medicine/presentation/pages/medicine_reminder_edit/medici
 import '../../features/medicine/presentation/pages/medicine_stock_edit/medicine_stock_edit_page.dart';
 import '../widgets/chat/floating_chat_button.dart';
 import '../widgets/navigation/custom_bottom_navigation.dart';
-import '../providers/bottom_nav_provider.dart';
 import '../handlers/deeplink_handler.dart';
 import 'app_routes.dart';
 
@@ -131,11 +129,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.scanPrescription,
-        builder: (context, state) => const ScanPrescriptionPage(),
+        builder: (context, state) {
+          final fromTaskId = state.extra as String?;
+          return ScanPrescriptionPage(fromTaskId: fromTaskId);
+        },
       ),
       GoRoute(
         path: AppRoutes.scanMedicineBox,
-        builder: (context, state) => const ScanMedicineBoxPage(),
+        builder: (context, state) {
+          final fromTaskId = state.extra as String?;
+          return ScanMedicineBoxPage(fromTaskId: fromTaskId);
+        },
       ),
       GoRoute(
         path: AppRoutes.reviewScan,
@@ -200,48 +204,20 @@ final routerProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (context, state, child) {
           final int currentIndex = _getNavIndex(state.uri.path);
-          return Consumer(
-            builder: (context, ref, _) {
-              final isVisible = ref.watch(bottomNavVisibleProvider);
-
-              return Scaffold(
-                backgroundColor: Colors.transparent,
-                body: Stack(
-                  children: [
-                    NotificationListener<UserScrollNotification>(
-                      onNotification: (notification) {
-                        if (notification.direction == ScrollDirection.reverse) {
-                          if (isVisible) {
-                            ref.read(bottomNavVisibleProvider.notifier).state =
-                                false;
-                          }
-                        } else if (notification.direction ==
-                            ScrollDirection.forward) {
-                          if (!isVisible) {
-                            ref.read(bottomNavVisibleProvider.notifier).state =
-                                true;
-                          }
-                        }
-                        return false;
-                      },
-                      child: child,
-                    ),
-                    const Positioned.fill(child: FloatingChatButton()),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: AnimatedSlide(
-                        offset: isVisible ? Offset.zero : const Offset(0, 1.5),
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: CustomBottomNavBar(initialIndex: currentIndex),
-                      ),
-                    ),
-                  ],
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                child,
+                const Positioned.fill(child: FloatingChatButton()),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: CustomBottomNavBar(initialIndex: currentIndex),
                 ),
-              );
-            },
+              ],
+            ),
           );
         },
         routes: [

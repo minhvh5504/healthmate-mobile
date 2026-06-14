@@ -11,18 +11,26 @@ import '../../../../core/services/socket_realtime_service.dart';
 import '../../data/models/notification_model.dart';
 import '../pages/widgets/notification_more_menu.dart';
 
+enum NotificationFilter { all, today }
+
 /// State
 class NotificationState {
   final List<NotificationEntity> notifications;
   final bool isLoading;
   final String? errorMessage;
   final int unreadCount;
+  final NotificationFilter filter;
+  final NotificationEntity? latestRealtimeNotification;
+  final int realtimeNotificationSerial;
 
   NotificationState({
     this.notifications = const [],
     this.isLoading = false,
     this.errorMessage,
     this.unreadCount = 0,
+    this.filter = NotificationFilter.all,
+    this.latestRealtimeNotification,
+    this.realtimeNotificationSerial = 0,
   });
 
   NotificationState copyWith({
@@ -30,12 +38,20 @@ class NotificationState {
     bool? isLoading,
     String? errorMessage,
     int? unreadCount,
+    NotificationFilter? filter,
+    NotificationEntity? latestRealtimeNotification,
+    int? realtimeNotificationSerial,
   }) {
     return NotificationState(
       notifications: notifications ?? this.notifications,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
       unreadCount: unreadCount ?? this.unreadCount,
+      filter: filter ?? this.filter,
+      latestRealtimeNotification:
+          latestRealtimeNotification ?? this.latestRealtimeNotification,
+      realtimeNotificationSerial:
+          realtimeNotificationSerial ?? this.realtimeNotificationSerial,
     );
   }
 }
@@ -51,6 +67,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
   StreamSubscription<Map<String, dynamic>>? _notificationSub;
   StreamSubscription<int>? _unreadCountSub;
+  String? _lastRealtimeNotificationId;
 
   NotificationNotifier(
     this._getNotifications,
@@ -69,10 +86,15 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
     _notificationSub = _realtimeService.onNotification.listen((data) {
       try {
         final newNotification = NotificationModel.fromJson(data);
+        if (newNotification.id == _lastRealtimeNotificationId) return;
+        _lastRealtimeNotificationId = newNotification.id;
+
         final updated = [newNotification, ...state.notifications];
         state = state.copyWith(
           notifications: updated,
           unreadCount: state.unreadCount + 1,
+          latestRealtimeNotification: newNotification,
+          realtimeNotificationSerial: state.realtimeNotificationSerial + 1,
         );
       } catch (e) {
         // Malformed payload
@@ -164,6 +186,10 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   }
 
   /// UI Actions
+  void setFilter(NotificationFilter filter) {
+    state = state.copyWith(filter: filter);
+  }
+
   void onShowMoreMenu(BuildContext context) {
     NotificationMoreMenu.show(context).then((value) {
       if (value == 'mark_read') {

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../providers/medicine_stock/medicine_stock_notifier.dart';
 import '../../../providers/medicine_stock/medicine_stock_provider.dart';
 import 'medicine_low_stock_popup.dart';
@@ -36,7 +36,7 @@ class MedicineStockCard extends ConsumerWidget {
       child: Column(
         children: [
           MedicineStockItem(
-            icon: LucideIcons.briefcase,
+            icon: AppIcons.medicineDictionary,
             title: 'medicine.stock.item_title_remaining'.tr(),
             subtitle: 'medicine.stock.remaining_times'
                 .tr(args: [state.stockCount.toString()]),
@@ -51,7 +51,7 @@ class MedicineStockCard extends ConsumerWidget {
             ),
           ),
           MedicineStockItem(
-            icon: LucideIcons.clock,
+            icon: AppIcons.medicineClock,
             title: 'medicine.stock.item_title_reminder'.tr(),
             subtitle: state.lowStockReminderEnabled
                 ? 'medicine.stock.remaining_times'
@@ -106,7 +106,18 @@ class MedicineStockCard extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -153,7 +164,18 @@ class MedicineStockCard extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }

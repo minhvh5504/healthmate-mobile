@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../domain/entities/scan_task.dart';
 import '../../providers/medicine/medicine_provider.dart';
 import 'widgets/scan_action_buttons.dart';
 import 'widgets/scan_header.dart';
@@ -28,27 +30,50 @@ class _ScanPageState extends ConsumerState<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    final medicineState = ref.watch(medicineProvider);
+    final scanTask = medicineState.scanTasks.cast<ScanTask?>().firstWhere(
+      (task) => task?.id == widget.taskId,
+      orElse: () => null,
+    );
+    final isFailed = scanTask?.status == ScanStatus.failed;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4FB),
-      appBar: const ScanHeader(),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 16.h),
-                const ScanResultsInfo(),
-                SizedBox(height: 24.h),
-                const ScanMedicationList(),
-                SizedBox(height: 70.h),
-                ScanActionButtons(taskId: widget.taskId),
-              ],
-            ),
+      appBar: ScanHeader(
+        title: isFailed ? 'medicine.scan.unrecognized_title'.tr() : null,
+      ),
+      body: SafeArea(
+        top: false,
+        child: SizedBox.expand(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  left: 24.w,
+                  right: 24.w,
+                  top: 8.h,
+                  bottom: isFailed ? 152.h : 132.h,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 16.h),
+                    ScanResultsInfo(taskId: widget.taskId),
+                    SizedBox(height: 24.h),
+                    if (!isFailed) const ScanMedicationList(),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 24.w,
+                right: 24.w,
+                bottom: 12.h,
+                child: ScanActionButtons(taskId: widget.taskId),
+              ),
+              const ScanPageLoadingOverlay(),
+            ],
           ),
-          const ScanPageLoadingOverlay(),
-        ],
+        ),
       ),
     );
   }

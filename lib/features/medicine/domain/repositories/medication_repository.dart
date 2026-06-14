@@ -8,9 +8,10 @@ import '../entities/family_member.dart';
 abstract class MedicationRepository {
   Future<List<Medication>> searchMedications(String query);
   Future<ScanTask> scan({
-    required String scannedText,
+    String? scannedText,
     String? shape,
     Map<String, dynamic>? rawData,
+    String? imagePath,
   });
 
   Future<List<ScanTask>> getScanTasks();
@@ -64,6 +65,7 @@ abstract class MedicationRepository {
     required String status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   });
 
   Future<void> updateMedicationLog({
@@ -71,6 +73,7 @@ abstract class MedicationRepository {
     String? status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   });
 
   Future<List<FamilyMember>> getUserRelationships();

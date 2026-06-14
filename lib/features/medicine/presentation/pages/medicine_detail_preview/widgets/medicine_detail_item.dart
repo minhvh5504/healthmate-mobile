@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineDetailItem extends StatelessWidget {
-  final IconData icon;
+  final dynamic icon;
   final String title;
   final String? value;
   final VoidCallback onTap;
@@ -31,7 +32,24 @@ class MedicineDetailItem extends StatelessWidget {
             padding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         child: Row(
           children: [
-            Icon(icon, color: titleColor ?? AppColors.bgDisable, size: 24.sp),
+            if (icon is IconData)
+              Icon(
+                icon as IconData,
+                color: titleColor ?? AppColors.bgDisable,
+                size: 24.sp,
+              )
+            else if (icon is String)
+              SvgPicture.asset(
+                icon as String,
+                width: 18.w,
+                height: 18.w,
+                colorFilter: ColorFilter.mode(
+                  titleColor ?? AppColors.bgDisable,
+                  BlendMode.srcIn,
+                ),
+              )
+            else
+              const SizedBox.shrink(),
             SizedBox(width: 8.w),
             if (value != null && value!.isNotEmpty)
               Expanded(

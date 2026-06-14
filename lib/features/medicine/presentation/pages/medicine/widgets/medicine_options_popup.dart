@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../domain/entities/user_medication.dart';
 import '../../medicine_detail_preview/widgets/medicine_detail_item.dart';
 
@@ -25,7 +26,7 @@ class MedicineOptionsPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stock = medication.stockCount ?? 30;
+    final stock = medication.stockCount ?? 0;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -68,7 +69,9 @@ class MedicineOptionsPopup extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: Text(
-                      medication.effectiveName != '-' ? medication.effectiveName : 'medicine.no_name'.tr(),
+                      medication.effectiveName != '-'
+                          ? medication.effectiveName
+                          : 'medicine.no_name'.tr(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 22.sp,
@@ -122,7 +125,7 @@ class MedicineOptionsPopup extends StatelessWidget {
 
                   // Label below icon
                   Text(
-                    'medicine.only_if_needed'.tr(),
+                    _frequencyLabel(medication),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 12.sp,
@@ -145,7 +148,7 @@ class MedicineOptionsPopup extends StatelessWidget {
                     child: Column(
                       children: [
                         MedicineDetailItem(
-                          icon: LucideIcons.pill,
+                          icon: AppIcons.medicine,
                           title: 'medicine.options_popup.edit_details'.tr(),
                           onTap: () {
                             context.pop();
@@ -154,7 +157,7 @@ class MedicineOptionsPopup extends StatelessWidget {
                         ),
                         _buildDivider(),
                         MedicineDetailItem(
-                          icon: LucideIcons.clock,
+                          icon: AppIcons.medicineClock,
                           title: 'medicine.options_popup.change_schedule'.tr(),
                           onTap: () {
                             context.pop();
@@ -163,7 +166,7 @@ class MedicineOptionsPopup extends StatelessWidget {
                         ),
                         _buildDivider(),
                         MedicineDetailItem(
-                          icon: LucideIcons.briefcase,
+                          icon: AppIcons.medicineDictionary,
                           title: 'medicine.options_popup.add_medicine'.tr(),
                           onTap: () {
                             context.pop();
@@ -172,7 +175,7 @@ class MedicineOptionsPopup extends StatelessWidget {
                         ),
                         _buildDivider(),
                         MedicineDetailItem(
-                          icon: LucideIcons.trash2,
+                          icon: AppIcons.stop,
                           title: 'medicine.options_popup.delete_all'.tr(),
                           titleColor: AppColors.bgError,
                           onTap: () {
@@ -200,5 +203,28 @@ class MedicineOptionsPopup extends StatelessWidget {
       indent: 16.w,
       endIndent: 16.w,
     );
+  }
+
+  String _frequencyLabel(UserMedication medication) {
+    String? repeatType = medication.frequency;
+    final schedules = medication.reminderSchedules;
+    if (schedules != null && schedules.isNotEmpty) {
+      final first = schedules.first;
+      if (first is Map<String, dynamic>) {
+        repeatType = first['repeatType']?.toString() ?? repeatType;
+      } else if (first is Map) {
+        repeatType = first['repeatType']?.toString() ?? repeatType;
+      }
+    }
+
+    switch (repeatType) {
+      case 'daily':
+        return 'medicine.daily'.tr();
+      case 'specific_days':
+        return 'medicine.reminder.specific_days'.tr();
+      case 'as_needed':
+      default:
+        return 'medicine.only_if_needed'.tr();
+    }
   }
 }
