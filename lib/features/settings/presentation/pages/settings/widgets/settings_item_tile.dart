@@ -11,6 +11,7 @@ class SettingsItemTile extends StatelessWidget {
   final Color? iconColor;
   final Color? iconBg;
   final String? trailing;
+  final Widget? trailingWidget;
   final bool isLogout;
   final bool showArrow;
   final VoidCallback onTap;
@@ -23,6 +24,7 @@ class SettingsItemTile extends StatelessWidget {
     this.iconColor,
     this.iconBg,
     this.trailing,
+    this.trailingWidget,
     this.isLogout = false,
     this.showArrow = true,
     required this.onTap,
@@ -61,7 +63,7 @@ class SettingsItemTile extends StatelessWidget {
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: isLogout
-                      ? const Color(0xFFFF5252)
+                      ? AppColors.typoError
                       : AppColors.typoBlack,
                 ),
               ),
@@ -78,10 +80,14 @@ class SettingsItemTile extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
             ],
+            if (trailingWidget != null) ...[
+              trailingWidget!,
+              SizedBox(width: 4.w),
+            ],
             if (showArrow)
               Icon(
                 Icons.chevron_right_rounded,
-                size: 20.sp,
+                size: 24.sp,
                 color: AppColors.typoDisable,
               ),
           ],

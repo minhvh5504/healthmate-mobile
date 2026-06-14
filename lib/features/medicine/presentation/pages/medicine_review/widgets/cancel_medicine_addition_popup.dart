@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,7 @@ class CancelMedicineAdditionPopup extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Hủy bỏ thêm thuốc',
+              'medicine.scan.cancel_title'.tr(),
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 20.sp,
@@ -42,7 +43,7 @@ class CancelMedicineAdditionPopup extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Text(
-              'Bạn có muốn hủy bỏ thêm thuốc? Tất cả thông tin đã nhập sẽ không được lưu lại.',
+              'medicine.scan.cancel_message'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Inter',
@@ -54,7 +55,7 @@ class CancelMedicineAdditionPopup extends StatelessWidget {
             ),
             SizedBox(height: 32.h),
             Button(
-              text: 'Xác nhận hủy',
+              text: 'medicine.scan.cancel_confirm'.tr(),
               color: AppColors.typoError,
               onPressed: () {
                 onConfirm();
@@ -65,7 +66,7 @@ class CancelMedicineAdditionPopup extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Button(
-              text: 'Quay lại',
+              text: 'medicine.scan.cancel_back'.tr(),
               color: Colors.white,
               textColor: AppColors.typoBlack,
               borderColor: const Color(0xFFF1F5F9),

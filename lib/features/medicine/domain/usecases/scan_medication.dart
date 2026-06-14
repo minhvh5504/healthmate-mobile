@@ -6,14 +6,16 @@ class ScanMedication {
   ScanMedication(this.repository);
 
   Future<ScanTask> call({
-    required String scannedText,
+    String? scannedText,
     String? shape,
     Map<String, dynamic>? rawData,
+    String? imagePath,
   }) {
     return repository.scan(
       scannedText: scannedText,
       shape: shape,
       rawData: rawData,
+      imagePath: imagePath,
     );
   }
 }

@@ -40,7 +40,7 @@ class _ChatApi implements ChatApi {
     return _value;
   }
 
-  
+  @override
   Future<dynamic> clearChatHistory() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

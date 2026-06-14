@@ -7,6 +7,7 @@ import 'package:healthmate_mobile/features/medicine/presentation/providers/medic
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../domain/entities/daily_schedule_item.dart';
+import 'medicine_log_success_dialog.dart';
 
 class MedicineLoggedPopup extends ConsumerWidget {
   final DailyScheduleItem item;
@@ -47,7 +48,18 @@ class MedicineLoggedPopup extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -155,9 +167,15 @@ class MedicineLoggedPopup extends ConsumerWidget {
 
           // Action Button
           GestureDetector(
-            onTap: () {
-              ref.read(medicineProvider.notifier).onChangeStatus(item);
+            onTap: () async {
+              final navigator = Navigator.of(context, rootNavigator: true);
               context.pop();
+              final success = await ref
+                  .read(medicineProvider.notifier)
+                  .onChangeStatus(item);
+              if (success && navigator.mounted) {
+                MedicineLogSuccessDialog.show(navigator.context);
+              }
             },
             child: Column(
               children: [

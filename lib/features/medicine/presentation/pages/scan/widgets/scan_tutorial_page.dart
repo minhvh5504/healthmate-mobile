@@ -66,7 +66,7 @@ class ScanTutorialPage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.typoHeading,
+                          color: AppColors.typoBlack,
                         ),
                       ),
                       SizedBox(height: 8.h),

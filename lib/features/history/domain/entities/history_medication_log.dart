@@ -8,6 +8,7 @@ class HistoryMedicationLog {
   final String status;
   final DateTime? actualAt;
   final DateTime createdAt;
+  final String? loggedMealInstruction;
   final UserMedication? userMedication;
   final Map<String, dynamic>? reminderSchedule;
   final int? actualQuantity;
@@ -20,6 +21,7 @@ class HistoryMedicationLog {
     required this.status,
     this.actualAt,
     required this.createdAt,
+    this.loggedMealInstruction,
     this.userMedication,
     this.reminderSchedule,
     this.actualQuantity,
@@ -35,6 +37,9 @@ class HistoryMedicationLog {
       reminderSchedule?['dosage']?.toString() ?? userMedication?.dosage;
 
   String? get mealInstruction {
+    final loggedSlug = loggedMealInstruction;
+    if (loggedSlug != null && loggedSlug.isNotEmpty) return loggedSlug;
+
     final slug = userMedication?.mealInstruction;
     if (slug != null && slug.isNotEmpty) return slug;
 

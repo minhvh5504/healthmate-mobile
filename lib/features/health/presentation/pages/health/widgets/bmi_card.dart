@@ -82,7 +82,7 @@ class BMICard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              bmi > 0 ? bmi.toStringAsFixed(1) : '—',
+                              bmi > 0 ? bmi.toStringAsFixed(1) : '0.0',
                               style: TextStyle(
                                 fontSize: 32.sp,
                                 fontWeight: FontWeight.bold,
@@ -90,21 +90,19 @@ class BMICard extends StatelessWidget {
                                 height: 1,
                               ),
                             ),
-                            if (bmi > 0) ...[
-                              SizedBox(width: 4.w),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 4.h),
-                                child: Text(
-                                  'kg/m²',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: AppColors.typoBody.withValues(
-                                      alpha: 0.4,
-                                    ),
+                            SizedBox(width: 4.w),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 4.h),
+                              child: Text(
+                                'kg/m²',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: AppColors.typoBody.withValues(
+                                    alpha: 0.4,
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ],
                         ),
                       ],

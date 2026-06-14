@@ -118,9 +118,14 @@ class MedicineDetailPreviewEditNotifier
       final currentScannedData = Map<String, dynamic>.from(
         state.medication['scannedData'] ?? {},
       );
-      currentScannedData['customName'] = state.medication['name'];
-      currentScannedData['customManufacturer'] =
-          state.medication['manufacturer'];
+      if (state.medicationId != null) {
+        currentScannedData.remove('customName');
+        currentScannedData.remove('customManufacturer');
+      } else {
+        currentScannedData['customName'] = state.medication['name'];
+        currentScannedData['customManufacturer'] =
+            state.medication['manufacturer'];
+      }
 
       await _updateUserMedication(
         id: id,

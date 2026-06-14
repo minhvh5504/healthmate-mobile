@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/features/chat/domain/entities/chat_message.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
@@ -108,18 +111,76 @@ class _AssistantMessage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12.h),
-                Text(
-                  content,
-                  style: TextStyle(
-                    color: AppColors.typoBlack,
-                    fontSize: 14.sp,
-                    height: 1.28,
-                  ),
-                ),
+                isStreaming && content == '...'
+                    ? const _TypingDotsIndicator()
+                    : Text(
+                        content,
+                        style: TextStyle(
+                          color: AppColors.typoBlack,
+                          fontSize: 14.sp,
+                          height: 1.28,
+                        ),
+                      ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TypingDotsIndicator extends StatefulWidget {
+  const _TypingDotsIndicator();
+
+  @override
+  State<_TypingDotsIndicator> createState() => _TypingDotsIndicatorState();
+}
+
+class _TypingDotsIndicatorState extends State<_TypingDotsIndicator> {
+  // Forward: 0 → 1 → 2 → 0 → 1 → 2 → ...
+  static const _sequence = [0, 1, 2];
+  int _step = 0;
+
+  late final Stream<int> _ticker;
+  late final StreamSubscription<int> _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = Stream<int>.periodic(
+      const Duration(milliseconds: 400),
+      (i) => i,
+    );
+    _sub = _ticker.listen((_) {
+      if (!mounted) return;
+      setState(() => _step = (_step + 1) % _sequence.length);
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 20.h,
+      child: AnimatedSmoothIndicator(
+        activeIndex: _sequence[_step],
+        count: 3,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        effect: ExpandingDotsEffect(
+          dotHeight: 8.h,
+          dotWidth: 8.w,
+          expansionFactor: 1.5,
+          spacing: 6.w,
+          dotColor: AppColors.chatSendButton.withValues(alpha: 0.3),
+          activeDotColor: AppColors.chatSendButton,
+        ),
       ),
     );
   }

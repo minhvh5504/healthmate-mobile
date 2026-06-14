@@ -8,12 +8,14 @@ import '../../../../../../core/theme/app_colors.dart';
 class SettingsUserCard extends StatelessWidget {
   final String username;
   final String? avatarUrl;
+  final bool isUploadingAvatar;
   final VoidCallback? onEditAvatar;
 
   const SettingsUserCard({
     super.key,
     required this.username,
     this.avatarUrl,
+    this.isUploadingAvatar = false,
     this.onEditAvatar,
   });
 
@@ -38,9 +40,19 @@ class SettingsUserCard extends StatelessWidget {
                 color: AppColors.bgHover,
               ),
               child: ClipOval(
-                child: avatarUrl != null
+                child: avatarUrl != null && avatarUrl!.isNotEmpty
                     ? Image.network(
-                        avatarUrl!,
+                        Uri.parse(avatarUrl!)
+                            .replace(
+                              queryParameters: {
+                                ...Uri.parse(avatarUrl!).queryParameters,
+                                't':
+                                    (DateTime.now().millisecondsSinceEpoch ~/
+                                            1000)
+                                        .toString(),
+                              },
+                            )
+                            .toString(),
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => const _DefaultAvatar(),
                       )
@@ -48,12 +60,32 @@ class SettingsUserCard extends StatelessWidget {
               ),
             ),
 
+            if (isUploadingAvatar)
+              Container(
+                width: 90.w,
+                height: 90.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black.withValues(alpha: 0.35),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: 22.w,
+                    height: 22.w,
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 2.4,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+
             // Camera badge
             Positioned(
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: onEditAvatar,
+                onTap: isUploadingAvatar ? null : onEditAvatar,
                 child: Container(
                   width: 28.w,
                   height: 28.w,

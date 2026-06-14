@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/constants/constant_url.dart';
 
 class MedicineReminderTopIcon extends StatelessWidget {
   const MedicineReminderTopIcon({super.key});
@@ -11,18 +14,26 @@ class MedicineReminderTopIcon extends StatelessWidget {
       width: 60.w,
       height: 60.w,
       decoration: BoxDecoration(
-        color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+        gradient: AppColors.backgroundGradient,
         shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF434B94).withValues(alpha: 0.12),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+          BoxShadow(
+            color: const Color(0xFF434B94).withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Center(
-        child: Container(
-          width: 36.w,
-          height: 36.w,
-          decoration: const BoxDecoration(
-            color: Color(0xFF64748B),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(LucideIcons.clock, color: Colors.white, size: 20.sp),
+        child: SvgPicture.asset(
+          AppIcons.medicineClock,
+          width: 20.sp,
+          height: 20.sp,
         ),
       ),
     );

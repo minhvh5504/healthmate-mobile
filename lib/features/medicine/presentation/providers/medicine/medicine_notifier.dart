@@ -7,6 +7,7 @@ import 'package:healthmate_mobile/features/medicine/domain/usecases/update_medic
 import 'package:healthmate_mobile/features/medicine/domain/usecases/update_user_medication.dart';
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/app_toast.dart';
 import '../../pages/medicine/widgets/medicine_quantity_popup.dart';
 import '../../pages/medicine_options/widgets/stop_medication_popup.dart';
 import '../../pages/medicine/widgets/family_selection_bottom_sheet.dart';
@@ -243,27 +244,36 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     );
 
     if (task != null) {
+      final isMatched = task.status == ScanStatus.success;
       final medications =
           task.userMedications
               ?.map(
                 (m) => {
-                  'name': m.effectiveName != '-'
-                      ? m.effectiveName
-                      : 'medicine.preview.unknown'.tr(),
-                  'genericName':
-                      m.medication?.genericName ??
-                      'medicine.preview.basic_medicine'.tr(),
-                  'manufacturer': m.effectiveManufacturer != '-'
+                  'name': isMatched
+                      ? (m.medication?.name ??
+                            (m.effectiveName != '-'
+                                ? m.effectiveName
+                                : 'medicine.preview.unknown'.tr()))
+                      : (m.scannedData?['scannedText']?.toString() ??
+                            (m.effectiveName != '-'
+                                ? m.effectiveName
+                                : 'medicine.preview.unknown'.tr())),
+                  'genericName': isMatched
+                      ? (m.medication?.genericName ??
+                            'medicine.preview.basic_medicine'.tr())
+                      : 'medicine.scan.no_results_found'.tr(),
+                  'manufacturer': isMatched && m.effectiveManufacturer != '-'
                       ? m.effectiveManufacturer
                       : null,
-                  'dosage': m.medication?.dosage,
+                  'dosage': isMatched ? m.medication?.dosage : null,
                   'id': m.id,
-                  'medicationId': m.medicationId,
+                  'medicationId': isMatched ? m.medicationId : null,
                   'scannedData': m.scannedData,
                   'frequency': m.frequency,
                   'schedules': m.schedules,
                   'stockCount': m.stockCount,
-                  'unit': m.medication?.unit,
+                  'unit': isMatched ? m.medication?.unit : null,
+                  'isMatched': isMatched,
                 },
               )
               .toList() ??
@@ -291,6 +301,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     String? errorMessage,
     List<UserMedication>? userMedications,
     String? newId,
+    String? imagePath,
   }) {
     _updateTask(
       id,
@@ -298,6 +309,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
       errorMessage: errorMessage,
       userMedications: userMedications,
       newId: newId,
+      imagePath: imagePath,
     );
   }
 
@@ -321,6 +333,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     String? errorMessage,
     List<UserMedication>? userMedications,
     String? newId,
+    String? imagePath,
   }) {
     final updatedTasks = state.scanTasks.map((task) {
       if (task.id == id) {
@@ -329,7 +342,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
           createdAt: task.createdAt,
           status: status,
           errorMessage: errorMessage ?? task.errorMessage,
-          imagePath: task.imagePath,
+          imagePath: imagePath ?? task.imagePath,
           userMedications: userMedications ?? task.userMedications,
         );
       }
@@ -385,7 +398,8 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
       await fetchDailySchedule();
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(errorMessage: e.toString(), isLoading: false);
+      AppToast.error(e);
+      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -398,7 +412,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
       state = state.copyWith(dailySchedule: schedule);
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(errorMessage: e.toString());
+      AppToast.error(e);
     }
   }
 
@@ -443,7 +457,15 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -493,6 +515,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         medication.reminderSchedules?.map((s) {
           final map = s as Map<String, dynamic>;
           return {
+            'id': map['id'],
             'time': map['remindTime'] ?? map['time'],
             'quantity': map['quantity'] ?? 1,
           };
@@ -551,7 +574,15 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -583,12 +614,13 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     }
   }
 
-  Future<void> recordMedicationLog({
+  Future<bool> recordMedicationLog({
     required String userMedicationId,
     String? reminderScheduleId,
     required String status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) async {
     try {
       await _recordMedicationLog(
@@ -597,83 +629,114 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         status: status,
         actualQuantity: actualQuantity,
         actualAt: actualAt,
+        mealInstruction: mealInstruction,
       );
-      if (!mounted) return;
+      if (!mounted) return false;
       await fetchDailySchedule();
+      return true;
     } catch (e) {
-      if (!mounted) return;
-      state = state.copyWith(errorMessage: e.toString());
+      if (!mounted) return false;
+      AppToast.error(e);
+      return false;
     }
   }
 
-  void onTakeMedication({
+  DateTime _selectedDateWithTime(String? time) {
+    final date = state.selectedDate;
+    final parts = (time ?? '08:00').split(':');
+    final hour = int.tryParse(parts.isNotEmpty ? parts[0] : '') ?? 8;
+    final minute = int.tryParse(parts.length > 1 ? parts[1] : '') ?? 0;
+    return DateTime(date.year, date.month, date.day, hour, minute);
+  }
+
+  Future<bool> onTakeMedication({
     required DailyScheduleItem item,
     int? quantity,
     String? selectedTime,
-  }) {
-    final date = state.selectedDate;
-    final parts = (selectedTime ?? item.remindTime ?? '08:00').split(':');
-    final takenDate = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      int.parse(parts[0]),
-      int.parse(parts[1]),
-    );
+  }) async {
+    if (_isFutureSelectedDate()) {
+      AppToast.warning('medicine.log_status.future_locked'.tr());
+      return false;
+    }
+
+    final takenDate = _selectedDateWithTime(selectedTime ?? item.remindTime);
 
     final finalQuantity = quantity ?? item.quantity ?? 1;
 
     if (item.logId != null) {
-      updateMedicationLog(
+      return updateMedicationLog(
         id: item.logId!,
         status: 'taken',
         actualQuantity: finalQuantity,
         actualAt: takenDate,
+        mealInstruction: item.mealInstruction,
       );
     } else {
-      recordMedicationLog(
+      return recordMedicationLog(
         userMedicationId: item.userMedicationId,
         reminderScheduleId: item.reminderScheduleId,
         status: 'taken',
         actualQuantity: finalQuantity,
         actualAt: takenDate,
+        mealInstruction: item.mealInstruction,
       );
     }
   }
 
-  void onMissMedication({required DailyScheduleItem item, int? quantity}) {
+  Future<bool> onMissMedication({
+    required DailyScheduleItem item,
+    int? quantity,
+  }) async {
+    if (_isFutureSelectedDate()) {
+      AppToast.warning('medicine.log_status.future_locked'.tr());
+      return false;
+    }
+
     final finalQuantity = quantity ?? item.quantity ?? 1;
+    final missedDate = _selectedDateWithTime(item.remindTime);
 
     if (item.logId != null) {
-      updateMedicationLog(
+      return updateMedicationLog(
         id: item.logId!,
         status: 'missed',
         actualQuantity: finalQuantity,
+        actualAt: missedDate,
+        mealInstruction: item.mealInstruction,
       );
     } else {
-      recordMedicationLog(
+      return recordMedicationLog(
         userMedicationId: item.userMedicationId,
         reminderScheduleId: item.reminderScheduleId,
         status: 'missed',
         actualQuantity: finalQuantity,
+        actualAt: missedDate,
+        mealInstruction: item.mealInstruction,
       );
     }
   }
 
-  void onChangeStatus(DailyScheduleItem item) {
+  bool _isFutureSelectedDate() {
+    final selected = state.selectedDate;
+    final today = DateTime.now();
+    final selectedDay = DateTime(selected.year, selected.month, selected.day);
+    final todayOnly = DateTime(today.year, today.month, today.day);
+    return selectedDay.isAfter(todayOnly);
+  }
+
+  Future<bool> onChangeStatus(DailyScheduleItem item) {
     final isTaken = item.status.toLowerCase() == 'taken';
     if (isTaken) {
-      onMissMedication(item: item);
-    } else {
-      onTakeMedication(item: item, selectedTime: item.remindTime);
+      return onMissMedication(item: item);
     }
+    return onTakeMedication(item: item, selectedTime: item.remindTime);
   }
 
-  Future<void> updateMedicationLog({
+  Future<bool> updateMedicationLog({
     required String id,
     String? status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) async {
     try {
       await _updateMedicationLog(
@@ -681,12 +744,15 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         status: status,
         actualQuantity: actualQuantity,
         actualAt: actualAt,
+        mealInstruction: mealInstruction,
       );
-      if (!mounted) return;
+      if (!mounted) return false;
       await fetchDailySchedule();
+      return true;
     } catch (e) {
-      if (!mounted) return;
-      state = state.copyWith(errorMessage: e.toString());
+      if (!mounted) return false;
+      AppToast.error(e);
+      return false;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -25,6 +26,7 @@ class _MedicineCabinetContentState
     extends ConsumerState<MedicineCabinetContent> {
   bool isDangDungExpanded = true;
   bool isDaDungExpanded = false;
+  bool isScanTasksExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,11 @@ class _MedicineCabinetContentState
 
     // Filter lists
     final dangDungList = activeMedications.where((m) {
-      final stock = m.stockCount ?? 30;
-      return stock > 0;
+      return m.stockCount == null || m.stockCount! > 0;
     }).toList();
 
     final daDungList = activeMedications.where((m) {
-      final stock = m.stockCount ?? 30;
-      return stock == 0;
+      return m.stockCount == 0;
     }).toList();
 
     final bool isEmpty =
@@ -58,7 +58,7 @@ class _MedicineCabinetContentState
     }
 
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
       children: [
         Column(
           children: [
@@ -67,13 +67,43 @@ class _MedicineCabinetContentState
               title: 'medicine.add_medicine.title'.tr(),
               onTap: notifier.onAddMedicine,
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 8.h),
           ],
         ),
 
-        ...scanTasks.map((t) => _buildScanTaskCard(context, t)),
+        ...scanTasks.take(2).map((t) => _buildScanTaskCard(context, t)),
 
-        if (dangDungList.isNotEmpty)
+        if (scanTasks.length > 2) ...[
+          ClipRect(
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              alignment: Alignment.topCenter,
+              child: isScanTasksExpanded
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: scanTasks.skip(2).map((t) {
+                        return _buildScanTaskCard(context, t)
+                            .animate()
+                            .fadeIn(duration: 200.ms)
+                            .slideY(begin: 0.1, end: 0, duration: 200.ms);
+                      }).toList(),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ),
+          _buildToggleExpandButton(
+            isExpanded: isScanTasksExpanded,
+            onTap: () {
+              setState(() {
+                isScanTasksExpanded = !isScanTasksExpanded;
+              });
+            },
+          ),
+          SizedBox(height: 8.h),
+        ],
+
+        if (dangDungList.isNotEmpty) ...[
           _buildSectionHeader(
             title: '${'medicine.in_use'.tr()} (${dangDungList.length})',
             isExpanded: isDangDungExpanded,
@@ -83,12 +113,38 @@ class _MedicineCabinetContentState
               });
             },
           ),
-        if (isDangDungExpanded)
-          ...dangDungList.map(
-            (m) => _buildActiveMedicationCard(context, m, notifier),
+          ClipRect(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              switchInCurve: Curves.easeInOut,
+              switchOutCurve: Curves.easeInOut,
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SizeTransition(
+                  sizeFactor: animation,
+                  axisAlignment: -1.0,
+                  child: FadeTransition(opacity: animation, child: child),
+                );
+              },
+              child: isDangDungExpanded
+                  ? Column(
+                      key: const ValueKey('dangDung_expanded'),
+                      mainAxisSize: MainAxisSize.min,
+                      children: dangDungList
+                          .map(
+                            (m) => _buildActiveMedicationCard(
+                              context,
+                              m,
+                              notifier,
+                            ),
+                          )
+                          .toList(),
+                    )
+                  : const SizedBox.shrink(key: ValueKey('dangDung_collapsed')),
+            ),
           ),
+        ],
 
-        if (daDungList.isNotEmpty)
+        if (daDungList.isNotEmpty) ...[
           _buildSectionHeader(
             title: '${'medicine.used'.tr()} (${daDungList.length})',
             isExpanded: isDaDungExpanded,
@@ -98,10 +154,36 @@ class _MedicineCabinetContentState
               });
             },
           ),
-        if (isDaDungExpanded)
-          ...daDungList.map(
-            (m) => _buildActiveMedicationCard(context, m, notifier),
+          ClipRect(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              switchInCurve: Curves.easeInOut,
+              switchOutCurve: Curves.easeInOut,
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SizeTransition(
+                  sizeFactor: animation,
+                  axisAlignment: -1.0,
+                  child: FadeTransition(opacity: animation, child: child),
+                );
+              },
+              child: isDaDungExpanded
+                  ? Column(
+                      key: const ValueKey('daDung_expanded'),
+                      mainAxisSize: MainAxisSize.min,
+                      children: daDungList
+                          .map(
+                            (m) => _buildActiveMedicationCard(
+                              context,
+                              m,
+                              notifier,
+                            ),
+                          )
+                          .toList(),
+                    )
+                  : const SizedBox.shrink(key: ValueKey('daDung_collapsed')),
+            ),
           ),
+        ],
         SizedBox(height: 70.h),
       ],
     );
@@ -116,13 +198,25 @@ class _MedicineCabinetContentState
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
+        padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
         child: Row(
           children: [
-            Icon(
-              isExpanded ? LucideIcons.chevronDown : LucideIcons.chevronRight,
-              size: 20.sp,
-              color: AppColors.typoHeading,
+            Container(
+              width: 20.w,
+              height: 20.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.typoDisable, width: 1.8.w),
+              ),
+              child: Center(
+                child: Icon(
+                  isExpanded
+                      ? LucideIcons.chevronDown
+                      : LucideIcons.chevronRight,
+                  size: 12.sp,
+                  color: AppColors.typoDisable,
+                ),
+              ),
             ),
             SizedBox(width: 8.w),
             Text(
@@ -235,7 +329,7 @@ class _MedicineCabinetContentState
     }
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: GestureDetector(
         onTap: () {
           if (task.status == ScanStatus.processing) return;
@@ -298,7 +392,7 @@ class _MedicineCabinetContentState
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: task.status == ScanStatus.failed
-                            ? AppColors.typoHeading
+                            ? AppColors.typoBlack
                             : AppColors.typoBody.withValues(alpha: 0.6),
                       ),
                     ),
@@ -317,13 +411,36 @@ class _MedicineCabinetContentState
     );
   }
 
+  String _frequencyLabel(UserMedication medication) {
+    String? repeatType = medication.frequency;
+    final schedules = medication.reminderSchedules;
+    if (schedules != null && schedules.isNotEmpty) {
+      final first = schedules.first;
+      if (first is Map<String, dynamic>) {
+        repeatType = first['repeatType']?.toString() ?? repeatType;
+      } else if (first is Map) {
+        repeatType = first['repeatType']?.toString() ?? repeatType;
+      }
+    }
+
+    switch (repeatType) {
+      case 'daily':
+        return 'medicine.daily'.tr();
+      case 'specific_days':
+        return 'medicine.reminder.specific_days'.tr();
+      case 'as_needed':
+      default:
+        return 'medicine.only_if_needed'.tr();
+    }
+  }
+
   Widget _buildActiveMedicationCard(
     BuildContext context,
     UserMedication medication,
     MedicineNotifier notifier,
   ) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
+      margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.fromLTRB(18.w, 18.h, 18.w, 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -373,8 +490,7 @@ class _MedicineCabinetContentState
                     ),
                     SizedBox(height: 6.h),
                     Text(
-                      medication.medication?.genericName ??
-                          'medicine.daily'.tr(),
+                      _frequencyLabel(medication),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -387,7 +503,7 @@ class _MedicineCabinetContentState
 
                     Text(
                       'medicine.stock_remaining'.tr(
-                        args: [(medication.stockCount ?? 30).toString()],
+                        args: [(medication.stockCount ?? 0).toString()],
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -459,6 +575,57 @@ class _MedicineCabinetContentState
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildToggleExpandButton({
+    required bool isExpanded,
+    required VoidCallback onTap,
+  }) {
+    return Center(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24.r),
+            border: Border.all(
+              color: AppColors.typoDisable.withValues(alpha: 0.28),
+              width: 1.5.w,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                isExpanded
+                    ? 'medicine.scan.collapse'.tr()
+                    : 'medicine.scan.show_all'.tr(),
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.typoBlack,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Icon(
+                isExpanded ? LucideIcons.chevronUp : LucideIcons.chevronDown,
+                size: 16.sp,
+                color: AppColors.typoBlack,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

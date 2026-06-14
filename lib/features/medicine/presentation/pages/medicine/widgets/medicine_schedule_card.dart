@@ -10,8 +10,14 @@ import 'medicine_schedule_popup.dart';
 class MedicineScheduleCard extends StatelessWidget {
   final DailyScheduleItem item;
   final VoidCallback? onTap;
+  final bool canLogMedication;
 
-  const MedicineScheduleCard({super.key, required this.item, this.onTap});
+  const MedicineScheduleCard({
+    super.key,
+    required this.item,
+    this.onTap,
+    this.canLogMedication = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +30,23 @@ class MedicineScheduleCard extends StatelessWidget {
     if (isMissed) borderColor = AppColors.typoError;
 
     return GestureDetector(
-      onTap:
-          onTap ??
-          () {
-            if (status != 'pending') {
-              MedicineLoggedPopup.show(context, item);
-            } else {
-              final instruction = getMealInstructionText(
-                context,
-                item.mealInstruction,
-              );
-              MedicineSchedulePopup.show(context, item, instruction);
-            }
-          },
+      onTap: canLogMedication
+          ? (onTap ??
+                () {
+                  if (status != 'pending') {
+                    MedicineLoggedPopup.show(context, item);
+                  } else {
+                    final instruction = getMealInstructionText(
+                      context,
+                      item.mealInstruction,
+                    );
+                    MedicineSchedulePopup.show(context, item, instruction);
+                  }
+                })
+          : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: 12.h),
+        margin: EdgeInsets.only(bottom: 8.h),
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -114,7 +121,7 @@ class MedicineScheduleCard extends StatelessWidget {
                 ],
               ),
             ),
-            _buildTrailingWidget(status),
+            _buildTrailingWidget(status, canLogMedication),
           ],
         ),
       ),
@@ -129,7 +136,7 @@ class MedicineScheduleCard extends StatelessWidget {
     return LucideIcons.moon;
   }
 
-  Widget _buildTrailingWidget(String status) {
+  Widget _buildTrailingWidget(String status, bool canLogMedication) {
     if (status == 'taken') {
       return Container(
         width: 24.w,
@@ -151,6 +158,10 @@ class MedicineScheduleCard extends StatelessWidget {
         ),
         child: Icon(LucideIcons.x, color: Colors.white, size: 16.sp),
       );
+    }
+
+    if (!canLogMedication) {
+      return SizedBox(width: 20.w);
     }
 
     return Icon(

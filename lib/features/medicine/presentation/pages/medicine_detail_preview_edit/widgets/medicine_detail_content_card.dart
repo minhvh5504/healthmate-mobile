@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../domain/entities/medication_condition.dart';
 import '../../../providers/medicine_detail_preview_edit/medicine_detail_preview_edit_notifier.dart';
 import '../../../providers/medicine_detail_preview_edit/medicine_detail_preview_edit_provider.dart';
@@ -27,19 +27,17 @@ class MedicineDetailContentCard extends ConsumerWidget {
       child: MedicineDetailsCard(
         items: [
           DetailItemData(
-            icon: LucideIcons.pill,
+            icon: AppIcons.medicine,
             label: 'medicine.preview.name_label'.tr(),
             value: name,
             field: 'name',
             onTap: notifier.onEditName,
           ),
           DetailItemData(
-            icon: LucideIcons.droplet,
+            icon: AppIcons.dosage,
             label: 'medicine.preview.dosage_label'.tr(),
             value:
-                state.medication['dosage'] ??
-                state.medication['dosage'] ??
-                '-',
+                state.medication['dosage'] ?? state.medication['dosage'] ?? '-',
             field: 'dosage',
             onTap: () => _showDosagePopup(
               context,
@@ -48,7 +46,7 @@ class MedicineDetailContentCard extends ConsumerWidget {
             ),
           ),
           DetailItemData(
-            icon: LucideIcons.plusSquare,
+            icon: AppIcons.addItem,
             label: 'medicine.condition.label'.tr(),
             value: genericName,
             field: 'genericName',
@@ -107,7 +105,18 @@ class MedicineDetailContentCard extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }
@@ -147,7 +156,6 @@ class MedicineDetailContentCard extends ConsumerWidget {
                   initialValue: initialValue,
                   onSave: (id, custom, label) {
                     notifier.updateCondition(id, custom, label);
-                    context.pop();
                   },
                 ),
               ),
@@ -156,7 +164,18 @@ class MedicineDetailContentCard extends ConsumerWidget {
         );
       },
       transitionBuilder: (context, anim1, anim2, child) {
-        return FadeTransition(opacity: anim1, child: child);
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(
+                parent: anim1,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
       },
     );
   }

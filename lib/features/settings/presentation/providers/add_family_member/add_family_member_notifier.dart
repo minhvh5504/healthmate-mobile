@@ -5,7 +5,6 @@ import 'package:healthmate_mobile/features/settings/presentation/providers/add_f
 import 'package:healthmate_mobile/features/settings/presentation/providers/family_connection/family_connection_provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../../../../core/routing/app_router.dart';
-import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/utils/validation.dart';
 
 /// STATE
@@ -13,7 +12,6 @@ class AddFamilyMemberState {
   final bool isLoading;
   final TextEditingController emailController;
   final String? errorMessage;
-  final bool isSuccess;
   final bool emailValid;
   final bool hasEmailError;
   final bool isValid;
@@ -23,32 +21,26 @@ class AddFamilyMemberState {
     this.isLoading = false,
     required this.emailController,
     this.errorMessage,
-    this.isSuccess = false,
     this.emailValid = false,
     this.hasEmailError = false,
     this.isValid = false,
-    // this.invitationLink,
   });
 
   AddFamilyMemberState copyWith({
     bool? isLoading,
     TextEditingController? emailController,
     String? errorMessage,
-    bool? isSuccess,
     bool? emailValid,
     bool? hasEmailError,
     bool? isValid,
-    // String? invitationLink,
   }) {
     return AddFamilyMemberState(
       isLoading: isLoading ?? this.isLoading,
       emailController: emailController ?? this.emailController,
       errorMessage: errorMessage,
-      isSuccess: isSuccess ?? this.isSuccess,
       emailValid: emailValid ?? this.emailValid,
       hasEmailError: hasEmailError ?? this.hasEmailError,
       isValid: isValid ?? this.isValid,
-      // invitationLink: invitationLink ?? this.invitationLink,
     );
   }
 }
@@ -100,11 +92,7 @@ class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
       final inviteUseCase = ref.read(inviteFamilyMemberUseCaseProvider);
       await inviteUseCase(email);
 
-      state = state.copyWith(
-        isLoading: false,
-        isSuccess: true,
-        // invitationLink: link,
-      );
+      state = state.copyWith(isLoading: false);
 
       // Show success toast
       toastification.show(
@@ -114,9 +102,9 @@ class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
         style: ToastificationStyle.flat,
       );
 
-      // Refresh list
+      // Refresh list then navigate back
       await ref.read(familyConnectionProvider.notifier).onRefresh();
-      // AppRouter.router.pop(); // Don't pop yet, let them copy the link if they want
+      AppRouter.router.pop(true);
     } catch (e) {
       final errorMsg = e.toString().contains('Exception:')
           ? e.toString().split('Exception:').last.trim()
@@ -136,7 +124,7 @@ class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
 
   /// Handle Back
   void onBack() {
-    AppRouter.router.go(AppRoutes.familyConnection);
+    AppRouter.router.pop();
   }
 
   /*

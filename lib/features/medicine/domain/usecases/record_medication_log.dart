@@ -11,6 +11,7 @@ class RecordMedicationLog {
     required String status,
     int? actualQuantity,
     DateTime? actualAt,
+    String? mealInstruction,
   }) {
     return repository.createMedicationLog(
       userMedicationId: userMedicationId,
@@ -18,6 +19,7 @@ class RecordMedicationLog {
       status: status,
       actualQuantity: actualQuantity,
       actualAt: actualAt,
+      mealInstruction: mealInstruction,
     );
   }
 }

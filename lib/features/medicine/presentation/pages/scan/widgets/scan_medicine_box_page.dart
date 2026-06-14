@@ -6,7 +6,9 @@ import 'scan_tip_item.dart';
 import 'scan_tutorial_page.dart';
 
 class ScanMedicineBoxPage extends ConsumerWidget {
-  const ScanMedicineBoxPage({super.key});
+  final String? fromTaskId;
+
+  const ScanMedicineBoxPage({super.key, this.fromTaskId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,7 +16,7 @@ class ScanMedicineBoxPage extends ConsumerWidget {
     final notifier = ref.read(scanMedicineProvider.notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifier.setScanType(ScanType.medicineBox);
+      notifier.setScanType(ScanType.medicineBox, fromTaskId: fromTaskId);
     });
 
     ref.listen(scanMedicineProvider.select((s) => s.errorMessage), (

@@ -21,7 +21,7 @@ class MedicineDetailTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 24.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.typoHeading,
+            color: AppColors.typoBlack,
           ),
         ),
         Text(
@@ -29,7 +29,7 @@ class MedicineDetailTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 24.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.typoHeading,
+            color: AppColors.typoBlack,
           ),
         ),
       ],

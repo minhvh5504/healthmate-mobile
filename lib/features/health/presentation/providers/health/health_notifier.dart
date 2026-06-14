@@ -236,7 +236,6 @@ class HealthNotifier extends StateNotifier<HealthState> {
     try {
       final profile = await _getUserProfile();
       if (!mounted) return;
-
       _updateStateWithProfile(profile);
       await _ref.read(userProfileProvider.notifier).fetchProfile(force: true);
       await fetchHealthAnalysis();
@@ -268,7 +267,10 @@ class HealthNotifier extends StateNotifier<HealthState> {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final updatedProfile = state.userProfile!.copyWith(
+      final currentProfile = state.userProfile!;
+      final updatedProfile = UserProfile(
+        id: currentProfile.id,
+        email: currentProfile.email,
         heightCm: height,
         weightKg: weight,
       );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/routing/app_routes.dart';
@@ -22,8 +23,10 @@ class MedicineReviewState {
 
   List<dynamic> get schedules => medication['schedules'] ?? [];
 
+  String get unit => medication['unit'] ?? 'medicine.unit_default'.tr();
+
   String get timeInfo => !isAsNeeded && schedules.isNotEmpty
-      ? '${schedules[0]['time']} • ${schedules[0]['quantity'] ?? schedules[0]['doses'] ?? 1} ${medication['unit'] ?? 'viên'}'
+      ? '${schedules[0]['time']} • ${schedules[0]['quantity'] ?? schedules[0]['doses'] ?? 1} $unit'
       : '';
 
   MedicineReviewState copyWith({

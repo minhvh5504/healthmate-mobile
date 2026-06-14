@@ -8,6 +8,7 @@ import '../../providers/notifications/setting_noti_provider.dart';
 import '../../providers/notifications/setting_noti_notifier.dart';
 
 import '../../../../../core/widgets/header/profile_header.dart';
+import 'widgets/notification_settings_skeleton.dart';
 
 class NotificationSettingsPage extends ConsumerWidget {
   const NotificationSettingsPage({super.key});
@@ -23,33 +24,21 @@ class NotificationSettingsPage extends ConsumerWidget {
         height: double.infinity,
         decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
-          child: state.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Use ProfileHeader with only onBack for this screen
-                    ProfileHeader(onBack: () => notifier.onBack()),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Use ProfileHeader with only onBack for this screen
+              ProfileHeader(onBack: () => notifier.onBack()),
 
-                    Expanded(
-                      child: SingleChildScrollView(
+              Expanded(
+                child: state.isLoading
+                    ? const NotificationSettingsSkeleton()
+                    : SingleChildScrollView(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 12.h),
-
-                            // Notification Section Header
-                            _buildSectionHeader(
-                              Icons.notifications_active_rounded,
-                              'settings.notifications'.tr(),
-                            ),
-                            SizedBox(height: 16.h),
-
-                            // Main Notification Controls Card
-                            _buildNotificationControls(state, notifier),
-
-                            SizedBox(height: 32.h),
 
                             // Time Settings Section Header
                             _buildSectionHeader(
@@ -75,9 +64,9 @@ class NotificationSettingsPage extends ConsumerWidget {
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -101,6 +90,7 @@ class NotificationSettingsPage extends ConsumerWidget {
     );
   }
 
+  /*
   Widget _buildNotificationControls(
     SettingNotiState state,
     SettingNotiNotifier notifier,
@@ -214,6 +204,7 @@ class NotificationSettingsPage extends ConsumerWidget {
       ],
     );
   }
+  */
 
   Widget _buildTimeSettingsCard(
     SettingNotiState state,

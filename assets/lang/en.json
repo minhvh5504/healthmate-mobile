@@ -9,7 +9,8 @@
     "back": "Back",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "retry": "Retry"
+    "retry": "Retry",
+    "delete": "Delete"
   },
   "common": {
     "cancel": "Cancel",
@@ -142,7 +143,8 @@
     "error_invalid_email": "Invalid email address",
     "errors": {
       "user_not_found": "User not found",
-      "unexpected": "An unexpected error occurred"
+      "unexpected": "An unexpected error occurred",
+      "failed_connect_server": "Failed to connect to the server"
     },
     "user_not_found_dialog": {
       "title": "Oh no!",
@@ -165,7 +167,11 @@
     "errors": {
       "invalid_phone_or_email": "User information not found.",
       "invalid_password": "Invalid password",
-      "unexpected": "An unexpected error occurred"
+      "unexpected": "An unexpected error occurred",
+      "invalid_token": "The reset link has expired or is invalid. Please request a new code.",
+      "user_not_found": "User not found",
+      "account_disabled": "Your account has been disabled by the administrator.",
+      "failed_connect_server": "Failed to connect to the server"
     }
   },
   "settings": {
@@ -177,6 +183,10 @@
     "support": "Support & Feedback",
     "app_version": "App Version 1.0",
     "member_of": "Member of ",
+    "avatar_take_photo": "Take a new photo",
+    "avatar_upload_photo": "Choose from library",
+    "avatar_update_success": "Avatar updated successfully",
+    "avatar_permission_denied": "Please grant permission to update your avatar.",
     "profile_subtitle": "Update your profile for better personalized care",
     "full_name": "Full Name",
     "gender": "Gender",
@@ -185,8 +195,8 @@
     "weight": "Weight",
     "email": "Email",
     "notifications_settings": "Notification Settings",
-    "noti_time_settings": "Time Settings",
-    "noti_time_desc": "Set notification time for each period",
+    "noti_time_settings": "Notification Times",
+    "noti_time_desc": "Notification times for each period",
     "enable_notifications": "Enable Notifications",
     "sound_notifications": "Sound Notifications",
     "on": "ON",
@@ -249,7 +259,8 @@
     "success_subtitle": "The connection invitation has been successfully sent to your relative.",
     "footer_text": "You can connect up to {}/{} supporters.",
     "invite_success": "Invitation sent successfully!",
-    "invite_failed": "Failed to send invitation. Please try again."
+    "invite_failed": "Failed to send invitation. Please try again.",
+    "link_copied": "Invitation link copied!"
   },
   "medicine": {
     "tab_schedule": "Schedule",
@@ -263,7 +274,9 @@
       "scan_box": "Scan medicine box",
       "search_results": "Search results",
       "custom_medicine": "Custom medicine",
-      "no_results": "No results found"
+      "no_results": "No results found",
+      "quick_add_by": "Or quickly add by",
+      "start_scan": "Start scanning"
     },
     "errors": {
       "unexpected": "Something went wrong. Please try again."
@@ -284,7 +297,7 @@
     "dosage_popup_title": "Add dosage",
     "dosage_label": "Strength",
     "save": "Save",
-    "only_if_needed": "ONLY IF NEEDED",
+    "only_if_needed": "Only when needed",
     "scan": {
       "success_title": "Awesome!",
       "success_message": "You have successfully set up your medications.",
@@ -293,8 +306,14 @@
       "complete": "Complete",
       "unknown_name": "Unknown",
       "basic_medicine": "Basic medicine",
-      "results_found": "{} medication(s) found! Please\ncheck the info to avoid errors.",
+      "results_found": "Add medications to cabinet! Please\ndouble check the information to avoid errors.",
       "no_results_found": "No medications found!\nYou can try again or add manually.",
+      "unrecognized_title": "Image not recognized",
+      "unrecognized_message_prefix": "The scan could not be completed because the image was not recognized. Tap ",
+      "unrecognized_message_suffix": " below to try again.",
+      "retry": "Try again",
+      "show_all": "Show all",
+      "collapse": "Collapse",
       "review_title": "Review your medications",
       "take_photo": "Take photo",
       "upload_photo": "Upload photo",
@@ -305,7 +324,8 @@
       "action": {
         "delete_all": "Delete all",
         "add_to_cabinet": "Add to cabinet",
-        "add_manually": "Add manually"
+        "add_manually": "Add manually",
+        "skip": "Skip"
       },
       "tips": {
         "box_title": "Tips for clear medicine photos",
@@ -318,7 +338,14 @@
         "prescription_best_results": "For best results, use printed prescriptions. Handwritten ones may not scan accurately."
       },
       "error_permission": "Please grant permission to scan.",
-      "error_no_text": "No text found in the image."
+      "error_no_text": "No text found in the image.",
+      "review_message": "Add medications to your cabinet! Please double check the information to avoid errors.",
+      "cancel_add": "Cancel adding medicine",
+      "add_to_cabinet": "Add to medicine cabinet",
+      "cancel_title": "Cancel adding medicine",
+      "cancel_message": "Do you want to cancel adding this medicine? All entered information will not be saved.",
+      "cancel_confirm": "Confirm cancel",
+      "cancel_back": "Go back"
     },
     "options": {
       "save_info": "Save medicine info",
@@ -401,6 +428,7 @@
       "sun": "Sun",
       "next": "Next",
       "change_time": "Change time",
+      "change_quantity": "Change dose quantity",
       "date_popup_message": "Reminders will be disabled after the expiration date.",
       "month_year_format": "month {} year {}",
       "days_full": {
@@ -438,13 +466,30 @@
       "updated_missed": "Updated: Missed",
       "updated_taken": "Updated: Taken at {}",
       "taken_at": "Taken at {}",
-      "user_selected_missed": "User selected missed from popup"
+      "user_selected_missed": "User selected missed from popup",
+      "future_locked": "You can update medication logs only on today or past days",
+      "success_message": "Updated successfully"
     },
     "family_popup": {
       "title": "Caring for relatives",
       "subtitle": "Choose a person to view or add new",
       "me": "me",
       "add_supporter": "Add supporter"
+    },
+    "unit_default": "tablet(s)",
+    "period": {
+      "morning": "MORNING",
+      "afternoon": "AFTERNOON",
+      "evening": "EVENING"
+    },
+    "weekdays_short": {
+      "mon": "MON",
+      "tue": "TUE",
+      "wed": "WED",
+      "thu": "THU",
+      "fri": "FRI",
+      "sat": "SAT",
+      "sun": "SUN"
     }
   },
   "bottom_nav": {
@@ -531,7 +576,14 @@
       "under": "{}, UNDER {}",
       "between": "{}, {}-{}"
     },
-    "save": "Save"
+    "save": "Save",
+    "status_higher": "higher",
+    "status_lower": "lower",
+    "status_normal": "similar",
+    "higher_than_average": "Higher than average",
+    "normal_than_average": "Normal",
+    "peer_description_male": "MALE, {} YEARS OLD",
+    "peer_description_female": "FEMALE, {} YEARS OLD"
   },
   "medicine_stock": {
     "save": "Save",
@@ -582,6 +634,8 @@
     "mark_all_read": "Mark all as read",
     "delete_all": "Delete all",
     "empty_state": "You have no notifications",
+    "filter_all": "All",
+    "filter_today": "Today",
     "today": "TODAY",
     "earlier": "EARLIER",
     "confirm_delete_title": "Confirm Delete",
@@ -595,6 +649,10 @@
     "title": "AI Assistant",
     "welcome_prefix": "Hello ",
     "welcome_body": ", what can I help you with?",
+    "morning_greeting": "Good morning",
+    "afternoon_greeting": "Good afternoon",
+    "evening_greeting": "Good evening",
+    "welcome_subtitle": "How can I help you take care of your health today?",
     "previous_conversations": "Previous conversations",
     "suggestion1": "What medicines do I need to take today and at what time?",
     "suggestion2": "How much medicine do I have left and when do I need to restock?",
@@ -610,5 +668,15 @@
   "app_header": {
     "greeting": "Hello! ",
     "welcome": "Welcome back"
+  },
+  "error": {
+    "unknown": "Something went wrong, please try again",
+    "timeout": "Connection timed out, please try again",
+    "no_connection": "No internet connection, please check your network",
+    "unauthorized": "Session expired, please log in again",
+    "forbidden": "You don't have permission to do this",
+    "not_found": "Data not found",
+    "server": "Server error, please try again later",
+    "bad_response": "Invalid response from server"
   }
 }

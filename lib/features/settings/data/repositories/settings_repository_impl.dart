@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../domain/entities/family_connection.dart';
 import '../../domain/entities/notification_time.dart';
 import '../../domain/entities/user_profile.dart';
@@ -17,6 +19,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<UserProfile> updateProfile(UserProfile profile) {
     return remoteDataSource.updateProfile(profile);
+  }
+
+  @override
+  Future<UserProfile> uploadAvatar(File file) {
+    return remoteDataSource.uploadAvatar(file);
   }
 
   @override
@@ -43,7 +50,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> acceptInvitation(String relationshipId) {
     return remoteDataSource.acceptInvitation(relationshipId);
   }
-  
+
   @override
   Future<void> acceptInvitationByToken(String token) {
     return remoteDataSource.acceptInvitationByToken(token);

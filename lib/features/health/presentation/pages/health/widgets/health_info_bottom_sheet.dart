@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class HealthInfoBottomSheet extends StatelessWidget {
@@ -81,10 +83,14 @@ class HealthInfoBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Center(
-                        child: Icon(
-                          LucideIcons.lightbulb,
-                          color: const Color(0xFFC084FC),
-                          size: 24.sp,
+                        child: SvgPicture.asset(
+                          AppIcons.healthNote,
+                          width: 24.w,
+                          height: 24.w,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFFC084FC),
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ),

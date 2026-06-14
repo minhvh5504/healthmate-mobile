@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:healthmate_mobile/core/providers/user_provider.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -23,120 +23,121 @@ class ChatStarterView extends ConsumerStatefulWidget {
 }
 
 class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      ref.read(userProfileProvider.notifier).fetchProfile();
-    });
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) {
+      return 'chat.morning_greeting'.tr();
+    } else if (hour >= 12 && hour < 18) {
+      return 'chat.afternoon_greeting'.tr();
+    } else {
+      return 'chat.evening_greeting'.tr();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProfileProvider);
-    final fullName = user?.displayName ?? '';
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 120.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 24.h),
-          InkWell(
-            onTap: widget.onBack,
-            borderRadius: BorderRadius.circular(50.r),
-            child: Container(
-              width: 36.w,
-              height: 36.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 120.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: widget.onBack,
+                  borderRadius: BorderRadius.circular(50.r),
+                  child: Container(
+                    width: 36.w,
+                    height: 36.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 16.sp,
+                      color: AppColors.typoBlack,
+                    ),
                   ),
-                ],
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 16.sp,
-                color: AppColors.typoBlack,
-              ),
+                ),
+                GestureDetector(
+                  onTap: widget.onHistoryTap,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF13172E),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'history.title'.tr(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Icon(
+                          LucideIcons.history,
+                          size: 16.r,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 20.h),
-          // Welcome Title
-          RichText(
-            text: TextSpan(
+            SizedBox(height: 16.h),
+            Image.asset(
+              AppImages.aiChatIdle,
+              width: 64.w,
+              height: 64.w,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              _getGreeting(),
               style: TextStyle(
                 fontSize: 28.sp,
                 fontWeight: FontWeight.bold,
                 height: 1.2,
                 color: AppColors.typoBlack,
               ),
-              children: [
-                TextSpan(text: 'chat.welcome_prefix'.tr()),
-                TextSpan(
-                  text: fullName,
-                  style: const TextStyle(color: AppColors.typoHeading),
-                ),
-                TextSpan(text: 'chat.welcome_body'.tr()),
-              ],
             ),
-          ),
-          SizedBox(height: 16.h),
-          // Previous Conversations Button
-          GestureDetector(
-            onTap: widget.onHistoryTap,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(20.r),
-                border: Border.all(
-                  color: AppColors.lightPurple.withValues(alpha: 0.3),
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'chat.previous_conversations'.tr(),
-                    style: TextStyle(
-                      color: const Color(0xFF434B94),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  Icon(
-                    LucideIcons.history,
-                    size: 16.r,
-                    color: const Color(0xFF434B94),
-                  ),
-                ],
+            SizedBox(height: 8.h),
+            Text(
+              'chat.welcome_subtitle'.tr(),
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.normal,
+                height: 1.4,
+                color: AppColors.typoBlack,
               ),
             ),
-          ),
-          SizedBox(height: 36.h),
-          // Suggestions
-          _buildSuggestionCard('chat.suggestion1'.tr()),
-          _buildSuggestionCard('chat.suggestion2'.tr()),
-          _buildSuggestionCard('chat.suggestion3'.tr()),
-          SizedBox(height: 24.h),
-          // Disclaimer
-          Text(
-            'chat.disclaimer'.tr(),
-            style: TextStyle(
-              color: AppColors.typoBody.withValues(alpha: 0.6),
-              fontSize: 12.sp,
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: 24.h),
-        ],
+            SizedBox(height: 24.h),
+            // Suggestions
+            _buildSuggestionCard('chat.suggestion1'.tr()),
+            _buildSuggestionCard('chat.suggestion2'.tr()),
+            _buildSuggestionCard('chat.suggestion3'.tr()),
+          ],
+        ),
       ),
     );
   }
@@ -146,7 +147,7 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
       onTap: () => widget.onSuggestionTap(text),
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(bottom: 12.h),
+        margin: EdgeInsets.only(bottom: 8.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
           color: Colors.white,

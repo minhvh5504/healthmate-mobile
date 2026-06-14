@@ -73,10 +73,17 @@ class MedicineReminderEditState {
 }
 
 class ScheduleDoseEdit {
+  final String? id;
   final String time; // format "HH:mm"
   final int quantity;
 
-  ScheduleDoseEdit({required this.time, required this.quantity});
+  ScheduleDoseEdit({this.id, required this.time, required this.quantity});
+
+  Map<String, dynamic> toPayload() => {
+    if (id != null && id!.isNotEmpty) 'id': id,
+    'time': time,
+    'quantity': quantity,
+  };
 }
 
 class MedicineReminderEditNotifier
@@ -131,6 +138,7 @@ class MedicineReminderEditNotifier
       initialSchedules = rawSchedules
           .map(
             (s) => ScheduleDoseEdit(
+              id: s['id']?.toString(),
               time: s['time']?.toString() ?? '08:00',
               quantity: (s['quantity'] is int)
                   ? s['quantity']
@@ -218,6 +226,10 @@ class MedicineReminderEditNotifier
     state = state.copyWith(frequency: frequency);
   }
 
+  void updateFrequencyAndDays(String frequency, List<int> days) {
+    state = state.copyWith(frequency: frequency, selectedDays: days);
+  }
+
   void toggleDay(int day) {
     final updated = List<int>.from(state.selectedDays);
     if (updated.contains(day)) {
@@ -288,6 +300,7 @@ class MedicineReminderEditNotifier
     final updated = List<ScheduleDoseEdit>.from(state.schedules);
     if (index >= 0 && index < updated.length) {
       updated[index] = ScheduleDoseEdit(
+        id: updated[index].id,
         time: time ?? updated[index].time,
         quantity: quantity ?? updated[index].quantity,
       );
@@ -324,9 +337,7 @@ class MedicineReminderEditNotifier
           selectedDays: isAsNeeded ? null : state.selectedDays,
           schedules: isAsNeeded
               ? null
-              : state.schedules
-                    .map((s) => {'time': s.time, 'quantity': s.quantity})
-                    .toList(),
+              : state.schedules.map((s) => s.toPayload()).toList(),
           reminderEnabled: state.reminderEnabled,
         );
         await ref.read(medicineProvider.notifier).fetchActiveMedications();

@@ -123,6 +123,8 @@ class MedicineReminderDatePopup extends ConsumerWidget {
               onChanged: (val) => notifier.toggleEndDateEnabled(val),
               activeThumbColor: const Color(0xFF22C55E),
               activeTrackColor: const Color(0xFF22C55E).withValues(alpha: 0.2),
+              inactiveThumbColor: AppColors.typoDisable,
+              inactiveTrackColor: AppColors.typoDisable.withValues(alpha: 0.2),
             ),
           ],
         ),

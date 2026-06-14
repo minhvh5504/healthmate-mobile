@@ -17,12 +17,13 @@ class HistoryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(historyProvider);
+    final bottomNavClearance = 48.h + 12.h + 32.h;
 
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(color: Color(0xFFF2F4FD)),
+        decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -61,7 +62,7 @@ class HistoryPage extends ConsumerWidget {
                               duration: 220.ms,
                               delay: 180.ms,
                             ),
-                            SizedBox(height: 48.h),
+                            SizedBox(height: bottomNavClearance),
                           ],
                         ),
                 ),

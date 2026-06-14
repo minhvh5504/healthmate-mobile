@@ -52,7 +52,7 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
 
   /// Handle Back
   void onBack() {
-    AppRouter.router.go(AppRoutes.settings);
+    AppRouter.router.pop();
   }
 
   /// Handle Add Member

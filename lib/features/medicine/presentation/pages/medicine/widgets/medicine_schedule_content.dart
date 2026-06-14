@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/widgets/button/button.dart';
@@ -19,6 +20,7 @@ class MedicineScheduleContent extends ConsumerWidget {
     final notifier = ref.read(medicineProvider.notifier);
 
     final schedule = state.dailySchedule;
+    final canLogMedication = !_isFutureDate(state.selectedDate);
 
     if (schedule == null) {
       return const MedicineScheduleListSkeleton();
@@ -30,7 +32,8 @@ class MedicineScheduleContent extends ConsumerWidget {
         schedule.evening.isNotEmpty;
 
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
       children: [
         if (!hasData)
           const MedicineEmptyState()
@@ -39,30 +42,48 @@ class MedicineScheduleContent extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (schedule.morning.isNotEmpty) ...[
-                _buildSectionHeader('SÁNG', LucideIcons.sun),
-                SizedBox(height: 12.h),
-                ...schedule.morning.map(
-                  (item) => MedicineScheduleCard(item: item),
+                _buildSectionHeader(
+                  'medicine.period.morning'.tr(),
+                  AppIcons.medicineSunny,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                ...schedule.morning.map(
+                  (item) => MedicineScheduleCard(
+                    item: item,
+                    canLogMedication: canLogMedication,
+                  ),
+                ),
+                SizedBox(height: 8.h),
               ],
 
               if (schedule.afternoon.isNotEmpty) ...[
-                _buildSectionHeader('CHIỀU', LucideIcons.sunset),
-                SizedBox(height: 12.h),
-                ...schedule.afternoon.map(
-                  (item) => MedicineScheduleCard(item: item),
+                _buildSectionHeader(
+                  'medicine.period.afternoon'.tr(),
+                  AppIcons.medicineSunny,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                ...schedule.afternoon.map(
+                  (item) => MedicineScheduleCard(
+                    item: item,
+                    canLogMedication: canLogMedication,
+                  ),
+                ),
+                SizedBox(height: 8.h),
               ],
 
               if (schedule.evening.isNotEmpty) ...[
-                _buildSectionHeader('TỐI', LucideIcons.moon),
-                SizedBox(height: 12.h),
-                ...schedule.evening.map(
-                  (item) => MedicineScheduleCard(item: item),
+                _buildSectionHeader(
+                  'medicine.period.evening'.tr(),
+                  AppIcons.medicineNight,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                ...schedule.evening.map(
+                  (item) => MedicineScheduleCard(
+                    item: item,
+                    canLogMedication: canLogMedication,
+                  ),
+                ),
+                SizedBox(height: 8.h),
               ],
 
               SizedBox(height: 8.h),
@@ -84,10 +105,17 @@ class MedicineScheduleContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, IconData icon) {
+  bool _isFutureDate(DateTime date) {
+    final today = DateTime.now();
+    final selectedDay = DateTime(date.year, date.month, date.day);
+    final todayOnly = DateTime(today.year, today.month, today.day);
+    return selectedDay.isAfter(todayOnly);
+  }
+
+  Widget _buildSectionHeader(String title, String iconPath) {
     return Row(
       children: [
-        Icon(icon, size: 20.sp, color: Colors.orange),
+        Image.asset(iconPath, width: 20.w, height: 20.w),
         SizedBox(width: 8.w),
         Text(
           title,

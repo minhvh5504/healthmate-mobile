@@ -11,6 +11,7 @@ class HistoryMedicationLogModel extends HistoryMedicationLog {
     required super.status,
     super.actualAt,
     required super.createdAt,
+    super.loggedMealInstruction,
     super.userMedication,
     super.reminderSchedule,
     super.actualQuantity,
@@ -27,6 +28,7 @@ class HistoryMedicationLogModel extends HistoryMedicationLog {
           ? DateTime.parse(json['actualAt'] as String)
           : null,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      loggedMealInstruction: json['mealInstruction']?.toString(),
       userMedication: json['userMedication'] != null
           ? UserMedicationModel.fromJson(
               json['userMedication'] as Map<String, dynamic>,
@@ -46,6 +48,7 @@ class HistoryMedicationLogModel extends HistoryMedicationLog {
       'status': status,
       'actualAt': actualAt?.toIso8601String(),
       'createdAt': createdAt.toIso8601String(),
+      'mealInstruction': loggedMealInstruction,
       'reminderSchedule': reminderSchedule,
       'actualQuantity': actualQuantity,
     };

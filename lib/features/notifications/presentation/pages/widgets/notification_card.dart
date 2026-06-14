@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/dialog/not_found_dialog.dart';
 import '../../../domain/entities/notification_entity.dart';
@@ -29,6 +31,7 @@ class NotificationCard extends StatelessWidget {
           builder: (context) => AccountNotFoundDialog(
             title: 'notifications.confirm_delete_title'.tr(),
             message: 'notifications.confirm_delete_message'.tr(),
+            showIcon: false,
             primaryButtonText: 'dialog.confirm'.tr(),
             secondaryButtonText: 'dialog.cancel'.tr(),
             onPrimaryPressed: () {
@@ -41,7 +44,7 @@ class NotificationCard extends StatelessWidget {
       },
       onDismissed: (_) => onDelete?.call(),
       background: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
@@ -50,17 +53,17 @@ class NotificationCard extends StatelessWidget {
         ),
         child: Icon(Icons.delete_outline, color: Colors.white, size: 28.sp),
       ),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+        padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: notification.isRead
-              ? Colors.white.withValues(alpha: 0.8)
-              : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 16,
               offset: const Offset(0, 4),
             ),
           ],
@@ -70,71 +73,74 @@ class NotificationCard extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(24.r),
-            child: Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildIcon(),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                notification.title,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.typoHeading,
-                                ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildIcon(),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              notification.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.typoBlack,
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  _formatTime(
-                                    notification.sentAt ??
-                                        notification.scheduledFor,
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: AppColors.typoDisable,
-                                  ),
-                                ),
-                                if (!notification.isRead) ...[
-                                  SizedBox(width: 8.w),
-                                  Container(
-                                    width: 8.w,
-                                    height: 8.w,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ],
-                              ],
+                          ),
+                          if (!notification.isRead) ...[
+                            SizedBox(width: 8.w),
+                            Container(
+                              width: 8.w,
+                              height: 8.w,
+                              margin: EdgeInsets.only(top: 4.h),
+                              decoration: const BoxDecoration(
+                                color: AppColors.bgSuccess,
+                                shape: BoxShape.circle,
+                              ),
                             ),
                           ],
+                        ],
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        _formatDateTime(
+                          notification.sentAt ?? notification.scheduledFor,
                         ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          notification.body,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.typoBody,
-                            height: 1.4,
-                          ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.typoBlack.withValues(alpha: 0.74),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        notification.body,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.typoNavi.withValues(alpha: 0.82),
+                          height: 1.45,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -143,48 +149,31 @@ class NotificationCard extends StatelessWidget {
   }
 
   Widget _buildIcon() {
-    Color bgColor;
-    IconData iconData;
-
-    switch (notification.type.toLowerCase()) {
-      case 'medicine':
-      case 'medication':
-        bgColor = const Color(0xFFC5C8E9);
-        iconData = Icons.medication;
-        break;
-      case 'security':
-      case 'password':
-        bgColor = const Color(0xFFFFB29D);
-        iconData = Icons.lock;
-        break;
-      default:
-        bgColor = AppColors.lightBlue;
-        iconData = Icons.notifications;
-    }
-
     return Container(
-      width: 50.w,
-      height: 50.w,
+      width: 48.w,
+      height: 48.w,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: bgColor,
+        color: const Color(0xFF6B66FF),
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6B66FF).withValues(alpha: 0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Center(
-        child: Icon(iconData, color: Colors.white, size: 24.w),
+      child: SvgPicture.asset(
+        AppIcons.bell,
+        width: 30.w,
+        height: 30.w,
+        colorFilter: const ColorFilter.mode(AppColors.bgWhite, BlendMode.srcIn),
       ),
     );
   }
 
-  String _formatTime(DateTime time) {
-    final now = DateTime.now();
-    final difference = now.difference(time);
-
-    if (difference.inDays == 0) {
-      return DateFormat('HH:mm').format(time);
-    } else if (difference.inDays < 7) {
-      return DateFormat('E, HH:mm').format(time);
-    } else {
-      return DateFormat('dd/MM/yyyy').format(time);
-    }
+  String _formatDateTime(DateTime time) {
+    return DateFormat('MMM dd, yyyy | hh:mm a').format(time);
   }
 }

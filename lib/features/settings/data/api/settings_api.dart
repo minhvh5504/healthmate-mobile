@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -16,6 +18,10 @@ abstract class SettingsApi {
 
   @PATCH('profile')
   Future<UserProfileModel> updateProfile(@Body() Map<String, dynamic> body);
+
+  @MultiPart()
+  @POST('upload/avatar')
+  Future<dynamic> uploadAvatar(@Part(name: 'file') File file);
 
   @POST('auth/change-password')
   Future<void> changePassword(@Body() Map<String, dynamic> body);

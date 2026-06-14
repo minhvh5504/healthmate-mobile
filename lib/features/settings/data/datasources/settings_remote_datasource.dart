@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../api/settings_api.dart';
 import '../models/family_member_model.dart';
 import '../../domain/entities/user_profile.dart';
@@ -24,6 +26,18 @@ class SettingsRemoteDataSource {
       if (profile.allergies != null) 'allergies': profile.allergies,
     };
     return _api.updateProfile(data);
+  }
+
+  Future<UserProfile> uploadAvatar(File file) async {
+    final response = await _api.uploadAvatar(file);
+    final newAvatarUrl =
+        (response?['data'] as Map<String, dynamic>?)?['url'] as String?;
+
+    final profile = await _api.getProfile();
+    if (newAvatarUrl != null && newAvatarUrl.isNotEmpty) {
+      return profile.copyWith(avatarUrl: newAvatarUrl);
+    }
+    return profile;
   }
 
   Future<void> changePassword(String currentPassword, String newPassword) {

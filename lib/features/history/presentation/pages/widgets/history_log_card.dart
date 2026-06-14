@@ -25,7 +25,7 @@ class HistoryLogCard extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: 12.h),
+        margin: EdgeInsets.only(bottom: 8.h),
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -57,11 +57,8 @@ class HistoryLogCard extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(
-                _getSectionIcon(log.remindTime),
-                color: Colors.white,
-                size: 24.sp,
-              ),
+              alignment: Alignment.center,
+              child: _buildIcon(log.remindTime),
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -107,14 +104,6 @@ class HistoryLogCard extends StatelessWidget {
     );
   }
 
-  IconData _getSectionIcon(String? remindTime) {
-    if (remindTime == null) return LucideIcons.calendar;
-    final hour = int.tryParse(remindTime.split(':')[0]) ?? 0;
-    if (hour < 12) return LucideIcons.sun;
-    if (hour < 18) return LucideIcons.sunset;
-    return LucideIcons.moon;
-  }
-
   Widget _buildTrailingWidget(String status) {
     if (status == 'taken') {
       return Container(
@@ -156,5 +145,28 @@ class HistoryLogCard extends StatelessWidget {
       return slug;
     }
     return translated;
+  }
+
+  Widget _buildIcon(String? remindTime) {
+    IconData iconData;
+    if (remindTime == null || remindTime.isEmpty) {
+      iconData = LucideIcons.calendar;
+    } else {
+      try {
+        final parts = remindTime.split(':');
+        final hour = int.parse(parts[0]);
+        if (hour < 12) {
+          iconData = LucideIcons.sun;
+        } else if (hour < 18) {
+          iconData = LucideIcons.sunset;
+        } else {
+          iconData = LucideIcons.moon;
+        }
+      } catch (_) {
+        iconData = LucideIcons.calendar;
+      }
+    }
+
+    return Icon(iconData, color: Colors.white, size: 24.sp);
   }
 }

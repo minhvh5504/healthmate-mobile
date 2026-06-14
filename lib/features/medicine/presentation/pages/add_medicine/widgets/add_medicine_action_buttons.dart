@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class AddMedicineActionButtons extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            'Hoặc thêm nhanh bằng',
+            'medicine.add_medicine.quick_add_by'.tr(),
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 15.sp,
@@ -29,7 +30,7 @@ class AddMedicineActionButtons extends ConsumerWidget {
           SizedBox(height: 26.h),
           AddMedicineActionCard(
             icon: LucideIcons.camera,
-            label: 'Bắt đầu chụp',
+            label: 'medicine.add_medicine.start_scan'.tr(),
             onTap: notifier.onScanMedicineBox,
           ),
         ],

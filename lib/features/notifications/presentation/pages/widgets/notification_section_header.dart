@@ -5,29 +5,26 @@ import '../../../../../core/theme/app_colors.dart';
 class NotificationSectionHeader extends StatelessWidget {
   final String title;
 
-  const NotificationSectionHeader({
-    super.key,
-    required this.title,
-  });
+  const NotificationSectionHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+      padding: EdgeInsets.fromLTRB(20.w, 12.h, 24.w, 8.h),
       child: Row(
         children: [
           Text(
             title,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 13.sp,
               fontWeight: FontWeight.bold,
-              color: AppColors.typoDisable,
-              letterSpacing: 1.2,
+              color: AppColors.typoNavi.withValues(alpha: 0.42),
+              letterSpacing: 1.1,
             ),
           ),
           SizedBox(width: 8.w),
           Expanded(
-            child: Divider(color: AppColors.typoDisable.withValues(alpha: 0.3)),
+            child: Divider(color: AppColors.typoNavi.withValues(alpha: 0.12)),
           ),
         ],
       ),

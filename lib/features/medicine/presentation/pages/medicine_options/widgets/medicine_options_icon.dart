@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../../../core/constants/constant_url.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineOptionsIcon extends StatelessWidget {
@@ -9,8 +10,8 @@ class MedicineOptionsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.w,
-      height: 100.w,
+      width: 80.w,
+      height: 80.w,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
@@ -20,17 +21,11 @@ class MedicineOptionsIcon extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Container(
-          padding: EdgeInsets.all(12.w),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Icon(
-            LucideIcons.moreHorizontal,
-            color: Colors.white,
-            size: 32.sp,
-          ),
+        child: SvgPicture.asset(
+          AppIcons.medicine,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          width: 36.sp,
+          height: 36.sp,
         ),
       ),
     );

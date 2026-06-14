@@ -43,7 +43,8 @@ class SettingsPage extends ConsumerWidget {
                         SettingsUserCard(
                           username: profile?.displayName ?? 'Joyer',
                           avatarUrl: profile?.avatarUrl,
-                          onEditAvatar: notifier.onEditAvatar,
+                          isUploadingAvatar: state.isUploadingAvatar,
+                          onEditAvatar: () => notifier.onEditAvatar(context),
                         ),
 
                       SizedBox(height: 28.h),

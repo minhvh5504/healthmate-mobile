@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthmate_mobile/core/constants/constant_url.dart';
 import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/core/widgets/button/button.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_provider.dart';
@@ -16,7 +18,6 @@ class MetricInputFormatter extends TextInputFormatter {
   ) {
     if (newValue.text.isEmpty) return newValue;
 
-    // Only allow digits and one dot
     if (RegExp(r'[^0-9.]').hasMatch(newValue.text)) return oldValue;
     if ('.'.allMatches(newValue.text).length > 1) return oldValue;
 
@@ -24,11 +25,8 @@ class MetricInputFormatter extends TextInputFormatter {
     final integerPart = parts[0];
     final decimalPart = parts.length > 1 ? parts[1] : null;
 
-    // Limit integer part to 3 digits (max 999)
     if (integerPart.length > 3) return oldValue;
-
-    // Limit decimal part to 2 digits
-    if (decimalPart != null && decimalPart.length > 2) return oldValue;
+    if (decimalPart != null && decimalPart.length > 1) return oldValue;
 
     return newValue;
   }
@@ -71,22 +69,26 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
       return const TextSpan();
     }
 
-    final int dotIndex = text.indexOf('.');
+    final dotIndex = text.indexOf('.');
     if (dotIndex == -1) {
       return TextSpan(
         children: [
           _buildTextPart(text, AppColors.typoBlack),
-          _buildTextPart('.00', AppColors.typoDisable),
+          _buildTextPart('.0', AppColors.typoDisable.withValues(alpha: 0.35)),
         ],
       );
     }
 
-    final String integerPart = text.substring(0, dotIndex);
-    final String decimalPart = text.substring(dotIndex);
+    final integerPart = text.substring(0, dotIndex);
+    final decimalPart = text.substring(dotIndex);
+    final decimalHint = decimalPart == '.' ? '.0' : decimalPart;
     return TextSpan(
       children: [
         _buildTextPart(integerPart, AppColors.typoBlack),
-        _buildTextPart(decimalPart, AppColors.typoDisable),
+        _buildTextPart(
+          decimalHint,
+          AppColors.typoDisable.withValues(alpha: 0.35),
+        ),
       ],
     );
   }
@@ -98,7 +100,7 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
         color: color,
         fontSize: 64.sp,
         fontWeight: FontWeight.w900,
-        letterSpacing: -2,
+        letterSpacing: 0,
       ),
     );
   }
@@ -136,10 +138,10 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            LucideIcons.calendarRange,
-                            size: 16.sp,
-                            color: AppColors.typoBody,
+                          SvgPicture.asset(
+                            AppIcons.calendarRange,
+                            width: 16.w,
+                            height: 16.w,
                           ),
                           SizedBox(width: 8.w),
                           Text(
@@ -147,7 +149,7 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.typoHeading,
+                              color: AppColors.typoBlack,
                             ),
                           ),
                         ],
@@ -174,22 +176,22 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
               ],
             ),
             SizedBox(height: 16.h),
-            Container(
-              width: 80.w,
-              height: 80.h,
-              decoration: BoxDecoration(
-                color: const Color(0xFF6C728E).withValues(alpha: 0.8),
-                shape: BoxShape.circle,
+
+            Center(
+              child: SvgPicture.asset(
+                AppIcons.medicineMoreLight,
+                width: 80.sp,
+                height: 80.sp,
               ),
-              child: Icon(LucideIcons.flame, color: Colors.white, size: 40.sp),
             ),
+
             SizedBox(height: 16.h),
             Text(
               'health.height_title'.tr(),
               style: TextStyle(
                 fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.typoHeading,
+                color: AppColors.typoBlack,
               ),
             ),
             SizedBox(height: 8.h),
@@ -220,7 +222,7 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                     child: Icon(
                       LucideIcons.info,
                       size: 12.sp,
-                      color: AppColors.typoHeading,
+                      color: AppColors.typoBlack,
                     ),
                   ),
                 ),
@@ -265,7 +267,7 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                             fontWeight: FontWeight.w900,
                             color: Colors.transparent,
                             height: 1.1,
-                            letterSpacing: -2,
+                            letterSpacing: 0,
                           ),
                           decoration: const InputDecoration(
                             border: InputBorder.none,

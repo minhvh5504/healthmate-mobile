@@ -1,14 +1,25 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../network/api_client.dart';
+import '../network/api_base.dart';
 import '../services/socket_realtime_service.dart';
 import '../../features/auth/presentation/providers/auth/auth_provider.dart';
 
 /// Singleton SocketRealtimeService provider.
 final realtimeServiceProvider = Provider<SocketRealtimeService>((ref) {
   final service = SocketRealtimeService();
+  var disposed = false;
+
+  Future<void> registerCurrentDeviceToken(String accessToken) async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (disposed || fcmToken == null) return;
+
+    await ref
+        .read(deviceTokenServiceProvider)
+        .registerToken(fcmToken, accessToken: accessToken);
+  }
 
   // Auto-connect when auth token is available, auto-disconnect on logout.
   ref.listen(authProvider, (prev, next) {
@@ -16,12 +27,8 @@ final realtimeServiceProvider = Provider<SocketRealtimeService>((ref) {
     if (token != null && prev?.accessToken != token) {
       service.connect(token);
 
-      // Also trigger device token registration on login
-      FirebaseMessaging.instance.getToken().then((fcmToken) {
-        if (fcmToken != null) {
-          ref.read(deviceTokenServiceProvider).registerToken(fcmToken);
-        }
-      });
+      // Also trigger device token registration on login.
+      registerCurrentDeviceToken(token);
     } else if (token == null && prev?.accessToken != null) {
       service.disconnect();
     }
@@ -32,15 +39,14 @@ final realtimeServiceProvider = Provider<SocketRealtimeService>((ref) {
   if (initialToken != null) {
     service.connect(initialToken);
 
-    // Trigger initial registration
-    FirebaseMessaging.instance.getToken().then((fcmToken) {
-      if (fcmToken != null) {
-        ref.read(deviceTokenServiceProvider).registerToken(fcmToken);
-      }
-    });
+    // Trigger initial registration.
+    registerCurrentDeviceToken(initialToken);
   }
 
-  ref.onDispose(service.dispose);
+  ref.onDispose(() {
+    disposed = true;
+    service.dispose();
+  });
   return service;
 });
 
@@ -56,43 +62,50 @@ class DeviceTokenService {
   DeviceTokenService(this._ref);
 
   /// Register (or refresh) FCM token with the backend.
-  Future<void> registerToken(String token) async {
-    final auth = _ref.read(authProvider);
-    if (!auth.isLoggedIn || auth.accessToken == null) return;
+  Future<void> registerToken(String token, {String? accessToken}) async {
+    final authToken = accessToken ?? _ref.read(authProvider).accessToken;
+    if (authToken == null || authToken.isEmpty) return;
 
     try {
       final prefs = await SharedPreferences.getInstance();
       final saved = prefs.getString(_key);
 
-      // Skip if token unchanged
+      // Skip if token unchanged.
       if (saved == token) return;
 
-      final client = ApiClient(_ref);
-      await client.post('notifications/device-tokens', {
-        'token': token,
-        'platform': _getPlatform(),
-      });
+      final dio = Dio(BaseOptions(baseUrl: ApiBase.baseUrl));
+      await dio.post(
+        'notifications/device-tokens',
+        data: {'token': token, 'platform': _getPlatform()},
+        options: Options(headers: {'Authorization': 'Bearer $authToken'}),
+      );
 
       await prefs.setString(_key, token);
     } catch (e) {
-      // Non-critical: log and continue
+      // Non-critical: log and continue.
     }
   }
 
   /// Unregister FCM token from the backend (on logout).
-  Future<void> unregisterToken() async {
+  Future<void> unregisterToken({String? accessToken}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(_key);
 
       if (token == null) return;
 
-      final client = ApiClient(_ref);
-      await client.delete('notifications/device-tokens/$token');
+      final authToken = accessToken ?? _ref.read(authProvider).accessToken;
+      if (authToken != null && authToken.isNotEmpty) {
+        final dio = Dio(BaseOptions(baseUrl: ApiBase.baseUrl));
+        await dio.delete(
+          'notifications/device-tokens/$token',
+          options: Options(headers: {'Authorization': 'Bearer $authToken'}),
+        );
+      }
 
       await prefs.remove(_key);
     } catch (e) {
-      // Non-critical
+      // Non-critical.
     }
   }
 

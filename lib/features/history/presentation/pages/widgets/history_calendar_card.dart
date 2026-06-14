@@ -119,7 +119,7 @@ class HistoryCalendarCard extends ConsumerWidget {
           ),
           markerBuilder: (context, date, events) {
             final dayLogs = state.monthlyLogs.where((l) {
-              return isSameDay(l.createdAt, date);
+              return isSameDay(l.actualAt ?? l.createdAt, date);
             }).toList();
 
             if (dayLogs.isEmpty) return null;

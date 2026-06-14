@@ -4,7 +4,7 @@ import '../../../../../../core/theme/app_colors.dart';
 import 'medicine_detail_item.dart';
 
 class DetailItemData {
-  final IconData icon;
+  final dynamic icon;
   final String label;
   final String value;
   final String field;

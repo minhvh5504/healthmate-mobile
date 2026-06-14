@@ -74,10 +74,10 @@ class MedicineOptionsPage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           MedicineOptionsTitle(medication: medication),
-                          SizedBox(height: 24.h),
+                          SizedBox(height: 16.h),
                           const MedicineOptionsIcon(),
-                          SizedBox(height: 12.h),
-                          const MedicineOptionsLabel(),
+                          SizedBox(height: 4.h),
+                          MedicineOptionsLabel(medication: medication),
                           SizedBox(height: 32.h),
                           MedicineOptionsCard(medication: medication),
                         ],

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../constants/constant_url.dart';
 import '../../providers/bottom_nav_provider.dart';
 import '../../routing/app_routes.dart';
 import '../../theme/app_colors.dart';
@@ -56,7 +57,7 @@ class CustomBottomNavBar extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: NavBarItem(
-                        icon: LucideIcons.pill,
+                        icon: AppIcons.navigationMedicine,
                         label: 'bottom_nav.medicine'.tr(),
                         isActive: initialIndex == 0,
                         onTap: () => handleTap(AppRoutes.medicine),
@@ -66,7 +67,7 @@ class CustomBottomNavBar extends ConsumerWidget {
                     ),
                     Expanded(
                       child: NavBarItem(
-                        icon: LucideIcons.heart,
+                        icon: AppIcons.navigationHeart,
                         label: 'bottom_nav.health'.tr(),
                         isActive: initialIndex == 1,
                         onTap: () => handleTap(AppRoutes.health),
@@ -76,7 +77,7 @@ class CustomBottomNavBar extends ConsumerWidget {
                     ),
                     Expanded(
                       child: NavBarItem(
-                        icon: LucideIcons.clipboardList,
+                        icon: AppIcons.navigationList,
                         label: 'bottom_nav.history'.tr(),
                         isActive: initialIndex == 2,
                         onTap: () => handleTap(AppRoutes.history),
@@ -89,25 +90,63 @@ class CustomBottomNavBar extends ConsumerWidget {
               ),
             ),
             SizedBox(width: 18.w),
-            GestureDetector(
+            _AddNavBarButton(
               onTap: handleAddMedicine,
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                width: 64.w,
-                height: 64.w,
-                decoration: BoxDecoration(
-                  color: addColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: addColor.withValues(alpha: 0.28),
-                      blurRadius: 24,
-                      offset: const Offset(0, 12),
-                    ),
-                  ],
-                ),
-                child: Icon(LucideIcons.plus, color: Colors.white, size: 34.sp),
+              buttonColor: addColor,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AddNavBarButton extends StatefulWidget {
+  final VoidCallback onTap;
+  final Color buttonColor;
+
+  const _AddNavBarButton({
+    required this.onTap,
+    required this.buttonColor,
+  });
+
+  @override
+  State<_AddNavBarButton> createState() => _AddNavBarButtonState();
+}
+
+class _AddNavBarButtonState extends State<_AddNavBarButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOutCubic,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 64.w,
+              height: 64.w,
+              decoration: BoxDecoration(
+                color: widget.buttonColor,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: widget.buttonColor.withValues(alpha: 0.28),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
               ),
+              child: Icon(LucideIcons.plus, color: Colors.white, size: 34.sp),
             ),
           ],
         ),
