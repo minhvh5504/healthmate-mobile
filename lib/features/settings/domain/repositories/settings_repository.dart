@@ -14,4 +14,5 @@ abstract interface class SettingsRepository {
   Future<String?> inviteMember(String email);
   Future<void> acceptInvitation(String relationshipId);
   Future<void> acceptInvitationByToken(String token);
+  Future<void> removeRelationship(String relationshipId);
 }

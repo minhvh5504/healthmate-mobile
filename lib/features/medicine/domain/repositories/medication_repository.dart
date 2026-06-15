@@ -54,6 +54,8 @@ abstract class MedicationRepository {
     Map<String, dynamic>? scannedData,
   });
 
+  Future<void> deleteUserMedication(String id);
+
   Future<List<UserMedication>> getUserMedications();
   Future<List<MedicationCondition>> getMedicationConditions();
 

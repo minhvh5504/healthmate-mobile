@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +28,7 @@ class HistoryCalendarCard extends ConsumerWidget {
         ],
       ),
       child: TableCalendar(
+        locale: context.locale.toString(),
         firstDay: DateTime.utc(2020, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: state.focusedMonth,
@@ -43,6 +45,10 @@ class HistoryCalendarCard extends ConsumerWidget {
         headerStyle: HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
+          titleTextFormatter: (date, locale) {
+            final monthStr = 'history.months.${date.month}'.tr();
+            return '$monthStr ${date.year}';
+          },
           leftChevronIcon: _buildChevron(Icons.chevron_left_rounded),
           rightChevronIcon: _buildChevron(Icons.chevron_right_rounded),
           titleTextStyle: TextStyle(
@@ -59,6 +65,18 @@ class HistoryCalendarCard extends ConsumerWidget {
         daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: _dayOfWeekStyle(),
           weekendStyle: _dayOfWeekStyle(),
+          dowTextFormatter: (date, locale) {
+            final weekdays = [
+              'medicine.reminder.days_full.sun'.tr(),
+              'medicine.reminder.days_full.mon'.tr(),
+              'medicine.reminder.days_full.tue'.tr(),
+              'medicine.reminder.days_full.wed'.tr(),
+              'medicine.reminder.days_full.thu'.tr(),
+              'medicine.reminder.days_full.fri'.tr(),
+              'medicine.reminder.days_full.sat'.tr(),
+            ];
+            return weekdays[date.weekday % 7];
+          },
         ),
         calendarBuilders: CalendarBuilders(
           selectedBuilder: (context, date, events) => Container(

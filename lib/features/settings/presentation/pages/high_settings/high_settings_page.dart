@@ -65,8 +65,8 @@ class HighSettingsPage extends ConsumerWidget {
                                 context.locale.languageCode == 'vi'
                                     ? AppIcons.flagVi
                                     : AppIcons.flagEn,
-                                width: 20.w,
-                                height: 20.w,
+                                width: 28.w,
+                                height: 28.w,
                                 fit: BoxFit.cover,
                               ),
                             ),

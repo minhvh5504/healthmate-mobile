@@ -83,15 +83,14 @@ class MedicineReviewNotifier extends StateNotifier<MedicineReviewState> {
             flow.startDate!.day,
           ).toIso8601String()
         : null;
-    final endDateStr = flow.endDate != null
+    final isAsNeeded = flow.frequency == 'as_needed';
+    final endDateStr = !isAsNeeded && flow.endDate != null
         ? DateTime.utc(
             flow.endDate!.year,
             flow.endDate!.month,
             flow.endDate!.day,
           ).toIso8601String()
         : null;
-
-    final isAsNeeded = flow.frequency == 'as_needed';
 
     await _createUserMedication(
       medicationId: flow.medicationId!,
@@ -101,7 +100,7 @@ class MedicineReviewNotifier extends StateNotifier<MedicineReviewState> {
       schedules: isAsNeeded ? null : flow.schedules,
       startDate: startDateStr,
       endDate: endDateStr,
-      reminderEnabled: flow.reminderEnabled,
+      reminderEnabled: isAsNeeded ? false : flow.reminderEnabled,
       stockCount: flow.stockCount,
       lowStockThreshold: flow.lowStockThreshold,
       lowStockReminderEnabled: flow.lowStockReminderEnabled,

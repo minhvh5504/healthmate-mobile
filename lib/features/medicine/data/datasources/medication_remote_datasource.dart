@@ -81,6 +81,10 @@ class MedicationRemoteDataSource {
     await api.updateUserMedication(id, data ?? {});
   }
 
+  Future<void> deleteUserMedication(String id) async {
+    await api.deleteUserMedication(id);
+  }
+
   Future<List<UserMedicationModel>> getUserMedications() async {
     final response = await api.getUserMedications();
     final dataMap = response as Map<String, dynamic>;

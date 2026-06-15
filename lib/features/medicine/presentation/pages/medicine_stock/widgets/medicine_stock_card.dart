@@ -38,8 +38,12 @@ class MedicineStockCard extends ConsumerWidget {
           MedicineStockItem(
             icon: AppIcons.medicineDictionary,
             title: 'medicine.stock.item_title_remaining'.tr(),
-            subtitle: 'medicine.stock.remaining_times'
-                .tr(args: [state.stockCount.toString()]),
+            subtitle: 'medicine.stock.remaining_times'.tr(
+              args: [state.stockCount.toString()],
+            ),
+            subtitleColor: state.stockCount == 0
+                ? const Color(0xFFD97706)
+                : null,
             onTap: () =>
                 _showStockCountPopup(context, notifier, state.stockCount),
           ),
@@ -54,8 +58,9 @@ class MedicineStockCard extends ConsumerWidget {
             icon: AppIcons.medicineClock,
             title: 'medicine.stock.item_title_reminder'.tr(),
             subtitle: state.lowStockReminderEnabled
-                ? 'medicine.stock.remaining_times'
-                    .tr(args: [state.lowStockThreshold.toString()])
+                ? 'medicine.stock.remaining_times'.tr(
+                    args: [state.lowStockThreshold.toString()],
+                  )
                 : 'medicine.stock.reminder_off'.tr(),
             onTap: () => _showLowStockPopup(
               context,
@@ -110,10 +115,7 @@ class MedicineStockCard extends ConsumerWidget {
           opacity: anim1,
           child: ScaleTransition(
             scale: Tween<double>(begin: 0.92, end: 1.0).animate(
-              CurvedAnimation(
-                parent: anim1,
-                curve: Curves.easeOutCubic,
-              ),
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
             ),
             child: child,
           ),
@@ -168,10 +170,7 @@ class MedicineStockCard extends ConsumerWidget {
           opacity: anim1,
           child: ScaleTransition(
             scale: Tween<double>(begin: 0.92, end: 1.0).animate(
-              CurvedAnimation(
-                parent: anim1,
-                curve: Curves.easeOutCubic,
-              ),
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
             ),
             child: child,
           ),

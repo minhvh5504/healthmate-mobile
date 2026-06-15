@@ -6,13 +6,23 @@ import '../../../../domain/entities/family_connection.dart';
 
 /// Item widget displaying a [FamilyMember] row.
 class FamilyMemberItem extends StatelessWidget {
-  const FamilyMemberItem({super.key, required this.member, this.onTap});
+  const FamilyMemberItem({
+    super.key,
+    required this.member,
+    this.onTap,
+    this.onRemove,
+    this.isRemoving = false,
+  });
 
   final FamilyMember member;
   final VoidCallback? onTap;
+  final VoidCallback? onRemove;
+  final bool isRemoving;
 
   @override
   Widget build(BuildContext context) {
+    final isPending = member.status == 'pending';
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12.r),
@@ -39,7 +49,6 @@ class FamilyMemberItem extends StatelessWidget {
             ),
             SizedBox(width: 16.w),
             Expanded(
-              flex: 7,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,44 +77,57 @@ class FamilyMemberItem extends StatelessWidget {
                 ],
               ),
             ),
-            if (member.status == 'pending') ...[
-              SizedBox(width: 8.w),
-              Expanded(
-                flex: 3,
+            SizedBox(width: 8.w),
+            if (isPending) ...[
+              Tooltip(
+                message: 'family_connection.status_pending'.tr(),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  width: 32.w,
+                  height: 32.w,
                   decoration: BoxDecoration(
-                    color: AppColors.bgWarning.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8.r),
+                    shape: BoxShape.circle,
+                    color: AppColors.bgWarning.withValues(alpha: 0.12),
                     border: Border.all(
-                      color: AppColors.bgWarning.withValues(alpha: 0.5),
+                      color: AppColors.bgWarning.withValues(alpha: 0.45),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.access_time_rounded,
-                        size: 14.sp,
-                        color: AppColors.bgWarning,
-                      ),
-                      SizedBox(width: 4.w),
-                      Expanded(
-                        child: Text(
-                          'family_connection.status_pending'.tr(),
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.bgWarning,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Icon(
+                    Icons.access_time_rounded,
+                    size: 17.sp,
+                    color: AppColors.bgWarning,
                   ),
                 ),
               ),
+              SizedBox(width: 8.w),
             ],
+            Tooltip(
+              message: isPending
+                  ? 'family_connection.remove_pending_tooltip'.tr()
+                  : 'family_connection.remove_connection_tooltip'.tr(),
+              child: SizedBox(
+                width: 34.w,
+                height: 34.w,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints.tight(Size(34.w, 34.w)),
+                  onPressed: isRemoving ? null : onRemove,
+                  icon: isRemoving
+                      ? SizedBox(
+                          width: 17.w,
+                          height: 17.w,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.w,
+                            color: AppColors.bgError,
+                          ),
+                        )
+                      : Icon(
+                          Icons.cancel_rounded,
+                          size: 24.sp,
+                          color: AppColors.bgError,
+                        ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

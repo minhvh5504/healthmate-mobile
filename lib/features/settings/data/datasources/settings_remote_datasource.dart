@@ -71,6 +71,10 @@ class SettingsRemoteDataSource {
     return _api.acceptInvitation(relationshipId);
   }
 
+  Future<void> removeRelationship(String relationshipId) {
+    return _api.removeRelationship(relationshipId);
+  }
+
   Future<void> acceptInvitationByToken(String token) {
     return _api.acceptInvitationByToken({'token': token});
   }

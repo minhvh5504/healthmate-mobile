@@ -268,7 +268,9 @@ class NotificationSettingsPage extends ConsumerWidget {
           SizedBox(width: 16.w),
           Expanded(
             child: Text(
-              item.title.tr(),
+              'settings.${item.slug}'.tr() == 'settings.${item.slug}'
+                  ? item.title
+                  : 'settings.${item.slug}'.tr(),
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 15.sp,

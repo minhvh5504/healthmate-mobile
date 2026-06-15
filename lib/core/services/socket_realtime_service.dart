@@ -25,18 +25,45 @@ class SocketRealtimeService {
   final _unreadCountController = StreamController<int>.broadcast();
   final _reminderController =
       StreamController<Map<String, dynamic>>.broadcast();
+  final _relationshipController =
+      StreamController<Map<String, dynamic>>.broadcast();
 
   // Public streams
   Stream<Map<String, dynamic>> get onNotification =>
       _notificationController.stream;
   Stream<int> get onUnreadCount => _unreadCountController.stream;
   Stream<Map<String, dynamic>> get onReminder => _reminderController.stream;
+  Stream<Map<String, dynamic>> get onRelationshipUpdate =>
+      _relationshipController.stream;
 
   bool get isConnected => _socket?.connected ?? false;
 
+  String _normalizeSocketUrl(String rawUrl) {
+    final uri = Uri.parse(rawUrl);
+    if (!uri.hasScheme || uri.host.isEmpty) return rawUrl;
+
+    final port = uri.hasPort
+        ? uri.port
+        : switch (uri.scheme) {
+            'https' || 'wss' => 443,
+            'http' || 'ws' => 80,
+            _ => 0,
+          };
+
+    if (port == 0) return rawUrl;
+
+    final scheme = uri.scheme == 'wss'
+        ? 'https'
+        : uri.scheme == 'ws'
+        ? 'http'
+        : uri.scheme;
+
+    return uri.replace(scheme: scheme, port: port).toString();
+  }
+
   /// Connect to the WebSocket server with a JWT access token.
   void connect(String accessToken) {
-    final socketUrl = ApiSocket.urlNotifications;
+    final socketUrl = _normalizeSocketUrl(ApiSocket.urlNotifications);
     if (socketUrl.isEmpty) {
       debugPrint(
         '[SocketRealtimeService] SOCKET_URL_NOTIFICATIONS not set in .env',
@@ -111,6 +138,12 @@ class SocketRealtimeService {
         if (data is Map<String, dynamic>) {
           _reminderController.add(data);
         }
+      })
+      ..on(RealtimeEvents.relationshipUpdate, (data) {
+        debugPrint('[SocketRealtimeService] relationship:update received');
+        if (data is Map<String, dynamic>) {
+          _relationshipController.add(data);
+        }
       });
 
     _socket!.connect();
@@ -130,5 +163,6 @@ class SocketRealtimeService {
     _notificationController.close();
     _unreadCountController.close();
     _reminderController.close();
+    _relationshipController.close();
   }
 }

@@ -32,6 +32,9 @@ abstract class MedicationApi {
     @Body() Map<String, dynamic> body,
   );
 
+  @DELETE('user-medication/{id}')
+  Future<dynamic> deleteUserMedication(@Path('id') String id);
+
   @GET('user-medication/scan-tasks')
   Future<dynamic> getScanTasks();
 

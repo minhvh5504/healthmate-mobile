@@ -38,6 +38,9 @@ abstract class SettingsApi {
   @PATCH('user-relationships/{id}/accept')
   Future<void> acceptInvitation(@Path('id') String id);
 
+  @DELETE('user-relationships/{id}')
+  Future<void> removeRelationship(@Path('id') String id);
+
   @POST('user-relationships/accept-by-token')
   Future<void> acceptInvitationByToken(@Body() Map<String, dynamic> body);
 }

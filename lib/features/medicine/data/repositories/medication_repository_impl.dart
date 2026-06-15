@@ -126,6 +126,11 @@ class MedicationRepositoryImpl implements MedicationRepository {
   }
 
   @override
+  Future<void> deleteUserMedication(String id) {
+    return remoteDataSource.deleteUserMedication(id);
+  }
+
+  @override
   Future<List<UserMedication>> getUserMedications() {
     return remoteDataSource.getUserMedications();
   }

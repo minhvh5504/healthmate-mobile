@@ -40,11 +40,12 @@ class MedicineReminderState {
     bool? reminderEnabled,
     bool? isLoading,
     DateTime? focusedDate,
+    bool clearEndDate = false,
   }) {
     return MedicineReminderState(
       medication: medication ?? this.medication,
       startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
+      endDate: clearEndDate ? null : (endDate ?? this.endDate),
       isEndDateEnabled: isEndDateEnabled ?? this.isEndDateEnabled,
       frequency: frequency ?? this.frequency,
       selectedDays: selectedDays ?? this.selectedDays,
@@ -147,21 +148,27 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
           .toList();
     }
 
+    final frequency = medication['frequency']?.toString() ?? 'daily';
+    final isAsNeeded = frequency == 'as_needed';
+
     state = state.copyWith(
       medication: medication,
       startDate: startDate != null
           ? DateTime(startDate.year, startDate.month, startDate.day)
           : today,
-      endDate: endDate != null
-          ? DateTime(endDate.year, endDate.month, endDate.day)
-          : null,
-      isEndDateEnabled: endDate != null,
+      endDate: isAsNeeded || endDate == null
+          ? null
+          : DateTime(endDate.year, endDate.month, endDate.day),
+      isEndDateEnabled: !isAsNeeded && endDate != null,
       focusedDate: startDate != null
           ? DateTime(startDate.year, startDate.month, startDate.day)
           : today,
-      frequency: medication['frequency']?.toString() ?? 'daily',
-      schedules: initialSchedules,
-      reminderEnabled: medication['reminderEnabled'] as bool? ?? true,
+      frequency: frequency,
+      schedules: isAsNeeded ? const [] : initialSchedules,
+      reminderEnabled: isAsNeeded
+          ? false
+          : medication['reminderEnabled'] as bool? ?? true,
+      clearEndDate: isAsNeeded || endDate == null,
     );
   }
 
@@ -213,14 +220,35 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
           : state.startDate.add(const Duration(days: 7));
     }
 
-    state = state.copyWith(isEndDateEnabled: enabled, endDate: newEndDate);
+    state = state.copyWith(
+      isEndDateEnabled: enabled,
+      endDate: newEndDate,
+      clearEndDate: !enabled,
+    );
   }
 
   void updateFrequency(String frequency) {
+    if (frequency == 'as_needed') {
+      state = state.copyWith(
+        frequency: frequency,
+        isEndDateEnabled: false,
+        clearEndDate: true,
+      );
+      return;
+    }
     state = state.copyWith(frequency: frequency);
   }
 
   void updateFrequencyAndDays(String frequency, List<int> days) {
+    if (frequency == 'as_needed') {
+      state = state.copyWith(
+        frequency: frequency,
+        selectedDays: const [],
+        isEndDateEnabled: false,
+        clearEndDate: true,
+      );
+      return;
+    }
     state = state.copyWith(frequency: frequency, selectedDays: days);
   }
 
@@ -306,17 +334,22 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
   }
 
   Future<void> onSave() async {
+    final isAsNeeded = state.frequency == 'as_needed';
+
     ref
         .read(medicineFlowProvider.notifier)
         .updateReminderConfig(
           startDate: state.startDate,
-          endDate: state.endDate,
+          endDate: isAsNeeded ? null : state.endDate,
           frequency: state.frequency,
-          selectedDays: state.selectedDays,
-          schedules: state.schedules
-              .map((s) => {'time': s.time, 'quantity': s.quantity})
-              .toList(),
-          reminderEnabled: state.reminderEnabled,
+          selectedDays: isAsNeeded ? const [] : state.selectedDays,
+          schedules: isAsNeeded
+              ? const []
+              : state.schedules
+                    .map((s) => {'time': s.time, 'quantity': s.quantity})
+                    .toList(),
+          reminderEnabled: isAsNeeded ? false : state.reminderEnabled,
+          clearEndDate: isAsNeeded,
         );
 
     await AppRouter.router.push(AppRoutes.medicineStock);

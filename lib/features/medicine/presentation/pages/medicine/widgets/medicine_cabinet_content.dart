@@ -25,7 +25,7 @@ class MedicineCabinetContent extends ConsumerStatefulWidget {
 class _MedicineCabinetContentState
     extends ConsumerState<MedicineCabinetContent> {
   bool isDangDungExpanded = true;
-  bool isDaDungExpanded = false;
+  bool isDaDungExpanded = true;
   bool isScanTasksExpanded = false;
 
   @override
@@ -35,14 +35,8 @@ class _MedicineCabinetContentState
     final activeMedications = state.activeMedications;
     final notifier = ref.read(medicineProvider.notifier);
 
-    // Filter lists
-    final dangDungList = activeMedications.where((m) {
-      return m.stockCount == null || m.stockCount! > 0;
-    }).toList();
-
-    final daDungList = activeMedications.where((m) {
-      return m.stockCount == 0;
-    }).toList();
+    final dangDungList = activeMedications;
+    final daDungList = state.inactiveMedications;
 
     final bool isEmpty =
         dangDungList.isEmpty && daDungList.isEmpty && scanTasks.isEmpty;
@@ -439,6 +433,7 @@ class _MedicineCabinetContentState
     UserMedication medication,
     MedicineNotifier notifier,
   ) {
+    final hasNoStock = (medication.stockCount ?? 0) == 0;
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.fromLTRB(18.w, 18.h, 18.w, 16.h),
@@ -511,7 +506,9 @@ class _MedicineCabinetContentState
                         fontFamily: 'Inter',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.typoBody.withValues(alpha: 0.72),
+                        color: hasNoStock
+                            ? const Color(0xFFD97706)
+                            : AppColors.typoBody.withValues(alpha: 0.72),
                       ),
                     ),
                   ],
@@ -524,12 +521,19 @@ class _MedicineCabinetContentState
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () =>
-                      notifier.onShowMedicineOptions(context, medication),
+                  onPressed: medication.isActive
+                      ? () =>
+                            notifier.onShowMedicineOptions(context, medication)
+                      : () => notifier.onShowDeleteConfirmDialog(
+                          context,
+                          medication,
+                        ),
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     side: BorderSide(
-                      color: AppColors.typoDisable.withValues(alpha: 0.28),
+                      color: medication.isActive
+                          ? AppColors.typoDisable.withValues(alpha: 0.28)
+                          : AppColors.typoError.withValues(alpha: 0.5),
                       width: 1.5.w,
                     ),
                     shape: RoundedRectangleBorder(
@@ -537,12 +541,16 @@ class _MedicineCabinetContentState
                     ),
                   ),
                   child: Text(
-                    'medicine.edit'.tr(),
+                    medication.isActive
+                        ? 'medicine.edit'.tr()
+                        : 'medicine.delete'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.typoBlack,
+                      color: medication.isActive
+                          ? AppColors.typoBlack
+                          : AppColors.typoError,
                     ),
                   ),
                 ),
@@ -550,8 +558,9 @@ class _MedicineCabinetContentState
               SizedBox(width: 12.w),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () =>
-                      notifier.onShowQuantityPopup(context, medication),
+                  onPressed: medication.isActive
+                      ? () => notifier.onShowQuantityPopup(context, medication)
+                      : () => notifier.onReactivateMedication(medication),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.typoBlack,
                     foregroundColor: Colors.white,
@@ -562,7 +571,9 @@ class _MedicineCabinetContentState
                     elevation: 0,
                   ),
                   child: Text(
-                    'medicine.add_stock'.tr(),
+                    medication.isActive
+                        ? 'medicine.add_stock'.tr()
+                        : 'medicine.activate'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 12.sp,

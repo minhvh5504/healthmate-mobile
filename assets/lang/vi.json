@@ -246,7 +246,13 @@
     "title": "Kết nối gia đình",
     "subtitle": "Chọn một người để xem hoặc thêm mới",
     "button_add": "Thêm người hỗ trợ",
-    "status_pending": "Đang chờ xác nhận"
+    "status_pending": "Đang chờ xác nhận",
+    "remove_pending_tooltip": "Xóa lời mời",
+    "remove_connection_tooltip": "Xóa liên kết",
+    "remove_pending_title": "Xóa lời mời?",
+    "remove_pending_message": "Bạn có chắc muốn xóa lời mời với {}?",
+    "remove_connection_title": "Xóa liên kết?",
+    "remove_connection_message": "Bạn có chắc muốn xóa liên kết với {}?"
   },
   "add_family": {
     "title": "Hỗ trợ lẫn nhau, Sống khỏe mạnh hơn",
@@ -258,6 +264,9 @@
     "success_title": "Tuyệt vời!",
     "success_subtitle": "Lời mời kết nối đã được gửi đến người thân của bạn thành công.",
     "footer_text": "Bạn có thể kết nối tối đa {}/{} người hỗ trợ.",
+    "errors": {
+      "limit_reached": "Bạn chỉ có thể kết nối tối đa {} người hỗ trợ"
+    },
     "invite_success": "Đã gửi lời mời kết nối thành công!",
     "invite_failed": "Gửi lời mời thất bại. Vui lòng thử lại.",
     "link_copied": "Đã sao chép liên kết lời mời!"
@@ -287,12 +296,16 @@
     "tap_to_view": "Nhấn để xem",
     "tap_to_retry": "Nhấn để thử lại",
     "in_use": "Đang dùng",
-    "used": "Đã dùng",
+    "used": "Không dùng",
     "no_name": "KHÔNG RÕ TÊN",
     "daily": "Hàng ngày",
     "stock_remaining": "Còn {} lần dùng",
     "edit": "Sửa",
     "add_stock": "Bổ sung",
+    "activate": "Kích hoạt",
+    "delete": "Xóa",
+    "activate_success": "Đã kích hoạt lại thuốc.",
+    "delete_success": "Đã xóa thuốc.",
     "remaining_label": "Còn lại",
     "dosage_popup_title": "Thêm hàm lượng",
     "dosage_label": "Hàm lượng",
@@ -317,12 +330,12 @@
       "review_title": "Xem lại thuốc của bạn",
       "take_photo": "Chụp ảnh",
       "upload_photo": "Tải ảnh lên",
-      "delete_all_title": "Xóa tất cả thuốc?",
-      "delete_all_message": "Điều này sẽ xóa tất cả các loại thuốc đã quét và ảnh đã tải lên. Bạn cần phải quét lại hoặc tải ảnh lên nếu muốn khởi động lại.",
-      "delete_confirm": "Xóa tất cả",
+      "delete_all_title": "Xóa thuốc?",
+      "delete_all_message": "Bạn có chắc chắn muốn xóa thông tin thuốc đã quét không?",
+      "delete_confirm": "Xóa",
       "go_back": "Quay lại xem lại",
       "action": {
-        "delete_all": "Xoá tất cả",
+        "delete_all": "Xóa thuốc",
         "add_to_cabinet": "Thêm vào hộp thuốc",
         "add_manually": "Thêm thủ công",
         "skip": "Bỏ qua"
@@ -372,7 +385,8 @@
       "reminder_off": "Đã tắt nhắc nhở",
       "item_title_remaining": "Còn lại",
       "item_title_reminder": "Nhắc thêm thuốc khi",
-      "threshold_label": "Khi còn dưới"
+      "threshold_label": "Khi còn dưới",
+      "out_of_stock_log_blocked": "Thuốc đã hết trong kho. Vui lòng cập nhật số lượng trong Hộp thuốc trước khi ghi nhận."
     },
     "options_popup": {
       "edit_details": "Sửa chi tiết thuốc",
@@ -384,7 +398,9 @@
       "title": "Xoá tất cả?",
       "message": "Bạn có chắc chắn muốn xoá tất cả dữ liệu thuốc này?",
       "cancel": "Hủy",
-      "confirm": "Xoá"
+      "confirm": "Xoá",
+      "delete_one_title": "Xoá thuốc này?",
+      "delete_one_message": "Bạn có chắc chắn muốn xoá loại thuốc này khỏi hộp thuốc không?"
     },
     "condition": {
       "title": "Điều trị",
