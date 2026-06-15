@@ -27,6 +27,15 @@ class UserMedicationModel extends UserMedication {
   });
 
   factory UserMedicationModel.fromJson(Map<String, dynamic> json) {
+    final reminderSchedules = json['reminderSchedules'] as List<dynamic>?;
+    String? frequency = json['frequency']?.toString();
+    if (frequency == null && reminderSchedules != null && reminderSchedules.isNotEmpty) {
+      final first = reminderSchedules.first;
+      if (first is Map) {
+        frequency = first['repeatType']?.toString() ?? first['repeat_type']?.toString();
+      }
+    }
+
     return UserMedicationModel(
       id: json['id']?.toString() ?? '',
       medicationId: json['medicationId']?.toString(),
@@ -48,9 +57,9 @@ class UserMedicationModel extends UserMedication {
       lowStockReminderEnabled: json['lowStockReminderEnabled'] as bool? ?? true,
       startDate: json['startDate']?.toString(),
       endDate: json['endDate']?.toString(),
-      frequency: json['frequency']?.toString(),
+      frequency: frequency,
       schedules: json['schedules'] as List<dynamic>?,
-      reminderSchedules: json['reminderSchedules'] as List<dynamic>?,
+      reminderSchedules: reminderSchedules,
       quantity: json['quantity'] as int?,
     );
   }

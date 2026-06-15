@@ -39,11 +39,12 @@ class MedicineReminderEditState {
     bool? reminderEnabled,
     bool? isLoading,
     DateTime? focusedDate,
+    bool clearEndDate = false,
   }) {
     return MedicineReminderEditState(
       medication: medication ?? this.medication,
       startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
+      endDate: clearEndDate ? null : (endDate ?? this.endDate),
       isEndDateEnabled: isEndDateEnabled ?? this.isEndDateEnabled,
       frequency: frequency ?? this.frequency,
       selectedDays: selectedDays ?? this.selectedDays,
@@ -155,21 +156,27 @@ class MedicineReminderEditNotifier
           .toList();
     }
 
+    final frequency = medication['frequency']?.toString() ?? 'daily';
+    final isAsNeeded = frequency == 'as_needed';
+
     state = state.copyWith(
       medication: medication,
       startDate: startDate != null
           ? DateTime(startDate.year, startDate.month, startDate.day)
           : today,
-      endDate: endDate != null
-          ? DateTime(endDate.year, endDate.month, endDate.day)
-          : null,
-      isEndDateEnabled: endDate != null,
+      endDate: isAsNeeded || endDate == null
+          ? null
+          : DateTime(endDate.year, endDate.month, endDate.day),
+      isEndDateEnabled: !isAsNeeded && endDate != null,
       focusedDate: startDate != null
           ? DateTime(startDate.year, startDate.month, startDate.day)
           : today,
-      frequency: medication['frequency']?.toString() ?? 'daily',
-      schedules: initialSchedules,
-      reminderEnabled: medication['reminderEnabled'] as bool? ?? true,
+      frequency: frequency,
+      schedules: isAsNeeded ? const [] : initialSchedules,
+      reminderEnabled: isAsNeeded
+          ? false
+          : medication['reminderEnabled'] as bool? ?? true,
+      clearEndDate: isAsNeeded || endDate == null,
     );
   }
 
@@ -219,14 +226,35 @@ class MedicineReminderEditNotifier
           : state.startDate.add(const Duration(days: 7));
     }
 
-    state = state.copyWith(isEndDateEnabled: enabled, endDate: newEndDate);
+    state = state.copyWith(
+      isEndDateEnabled: enabled,
+      endDate: newEndDate,
+      clearEndDate: !enabled,
+    );
   }
 
   void updateFrequency(String frequency) {
+    if (frequency == 'as_needed') {
+      state = state.copyWith(
+        frequency: frequency,
+        isEndDateEnabled: false,
+        clearEndDate: true,
+      );
+      return;
+    }
     state = state.copyWith(frequency: frequency);
   }
 
   void updateFrequencyAndDays(String frequency, List<int> days) {
+    if (frequency == 'as_needed') {
+      state = state.copyWith(
+        frequency: frequency,
+        selectedDays: const [],
+        isEndDateEnabled: false,
+        clearEndDate: true,
+      );
+      return;
+    }
     state = state.copyWith(frequency: frequency, selectedDays: days);
   }
 
@@ -326,7 +354,8 @@ class MedicineReminderEditNotifier
             state.startDate.month,
             state.startDate.day,
           ).toIso8601String(),
-          endDate: state.isEndDateEnabled && state.endDate != null
+          endDate:
+              !isAsNeeded && state.isEndDateEnabled && state.endDate != null
               ? DateTime.utc(
                   state.endDate!.year,
                   state.endDate!.month,
@@ -336,9 +365,9 @@ class MedicineReminderEditNotifier
           frequency: state.frequency,
           selectedDays: isAsNeeded ? null : state.selectedDays,
           schedules: isAsNeeded
-              ? null
+              ? const []
               : state.schedules.map((s) => s.toPayload()).toList(),
-          reminderEnabled: state.reminderEnabled,
+          reminderEnabled: isAsNeeded ? false : state.reminderEnabled,
         );
         await ref.read(medicineProvider.notifier).fetchActiveMedications();
       }

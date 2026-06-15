@@ -10,6 +10,7 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/utils/app_toast.dart';
 import '../../pages/medicine/widgets/medicine_quantity_popup.dart';
 import '../../pages/medicine_options/widgets/stop_medication_popup.dart';
+import '../../pages/medicine_options/widgets/delete_medication_popup.dart';
 import '../../pages/medicine/widgets/family_selection_bottom_sheet.dart';
 import '../../../../../core/providers/user_provider.dart';
 import '../../../../../core/routing/app_routes.dart';
@@ -522,6 +523,22 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         }).toList() ??
         [];
 
+    List<int>? selectedDays;
+    if (medication.reminderSchedules != null &&
+        medication.reminderSchedules!.isNotEmpty) {
+      final firstSchedule = medication.reminderSchedules!.first;
+      if (firstSchedule is Map) {
+        final days =
+            firstSchedule['repeatDays'] ?? firstSchedule['repeat_days'];
+        if (days is List) {
+          selectedDays = days
+              .map((e) => int.tryParse(e.toString()))
+              .whereType<int>()
+              .toList();
+        }
+      }
+    }
+
     AppRouter.router.push(
       AppRoutes.medicineReminderEdit,
       extra: {
@@ -530,6 +547,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         'startDate': medication.startDate,
         'endDate': medication.endDate,
         'frequency': medication.frequency ?? 'daily',
+        'selectedDays': selectedDays,
         'reminderEnabled': medication.reminderEnabled,
         'schedules': scheduleList,
       },
@@ -587,30 +605,111 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     );
   }
 
-  void onUpdateMedicineStatus(UserMedication medication, bool isActive) {
-    // Optimistic update
-    final updatedActive = state.activeMedications
-        .where((m) => m.id != medication.id)
-        .toList();
-    final updatedInactive = [
-      ...state.inactiveMedications,
-      medication.copyWith(isActive: isActive),
-    ];
+  void onShowDeleteConfirmDialog(BuildContext context, UserMedication medication) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Delete Medication Confirmation',
+      barrierColor: Colors.black.withValues(alpha: 0.2),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.backgroundGradient,
+                  ),
+                ),
+              ),
+              Center(
+                child: DeleteMedicationPopup(
+                  onConfirm: () {
+                    onDeleteMedication(medication);
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
+            ),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
 
+  Future<void> onUpdateMedicineStatus(
+    UserMedication medication,
+    bool isActive,
+  ) async {
     if (!isActive) {
       state = state.copyWith(
-        activeMedications: updatedActive,
-        inactiveMedications: updatedInactive,
+        activeMedications: state.activeMedications
+            .where((m) => m.id != medication.id)
+            .toList(),
+        inactiveMedications: [
+          ...state.inactiveMedications.where((m) => m.id != medication.id),
+          medication.copyWith(isActive: false),
+        ],
       );
-    } else {
-      // Implement reverse if needed
     }
 
-    // Call API
     try {
-      _updateUserMedication(id: medication.id, isActive: isActive);
+      await _updateUserMedication(id: medication.id, isActive: isActive);
+      if (!mounted) return;
+      await fetchActiveMedications();
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      if (!mounted) return;
+      AppToast.error(e);
+      await fetchActiveMedications();
+    }
+  }
+
+  Future<void> onReactivateMedication(UserMedication medication) async {
+    try {
+      await _updateUserMedication(id: medication.id, isActive: true);
+      if (!mounted) return;
+      AppToast.success('medicine.activate_success'.tr());
+      await fetchActiveMedications();
+    } catch (e) {
+      if (!mounted) return;
+      AppToast.error(e);
+    }
+  }
+
+  Future<void> onDeleteMedication(UserMedication medication) async {
+    state = state.copyWith(
+      activeMedications: state.activeMedications
+          .where((m) => m.id != medication.id)
+          .toList(),
+      inactiveMedications: state.inactiveMedications
+          .where((m) => m.id != medication.id)
+          .toList(),
+    );
+
+    try {
+      await _repository.deleteUserMedication(medication.id);
+      if (!mounted) return;
+      AppToast.success('medicine.delete_success'.tr());
+      await fetchActiveMedications();
+    } catch (e) {
+      if (!mounted) return;
+      AppToast.error(e);
+      await fetchActiveMedications();
     }
   }
 
@@ -632,7 +731,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         mealInstruction: mealInstruction,
       );
       if (!mounted) return false;
-      await fetchDailySchedule();
+      await fetchActiveMedications();
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -649,6 +748,30 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     return DateTime(date.year, date.month, date.day, hour, minute);
   }
 
+  UserMedication? _findMedicationForScheduleItem(DailyScheduleItem item) {
+    for (final medication in [
+      ...state.activeMedications,
+      ...state.inactiveMedications,
+    ]) {
+      if (medication.id == item.userMedicationId) {
+        return medication;
+      }
+    }
+    return null;
+  }
+
+  bool _redirectToCabinetIfOutOfStock(DailyScheduleItem item) {
+    final medication = _findMedicationForScheduleItem(item);
+    final stockCount = medication?.stockCount;
+    if (stockCount == null || stockCount > 0) {
+      return false;
+    }
+
+    state = state.copyWith(selectedTab: MedicineTab.cabinet);
+    AppToast.warning('medicine.stock.out_of_stock_log_blocked'.tr());
+    return true;
+  }
+
   Future<bool> onTakeMedication({
     required DailyScheduleItem item,
     int? quantity,
@@ -656,6 +779,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
   }) async {
     if (_isFutureSelectedDate()) {
       AppToast.warning('medicine.log_status.future_locked'.tr());
+      return false;
+    }
+
+    if (_redirectToCabinetIfOutOfStock(item)) {
       return false;
     }
 
@@ -689,6 +816,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
   }) async {
     if (_isFutureSelectedDate()) {
       AppToast.warning('medicine.log_status.future_locked'.tr());
+      return false;
+    }
+
+    if (_redirectToCabinetIfOutOfStock(item)) {
       return false;
     }
 
@@ -747,7 +878,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         mealInstruction: mealInstruction,
       );
       if (!mounted) return false;
-      await fetchDailySchedule();
+      await fetchActiveMedications();
       return true;
     } catch (e) {
       if (!mounted) return false;

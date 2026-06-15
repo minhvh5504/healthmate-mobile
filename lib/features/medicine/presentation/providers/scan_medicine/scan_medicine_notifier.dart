@@ -445,6 +445,10 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
         await _createUserMedication(
           medicationId: medicationId,
           scannedData: scannedData,
+          frequency: 'as_needed',
+          reminderEnabled: false,
+          stockCount: 0,
+          lowStockReminderEnabled: false,
         );
       }
       await _deleteScanTask(taskId);

@@ -47,10 +47,10 @@ class MedicineSuccessPopup extends StatelessWidget {
                 color: AppColors.typoBlack,
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 8.h),
 
-            LottieAnimation.success(size: 150.w),
-            SizedBox(height: 24.h),
+            LottieAnimation.success(size: 200.w),
+            SizedBox(height: 8.h),
 
             Text(
               'medicine.scan.success_message'.tr(),
@@ -62,7 +62,7 @@ class MedicineSuccessPopup extends StatelessWidget {
                 color: AppColors.typoBody,
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height: 16.h),
 
             // Buttons
             Button(

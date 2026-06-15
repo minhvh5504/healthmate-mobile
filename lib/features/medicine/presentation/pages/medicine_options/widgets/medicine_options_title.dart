@@ -50,7 +50,7 @@ class MedicineOptionsTitle extends ConsumerWidget {
             fontFamily: 'Inter',
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.typoHeading,
+            color: stock == 0 ? const Color(0xFFD97706) : AppColors.typoHeading,
           ),
         ),
       ],

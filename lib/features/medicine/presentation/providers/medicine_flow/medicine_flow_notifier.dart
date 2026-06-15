@@ -63,6 +63,7 @@ class MedicineFlowState {
     Map<String, dynamic>? scannedData,
     String? conditionId,
     String? conditionCustom,
+    bool clearEndDate = false,
   }) {
     return MedicineFlowState(
       name: name ?? this.name,
@@ -71,7 +72,7 @@ class MedicineFlowState {
       dosage: dosage ?? this.dosage,
       medicationId: medicationId ?? this.medicationId,
       startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
+      endDate: clearEndDate ? null : (endDate ?? this.endDate),
       frequency: frequency ?? this.frequency,
       selectedDays: selectedDays ?? this.selectedDays,
       schedules: schedules ?? this.schedules,
@@ -164,6 +165,7 @@ class MedicineFlowNotifier extends StateNotifier<MedicineFlowState> {
     List<int>? selectedDays,
     List<Map<String, dynamic>>? schedules,
     bool? reminderEnabled,
+    bool clearEndDate = false,
   }) {
     state = state.copyWith(
       startDate: startDate,
@@ -172,6 +174,7 @@ class MedicineFlowNotifier extends StateNotifier<MedicineFlowState> {
       selectedDays: selectedDays,
       schedules: schedules,
       reminderEnabled: reminderEnabled,
+      clearEndDate: clearEndDate,
     );
   }
 

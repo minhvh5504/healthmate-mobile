@@ -55,4 +55,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> acceptInvitationByToken(String token) {
     return remoteDataSource.acceptInvitationByToken(token);
   }
+
+  @override
+  Future<void> removeRelationship(String relationshipId) {
+    return remoteDataSource.removeRelationship(relationshipId);
+  }
 }

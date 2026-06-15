@@ -47,6 +47,8 @@ class AddFamilyMemberState {
 
 /// NOTIFIER
 class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
+  static const int maxFamilyMembers = 5;
+
   final Ref ref;
 
   AddFamilyMemberNotifier(this.ref)
@@ -85,6 +87,23 @@ class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
 
     final email = state.emailController.text.trim();
     if (email.isEmpty || !state.emailValid) return;
+
+    final memberCount = (ref.read(familyConnectionProvider).members ?? [])
+        .where((member) => member.status != 'revoked')
+        .length;
+    if (memberCount >= maxFamilyMembers) {
+      final errorMsg = 'add_family.errors.limit_reached'.tr(
+        args: [maxFamilyMembers.toString()],
+      );
+      state = state.copyWith(errorMessage: errorMsg);
+      toastification.show(
+        title: Text(errorMsg),
+        autoCloseDuration: const Duration(seconds: 4),
+        type: ToastificationType.error,
+        style: ToastificationStyle.flat,
+      );
+      return;
+    }
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 

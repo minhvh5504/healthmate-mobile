@@ -62,9 +62,7 @@ class SettingsItemTile extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
-                  color: isLogout
-                      ? AppColors.typoError
-                      : AppColors.typoBlack,
+                  color: isLogout ? AppColors.typoError : AppColors.typoBlack,
                 ),
               ),
             ),
@@ -84,12 +82,6 @@ class SettingsItemTile extends StatelessWidget {
               trailingWidget!,
               SizedBox(width: 4.w),
             ],
-            if (showArrow)
-              Icon(
-                Icons.chevron_right_rounded,
-                size: 24.sp,
-                color: AppColors.typoDisable,
-              ),
           ],
         ),
       ),

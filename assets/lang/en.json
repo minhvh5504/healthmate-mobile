@@ -246,7 +246,13 @@
     "title": "Family Connection",
     "subtitle": "Select a person to view or add new",
     "button_add": "Add supporter",
-    "status_pending": "Waiting for verification"
+    "status_pending": "Waiting for verification",
+    "remove_pending_tooltip": "Delete invitation",
+    "remove_connection_tooltip": "Remove connection",
+    "remove_pending_title": "Delete invitation?",
+    "remove_pending_message": "Are you sure you want to delete the invitation with {}?",
+    "remove_connection_title": "Remove connection?",
+    "remove_connection_message": "Are you sure you want to remove the connection with {}?"
   },
   "add_family": {
     "title": "Supporting each other, Living healthier",
@@ -258,13 +264,16 @@
     "success_title": "Awesome!",
     "success_subtitle": "The connection invitation has been successfully sent to your relative.",
     "footer_text": "You can connect up to {}/{} supporters.",
+    "errors": {
+      "limit_reached": "You can only connect up to {} supporters"
+    },
     "invite_success": "Invitation sent successfully!",
     "invite_failed": "Failed to send invitation. Please try again.",
     "link_copied": "Invitation link copied!"
   },
   "medicine": {
     "tab_schedule": "Schedule",
-    "tab_cabinet": "Medicine Cabinet",
+    "tab_cabinet": "Cabinet",
     "today": "Today",
     "empty_body": "Track your medications, health info and more in one place. Add your first medicine!",
     "add_medicine": {
@@ -287,12 +296,16 @@
     "tap_to_view": "Tap to view",
     "tap_to_retry": "Tap to retry",
     "in_use": "In use",
-    "used": "Used",
+    "used": "Not in use",
     "no_name": "UNKNOWN NAME",
     "daily": "Daily",
     "stock_remaining": "{} uses remaining",
     "edit": "Edit",
     "add_stock": "Supplement",
+    "activate": "Activate",
+    "delete": "Delete",
+    "activate_success": "Medicine activated.",
+    "delete_success": "Medicine deleted.",
     "remaining_label": "Remaining",
     "dosage_popup_title": "Add dosage",
     "dosage_label": "Strength",
@@ -317,12 +330,12 @@
       "review_title": "Review your medications",
       "take_photo": "Take photo",
       "upload_photo": "Upload photo",
-      "delete_all_title": "Delete all medications?",
-      "delete_all_message": "This will delete all scanned medications and uploaded images. You will need to scan or upload again to restart.",
-      "delete_confirm": "Delete all",
+      "delete_all_title": "Delete medicine?",
+      "delete_all_message": "Are you sure you want to delete the scanned medicine information?",
+      "delete_confirm": "Delete",
       "go_back": "Go back to review",
       "action": {
-        "delete_all": "Delete all",
+        "delete_all": "Delete medicine",
         "add_to_cabinet": "Add to cabinet",
         "add_manually": "Add manually",
         "skip": "Skip"
@@ -372,7 +385,8 @@
       "reminder_off": "Reminders off",
       "item_title_remaining": "Remaining",
       "item_title_reminder": "Remind me when",
-      "threshold_label": "When below"
+      "threshold_label": "When below",
+      "out_of_stock_log_blocked": "This medicine is out of stock. Please update the quantity in Cabinet before logging."
     },
     "options_popup": {
       "edit_details": "Edit medicine details",
@@ -384,7 +398,9 @@
       "title": "Delete all?",
       "message": "Are you sure you want to delete all data for this medicine?",
       "cancel": "Cancel",
-      "confirm": "Delete"
+      "confirm": "Delete",
+      "delete_one_title": "Delete this medicine?",
+      "delete_one_message": "Are you sure you want to delete this medicine from the cabinet?"
     },
     "condition": {
       "title": "Condition",
