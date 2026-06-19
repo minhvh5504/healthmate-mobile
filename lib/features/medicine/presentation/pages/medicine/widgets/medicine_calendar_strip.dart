@@ -170,7 +170,7 @@ class _DayCell extends StatelessWidget {
               weekdayLabel,
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 11.sp,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
                 color: isSelected
                     ? AppColors.typoBlack
@@ -192,7 +192,7 @@ class _DayCell extends StatelessWidget {
                 dayLabel,
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 18.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
                   color: isSelected ? Colors.white : AppColors.typoHeading,
                 ),

@@ -24,7 +24,6 @@ class HistoryLogList extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16.h),
         Text(
           dateStr,
           style: TextStyle(

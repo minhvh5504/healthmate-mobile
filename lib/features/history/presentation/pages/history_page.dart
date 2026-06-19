@@ -47,12 +47,12 @@ class HistoryPage extends ConsumerWidget {
                                 color: AppColors.typoBlack,
                               ),
                             ).animate().fadeIn(duration: 220.ms),
-                            SizedBox(height: 24.h),
+                            SizedBox(height: 16.h),
                             HistoryAdherenceCard(
                               percentage: state.monthlyAdherence,
                               focusedMonth: state.focusedMonth,
                             ).animate().fadeIn(duration: 220.ms, delay: 60.ms),
-                            SizedBox(height: 24.h),
+                            SizedBox(height: 16.h),
                             const HistoryCalendarCard().animate().fadeIn(
                               duration: 220.ms,
                               delay: 120.ms,

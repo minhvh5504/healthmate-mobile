@@ -44,8 +44,8 @@ class HistoryLogCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 56.w,
-              height: 56.w,
+              width: 48.w,
+              height: 48.w,
               decoration: BoxDecoration(
                 color: const Color(0xFF6B66FF),
                 borderRadius: BorderRadius.circular(16.r),
@@ -69,7 +69,7 @@ class HistoryLogCard extends StatelessWidget {
                     log.medicationName ?? '-',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBlack,
                     ),
@@ -79,7 +79,7 @@ class HistoryLogCard extends StatelessWidget {
                     '${log.actualQuantity ?? 1} ${'medicine.reminder.doses_count'.tr()}',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 13.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBody.withValues(alpha: 0.7),
                     ),
@@ -89,7 +89,7 @@ class HistoryLogCard extends StatelessWidget {
                     _getMealInstructionText(context, log.mealInstruction),
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 13.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBody.withValues(alpha: 0.6),
                     ),
@@ -107,8 +107,8 @@ class HistoryLogCard extends StatelessWidget {
   Widget _buildTrailingWidget(String status) {
     if (status == 'taken') {
       return Container(
-        width: 24.w,
-        height: 24.w,
+        width: 20.w,
+        height: 20.w,
         decoration: const BoxDecoration(
           color: AppColors.bgSuccess,
           shape: BoxShape.circle,
@@ -118,8 +118,8 @@ class HistoryLogCard extends StatelessWidget {
     }
     if (status == 'missed') {
       return Container(
-        width: 24.w,
-        height: 24.w,
+        width: 20.w,
+        height: 20.w,
         decoration: const BoxDecoration(
           color: AppColors.typoError,
           shape: BoxShape.circle,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../../../../../core/theme/app_colors.dart';
 
 class AddMedicineActionCard extends StatelessWidget {
   const AddMedicineActionCard({
@@ -23,7 +24,7 @@ class AddMedicineActionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22.r),
-          border: Border.all(color: const Color(0xFFB8B3EA), width: 1.1),
+          border: Border.all(color: AppColors.borderPurple, width: 1.1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.02),

@@ -2,8 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthmate_mobile/features/medicine/presentation/providers/medicine/medicine_provider.dart';
 import '../../../../../../core/constants/constant_url.dart';
+import '../../../../../../core/routing/app_routes.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class MedicineTabBar extends ConsumerWidget {
@@ -11,16 +14,13 @@ class MedicineTabBar extends ConsumerWidget {
     super.key,
     required this.selectedTab,
     required this.onTabSelected,
-    this.avatarUrl,
   });
 
   final MedicineTab selectedTab;
   final ValueChanged<MedicineTab> onTabSelected;
-  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final medicineNotifier = ref.read(medicineProvider.notifier);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Row(
@@ -39,43 +39,69 @@ class MedicineTabBar extends ConsumerWidget {
           ),
           const Spacer(),
 
-          /// User avatar + dropdown caret
-          GestureDetector(
-            onTap: () => medicineNotifier.onShowFamilySelection(context),
-            behavior: HitTestBehavior.opaque,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40.w,
-                  height: 40.h,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: avatarUrl != null
-                          ? NetworkImage(avatarUrl!) as ImageProvider
-                          : const AssetImage(AppImages.userAvatar),
-                      fit: BoxFit.cover,
+          _PrescriptionCard(onTap: () => context.push(AppRoutes.prescription)),
+        ],
+      ),
+    );
+  }
+}
+
+class _PrescriptionCard extends StatelessWidget {
+  const _PrescriptionCard({required this.onTap});
+
+  final VoidCallback onTap;
+
+  static const Color _iconColor = Color(0xFF4F46E5);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 42.w,
+                height: 42.w,
+                decoration: BoxDecoration(
+                  color: AppColors.typoWhite,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
-                    border: Border.all(color: Colors.white, width: 2.w),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: SvgPicture.asset(
+                  AppIcons.navigationList,
+                  width: 24.w,
+                  height: 24.w,
+                  colorFilter: const ColorFilter.mode(
+                    _iconColor,
+                    BlendMode.srcIn,
                   ),
                 ),
-                SizedBox(width: 4.w),
-                Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  size: 18.sp,
-                  color: AppColors.typoBody,
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                'medicine.prescription'.tr(),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.typoBlack,
+                  height: 1,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

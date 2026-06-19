@@ -43,6 +43,13 @@ class AppRoutes {
   // Chat
   static const String chat = '/chat';
 
+  // Prescription
+  static const String prescription = '/prescription';
+  static const String addPrescription = '/add-prescription';
+  static const String editPrescription = '/edit-prescription';
+  static const String prescriptionDetails = '/prescription-details';
+  static const String viewAllPrescription = '/view-all-prescription';
+
   // Shell Route
   static const String medicine = '/medicine';
   static const String health = '/health';

@@ -65,8 +65,8 @@ class MedicineScheduleCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 56.w,
-              height: 56.w,
+              width: 48.w,
+              height: 48.w,
               decoration: BoxDecoration(
                 color: const Color(0xFF6B66FF),
                 borderRadius: BorderRadius.circular(16.r),
@@ -93,7 +93,7 @@ class MedicineScheduleCard extends StatelessWidget {
                     item.medicationName,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBlack,
                     ),
@@ -103,7 +103,7 @@ class MedicineScheduleCard extends StatelessWidget {
                     '${item.quantity ?? 1} ${'medicine.reminder.doses_count'.tr()}',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 13.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBody.withValues(alpha: 0.7),
                     ),
@@ -113,7 +113,7 @@ class MedicineScheduleCard extends StatelessWidget {
                     getMealInstructionText(context, item.mealInstruction),
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 13.sp,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.typoBody.withValues(alpha: 0.6),
                     ),
@@ -139,8 +139,8 @@ class MedicineScheduleCard extends StatelessWidget {
   Widget _buildTrailingWidget(String status, bool canLogMedication) {
     if (status == 'taken') {
       return Container(
-        width: 24.w,
-        height: 24.w,
+        width: 20.w,
+        height: 20.w,
         decoration: const BoxDecoration(
           color: AppColors.bgSuccess,
           shape: BoxShape.circle,
@@ -150,8 +150,8 @@ class MedicineScheduleCard extends StatelessWidget {
     }
     if (status == 'missed') {
       return Container(
-        width: 24.w,
-        height: 24.w,
+        width: 20.w,
+        height: 20.w,
         decoration: const BoxDecoration(
           color: AppColors.typoError,
           shape: BoxShape.circle,

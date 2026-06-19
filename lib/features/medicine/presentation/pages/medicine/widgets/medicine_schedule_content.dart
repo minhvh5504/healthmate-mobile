@@ -122,7 +122,7 @@ class MedicineScheduleContent extends ConsumerWidget {
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 14.sp,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.typoBody,
             letterSpacing: 1.2,
           ),

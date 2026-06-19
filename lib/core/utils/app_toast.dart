@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:toastification/toastification.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../constants/constant_url.dart';
 import '../routing/app_router.dart';
 import '../routing/app_routes.dart';
 import '../theme/app_colors.dart';
@@ -171,16 +174,28 @@ class _NotificationToastState extends State<_NotificationToast> {
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 48.w,
+                    height: 48.w,
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6B66FF).withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
+                      color: const Color(0xFF6B66FF),
+                      borderRadius: BorderRadius.circular(16.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF6B66FF).withValues(alpha: 0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                    child: const Icon(
-                      LucideIcons.bell,
-                      color: Color(0xFF6B66FF),
-                      size: 20,
+                    child: SvgPicture.asset(
+                      AppIcons.bell,
+                      width: 30.w,
+                      height: 30.w,
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.bgWhite,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),

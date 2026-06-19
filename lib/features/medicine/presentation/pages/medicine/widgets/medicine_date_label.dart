@@ -22,7 +22,7 @@ class MedicineDateLabel extends ConsumerWidget {
           _formatDateLabel(state.selectedDate, context),
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 13.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.bgError,
           ),

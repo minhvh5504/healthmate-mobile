@@ -49,6 +49,7 @@ class _MedicationApi implements MedicationApi {
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = FormData();
     if (scannedText != null) {
@@ -66,7 +67,7 @@ class _MedicationApi implements MedicationApi {
           'file',
           MultipartFile.fromFileSync(
             file.path,
-            filename: file.path.split('/').last,
+            filename: file.path.split(Platform.pathSeparator).last,
           ),
         ),
       );

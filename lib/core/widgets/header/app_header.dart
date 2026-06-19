@@ -151,24 +151,24 @@ class AppHeader extends ConsumerWidget {
 
                 if (unreadCount > 0)
                   Positioned(
-                    top: -3,
+                    top: -1,
                     right: 1,
                     child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(3),
                       decoration: const BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
                       constraints: BoxConstraints(
-                        minWidth: 12.w,
-                        minHeight: 12.w,
+                        minWidth: 10.w,
+                        minHeight: 10.w,
                       ),
                       child: Center(
                         child: Text(
-                          unreadCount > 9 ? '9+' : unreadCount.toString(),
+                          unreadCount > 99 ? '99+' : unreadCount.toString(),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 8.sp,
+                            fontSize: 7.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
