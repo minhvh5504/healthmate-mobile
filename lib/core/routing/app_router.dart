@@ -29,6 +29,12 @@ import '../../features/settings/presentation/pages/change_password/change_passwo
 import '../../features/auth/presentation/pages/register/register_intro_page.dart';
 import '../../features/settings/presentation/pages/family_connection/family_connection_page.dart';
 import '../../features/settings/presentation/pages/add_family_member/add_family_member_page.dart';
+import '../../features/prescription/domain/entities/prescription.dart';
+import '../../features/prescription/presentation/pages/add_prescription/add_prescription_page.dart';
+import '../../features/prescription/presentation/pages/edit_prescription/edit_prescription_page.dart';
+import '../../features/prescription/presentation/pages/prescription/prescription_page.dart';
+import '../../features/prescription/presentation/pages/prescription_details/prescription_details_page.dart';
+import '../../features/prescription/presentation/pages/view_all_prescription/view_all_prescription_page.dart';
 
 import '../../features/medicine/presentation/pages/medicine_options/medicine_options_page.dart';
 import '../../features/medicine/presentation/pages/medicine_detail_preview/medicine_detail_preview_page.dart';
@@ -199,6 +205,36 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.chat,
         builder: (context, state) => const ChatPage(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.prescription,
+        builder: (context, state) => const PrescriptionPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.addPrescription,
+        builder: (context, state) {
+          final prescription = state.extra as Prescription?;
+          return AddPrescriptionPage(prescription: prescription);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.editPrescription,
+        builder: (context, state) {
+          final prescription = state.extra as Prescription?;
+          return EditPrescriptionPage(prescription: prescription);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.prescriptionDetails,
+        builder: (context, state) {
+          final prescription = state.extra as Prescription?;
+          return PrescriptionDetailsPage(prescription: prescription);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.viewAllPrescription,
+        builder: (context, state) => const ViewAllPrescriptionPage(),
       ),
 
       ShellRoute(

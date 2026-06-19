@@ -128,7 +128,7 @@ class _ChatStarterViewState extends ConsumerState<ChatStarterView> {
                 fontSize: 18.sp,
                 fontWeight: FontWeight.normal,
                 height: 1.4,
-                color: AppColors.typoBlack,
+                color: AppColors.typoBody,
               ),
             ),
             SizedBox(height: 24.h),

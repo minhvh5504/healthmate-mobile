@@ -88,7 +88,7 @@ class SocketRealtimeService {
     _socket = io.io(
       socketUrl,
       io.OptionBuilder()
-          .setTransports(['websocket', 'polling'])
+          .setTransports(['websocket'])
           .enableForceNew()
           .disableAutoConnect()
           .setQuery({'token': accessToken})
@@ -110,11 +110,8 @@ class SocketRealtimeService {
       })
       ..onConnectError((err) {
         debugPrint('[SocketRealtimeService] Connect error: $err');
-        // Stop spamming the server when the handshake keeps being rejected
-        // (e.g. HTTP 400 because of bad token / wrong namespace).
         final errStr = err?.toString() ?? '';
-        if (errStr.contains('status code: 400') ||
-            errStr.contains('status code: 401') ||
+        if (errStr.contains('status code: 401') ||
             errStr.contains('status code: 403')) {
           debugPrint(
             '[SocketRealtimeService] Auth/handshake rejected, stop reconnecting.',

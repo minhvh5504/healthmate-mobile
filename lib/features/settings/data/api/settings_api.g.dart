@@ -85,7 +85,7 @@ class _SettingsApi implements SettingsApi {
         'file',
         MultipartFile.fromFileSync(
           file.path,
-          filename: file.path.split('/').last,
+          filename: file.path.split(Platform.pathSeparator).last,
         ),
       ),
     );

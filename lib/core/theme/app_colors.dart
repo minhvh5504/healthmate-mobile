@@ -20,6 +20,7 @@ class AppColors {
   static const Color typoBlack = Color(0xFF1D1D1F);
   static const Color typoDisable = Color(0xFF9CA3AF);
   static const Color typoError = Color(0xFFE53935);
+  static const Color typoWarning = Color(0xFFFF5B23);
   static const Color typoNaviButton = Color(0xFFFF2D55);
   static const Color typoNavi = Color(0xFF2D3450);
 
@@ -28,6 +29,7 @@ class AppColors {
   static const Color lightBlue = Color(0xFFDDE0F7);
   static const Color lightPurple = Color(0xffAFAED5);
   static const Color chatSendButton = Color(0xFF4F46E5);
+  static const Color borderPurple = Color(0xFFB8B3EA);
 
   // Gradient
   static const LinearGradient backgroundGradient = LinearGradient(

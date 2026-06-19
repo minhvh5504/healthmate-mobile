@@ -236,7 +236,7 @@ class _MedicineCabinetContentState
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(28.r),
@@ -276,7 +276,7 @@ class _MedicineCabinetContentState
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w800,
                   color: AppColors.typoBlack,
                   letterSpacing: 0,
@@ -287,7 +287,7 @@ class _MedicineCabinetContentState
             Icon(
               LucideIcons.chevronRight,
               color: AppColors.typoDisable,
-              size: 24.sp,
+              size: 20.sp,
             ),
           ],
         ),
@@ -336,9 +336,9 @@ class _MedicineCabinetContentState
             borderRadius: BorderRadius.circular(28.r),
             boxShadow: [
               BoxShadow(
-                color: AppColors.typoHeading.withValues(alpha: 0.08),
-                blurRadius: 24,
-                offset: const Offset(0, 12),
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -396,7 +396,7 @@ class _MedicineCabinetContentState
               Icon(
                 LucideIcons.chevronRight,
                 color: AppColors.typoDisable,
-                size: 24.sp,
+                size: 20.sp,
               ),
             ],
           ),
@@ -436,7 +436,7 @@ class _MedicineCabinetContentState
     final hasNoStock = (medication.stockCount ?? 0) == 0;
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
-      padding: EdgeInsets.fromLTRB(18.w, 18.h, 18.w, 16.h),
+      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22.r),
@@ -454,8 +454,8 @@ class _MedicineCabinetContentState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 64.w,
-                height: 64.w,
+                width: 48.w,
+                height: 48.w,
                 decoration: BoxDecoration(
                   color: const Color(0xFF6C63FF),
                   borderRadius: BorderRadius.circular(16.r),
@@ -463,8 +463,8 @@ class _MedicineCabinetContentState
                 alignment: Alignment.center,
                 child: SvgPicture.asset(
                   AppIcons.medicineLight,
-                  width: 30.w,
-                  height: 30.w,
+                  width: 24.w,
+                  height: 24.w,
                 ),
               ),
               SizedBox(width: 18.w),
@@ -479,7 +479,7 @@ class _MedicineCabinetContentState
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 14.sp,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.typoBlack,
                       ),
                     ),
@@ -490,7 +490,7 @@ class _MedicineCabinetContentState
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 12.sp,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.typoBody.withValues(alpha: 0.72),
                       ),
@@ -504,7 +504,7 @@ class _MedicineCabinetContentState
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 12.sp,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w700,
                         color: hasNoStock
                             ? const Color(0xFFD97706)
@@ -529,7 +529,8 @@ class _MedicineCabinetContentState
                           medication,
                         ),
                   style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    fixedSize: Size.fromHeight(48.h),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     side: BorderSide(
                       color: medication.isActive
                           ? AppColors.typoDisable.withValues(alpha: 0.28)
@@ -564,7 +565,8 @@ class _MedicineCabinetContentState
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.typoBlack,
                     foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    fixedSize: Size.fromHeight(48.h),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(24.r),
                     ),

@@ -10,7 +10,7 @@ import 'widgets/medicine_date_label.dart';
 import 'widgets/medicine_header.dart';
 import 'widgets/medicine_skeleton.dart';
 import 'widgets/medicine_tab_content.dart';
-import '../../../../../core/providers/user_provider.dart';
+
 
 class MedicinePage extends ConsumerStatefulWidget {
   const MedicinePage({super.key});
@@ -21,10 +21,9 @@ class MedicinePage extends ConsumerStatefulWidget {
 
 class _MedicinePageState extends ConsumerState<MedicinePage>
     with SingleTickerProviderStateMixin {
-  static const _scheduleControlsScrollRange = 150.0;
-
   late final AnimationController _scheduleControlsController;
   late final Animation<double> _scheduleControlsAnimation;
+  double _controlsTargetValue = 1.0;
 
   @override
   void initState() {
@@ -48,6 +47,10 @@ class _MedicinePageState extends ConsumerState<MedicinePage>
   }
 
   void _animateScheduleDateControlsTo(double value) {
+    if (_controlsTargetValue == value) {
+      return;
+    }
+    _controlsTargetValue = value;
     _scheduleControlsController.animateTo(
       value,
       duration: const Duration(milliseconds: 220),
@@ -59,14 +62,6 @@ class _MedicinePageState extends ConsumerState<MedicinePage>
     _animateScheduleDateControlsTo(1);
   }
 
-  void _updateScheduleDateControlsByScrollDelta(double delta) {
-    _scheduleControlsController.stop();
-    _scheduleControlsController.value =
-        (_scheduleControlsController.value -
-                delta / _scheduleControlsScrollRange)
-            .clamp(0.0, 1.0);
-  }
-
   bool _handleScrollNotification(
     ScrollNotification notification,
     MedicineState state,
@@ -76,18 +71,22 @@ class _MedicinePageState extends ConsumerState<MedicinePage>
       return false;
     }
 
+    final metrics = notification.metrics;
+    final pixels = metrics.pixels;
+
     if (notification is ScrollUpdateNotification) {
       final delta = notification.scrollDelta;
-      if (delta != null && delta != 0) {
-        _updateScheduleDateControlsByScrollDelta(delta);
+      if (delta == null || delta == 0) return false;
+
+      if (delta > 0) {
+        // Scrolling down — always hide
+        _animateScheduleDateControlsTo(0.0);
+      } else {
+        // Scrolling up — only show when reaching the top (first item)
+        if (pixels <= 0) {
+          _animateScheduleDateControlsTo(1.0);
+        }
       }
-    } else if (notification is OverscrollNotification) {
-      if (notification.overscroll != 0) {
-        _updateScheduleDateControlsByScrollDelta(notification.overscroll);
-      }
-    } else if (notification is ScrollEndNotification) {
-      final target = _scheduleControlsController.value >= 0.5 ? 1.0 : 0.0;
-      _animateScheduleDateControlsTo(target);
     }
 
     return false;
@@ -97,7 +96,6 @@ class _MedicinePageState extends ConsumerState<MedicinePage>
   Widget build(BuildContext context) {
     final state = ref.watch(medicineProvider);
     final notifier = ref.read(medicineProvider.notifier);
-    final profile = ref.watch(userProfileProvider);
 
     final isInitialLoading = state.isLoading && state.isInitialLoad;
     final isScheduleTab = state.selectedTab == MedicineTab.schedule;
@@ -130,7 +128,6 @@ class _MedicinePageState extends ConsumerState<MedicinePage>
                         }
                         notifier.selectTab(tab);
                       },
-                      avatarUrl: profile?.avatarUrl,
                     ),
 
                     SizedBox(height: 8.h),
