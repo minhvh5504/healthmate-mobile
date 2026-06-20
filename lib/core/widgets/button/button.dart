@@ -16,6 +16,7 @@ class Button extends StatelessWidget {
     this.width,
     this.borderColor,
     this.isLoading = false,
+    this.fontSize,
   });
 
   final String text;
@@ -27,6 +28,7 @@ class Button extends StatelessWidget {
   final double? width;
   final Color? borderColor;
   final bool isLoading;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,7 @@ class Button extends StatelessWidget {
                     text,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 16.sp,
+                      fontSize: fontSize ?? 16.sp,
                       fontWeight: FontWeight.w600,
                       color: textColor ?? AppColors.typoWhite,
                       letterSpacing: -0.2,

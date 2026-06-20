@@ -178,6 +178,10 @@ class SendRequestNotifier extends StateNotifier<SendRequestState> {
       return 'forgot_password.errors.user_not_found'.tr();
     }
 
+    if (cleanError == 'AUTH.LOGIN.ACCOUNT_DISABLED') {
+      return 'forgot_password.errors.account_disabled'.tr();
+    }
+
     switch (cleanError) {
       case 'Failed to connect to the server':
         return 'forgot_password.errors.failed_connect_server'.tr();

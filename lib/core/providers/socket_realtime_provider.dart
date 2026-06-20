@@ -68,11 +68,9 @@ class DeviceTokenService {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      final saved = prefs.getString(_key);
 
-      // Skip if token unchanged.
-      if (saved == token) return;
-
+      // Always register on login. Backend upsert moves this device token
+      // to the currently authenticated account when users switch accounts.
       final dio = Dio(BaseOptions(baseUrl: ApiBase.baseUrl));
       await dio.post(
         'notifications/device-tokens',
@@ -83,6 +81,32 @@ class DeviceTokenService {
       await prefs.setString(_key, token);
     } catch (e) {
       // Non-critical: log and continue.
+    }
+  }
+
+  /// Unregister and rotate the FCM token when the current account logs out.
+  Future<void> unregisterToken({String? accessToken}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token =
+        prefs.getString(_key) ?? await FirebaseMessaging.instance.getToken();
+    final authToken = accessToken ?? _ref.read(authProvider).accessToken;
+
+    try {
+      if (token != null && authToken != null && authToken.isNotEmpty) {
+        final dio = Dio(BaseOptions(baseUrl: ApiBase.baseUrl));
+        await dio.delete(
+          'notifications/device-tokens',
+          queryParameters: {'token': token},
+          options: Options(headers: {'Authorization': 'Bearer $authToken'}),
+        );
+      }
+    } catch (_) {
+      // Non-critical: deleting the local FCM token still invalidates it.
+    } finally {
+      await prefs.remove(_key);
+      try {
+        await FirebaseMessaging.instance.deleteToken();
+      } catch (_) {}
     }
   }
 

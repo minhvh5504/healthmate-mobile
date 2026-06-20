@@ -48,7 +48,8 @@ class RegisterPage extends ConsumerWidget {
                         // Title
                         Text(
                           'register.title'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w800,
                             color: AppColors.typoBlack,
@@ -61,7 +62,8 @@ class RegisterPage extends ConsumerWidget {
                         // Subtitle
                         Text(
                           'register.subtitle'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.typoBody,
@@ -112,23 +114,12 @@ class RegisterPage extends ConsumerWidget {
 
                 SizedBox(height: 16.h),
 
-                state.isLoading
-                    ? Center(
-                        child: SizedBox(
-                          width: 28.w,
-                          height: 28.w,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: AppColors.lightBlue,
-                          ),
-                        ),
-                      )
-                    : Button(
-                        text: 'register.signup_button'.tr(),
-                        onPressed: state.isValid
-                            ? () => notifier.onSignUp(context)
-                            : null,
-                      ),
+                Button(
+                  text: 'register.signup_button'.tr(),
+                  onPressed: state.isValid && !state.isLoading
+                      ? () => notifier.onSignUp(context)
+                      : null,
+                ),
 
                 SizedBox(height: 36.h),
               ],

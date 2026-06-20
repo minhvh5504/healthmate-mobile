@@ -29,6 +29,7 @@
     "password_label": "Mật khẩu",
     "confirm_password_label": "Xác nhận mật khẩu",
     "signup_button": "Đăng ký",
+    "success": "Đăng ký thành công. Vui lòng đăng nhập.",
     "error_invalid_email": "Email không hợp lệ",
     "error_password_min_length": "Mật khẩu phải có ít nhất 8 ký tự",
     "error_password_lowercase": "Mật khẩu phải chứa ít nhất một chữ cái thường",
@@ -69,6 +70,11 @@
       "user_not_found": "Không tìm thấy người dùng",
       "unexpected": "Đã xảy ra lỗi không mong muốn"
     },
+    "invalid_credentials_dialog": {
+      "title": "Đăng nhập thất bại",
+      "message": "Email hoặc mật khẩu bạn nhập không chính xác. Vui lòng thử lại.",
+      "button": "Thử lại"
+    },
     "user_not_found_dialog": {
       "title": "Ôi không!",
       "message": "Tài khoản này không tồn tại. Vui lòng sử dụng phương pháp đăng nhập khác hoặc tạo tài khoản mới",
@@ -84,6 +90,11 @@
       "title": "Tài khoản bị khóa",
       "message": "Tài khoản của bạn đã bị khóa bởi quản trị viên. Vui lòng liên hệ 0374218961 để được hỗ trợ.",
       "button": "Đồng ý"
+    },
+    "account_locked_dialog": {
+      "title": "Tài khoản tạm thời bị khóa",
+      "message": "Tài khoản của bạn đã tạm thời bị khóa trong 5 phút do đăng nhập sai quá nhiều lần. Vui lòng thử lại sau.",
+      "button": "Đồng ý"
     }
   },
   "verify_account": {
@@ -94,6 +105,7 @@
     "resend": "Gửi lại",
     "button_verify": "Gửi mã",
     "resend_success": "Đã gửi lại mã xác thực!",
+    "verify_success": "Xác minh tài khoản thành công. Vui lòng đăng nhập.",
     "errors": {
       "user_not_found": "Không tìm thấy thông tin người dùng.",
       "invalid_code": "Mã xác thực không chính xác.",
@@ -143,6 +155,7 @@
     "error_invalid_email": "Email không hợp lệ",
     "errors": {
       "user_not_found": "Không tìm thấy người dùng",
+      "account_disabled": "Tài khoản đã bị quản trị viên vô hiệu hóa.",
       "unexpected": "Đã xảy ra lỗi không mong muốn",
       "failed_connect_server": "Không thể kết nối đến máy chủ"
     },
@@ -171,6 +184,7 @@
       "invalid_token": "Liên kết đặt lại mật khẩu đã hết hạn hoặc không hợp lệ. Vui lòng yêu cầu mã mới.",
       "user_not_found": "Không tìm thấy người dùng",
       "account_disabled": "Tài khoản của bạn đã bị khóa bởi quản trị viên.",
+      "same_password": "Mật khẩu mới phải khác mật khẩu cũ.",
       "failed_connect_server": "Không thể kết nối đến máy chủ"
     }
   },
@@ -693,8 +707,20 @@
     "unauthorized": "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại",
     "forbidden": "Bạn không có quyền thực hiện thao tác này",
     "not_found": "Không tìm thấy dữ liệu",
+    "conflict": "Thông tin này đã tồn tại hoặc xung đột với dữ liệu hiện có",
+    "invalid_data": "Thông tin gửi lên không hợp lệ",
     "server": "Lỗi máy chủ, vui lòng thử lại sau",
-    "bad_response": "Phản hồi không hợp lệ từ máy chủ"
+    "bad_response": "Không thể hoàn tất yêu cầu",
+    "user_not_found": "Không tìm thấy người dùng",
+    "file_upload_failed": "Tải tệp lên thất bại. Vui lòng thử lại.",
+    "file_too_large": "Tệp đã chọn có dung lượng quá lớn.",
+    "file_invalid_type": "Định dạng tệp này không được hỗ trợ.",
+    "medication_not_found": "Không tìm thấy thuốc.",
+    "prescription_not_found": "Không tìm thấy đơn thuốc.",
+    "prescription_invalid_date_range": "Khoảng thời gian của đơn thuốc không hợp lệ.",
+    "relationship_not_found": "Không tìm thấy kết nối gia đình.",
+    "relationship_exists": "Kết nối gia đình này đã tồn tại.",
+    "relationship_not_pending": "Lời mời gia đình này không còn ở trạng thái chờ."
   },
   "prescription": {
     "title": "Đơn thuốc",

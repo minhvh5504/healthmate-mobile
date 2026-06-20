@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +67,10 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
       );
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 
@@ -140,7 +144,7 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
         isLoading: false,
         members: previousMembers,
         removingMemberIds: {...state.removingMemberIds}..remove(member.id),
-        errorMessage: e.toString(),
+        errorMessage: AppToast.message(e),
       );
     }
   }
@@ -153,7 +157,10 @@ class FamilyConnectionNotifier extends StateNotifier<FamilyConnectionState> {
       await acceptInvitation(token: token);
       await loadMembers();
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -176,9 +177,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
         ToastificationType.success,
       );
     } catch (e) {
-      final message = e.toString().contains('Exception:')
-          ? e.toString().split('Exception:').last.trim()
-          : e.toString();
+      final message = AppToast.message(e);
       state = state.copyWith(isUploadingAvatar: false, errorMessage: message);
       _showAvatarToast(message, ToastificationType.error);
     }

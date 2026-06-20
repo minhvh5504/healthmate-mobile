@@ -53,9 +53,9 @@ class AppToast {
   /// Shows a user-friendly error toast.
   /// Accepts any object (DioException, Exception, String, etc.)
   static void error(Object? err) {
-    final message = _parseError(err);
+    final errorMessage = message(err);
     toastification.show(
-      title: Text(message),
+      title: Text(errorMessage),
       autoCloseDuration: const Duration(seconds: 4),
       type: ToastificationType.error,
       style: ToastificationStyle.flat,
@@ -71,29 +71,21 @@ class AppToast {
     );
   }
 
+  /// Converts an exception or API error into a localized user-facing message.
+  static String message(Object? err) => _parseError(err);
+
   static String _parseError(Object? err) {
     if (err == null) return 'error.unknown'.tr();
-
-    if (err is DioException) {
-      return _parseDioError(err);
-    }
-
-    final raw = err.toString();
-    if (raw.contains('Exception:')) {
-      return raw.split('Exception:').last.trim();
-    }
-
-    return raw.isNotEmpty ? raw : 'error.unknown'.tr();
+    if (err is DioException) return _parseDioError(err);
+    return _parseStringError(err.toString());
   }
 
   static String _parseDioError(DioException err) {
     final data = err.response?.data;
     if (data is Map<String, dynamic>) {
-      final msg =
-          data['message'] as String? ??
-          data['error'] as String? ??
-          data['msg'] as String?;
-      if (msg != null && msg.isNotEmpty) return msg;
+      final code = (data['errorCode'] ?? data['messageCode'])?.toString();
+      final localizedCode = _translateMessageCode(code);
+      if (localizedCode != null) return localizedCode;
     }
 
     switch (err.type) {
@@ -108,11 +100,68 @@ class AppToast {
         if (status == 401) return 'error.unauthorized'.tr();
         if (status == 403) return 'error.forbidden'.tr();
         if (status == 404) return 'error.not_found'.tr();
+        if (status == 409) return 'error.conflict'.tr();
+        if (status == 422) return 'error.invalid_data'.tr();
         if (status != null && status >= 500) return 'error.server'.tr();
         return 'error.bad_response'.tr();
       default:
         return 'error.unknown'.tr();
     }
+  }
+
+  static String _parseStringError(String raw) {
+    final clean = raw.replaceFirst(RegExp(r'^Exception:\s*'), '').trim();
+    if (clean.isEmpty) return 'error.unknown'.tr();
+
+    final localizedCode = _translateMessageCode(clean);
+    if (localizedCode != null) return localizedCode;
+
+    if (RegExp(r'^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$').hasMatch(clean)) {
+      return clean.tr();
+    }
+
+    final isTechnical =
+        raw.startsWith('Exception:') ||
+        clean.contains('DioException') ||
+        clean.contains('SocketException') ||
+        clean.contains('FormatException') ||
+        clean.contains('StackTrace');
+    return isTechnical ? 'error.unknown'.tr() : clean;
+  }
+
+  static String? _translateMessageCode(String? code) {
+    final key = switch (code) {
+      'AUTH.LOGIN.INVALID_CREDENTIALS' => 'login.errors.wrong_credentials',
+      'AUTH.LOGIN.NOT_VERIFIED' => 'login.errors.account_not_verified',
+      'AUTH.LOGIN.ACCOUNT_DISABLED' => 'login.errors.account_disabled',
+      'AUTH.LOGIN.ACCOUNT_LOCKED' => 'login.account_locked_dialog.message',
+      'AUTH.REGISTER.EMAIL_EXISTS' => 'register.errors.email_exists',
+      'AUTH.VERIFY.INVALID_OTP' => 'verify_account.errors.invalid_code',
+      'AUTH.VERIFY.OTP_EXPIRED' => 'verify_account.errors.expired_code',
+      'AUTH.VERIFY.INVALID_TOKEN' => 'reset_password.errors.invalid_token',
+      'AUTH.PASSWORD.SAME_PASSWORD' => 'reset_password.errors.same_password',
+      'AUTH.CHANGE_PASSWORD.WRONG_CURRENT_PASSWORD' =>
+        'change_password.errors.wrong_current_password',
+      'AUTH.CHANGE_PASSWORD.OAUTH_NO_PASSWORD' =>
+        'change_password.errors.oauth_no_password',
+      'AUTH.INSUFFICIENT_PERMISSIONS' => 'error.forbidden',
+      'USER.NOT_FOUND' => 'error.user_not_found',
+      'UPLOAD.FAILED' => 'error.file_upload_failed',
+      'UPLOAD.FILE_TOO_LARGE' => 'error.file_too_large',
+      'UPLOAD.INVALID_TYPE' => 'error.file_invalid_type',
+      'MEDICATION.NOT_FOUND' => 'error.medication_not_found',
+      'PRESCRIPTION.NOT_FOUND' => 'error.prescription_not_found',
+      'PRESCRIPTION.INVALID_DATE_RANGE' =>
+        'error.prescription_invalid_date_range',
+      'RELATIONSHIP.NOT_FOUND' => 'error.relationship_not_found',
+      'RELATIONSHIP.ALREADY_EXISTS' => 'error.relationship_exists',
+      'RELATIONSHIP.NOT_PENDING' => 'error.relationship_not_pending',
+      'REMINDER_SCHEDULE.NOT_FOUND' ||
+      'MEDICATION_LOG.NOT_FOUND' ||
+      'NOTIFICATION_TIME_SLOT.NOT_FOUND' => 'error.not_found',
+      _ => null,
+    };
+    return key?.tr();
   }
 }
 

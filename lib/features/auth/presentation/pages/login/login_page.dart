@@ -48,7 +48,8 @@ class LoginPage extends ConsumerWidget {
                         // Title
                         Text(
                           'login.title'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w800,
                             color: AppColors.typoBlack,
@@ -61,7 +62,8 @@ class LoginPage extends ConsumerWidget {
                         // Subtitle
                         Text(
                           'login.subtitle'.tr(),
-                          style: TextStyle(fontFamily: 'Inter',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.typoBody,
@@ -101,7 +103,8 @@ class LoginPage extends ConsumerWidget {
                             onTap: () => notifier.onForgotPassword(context),
                             child: Text(
                               'login.forgot_password'.tr(),
-                              style: TextStyle(fontFamily: 'Inter',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.typoBody,
@@ -118,23 +121,12 @@ class LoginPage extends ConsumerWidget {
 
                 SizedBox(height: 16.h),
 
-                state.isLoading
-                    ? Center(
-                        child: SizedBox(
-                          width: 28.w,
-                          height: 28.w,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: AppColors.lightBlue,
-                          ),
-                        ),
-                      )
-                    : Button(
-                        text: 'login.login_button'.tr(),
-                        onPressed: state.isValid
-                            ? () => notifier.onSignIn(context)
-                            : null,
-                      ),
+                Button(
+                  text: 'login.login_button'.tr(),
+                  onPressed: state.isValid && !state.isLoading
+                      ? () => notifier.onSignIn(context)
+                      : null,
+                ),
 
                 SizedBox(height: 36.h),
               ],

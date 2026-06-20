@@ -6,6 +6,9 @@ import 'package:toastification/toastification.dart';
 import 'core/routing/app_router.dart';
 import 'core/routing/app_routes.dart';
 import 'core/utils/app_toast.dart';
+import 'core/widgets/app_dot_loader.dart';
+import 'features/auth/presentation/providers/login/login_provider.dart';
+import 'features/auth/presentation/providers/register/register_provider.dart';
 import 'features/notifications/presentation/providers/notification_provider.dart';
 
 class MyApp extends ConsumerWidget {
@@ -14,6 +17,13 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final isLoginLoading = ref.watch(
+      loginNotifierProvider.select((state) => state.isLoading),
+    );
+    final isRegisterLoading = ref.watch(
+      registerNotifierProvider.select((state) => state.isLoading),
+    );
+    final isAuthLoading = isLoginLoading || isRegisterLoading;
 
     ref.listen<int>(
       notificationProvider.select((state) => state.realtimeNotificationSerial),
@@ -50,6 +60,10 @@ class MyApp extends ConsumerWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
             routerConfig: router,
+            builder: (context, child) => AppDotLoadingOverlay(
+              isLoading: isAuthLoading,
+              child: child ?? const SizedBox.shrink(),
+            ),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,

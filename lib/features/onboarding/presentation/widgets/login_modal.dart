@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/constant_url.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/button/button.dart';
-import '../providers/onboarding/onboarding_provider.dart';
 
 class LoginModal extends ConsumerWidget {
   final VoidCallback onContinueWithEmail;
@@ -22,9 +21,6 @@ class LoginModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(
-      onboardingNotifierProvider.select((s) => s.isLoading),
-    );
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -126,22 +122,14 @@ class LoginModal extends ConsumerWidget {
           SizedBox(height: 24.h),
 
           // Continue with Google
-          isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(color: AppColors.lightBlue),
-                )
-              : Button(
-                  text: 'login_modal.continue_with_google'.tr(),
-                  color: AppColors.bgWhite,
-                  textColor: AppColors.typoBlack,
-                  borderColor: Colors.grey[300],
-                  icon: SvgPicture.asset(
-                    AppIcons.google,
-                    width: 20.w,
-                    height: 20.h,
-                  ),
-                  onPressed: onContinueWithGoogle,
-                ),
+          Button(
+            text: 'login_modal.continue_with_google'.tr(),
+            color: AppColors.bgWhite,
+            textColor: AppColors.typoBlack,
+            borderColor: Colors.grey[300],
+            icon: SvgPicture.asset(AppIcons.google, width: 20.w, height: 20.h),
+            onPressed: onContinueWithGoogle,
+          ),
           SizedBox(height: 96.h),
         ],
       ),

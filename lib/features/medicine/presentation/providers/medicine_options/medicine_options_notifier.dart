@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -126,7 +127,10 @@ class MedicineOptionsNotifier extends StateNotifier<MedicineOptionsState> {
 
       AppRouter.router.go(AppRoutes.medicine);
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 }

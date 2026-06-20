@@ -1,8 +1,8 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/routing/app_routes.dart';
-import '../../../../../core/utils/app_toast.dart';
 import '../prescription/prescription_provider.dart';
 
 class ViewAllPrescriptionState {
@@ -55,7 +55,10 @@ class ViewAllPrescriptionNotifier
     try {
       await _ref.read(prescriptionProvider.notifier).fetchPrescriptions();
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
       AppToast.error(e);
     }
   }

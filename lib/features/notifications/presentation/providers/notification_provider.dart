@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthmate_mobile/core/providers/socket_realtime_provider.dart';
+import 'package:healthmate_mobile/features/auth/presentation/providers/auth/auth_provider.dart';
 import '../../../../core/network/api_client.dart';
 import '../../data/api/notification_api.dart';
 import '../../data/datasources/notification_remote_datasource.dart';
@@ -60,6 +61,10 @@ final deleteAllNotificationsUseCaseProvider = Provider<DeleteAllNotifications>((
 /// Notifier Provider
 final notificationProvider =
     StateNotifierProvider<NotificationNotifier, NotificationState>((ref) {
+      final isLoggedIn = ref.watch(
+        authProvider.select((state) => state.isLoggedIn),
+      );
+
       return NotificationNotifier(
         ref.read(getNotificationsUseCaseProvider),
         ref.read(markNotificationReadByIdUseCaseProvider),
@@ -67,5 +72,6 @@ final notificationProvider =
         ref.read(deleteNotificationByIdUseCaseProvider),
         ref.read(deleteAllNotificationsUseCaseProvider),
         ref.read(realtimeServiceProvider),
+        shouldFetch: isLoggedIn,
       );
     });

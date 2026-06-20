@@ -97,6 +97,7 @@ class AccountNotFoundDialog extends StatelessWidget {
                   text: primaryButtonText,
                   height: 48.h,
                   width: double.infinity,
+                  fontSize: 15.sp,
                   onPressed: () {
                     context.pop();
                     onPrimaryPressed();
@@ -113,6 +114,7 @@ class AccountNotFoundDialog extends StatelessWidget {
                   color: Colors.white,
                   textColor: AppColors.typoBlack,
                   borderColor: AppColors.bgDisable,
+                  fontSize: 15.sp,
                   onPressed: () {
                     context.pop();
                     onSecondaryPressed();

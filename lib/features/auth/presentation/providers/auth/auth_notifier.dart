@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthmate_mobile/core/providers/realtime_provider.dart';
+import 'package:healthmate_mobile/core/providers/socket_realtime_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../domain/usecases/refresh_token_account.dart';
 
@@ -80,16 +80,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Logout
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
+    final currentAccessToken =
+        state.accessToken ?? prefs.getString('access_token');
+
+    // Unregister this device while the old account token is still valid.
+    try {
+      await ref
+          .read(deviceTokenServiceProvider)
+          .unregisterToken(accessToken: currentAccessToken);
+    } catch (_) {}
 
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
     await prefs.setBool('isLogin', false);
 
     state = const AuthState(isLoggedIn: false);
-
-    try {
-      await ref.read(deviceTokenServiceProvider).unregisterToken();
-    } catch (_) {}
   }
 
   /// Refresh access token.

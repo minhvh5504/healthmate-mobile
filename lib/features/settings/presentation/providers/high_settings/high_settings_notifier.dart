@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,10 @@ class HighSettingsNotifier extends StateNotifier<HighSettingsState> {
       final profile = await getUserProfile();
       state = state.copyWith(profile: profile, isLoading: false);
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 

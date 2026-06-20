@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -23,8 +24,8 @@ class HistoryState {
     this.monthlyAdherence = 0.0,
     this.dailyLogs = const [],
     this.monthlyLogs = const [],
-  })  : selectedDate = selectedDate ?? DateTime.now(),
-        focusedMonth = focusedMonth ?? DateTime.now();
+  }) : selectedDate = selectedDate ?? DateTime.now(),
+       focusedMonth = focusedMonth ?? DateTime.now();
 
   HistoryState copyWith({
     bool? isLoading,
@@ -71,9 +72,17 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
     try {
       final dateStr = DateFormat('yyyy-MM-dd').format(date);
       final logs = await _getHistoryLogs(date: dateStr, range: 'day');
-      state = state.copyWith(isLoading: false, isInitialLoad: false, dailyLogs: logs);
+      state = state.copyWith(
+        isLoading: false,
+        isInitialLoad: false,
+        dailyLogs: logs,
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, isInitialLoad: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        isInitialLoad: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 
@@ -81,7 +90,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
     try {
       final dateStr = DateFormat('yyyy-MM-dd').format(month);
       final logs = await _getHistoryLogs(date: dateStr, range: 'month');
-      
+
       if (logs.isEmpty) {
         state = state.copyWith(monthlyAdherence: 0.0, monthlyLogs: []);
         return;
@@ -89,11 +98,8 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
 
       final takenCount = logs.where((l) => l.isTaken).length;
       final adherence = takenCount / logs.length;
-      
-      state = state.copyWith(
-        monthlyAdherence: adherence,
-        monthlyLogs: logs,
-      );
+
+      state = state.copyWith(monthlyAdherence: adherence, monthlyLogs: logs);
     } catch (e) {
       debugPrint('Error fetching monthly data: $e');
     }
@@ -109,7 +115,8 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   }
 
   void changeFocusedMonth(DateTime month) {
-    if (month.year == state.focusedMonth.year && month.month == state.focusedMonth.month) {
+    if (month.year == state.focusedMonth.year &&
+        month.month == state.focusedMonth.month) {
       return;
     }
     state = state.copyWith(focusedMonth: month);

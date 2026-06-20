@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -147,7 +148,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
       await _handleProcess(image.path);
     } catch (e) {
       _safeSetState(
-        state.copyWith(isLoading: false, errorMessage: e.toString()),
+        state.copyWith(isLoading: false, errorMessage: AppToast.message(e)),
       );
     }
   }
@@ -183,7 +184,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
       try {
         final ocrResult = await _recognizeText(path);
         if (ocrResult.scannedText.trim().isEmpty) {
-          throw Exception('medicine.scan.error_no_text'.tr());
+          throw Exception('medicine.scan.error_no_text');
         }
 
         final taskResult = await _scanMedication(
@@ -212,7 +213,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
         medicineNotifier.updateScanTask(
           scanTaskId,
           ScanStatus.failed,
-          errorMessage: e.toString(),
+          errorMessage: AppToast.message(e),
         );
       } finally {
         keepAlive.close();
@@ -220,7 +221,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
     } catch (e) {
       keepAlive.close();
       _safeSetState(
-        state.copyWith(isLoading: false, errorMessage: e.toString()),
+        state.copyWith(isLoading: false, errorMessage: AppToast.message(e)),
       );
     }
   }
@@ -457,7 +458,7 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
       return true;
     } catch (e) {
       _safeSetState(
-        state.copyWith(isLoading: false, errorMessage: e.toString()),
+        state.copyWith(isLoading: false, errorMessage: AppToast.message(e)),
       );
       return false;
     }

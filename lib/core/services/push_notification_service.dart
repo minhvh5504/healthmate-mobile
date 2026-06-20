@@ -15,12 +15,25 @@ class PushNotificationService {
   static const _channelId = 'healthmate_notifications';
   static const _channelName = 'Healthmate Notifications';
 
+  static bool _initialized = false;
+  static late Future<void> Function(String token) _onTokenRefresh;
+  static late void Function(RemoteMessage message) _onForegroundMessage;
+  static late void Function(RemoteMessage? message) _onMessageOpenedApp;
+
   /// Initialize local notifications and FCM listeners.
   static Future<void> initialize({
     required Future<void> Function(String token) onTokenRefresh,
     required void Function(RemoteMessage message) onForegroundMessage,
     required void Function(RemoteMessage? message) onMessageOpenedApp,
   }) async {
+    // Keep callbacks current when ProviderScope is reset, but install the
+    // Firebase listeners only once for the lifetime of the process.
+    _onTokenRefresh = onTokenRefresh;
+    _onForegroundMessage = onForegroundMessage;
+    _onMessageOpenedApp = onMessageOpenedApp;
+    if (_initialized) return;
+    _initialized = true;
+
     // Local Notifications
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosInit = DarwinInitializationSettings(
@@ -33,7 +46,7 @@ class PushNotificationService {
       const InitializationSettings(android: androidInit, iOS: iosInit),
       onDidReceiveNotificationResponse: (response) {
         // Handle local notification tap
-        onMessageOpenedApp(null);
+        _onMessageOpenedApp(null);
       },
     );
 
@@ -72,28 +85,28 @@ class PushNotificationService {
     FirebaseMessaging.onMessage.listen((message) {
       debugPrint('[FCM] Foreground message: ${message.messageId}');
       _showLocalNotification(message);
-      onForegroundMessage(message);
+      _onForegroundMessage(message);
     });
 
     // App opened from notification
-    FirebaseMessaging.onMessageOpenedApp.listen(onMessageOpenedApp);
+    FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
 
     // Check if app was launched from a terminated-state notification
     final initialMessage = await messaging.getInitialMessage();
     if (initialMessage != null) {
-      onMessageOpenedApp(initialMessage);
+      _onMessageOpenedApp(initialMessage);
     }
 
     // ---------- Token management ----------
     final token = await messaging.getToken();
     if (token != null) {
       debugPrint('[FCM] Token: $token');
-      await onTokenRefresh(token);
+      await _onTokenRefresh(token);
     }
 
     messaging.onTokenRefresh.listen((newToken) async {
       debugPrint('[FCM] Token refreshed');
-      await onTokenRefresh(newToken);
+      await _onTokenRefresh(newToken);
     });
   }
 

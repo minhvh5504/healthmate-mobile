@@ -13,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart' as gs;
 
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/utils/app_toast.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
@@ -321,21 +322,43 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }) {
     final isNotVerified =
         errorCode == 'AUTH.ACCOUNT_NOT_VERIFIED' ||
+        errorCode == 'AUTH.LOGIN.ACCOUNT_NOT_VERIFIED' ||
+        errorCode == 'AUTH.LOGIN.NOT_VERIFIED' ||
         errorMessage.contains('Please verify your email address first') ||
         errorMessage.contains('User not verified');
 
     final isAccountDisabled =
         errorCode == 'AUTH.ACCOUNT_DISABLED' ||
+        errorCode == 'AUTH.LOGIN.ACCOUNT_DISABLED' ||
         errorMessage.contains(
           'Your account has been deactivated/blocked by admin',
         );
 
+    final isAccountLocked = errorCode == 'AUTH.LOGIN.ACCOUNT_LOCKED';
+
+    final isInvalidCredentials =
+        errorCode == 'AUTH.INVALID_CREDENTIALS' ||
+        errorCode == 'AUTH.LOGIN.INVALID_CREDENTIALS' ||
+        errorMessage.contains('Email or password is incorrect');
+
     final isNotFound =
         errorCode == 'AUTH.USER_NOT_FOUND' ||
-        errorCode == 'AUTH.INVALID_CREDENTIALS' ||
-        errorMessage.contains('User not found') ||
-        errorMessage.contains('Email or password is incorrect') ||
-        errorCode == '401';
+        errorCode == 'AUTH.LOGIN.USER_NOT_FOUND' ||
+        errorMessage.contains('User not found');
+
+    if (isInvalidCredentials) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => ConfirmDialog(
+          title: 'login.invalid_credentials_dialog.title'.tr(),
+          message: 'login.invalid_credentials_dialog.message'.tr(),
+          buttonText: 'login.invalid_credentials_dialog.button'.tr(),
+          onTap: () {},
+        ),
+      );
+      return;
+    }
 
     if (isNotFound) {
       showDialog(
@@ -360,6 +383,20 @@ class LoginNotifier extends StateNotifier<LoginState> {
       return;
     }
 
+    if (isAccountLocked) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => ConfirmDialog(
+          title: 'login.account_locked_dialog.title'.tr(),
+          message: 'login.account_locked_dialog.message'.tr(),
+          buttonText: 'login.account_locked_dialog.button'.tr(),
+          onTap: () {},
+        ),
+      );
+      return;
+    }
+
     if (isAccountDisabled) {
       showDialog(
         context: context,
@@ -370,17 +407,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
 
     if (isNotVerified) {
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) => ConfirmDialog(
-          message: message,
-          onTap: () {
-            ref.read(previousPageProvider.notifier).state = 'login';
-            context.go(AppRoutes.verifyaccount);
-          },
-        ),
-      );
+      state = state.copyWith(errorMessage: null);
+      ref.read(previousPageProvider.notifier).state = 'login';
+      AppToast.warning('login.errors.account_not_verified'.tr());
+      context.go(AppRoutes.verifyaccount);
       return;
     }
 
@@ -396,6 +426,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     final cleanError = error.replaceFirst('Exception: ', '').trim();
 
     if (cleanError == 'AUTH.INVALID_CREDENTIALS' ||
+        cleanError == 'AUTH.LOGIN.INVALID_CREDENTIALS' ||
         cleanError == 'Invalid credentials' ||
         cleanError == 'Email or password is incorrect' ||
         cleanError == 'Phone number/email or password is incorrect' ||
@@ -404,17 +435,26 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
 
     if (cleanError == 'AUTH.ACCOUNT_DISABLED' ||
+        cleanError == 'AUTH.LOGIN.ACCOUNT_DISABLED' ||
         cleanError == 'Your account has been deactivated/blocked by admin') {
       return 'login.errors.account_disabled'.tr();
     }
 
+    if (cleanError == 'AUTH.LOGIN.ACCOUNT_LOCKED') {
+      return 'login.account_locked_dialog.message'.tr();
+    }
+
     if (cleanError == 'AUTH.ACCOUNT_NOT_VERIFIED' ||
+        cleanError == 'AUTH.LOGIN.ACCOUNT_NOT_VERIFIED' ||
+        cleanError == 'AUTH.LOGIN.NOT_VERIFIED' ||
         cleanError == 'Please verify your email address first' ||
         cleanError == 'User not verified') {
       return 'login.errors.account_not_verified'.tr();
     }
 
-    if (cleanError == 'AUTH.USER_NOT_FOUND' || cleanError == 'User not found') {
+    if (cleanError == 'AUTH.USER_NOT_FOUND' ||
+        cleanError == 'AUTH.LOGIN.USER_NOT_FOUND' ||
+        cleanError == 'User not found') {
       return 'login.errors.user_not_found'.tr();
     }
 

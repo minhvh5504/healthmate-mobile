@@ -213,18 +213,26 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
     final cleanError = error.replaceFirst('Exception: ', '').trim();
 
     if (cleanError == 'AUTH.INVALID_TOKEN' ||
+        cleanError == 'AUTH.VERIFY.INVALID_TOKEN' ||
         cleanError == 'Invalid or expired reset token' ||
         cleanError == 'Invalid token type') {
       return 'reset_password.errors.invalid_token'.tr();
     }
 
-    if (cleanError == 'AUTH.USER_NOT_FOUND' || cleanError == 'User not found') {
+    if (cleanError == 'AUTH.USER_NOT_FOUND' ||
+        cleanError == 'USER.NOT_FOUND' ||
+        cleanError == 'User not found') {
       return 'reset_password.errors.user_not_found'.tr();
     }
 
     if (cleanError == 'AUTH.ACCOUNT_DISABLED' ||
+        cleanError == 'AUTH.LOGIN.ACCOUNT_DISABLED' ||
         cleanError == 'Your account has been deactivated/blocked by admin') {
       return 'reset_password.errors.account_disabled'.tr();
+    }
+
+    if (cleanError == 'AUTH.PASSWORD.SAME_PASSWORD') {
+      return 'reset_password.errors.same_password'.tr();
     }
 
     if (cleanError == 'Invalid password') {
