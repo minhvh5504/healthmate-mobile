@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthmate_mobile/features/auth/presentation/providers/auth/auth_provider.dart';
 import '../../../domain/entities/chat_message.dart';
@@ -62,7 +63,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
       state = state.copyWith(messages: history, isLoading: false);
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 
@@ -133,7 +137,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       state = state.copyWith(
         isLoading: false,
         streamingContent: null,
-        errorMessage: e.toString(),
+        errorMessage: AppToast.message(e),
       );
     }
   }
@@ -150,7 +154,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
       state = ChatState();
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -177,7 +178,10 @@ class AddPrescriptionNotifier extends StateNotifier<AddPrescriptionState> {
       );
       AppRouter.router.pop(true);
     } catch (e) {
-      state = state.copyWith(isSaving: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isSaving: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 

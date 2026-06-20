@@ -249,6 +249,7 @@ class VerifyPasswordNotifier extends StateNotifier<VerifyPasswordState> {
 
     switch (error) {
       case 'AUTH.VERIFY.USER_NOT_FOUND':
+      case 'USER.NOT_FOUND':
         return 'verify_password.errors.invalid_phone_or_email'.tr();
       case 'AUTH.VERIFY.INVALID_OTP':
       case 'HTTP.400':

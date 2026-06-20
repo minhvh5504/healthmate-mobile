@@ -1,10 +1,10 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/prescription.dart';
 import '../../../domain/usecases/get_prescriptions.dart';
 import '../../../domain/usecases/delete_prescription.dart';
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/routing/app_routes.dart';
-import '../../../../../core/utils/app_toast.dart';
 
 class PrescriptionState {
   final bool isLoading;
@@ -61,7 +61,7 @@ class PrescriptionNotifier extends StateNotifier<PrescriptionState> {
       state = state.copyWith(
         isLoading: false,
         isInitialLoad: false,
-        errorMessage: e.toString(),
+        errorMessage: AppToast.message(e),
       );
       AppToast.error(e);
     }
@@ -73,7 +73,10 @@ class PrescriptionNotifier extends StateNotifier<PrescriptionState> {
       await _deletePrescription(id);
       await fetchPrescriptions();
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
       AppToast.error(e);
       rethrow;
     }

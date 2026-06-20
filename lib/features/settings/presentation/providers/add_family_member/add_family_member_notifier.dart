@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -125,9 +126,7 @@ class AddFamilyMemberNotifier extends StateNotifier<AddFamilyMemberState> {
       await ref.read(familyConnectionProvider.notifier).onRefresh();
       AppRouter.router.pop(true);
     } catch (e) {
-      final errorMsg = e.toString().contains('Exception:')
-          ? e.toString().split('Exception:').last.trim()
-          : e.toString();
+      final errorMsg = AppToast.message(e);
 
       state = state.copyWith(isLoading: false, errorMessage: errorMsg);
 

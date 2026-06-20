@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/routing/app_router.dart';
@@ -98,7 +99,10 @@ class AddMedicineNotifier extends StateNotifier<AddMedicineState> {
       final results = await _searchMedications(query);
       state = state.copyWith(searchResults: results, isLoading: false);
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,8 @@ import '../../data/models/notification_model.dart';
 import '../pages/widgets/notification_more_menu.dart';
 
 enum NotificationFilter { all, today }
+
+const _notificationUndefined = Object();
 
 /// State
 class NotificationState {
@@ -36,7 +39,7 @@ class NotificationState {
   NotificationState copyWith({
     List<NotificationEntity>? notifications,
     bool? isLoading,
-    String? errorMessage,
+    Object? errorMessage = _notificationUndefined,
     int? unreadCount,
     NotificationFilter? filter,
     NotificationEntity? latestRealtimeNotification,
@@ -45,7 +48,9 @@ class NotificationState {
     return NotificationState(
       notifications: notifications ?? this.notifications,
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: identical(errorMessage, _notificationUndefined)
+          ? this.errorMessage
+          : errorMessage as String?,
       unreadCount: unreadCount ?? this.unreadCount,
       filter: filter ?? this.filter,
       latestRealtimeNotification:
@@ -75,9 +80,10 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
     this._markAllNotificationsRead,
     this._deleteNotificationById,
     this._deleteAllNotifications,
-    this._realtimeService,
-  ) : super(NotificationState()) {
-    fetchNotifications();
+    this._realtimeService, {
+    required bool shouldFetch,
+  }) : super(NotificationState()) {
+    if (shouldFetch) fetchNotifications();
     _listenToRealtimeEvents();
   }
 
@@ -125,10 +131,17 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       ]);
       final notifications = results[0] as List<NotificationEntity>;
       if (!mounted) return;
-      state = state.copyWith(notifications: notifications, isLoading: false);
+      state = state.copyWith(
+        notifications: notifications,
+        isLoading: false,
+        errorMessage: null,
+      );
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 
@@ -145,7 +158,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
         }).toList(),
       );
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      state = state.copyWith(errorMessage: AppToast.message(e));
     }
   }
 
@@ -159,7 +172,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
         }).toList(),
       );
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      state = state.copyWith(errorMessage: AppToast.message(e));
     }
   }
 
@@ -171,7 +184,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
         notifications: state.notifications.where((n) => n.id != id).toList(),
       );
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      state = state.copyWith(errorMessage: AppToast.message(e));
     }
   }
 
@@ -181,7 +194,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       await _deleteAllNotifications();
       state = state.copyWith(notifications: []);
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      state = state.copyWith(errorMessage: AppToast.message(e));
     }
   }
 

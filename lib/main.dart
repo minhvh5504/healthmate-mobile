@@ -12,6 +12,8 @@ import 'core/services/push_notification_service.dart';
 import 'core/handlers/notification_handler.dart';
 
 import 'core/providers/app_reset_provider.dart';
+import 'core/providers/socket_realtime_provider.dart';
+import 'features/auth/presentation/providers/auth/auth_provider.dart';
 
 class AppInitializer extends ConsumerStatefulWidget {
   final Widget child;
@@ -31,7 +33,12 @@ class _AppInitializerState extends ConsumerState<AppInitializer> {
   Future<void> _initNotifications() async {
     await PushNotificationService.initialize(
       onTokenRefresh: (token) async {
-        debugPrint('[FCM] Token refreshed: $token');
+        final accessToken = ref.read(authProvider).accessToken;
+        if (accessToken == null || accessToken.isEmpty) return;
+
+        await ref
+            .read(deviceTokenServiceProvider)
+            .registerToken(token, accessToken: accessToken);
       },
       onForegroundMessage: (message) {
         debugPrint('Received foreground message: ${message.messageId}');

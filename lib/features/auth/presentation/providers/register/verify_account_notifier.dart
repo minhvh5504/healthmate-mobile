@@ -6,9 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/utils/app_toast.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../domain/usecases/resend_code.dart';
@@ -173,12 +173,12 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
       await _verifyCodeUseCase(email, state.otpCode, 'account');
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLogin', true);
+      _ref.read(loginNotifierProvider).emailController.text = email;
+      _ref.read(previousPageProvider.notifier).state = 'login';
 
       state = state.copyWith(isLoading: false, isSuccess: true);
-
-      context.go(AppRoutes.medicine);
+      AppToast.success('verify_account.verify_success'.tr());
+      context.go(AppRoutes.login);
     } catch (e) {
       _resetErrorTimer();
       _handleFailure(context, e);
@@ -244,6 +244,7 @@ class VerifyAccountNotifier extends StateNotifier<VerifyAccountState> {
 
     switch (error) {
       case 'AUTH.VERIFY.USER_NOT_FOUND':
+      case 'USER.NOT_FOUND':
         return 'verify_account.errors.user_not_found'.tr();
       case 'AUTH.VERIFY.INVALID_OTP':
       case 'HTTP.400':

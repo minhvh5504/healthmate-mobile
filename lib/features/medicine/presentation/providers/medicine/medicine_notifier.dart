@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:healthmate_mobile/features/medicine/domain/usecases/update_medic
 import 'package:healthmate_mobile/features/medicine/domain/usecases/update_user_medication.dart';
 import '../../../../../core/routing/app_router.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/utils/app_toast.dart';
 import '../../pages/medicine/widgets/medicine_quantity_popup.dart';
 import '../../pages/medicine_options/widgets/stop_medication_popup.dart';
 import '../../pages/medicine_options/widgets/delete_medication_popup.dart';
@@ -486,7 +486,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     try {
       _updateUserMedication(id: medication.id, stockCount: newQuantity);
     } catch (e) {
-      state = state.copyWith(errorMessage: e.toString());
+      state = state.copyWith(errorMessage: AppToast.message(e));
     }
   }
 
@@ -605,7 +605,10 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     );
   }
 
-  void onShowDeleteConfirmDialog(BuildContext context, UserMedication medication) {
+  void onShowDeleteConfirmDialog(
+    BuildContext context,
+    UserMedication medication,
+  ) {
     showGeneralDialog(
       context: context,
       barrierDismissible: true,

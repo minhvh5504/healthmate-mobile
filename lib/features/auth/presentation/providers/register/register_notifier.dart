@@ -7,10 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/utils/app_toast.dart';
 import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../domain/usecases/register_account.dart';
+import '../login/login_provider.dart';
 
 class RegisterState {
   final TextEditingController emailController;
@@ -167,8 +169,10 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
       await _registerUseCase(email, password);
       _setLoading(false);
 
-      _ref.read(previousPageProvider.notifier).state = 'register';
-      context.go(AppRoutes.verifyaccount);
+      _ref.read(loginNotifierProvider).emailController.text = email;
+      _ref.read(previousPageProvider.notifier).state = 'login';
+      AppToast.success('register.success'.tr());
+      context.go(AppRoutes.login);
     } catch (e) {
       _handleFailure(context, e);
     }

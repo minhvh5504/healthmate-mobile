@@ -55,7 +55,9 @@ class MedicineReminderDatePopup extends ConsumerWidget {
                       SizedBox(height: 16.h),
                     ],
                     Opacity(
-                      opacity: (isEndDate && !state.isEndDateEnabled) ? 0.3 : 1.0,
+                      opacity: (isEndDate && !state.isEndDateEnabled)
+                          ? 0.3
+                          : 1.0,
                       child: IgnorePointer(
                         ignoring: isEndDate && !state.isEndDateEnabled,
                         child: _buildCalendar(state, notifier, context),

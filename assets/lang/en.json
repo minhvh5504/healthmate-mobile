@@ -29,6 +29,7 @@
     "password_label": "Password",
     "confirm_password_label": "Confirm password",
     "signup_button": "Sign up",
+    "success": "Registration successful. Please log in.",
     "error_invalid_email": "Invalid email address",
     "error_password_min_length": "Password must be at least 8 characters",
     "error_password_lowercase": "Password must contain at least one lowercase letter",
@@ -69,6 +70,11 @@
       "user_not_found": "User not found",
       "unexpected": "An unexpected error occurred"
     },
+    "invalid_credentials_dialog": {
+      "title": "Login failed",
+      "message": "The email or password you entered is incorrect. Please try again.",
+      "button": "Try again"
+    },
     "user_not_found_dialog": {
       "title": "Oh no!",
       "message": "This account does not exist. Please use a different login method or create a new account.",
@@ -84,6 +90,11 @@
       "title": "Account Locked",
       "message": "Your account has been locked by the administrator. Please contact support at 0374218961 for assistance.",
       "button": "OK"
+    },
+    "account_locked_dialog": {
+      "title": "Account temporarily locked",
+      "message": "Your account has been temporarily locked for 5 minutes due to too many failed login attempts. Please try again later.",
+      "button": "OK"
     }
   },
   "verify_account": {
@@ -94,6 +105,7 @@
     "resend": "Resend",
     "button_verify": "Verify",
     "resend_success": "Verification code resent!",
+    "verify_success": "Account verified successfully. Please log in.",
     "errors": {
       "user_not_found": "User information not found.",
       "invalid_code": "Invalid verification code.",
@@ -143,6 +155,7 @@
     "error_invalid_email": "Invalid email address",
     "errors": {
       "user_not_found": "User not found",
+      "account_disabled": "Your account has been disabled by the administrator.",
       "unexpected": "An unexpected error occurred",
       "failed_connect_server": "Failed to connect to the server"
     },
@@ -171,6 +184,7 @@
       "invalid_token": "The reset link has expired or is invalid. Please request a new code.",
       "user_not_found": "User not found",
       "account_disabled": "Your account has been disabled by the administrator.",
+      "same_password": "The new password must be different from the old password.",
       "failed_connect_server": "Failed to connect to the server"
     }
   },
@@ -693,8 +707,20 @@
     "unauthorized": "Session expired, please log in again",
     "forbidden": "You don't have permission to do this",
     "not_found": "Data not found",
+    "conflict": "This information already exists or conflicts with existing data",
+    "invalid_data": "The submitted information is invalid",
     "server": "Server error, please try again later",
-    "bad_response": "Invalid response from server"
+    "bad_response": "The request could not be completed",
+    "user_not_found": "User not found",
+    "file_upload_failed": "File upload failed. Please try again.",
+    "file_too_large": "The selected file is too large.",
+    "file_invalid_type": "This file type is not supported.",
+    "medication_not_found": "Medication not found.",
+    "prescription_not_found": "Prescription not found.",
+    "prescription_invalid_date_range": "The prescription date range is invalid.",
+    "relationship_not_found": "Family connection not found.",
+    "relationship_exists": "This family connection already exists.",
+    "relationship_not_pending": "This family invitation is no longer pending."
   },
   "prescription": {
     "title": "Prescription",

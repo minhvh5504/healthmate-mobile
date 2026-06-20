@@ -1,3 +1,4 @@
+import 'package:healthmate_mobile/core/utils/app_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -241,7 +242,10 @@ class HealthNotifier extends StateNotifier<HealthState> {
       await fetchHealthAnalysis();
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
     }
   }
 
@@ -283,7 +287,10 @@ class HealthNotifier extends StateNotifier<HealthState> {
       await _ref.read(userProfileProvider.notifier).fetchProfile(force: true);
     } catch (e) {
       if (!mounted) return;
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: AppToast.message(e),
+      );
       rethrow;
     }
   }
@@ -311,7 +318,7 @@ class HealthNotifier extends StateNotifier<HealthState> {
       if (!context.mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      ).showSnackBar(SnackBar(content: Text(AppToast.message(e))));
     }
   }
 
