@@ -58,7 +58,11 @@ class HistoryLogCard extends StatelessWidget {
                 ],
               ),
               alignment: Alignment.center,
-              child: _buildIcon(log.remindTime),
+              child: Icon(
+                _getSectionIcon(log.remindTime),
+                color: Colors.white,
+                size: 24.sp,
+              ),
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -147,26 +151,18 @@ class HistoryLogCard extends StatelessWidget {
     return translated;
   }
 
-  Widget _buildIcon(String? remindTime) {
-    IconData iconData;
-    if (remindTime == null || remindTime.isEmpty) {
-      iconData = LucideIcons.calendar;
-    } else {
-      try {
-        final parts = remindTime.split(':');
-        final hour = int.parse(parts[0]);
-        if (hour < 12) {
-          iconData = LucideIcons.sun;
-        } else if (hour < 18) {
-          iconData = LucideIcons.sunset;
-        } else {
-          iconData = LucideIcons.moon;
-        }
-      } catch (_) {
-        iconData = LucideIcons.calendar;
-      }
-    }
+  IconData _getSectionIcon(String? remindTime) {
+    final hour = _resolveHour(remindTime);
+    if (hour == null) return LucideIcons.calendar;
+    if (hour < 12) return LucideIcons.sun;
+    if (hour < 18) return LucideIcons.sunset;
+    return LucideIcons.moon;
+  }
 
-    return Icon(iconData, color: Colors.white, size: 24.sp);
+  int? _resolveHour(String? remindTime) {
+    if (remindTime != null && remindTime.isNotEmpty) {
+      return int.tryParse(remindTime.split(':')[0]);
+    }
+    return log.actualAt?.toLocal().hour;
   }
 }

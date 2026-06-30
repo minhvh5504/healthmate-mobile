@@ -36,13 +36,14 @@ class EditPrescriptionState {
 
   factory EditPrescriptionState.initial(Prescription? prescription) {
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     return EditPrescriptionState(
       initialPrescription: prescription,
       doctorName: prescription?.doctorName ?? '',
       clinicName: prescription?.clinicName ?? '',
       note: prescription?.note ?? '',
-      startDate: prescription?.startDate ?? now,
-      endDate: prescription?.endDate ?? now.add(const Duration(days: 30)),
+      startDate: prescription?.startDate ?? today,
+      endDate: prescription?.endDate ?? today,
     );
   }
 
@@ -133,7 +134,7 @@ class EditPrescriptionNotifier extends StateNotifier<EditPrescriptionState> {
 
   void selectStartDate(DateTime date) {
     var endDate = state.endDate;
-    final minEndDate = date.add(const Duration(days: 1));
+    final minEndDate = date;
     if (endDate.isBefore(minEndDate)) {
       endDate = minEndDate;
     }
@@ -146,7 +147,7 @@ class EditPrescriptionNotifier extends StateNotifier<EditPrescriptionState> {
   }
 
   void selectEndDate(DateTime date) {
-    final minEndDate = state.startDate.add(const Duration(days: 1));
+    final minEndDate = state.startDate;
     final endDate = date.isBefore(minEndDate) ? minEndDate : date;
     state = state.copyWith(
       endDate: endDate,

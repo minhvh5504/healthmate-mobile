@@ -257,13 +257,13 @@ class _EditPrescriptionPageState extends ConsumerState<EditPrescriptionPage>
                             Expanded(
                               child: EditPrescriptionDateField(
                                 label: 'prescription.add.end_date'.tr(),
-                                value: _formatDate(state.endDate),
+                                value: _isToday(state.endDate)
+                                    ? 'prescription.add.today'.tr()
+                                    : _formatDate(state.endDate),
                                 onTap: () => _selectDate(
                                   notifier: notifier,
                                   initialDate: state.endDate,
-                                  firstDate: state.startDate.add(
-                                    const Duration(days: 1),
-                                  ),
+                                  firstDate: state.startDate,
                                   isStartDate: false,
                                 ),
                               ),
@@ -283,7 +283,6 @@ class _EditPrescriptionPageState extends ConsumerState<EditPrescriptionPage>
                           textInputAction: TextInputAction.newline,
                           onChanged: notifier.updateNote,
                         ),
-
                       ],
                     ),
                   ),

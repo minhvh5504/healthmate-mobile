@@ -122,4 +122,21 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
     state = state.copyWith(focusedMonth: month);
     fetchMonthlyData(month);
   }
+
+  Future<void> refreshAfterMedicationLog(DateTime logDate) async {
+    final shouldRefreshSelectedDate =
+        logDate.year == state.selectedDate.year &&
+        logDate.month == state.selectedDate.month &&
+        logDate.day == state.selectedDate.day;
+    final shouldRefreshFocusedMonth =
+        logDate.year == state.focusedMonth.year &&
+        logDate.month == state.focusedMonth.month;
+
+    if (shouldRefreshSelectedDate) {
+      await fetchLogsForDate(state.selectedDate);
+    }
+    if (shouldRefreshFocusedMonth) {
+      await fetchMonthlyData(state.focusedMonth);
+    }
+  }
 }

@@ -144,15 +144,15 @@ class MedicineReminderDatePopup extends ConsumerWidget {
   }
 
   Widget _buildCalendar(dynamic state, dynamic notifier, BuildContext context) {
-    final selectedDate = isEndDate
-        ? (state.endDate ?? state.startDate)
-        : state.startDate;
-
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
     final firstDay = isEndDate ? state.startDate : today;
     final lastDay = today.add(const Duration(days: 365 * 10));
+    final defaultEndDate = today.isBefore(firstDay) ? firstDay : today;
+    final selectedDate = isEndDate
+        ? (state.endDate ?? defaultEndDate)
+        : state.startDate;
 
     // Ensure focusedDay is within range [firstDay, lastDay]
     DateTime focusedDay = state.focusedDate;
