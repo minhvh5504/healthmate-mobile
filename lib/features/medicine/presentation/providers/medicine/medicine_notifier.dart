@@ -16,6 +16,7 @@ import '../../../../../core/providers/user_provider.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../features/auth/presentation/providers/auth/auth_provider.dart';
 import '../../../../auth/presentation/providers/auth/auth_notifier.dart';
+import '../../../../history/presentation/providers/history/history_provider.dart';
 import '../../../domain/usecases/get_user_medications.dart';
 import '../../../domain/usecases/get_daily_schedule.dart';
 import '../../../domain/entities/user_medication.dart';
@@ -352,7 +353,9 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
     state = state.copyWith(scanTasks: updatedTasks);
   }
 
-  Future<void> fetchActiveMedications() async {
+  Future<void> fetchActiveMedications({
+    bool refreshDailySchedule = true,
+  }) async {
     state = state.copyWith(isLoading: true);
     try {
       // Parallel fetch
@@ -396,7 +399,9 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         isInitialLoad: false,
       );
 
-      await fetchDailySchedule();
+      if (refreshDailySchedule) {
+        await fetchDailySchedule();
+      }
     } catch (e) {
       if (!mounted) return;
       AppToast.error(e);
@@ -415,6 +420,18 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
       if (!mounted) return;
       AppToast.error(e);
     }
+  }
+
+  Future<void> _syncAfterMedicationLog(DateTime logDate) async {
+    await fetchDailySchedule();
+
+    if (ref.exists(historyProvider)) {
+      await ref
+          .read(historyProvider.notifier)
+          .refreshAfterMedicationLog(logDate);
+    }
+
+    await fetchActiveMedications(refreshDailySchedule: false);
   }
 
   /// Medicine Options Logic
@@ -734,7 +751,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         mealInstruction: mealInstruction,
       );
       if (!mounted) return false;
-      await fetchActiveMedications();
+      await _syncAfterMedicationLog(actualAt ?? state.selectedDate);
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -881,7 +898,7 @@ class MedicineNotifier extends StateNotifier<MedicineState> {
         mealInstruction: mealInstruction,
       );
       if (!mounted) return false;
-      await fetchActiveMedications();
+      await _syncAfterMedicationLog(actualAt ?? state.selectedDate);
       return true;
     } catch (e) {
       if (!mounted) return false;

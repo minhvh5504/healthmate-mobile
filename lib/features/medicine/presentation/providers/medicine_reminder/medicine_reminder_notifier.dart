@@ -213,11 +213,16 @@ class MedicineReminderNotifier extends StateNotifier<MedicineReminderState> {
   void toggleEndDateEnabled(bool enabled) {
     DateTime? newEndDate;
     if (enabled) {
-      // Default end date should be on or after start date
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final defaultEndDate = today.isBefore(state.startDate)
+          ? state.startDate
+          : today;
+
       newEndDate =
           state.endDate != null && !state.endDate!.isBefore(state.startDate)
           ? state.endDate
-          : state.startDate.add(const Duration(days: 7));
+          : defaultEndDate;
     }
 
     state = state.copyWith(

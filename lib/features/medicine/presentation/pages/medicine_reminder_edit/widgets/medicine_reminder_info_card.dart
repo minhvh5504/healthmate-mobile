@@ -42,7 +42,12 @@ class MedicineReminderInfoCard extends ConsumerWidget {
           label: 'medicine.reminder.end'.tr(),
           value: state.getEndDateText(),
           onTap: () {
-            notifier.setFocusedDate(state.endDate ?? state.startDate);
+            final now = DateTime.now();
+            final today = DateTime(now.year, now.month, now.day);
+            final defaultEndDate = today.isBefore(state.startDate)
+                ? state.startDate
+                : today;
+            notifier.setFocusedDate(state.endDate ?? defaultEndDate);
             _showDatePicker(
               context: context,
               title: 'medicine.reminder.end'.tr(),
@@ -161,10 +166,7 @@ class MedicineReminderInfoCard extends ConsumerWidget {
           opacity: anim1,
           child: ScaleTransition(
             scale: Tween<double>(begin: 0.92, end: 1.0).animate(
-              CurvedAnimation(
-                parent: anim1,
-                curve: Curves.easeOutCubic,
-              ),
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
             ),
             child: child,
           ),
@@ -215,10 +217,7 @@ class MedicineReminderInfoCard extends ConsumerWidget {
           opacity: anim1,
           child: ScaleTransition(
             scale: Tween<double>(begin: 0.92, end: 1.0).animate(
-              CurvedAnimation(
-                parent: anim1,
-                curve: Curves.easeOutCubic,
-              ),
+              CurvedAnimation(parent: anim1, curve: Curves.easeOutCubic),
             ),
             child: child,
           ),
