@@ -12,7 +12,6 @@ import '../../../../../core/utils/previous_page_provider.dart';
 import '../../../../../core/utils/validation.dart';
 import '../../../../../core/widgets/dialog/confirm_dialog.dart';
 import '../../../domain/usecases/register_account.dart';
-import '../login/login_provider.dart';
 
 class RegisterState {
   final TextEditingController emailController;
@@ -169,10 +168,9 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
       await _registerUseCase(email, password);
       _setLoading(false);
 
-      _ref.read(loginNotifierProvider).emailController.text = email;
-      _ref.read(previousPageProvider.notifier).state = 'login';
+      _ref.read(previousPageProvider.notifier).state = 'register';
       AppToast.success('register.success'.tr());
-      context.go(AppRoutes.login);
+      context.go(AppRoutes.verifyaccount);
     } catch (e) {
       _handleFailure(context, e);
     }
