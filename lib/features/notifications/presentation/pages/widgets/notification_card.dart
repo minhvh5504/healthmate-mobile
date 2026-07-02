@@ -174,6 +174,6 @@ class NotificationCard extends StatelessWidget {
   }
 
   String _formatDateTime(DateTime time) {
-    return DateFormat('MMM dd, yyyy | hh:mm a').format(time);
+    return DateFormat('dd/MM/yyyy | HH:mm', 'vi_VN').format(time.toLocal());
   }
 }
