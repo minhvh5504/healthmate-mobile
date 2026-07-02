@@ -37,6 +37,7 @@ class ChatRemoteDataSource {
           'Cache-Control': 'no-cache',
         },
         responseType: ResponseType.stream,
+        receiveTimeout: Duration.zero,
       ),
     );
 

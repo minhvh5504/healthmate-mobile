@@ -17,11 +17,12 @@ class ChatPage extends ConsumerStatefulWidget {
 
 class _ChatPageState extends ConsumerState<ChatPage> {
   final _scrollController = ScrollController();
+  bool _isScrollToBottomQueued = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    _scheduleScrollToBottom();
   }
 
   @override
@@ -30,14 +31,33 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     super.dispose();
   }
 
+  void _scheduleScrollToBottom() {
+    if (_isScrollToBottomQueued || !mounted) return;
+
+    _isScrollToBottomQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isScrollToBottomQueued = false;
+      if (!mounted) return;
+      _scrollToBottom();
+    });
+  }
+
   void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+    if (!_scrollController.hasClients) return;
+
+    final position = _scrollController.position;
+    if (!position.hasPixels || !position.hasContentDimensions) {
+      _scheduleScrollToBottom();
+      return;
     }
+
+    position
+        .animateTo(
+          position.minScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        )
+        .catchError((_) {});
   }
 
   @override
@@ -48,7 +68,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     ref.listen(chatProvider, (previous, next) {
       if (next.messages.length > (previous?.messages.length ?? 0) ||
           next.streamingContent != previous?.streamingContent) {
-        _scrollToBottom();
+        _scheduleScrollToBottom();
       }
     });
 
