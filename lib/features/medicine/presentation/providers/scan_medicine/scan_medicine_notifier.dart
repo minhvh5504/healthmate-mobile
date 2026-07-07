@@ -237,15 +237,22 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
           .map((line) => line.text.trim())
           .where((line) => line.isNotEmpty)
           .toList();
-      final filteredLines = _filterMedicineLines(rawLines);
-      final originalScannedText = filteredLines.join('\n').trim();
+      final medicineLikeLines = rawLines
+          .where((line) => _isNotCodeNoise(line))
+          .toList();
+      final filteredLines = _filterMedicineLines(medicineLikeLines);
+      final originalScannedText = _joinUniqueTextBlocks([
+        filteredLines.join('\n'),
+        medicineLikeLines.join('\n'),
+        recognizedText.text.trim(),
+      ]);
       final normalizedScannedText = _normalizeMedicineScanText(
         originalScannedText,
       );
-      final scannedText = _primaryMedicineSearchText(
+      final scannedText = _joinUniqueTextBlocks([
         normalizedScannedText,
         originalScannedText,
-      );
+      ]);
 
       return _ScanOcrResult(
         scannedText: scannedText,
@@ -281,19 +288,6 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
     return lines.where(selected.contains).toList();
   }
 
-  String _primaryMedicineSearchText(
-    String normalizedScannedText,
-    String originalScannedText,
-  ) {
-    for (final block in [normalizedScannedText, originalScannedText]) {
-      for (final rawLine in block.split('\n')) {
-        final line = rawLine.trim();
-        if (line.isNotEmpty) return line;
-      }
-    }
-    return '';
-  }
-
   String _joinUniqueTextBlocks(List<String> textBlocks) {
     final seen = <String>{};
     final lines = <String>[];
@@ -318,55 +312,15 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
       if (normalized.isNotEmpty) normalizedLines.add(normalized);
     }
 
-    final joined = normalizedLines.join(' ');
-    final phraseCandidates = <String>[];
-    if (joined.contains('TRAPHACO') &&
-        joined.contains('HOAT HUYET') &&
-        joined.contains('DUONG NAO')) {
-      phraseCandidates.add('HOAT HUYET DUONG NAO TRAPHACO');
-    } else if (joined.contains('TRAPHACO') && joined.contains('DUONG NAO')) {
-      phraseCandidates.add('DUONG NAO TRAPHACO');
-    }
-
-    return _joinUniqueTextBlocks([...phraseCandidates, ...normalizedLines]);
+    return _joinUniqueTextBlocks(normalizedLines);
   }
 
   String _normalizeMedicineLine(String line) {
-    var normalized = line.toUpperCase().trim();
-    normalized = normalized
+    return line
+        .toUpperCase()
         .replaceAll(RegExp(r'[^A-ZÀ-Ỹ0-9\s:.]'), ' ')
         .replaceAll(RegExp(r'\s+'), ' ')
         .trim();
-
-    final replacements = <RegExp, String>{
-      RegExp(r'TRAPHACO+'): 'TRAPHACO',
-      RegExp(r'TRAPHAC'): 'TRAPHACO',
-      RegExp(r'RAPNACO'): 'TRAPHACO',
-      RegExp(r'TRAPNACO'): 'TRAPHACO',
-      RegExp(r'SGNG'): 'DUONG',
-      RegExp(r'GNG'): 'DUONG',
-      RegExp(r'DUNE'): 'DUONG',
-      RegExp(r'DUNG'): 'DUONG',
-      RegExp(r'DUN'): 'DUONG',
-      RegExp(r'TNUYET'): 'HUYET',
-      RegExp(r'TNUYĒT'): 'HUYET',
-      RegExp(r'NUYET'): 'HUYET',
-      RegExp(r'ONG +NGH'): 'DUONG NAO',
-      RegExp(r'NGH'): 'NAO',
-      RegExp(r'NOA'): 'NAO',
-      RegExp(r'HOATHOYR'): 'HOAT HUYET',
-      RegExp(r'HOATHUYR'): 'HOAT HUYET',
-      RegExp(r'HOATHUY[A-ZÀ-Ỹ]*'): 'HOAT HUYET',
-      RegExp(r'HOAT +HOYR'): 'HOAT HUYET',
-      RegExp(r'DNH +L[ÀA]NG'): 'DINH LANG',
-      RegExp(r'NL[ÀA]NG'): 'DINH LANG',
-    };
-
-    for (final entry in replacements.entries) {
-      normalized = normalized.replaceAll(entry.key, entry.value);
-    }
-
-    return normalized.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   int _scoreMedicineLine(String line) {
@@ -385,21 +339,6 @@ class ScanMedicineNotifier extends StateNotifier<ScanMedicineState> {
     if (words >= 2) score += 2;
     if (line.length >= 5 && line.length <= 28) score += 1;
     if (digits == 0) score += 1;
-
-    final medicineHints = [
-      'traphac',
-      'traphaco',
-      'duong',
-      'dung',
-      'nao',
-      'huyet',
-      'hoat',
-      'radix',
-      'vien',
-      'mg',
-      'ml',
-    ];
-    if (medicineHints.any(normalized.contains)) score += 4;
 
     final mostlyLowercaseNoise =
         upperLetters <= 1 && words <= 2 && normalized.length > 5;
