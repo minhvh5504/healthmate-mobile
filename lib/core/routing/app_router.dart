@@ -19,6 +19,9 @@ import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/pages/splash_page.dart';
 
 import '../../features/health/presentation/pages/health/health_page.dart';
+import '../../features/health/presentation/pages/health_history/health_history_page.dart';
+import '../../features/health/presentation/pages/view_all_health_history/view_all_health_history_page.dart';
+import '../../features/health/presentation/providers/health_history/health_history_provider.dart';
 import '../../features/history/presentation/pages/history_page.dart';
 import '../../features/settings/presentation/pages/settings/settings_page.dart';
 import '../../features/chat/presentation/pages/chat/chat_page.dart';
@@ -235,6 +238,25 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.viewAllPrescription,
         builder: (context, state) => const ViewAllPrescriptionPage(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.healthHistory,
+        builder: (context, state) {
+          final metric = state.extra as HealthHistoryMetric?;
+          return HealthHistoryPage(
+            metric: metric ?? HealthHistoryMetric.weight,
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.viewAllHealthHistory,
+        builder: (context, state) {
+          final metric = state.extra as HealthHistoryMetric?;
+          return ViewAllHealthHistoryPage(
+            metric: metric ?? HealthHistoryMetric.weight,
+          );
+        },
       ),
 
       ShellRoute(

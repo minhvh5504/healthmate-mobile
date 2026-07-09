@@ -9,6 +9,7 @@ import 'package:healthmate_mobile/features/health/domain/usecases/get_health_ana
 import 'package:healthmate_mobile/features/health/domain/usecases/get_user_profile.dart';
 import 'package:healthmate_mobile/features/health/domain/usecases/update_user_profile.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health/widgets/health_info_bottom_sheet.dart';
+import 'package:healthmate_mobile/features/health/presentation/providers/health_history/health_history_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 /// State
@@ -109,7 +110,7 @@ class HealthNotifier extends StateNotifier<HealthState> {
     }
   }
 
-  /// Format peer description (e.g., 'Average for males under 18' -> 'NAM, DƯỚI 18 TUỔI')
+  /// Format peer description
   static String formatPeerDescription(String? description) {
     if (description == null || description.isEmpty) {
       return 'health.peer_analysis'.tr();
@@ -284,6 +285,12 @@ class HealthNotifier extends StateNotifier<HealthState> {
       if (!mounted) return;
 
       _updateStateWithProfile(profile);
+      await _saveMetricHistory(
+        previousWeight: currentProfile.weightKg,
+        previousHeight: currentProfile.heightCm,
+        newWeight: weight,
+        newHeight: height,
+      );
       await _ref.read(userProfileProvider.notifier).fetchProfile(force: true);
     } catch (e) {
       if (!mounted) return;
@@ -340,6 +347,29 @@ class HealthNotifier extends StateNotifier<HealthState> {
     if (diff == 0) return '0';
     final sign = diff > 0 ? '+' : '';
     return '$sign${diff % 1 == 0 ? diff.toInt() : diff.toStringAsFixed(1)}';
+  }
+
+  Future<void> _saveMetricHistory({
+    required double? previousWeight,
+    required double? previousHeight,
+    required double? newWeight,
+    required double? newHeight,
+  }) async {
+    final history = _ref.read(healthHistoryProvider.notifier);
+
+    if (newWeight != null && newWeight > 0 && newWeight != previousWeight) {
+      await history.addEntry(
+        metric: HealthHistoryMetric.weight,
+        value: newWeight,
+      );
+    }
+
+    if (newHeight != null && newHeight > 0 && newHeight != previousHeight) {
+      await history.addEntry(
+        metric: HealthHistoryMetric.height,
+        value: newHeight,
+      );
+    }
   }
 
   /// Handle change weight

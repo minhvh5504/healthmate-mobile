@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-
+import '../../../../../core/constants/constant_url.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../providers/view_all_prescription/view_all_prescription_provider.dart';
@@ -31,48 +30,56 @@ class ViewAllPrescriptionPage extends ConsumerWidget {
               _buildHeader(context),
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: () =>
-                      ref.read(viewAllPrescriptionProvider.notifier).fetchPrescriptions(),
+                  onRefresh: () => ref
+                      .read(viewAllPrescriptionProvider.notifier)
+                      .fetchPrescriptions(),
                   color: const Color(0xFF4F46E5),
                   child: PageTransitionSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-                      return FadeThroughTransition(
-                        animation: primaryAnimation,
-                        secondaryAnimation: secondaryAnimation,
-                        fillColor: Colors.transparent,
-                        child: child,
-                      );
-                    },
+                    transitionBuilder:
+                        (child, primaryAnimation, secondaryAnimation) {
+                          return FadeThroughTransition(
+                            animation: primaryAnimation,
+                            secondaryAnimation: secondaryAnimation,
+                            fillColor: Colors.transparent,
+                            child: child,
+                          );
+                        },
                     child: state.isLoading
                         ? const ViewAllPrescriptionSkeleton(
                             key: ValueKey('history-skeleton'),
                           )
                         : state.historyPrescriptions.isEmpty
-                            ? ListView(
-                                key: const ValueKey('history-empty'),
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                children: [
-                                  SizedBox(height: 120.h),
-                                  _buildEmptyState(),
-                                ],
-                              )
-                            : ListView.builder(
-                                key: const ValueKey('history-content'),
-                                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 20.h),
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemCount: state.historyPrescriptions.length,
-                                itemBuilder: (context, index) {
-                                  final prescription = state.historyPrescriptions[index];
-                                  return PrescriptionHistoryItem(
-                                    prescription: prescription,
-                                    onTap: () => context.push(
-                                      AppRoutes.prescriptionDetails,
-                                      extra: prescription,
-                                    ),
-                                  );
-                                },
-                              ),
+                        ? ListView(
+                            key: const ValueKey('history-empty'),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: [
+                              SizedBox(height: 120.h),
+                              _buildEmptyState(),
+                            ],
+                          )
+                        : ListView.builder(
+                            key: const ValueKey('history-content'),
+                            padding: EdgeInsets.fromLTRB(
+                              20.w,
+                              12.h,
+                              20.w,
+                              20.h,
+                            ),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: state.historyPrescriptions.length,
+                            itemBuilder: (context, index) {
+                              final prescription =
+                                  state.historyPrescriptions[index];
+                              return PrescriptionHistoryItem(
+                                prescription: prescription,
+                                onTap: () => context.push(
+                                  AppRoutes.prescriptionDetails,
+                                  extra: prescription,
+                                ),
+                              );
+                            },
+                          ),
                   ),
                 ),
               ),
@@ -135,23 +142,26 @@ class ViewAllPrescriptionPage extends ConsumerWidget {
   }
 
   Widget _buildEmptyState() {
-    return Center(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 32.w),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            LucideIcons.fileText,
-            size: 48.sp,
-            color: AppColors.typoDisable,
+          Image.asset(
+            AppImages.notFound,
+            width: 180.w,
+            height: 180.w,
+            fit: BoxFit.contain,
           ),
           SizedBox(height: 16.h),
           Text(
-            'history.no_data'.tr(),
+            'prescription.history_empty_state'.tr(),
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 15.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.typoDisable,
+              color: AppColors.typoBody,
             ),
           ),
         ],
