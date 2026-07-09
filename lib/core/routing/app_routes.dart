@@ -50,6 +50,10 @@ class AppRoutes {
   static const String prescriptionDetails = '/prescription-details';
   static const String viewAllPrescription = '/view-all-prescription';
 
+  // Health
+  static const String healthHistory = '/health-history';
+  static const String viewAllHealthHistory = '/view-all-health-history';
+
   // Shell Route
   static const String medicine = '/medicine';
   static const String health = '/health';
