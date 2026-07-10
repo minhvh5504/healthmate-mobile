@@ -25,5 +25,10 @@ final healthHistoryProvider =
         ref.read(updateUserProfileUseCaseProvider),
         ref.read(getHealthHistoryUseCaseProvider),
         ref.read(getHealthHistoryChangesUseCaseProvider),
+        () async {
+          if (ref.exists(healthProvider)) {
+            await ref.read(healthProvider.notifier).fetchProfile();
+          }
+        },
       );
     });

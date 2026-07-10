@@ -273,6 +273,19 @@ class HealthNotifier extends StateNotifier<HealthState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final currentProfile = state.userProfile!;
+      if ((height != null && height > 300) ||
+          (weight != null && weight > 300)) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+
+      if (height != null &&
+          currentProfile.heightCm != null &&
+          height <= currentProfile.heightCm!) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+
       final updatedProfile = UserProfile(
         id: currentProfile.id,
         email: currentProfile.email,

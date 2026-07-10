@@ -8,6 +8,7 @@ import 'package:healthmate_mobile/core/theme/app_colors.dart';
 import 'package:healthmate_mobile/features/health/domain/entities/health_history.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health_history/widgets/height_metric_popup.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health_history/widgets/weight_metric_popup.dart';
+import 'package:healthmate_mobile/features/health/presentation/pages/health_history/widgets/health_history_skeleton.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health_history/widgets/health_history_add_button.dart';
 import 'package:healthmate_mobile/features/health/presentation/pages/health_history/widgets/health_history_content.dart';
 import 'package:healthmate_mobile/features/health/presentation/providers/health/health_provider.dart';
@@ -56,6 +57,10 @@ class _HealthHistoryPageState extends ConsumerState<HealthHistoryPage> {
     final currentValue = isCurrentMetricHistory
         ? remoteHistory.currentValue ?? _currentValue()
         : _currentValue();
+
+    if (historyState.isLoading && entries.isEmpty) {
+      return const HealthHistorySkeleton();
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
