@@ -28,7 +28,7 @@ class HealthHistoryChart extends StatelessWidget {
     final periodEntries = _entriesInPeriod();
     final realSpots = periodEntries.map(_spotForEntry).toList();
     final yBounds = _yBounds(periodEntries);
-    final lineSpots = _buildLineSpots(realSpots, yBounds.$1);
+    final lineSpots = _buildLineSpots(realSpots);
     final hasLine = lineSpots.isNotEmpty;
 
     return SizedBox(
@@ -197,6 +197,7 @@ class HealthHistoryChart extends StatelessWidget {
     );
   }
 
+  // Get all entries in the current period
   List<HealthHistoryEntry> _entriesInPeriod() {
     final start = _periodStart();
     final end = _periodEnd();
@@ -210,6 +211,7 @@ class HealthHistoryChart extends StatelessWidget {
       ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
   }
 
+  // Get the start date of the current period
   DateTime _periodStart() {
     switch (range) {
       case HealthHistoryRange.day:
@@ -226,6 +228,7 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
+  // Get the end date of the current period
   DateTime _periodEnd() {
     switch (range) {
       case HealthHistoryRange.day:
@@ -237,10 +240,12 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
+  // Get the number of days in the current month
   int _daysInSelectedMonth() {
     return DateTime(cursorDate.year, cursorDate.month + 1, 0).day;
   }
 
+  // Convert an entry to a spot
   FlSpot _spotForEntry(HealthHistoryEntry entry) {
     switch (range) {
       case HealthHistoryRange.day:
@@ -259,51 +264,38 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
-  List<FlSpot> _buildLineSpots(List<FlSpot> spots, double baselineY) {
+  // Build the line spots
+  List<FlSpot> _buildLineSpots(List<FlSpot> spots) {
     final maxX = _maxX();
+    final now = DateTime.now();
+    final isPastPeriod = _periodEnd().isBefore(now);
+
     if (spots.isEmpty) {
-      if (currentValue != null) {
+      // Current/future periods show a flat line at currentValue.
+      if (!isPastPeriod && currentValue != null) {
         return [FlSpot(0, currentValue!), FlSpot(maxX, currentValue!)];
       }
       return [];
     }
 
-    double delta;
-    switch (range) {
-      case HealthHistoryRange.day:
-        delta = 10.0;
-        break;
-      case HealthHistoryRange.week:
-        delta = 2.5;
-        break;
-      case HealthHistoryRange.month:
-        delta = 8.0;
-        break;
+    final result = <FlSpot>[];
+
+    // Extend flat from chart start to first data point.
+    if (spots.first.x > 0.01) {
+      result.add(FlSpot(0, spots.first.y));
     }
 
-    final result = <FlSpot>[];
-    
-    if (spots.first.x > 0.01) {
-      result.add(FlSpot(0, baselineY));
-      final shoulderX = spots.first.x - delta;
-      if (shoulderX > 0.01) {
-        result.add(FlSpot(shoulderX, baselineY));
-      }
-    }
-    
     result.addAll(spots);
-    
+
+    // Extend flat from last data point to chart end.
     if ((maxX - spots.last.x) > 0.01) {
-      final shoulderX = spots.last.x + delta;
-      if (shoulderX < maxX - 0.01) {
-        result.add(FlSpot(shoulderX, baselineY));
-      }
-      result.add(FlSpot(maxX, baselineY));
+      result.add(FlSpot(maxX, spots.last.y));
     }
-    
+
     return result;
   }
 
+  // Get the max x value
   double _maxX() {
     switch (range) {
       case HealthHistoryRange.day:
@@ -315,6 +307,7 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
+  // Get the y bounds
   (double, double) _yBounds(List<HealthHistoryEntry> periodEntries) {
     if (periodEntries.isEmpty) {
       final cv = currentValue ?? 0;
@@ -340,6 +333,7 @@ class HealthHistoryChart extends StatelessWidget {
     return (math.max(0.0, minY), maxY);
   }
 
+  // Get the horizontal interval
   double _horizontalInterval((double, double) bounds) {
     final span = bounds.$2 - bounds.$1;
     if (span <= 10) return 2;
@@ -348,6 +342,7 @@ class HealthHistoryChart extends StatelessWidget {
     return 25;
   }
 
+  // Check if the horizontal line should be shown
   bool _shouldShowHorizontalLine(double value, (double, double) bounds) {
     final interval = _horizontalInterval(bounds);
     final isMin = (value - bounds.$1).abs() < 0.01;
@@ -358,6 +353,7 @@ class HealthHistoryChart extends StatelessWidget {
     return isMin || isMax || alignsWithInterval;
   }
 
+  // Build the horizontal bound line
   HorizontalLine _horizontalBoundLine(double y) {
     return HorizontalLine(
       y: y,
@@ -367,6 +363,7 @@ class HealthHistoryChart extends StatelessWidget {
     );
   }
 
+  // Get the vertical interval
   double _verticalInterval() {
     switch (range) {
       case HealthHistoryRange.day:
@@ -377,6 +374,7 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
+  // Get the bottom label
   String? _bottomLabel(double value) {
     if (value % 1 != 0) return null;
     final index = value.toInt();
@@ -398,14 +396,17 @@ class HealthHistoryChart extends StatelessWidget {
     }
   }
 
+  // Format axis value
   String _formatAxisValue(double value) {
     return value % 1 == 0 ? value.toInt().toString() : value.toStringAsFixed(1);
   }
 
+  // Format metric value
   String _formatMetricValue(double value) {
     return value % 1 == 0 ? value.toInt().toString() : value.toStringAsFixed(1);
   }
 
+  // Check if two spots are the same
   bool _sameSpot(FlSpot a, FlSpot b) {
     return (a.x - b.x).abs() < 0.01 && (a.y - b.y).abs() < 0.01;
   }

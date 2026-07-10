@@ -120,6 +120,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     this._updateUserProfile,
     this._getHealthHistory,
     this._getHealthHistoryChanges,
+    this._refreshHealthOverview,
   ) : super(HealthHistoryState()) {
     load();
   }
@@ -129,7 +130,9 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
   final UpdateUserProfile _updateUserProfile;
   final GetHealthHistory _getHealthHistory;
   final GetHealthHistoryChanges _getHealthHistoryChanges;
+  final Future<void> Function() _refreshHealthOverview;
 
+  /// Load health history and changes
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
@@ -161,6 +164,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Initialize health history with metric and current value
   Future<void> init({
     required HealthHistoryMetric metric,
     required double? currentValue,
@@ -173,16 +177,19 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     await load();
   }
 
+  /// Change the range of the health history
   Future<void> changeRange(HealthHistoryRange range) async {
     state = state.copyWith(selectedRange: range, cursorDate: DateTime.now());
     await load();
   }
 
+  /// Move the cursor date
   Future<void> movePeriod(int direction) async {
     state = state.copyWith(cursorDate: _movedDate(direction));
     await load();
   }
 
+  /// Fetch health history
   Future<void> fetchHealthHistory() async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
@@ -206,6 +213,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Fetch health history changes
   Future<void> fetchHealthHistoryChanges({
     HealthHistoryMetric? metric,
     HealthHistoryRange? range,
@@ -243,6 +251,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Open all history
   void openAllHistory() {
     AppRouter.router.push(
       AppRoutes.viewAllHealthHistory,
@@ -250,6 +259,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     );
   }
 
+  /// Show weight info
   void onShowWeightInfo(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -261,6 +271,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     );
   }
 
+  /// Show height info
   void onShowHeightInfo(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -272,6 +283,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     );
   }
 
+  /// Save health metrics
   Future<void> saveMetric({
     required BuildContext context,
     double? height,
@@ -280,6 +292,19 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     state = state.copyWith(isSaving: true, clearError: true);
     try {
       final currentProfile = await _getUserProfile();
+      if ((height != null && height > 300) ||
+          (weight != null && weight > 300)) {
+        state = state.copyWith(isSaving: false);
+        return;
+      }
+
+      if (height != null &&
+          currentProfile.heightCm != null &&
+          height <= currentProfile.heightCm!) {
+        state = state.copyWith(isSaving: false);
+        return;
+      }
+
       final updatedProfile = UserProfile(
         id: currentProfile.id,
         email: currentProfile.email,
@@ -289,6 +314,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
 
       await _updateUserProfile(updatedProfile);
       await ref.read(userProfileProvider.notifier).fetchProfile(force: true);
+      await _refreshHealthOverview();
       await load();
 
       if (!mounted) return;
@@ -306,6 +332,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Add health history entry
   Future<void> addEntry({
     required HealthHistoryMetric metric,
     required double value,
@@ -362,16 +389,19 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     return total / source.length;
   }
 
+  /// Get metric title
   String metricTitle() {
     return state.selectedMetric == HealthHistoryMetric.weight
         ? 'Cân nặng'
         : 'Chiều cao';
   }
 
+  /// Get unit
   String unit() {
     return state.selectedMetric == HealthHistoryMetric.weight ? 'kg' : 'cm';
   }
 
+  /// Seed current value
   Future<void> seedCurrentValue({
     required HealthHistoryMetric metric,
     required double? value,
@@ -380,46 +410,22 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     await load();
   }
 
+  /// Convert HealthHistory to HealthHistoryEntry
   List<HealthHistoryEntry> _entriesFromHistory(HealthHistory history) {
     final metric = _presentationMetric(history.metric);
-    final entries =
-        history.points
-            .map(
-              (point) => HealthHistoryEntry(
-                metric: metric,
-                value: point.value,
-                recordedAt: point.recordedAt,
-              ),
-            )
-            .toList()
-          ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
-
-    if (entries.isNotEmpty || history.currentValue == null) return entries;
-
-    return [
-      HealthHistoryEntry(
-        metric: metric,
-        value: history.currentValue!,
-        recordedAt: _fallbackPointDate(history),
-      ),
-    ];
+    return history.points
+        .map(
+          (point) => HealthHistoryEntry(
+            metric: metric,
+            value: point.value,
+            recordedAt: point.recordedAt,
+          ),
+        )
+        .toList()
+      ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
   }
 
-  DateTime _fallbackPointDate(HealthHistory history) {
-    final now = DateTime.now();
-    if (!now.isBefore(history.startDate) && now.isBefore(history.endDate)) {
-      return now;
-    }
-
-    final midpoint = history.startDate.add(
-      Duration(
-        milliseconds:
-            history.endDate.difference(history.startDate).inMilliseconds ~/ 2,
-      ),
-    );
-    return midpoint;
-  }
-
+  /// Convert HealthHistoryChanges to HealthHistoryEntry
   List<HealthHistoryEntry> _entriesFromChanges(HealthHistoryChanges changes) {
     return changes.changes
         .map(
@@ -435,18 +441,21 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
       ..sort((a, b) => a.recordedAt.compareTo(b.recordedAt));
   }
 
+  /// Convert HealthMetricType to HealthHistoryMetric
   HealthHistoryMetric _presentationMetric(HealthMetricType metric) {
     return metric == HealthMetricType.height
         ? HealthHistoryMetric.height
         : HealthHistoryMetric.weight;
   }
 
+  /// Convert HealthHistoryMetric to HealthMetricType
   HealthMetricType _domainMetric(HealthHistoryMetric metric) {
     return metric == HealthHistoryMetric.height
         ? HealthMetricType.height
         : HealthMetricType.weight;
   }
 
+  /// Convert HealthHistoryRange to HealthHistoryPeriodType
   HealthHistoryPeriodType _domainPeriod(HealthHistoryRange range) {
     switch (range) {
       case HealthHistoryRange.day:
@@ -458,6 +467,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Get the moved date based on the selected range
   DateTime _movedDate(int direction) {
     switch (state.selectedRange) {
       case HealthHistoryRange.day:
@@ -473,6 +483,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Get the start date of the selected range
   DateTime _periodStart() {
     switch (state.selectedRange) {
       case HealthHistoryRange.day:
@@ -493,6 +504,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Get the end date of the selected range
   DateTime _periodEnd() {
     switch (state.selectedRange) {
       case HealthHistoryRange.day:
@@ -504,6 +516,7 @@ class HealthHistoryNotifier extends StateNotifier<HealthHistoryState> {
     }
   }
 
+  /// Get the bucket key for the entry
   String _bucketKeyForEntry(HealthHistoryEntry entry) {
     switch (state.selectedRange) {
       case HealthHistoryRange.day:

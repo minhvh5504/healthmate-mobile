@@ -11,6 +11,10 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class MetricInputFormatter extends TextInputFormatter {
+  const MetricInputFormatter({this.maxValue = 300});
+
+  final double maxValue;
+
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -27,6 +31,9 @@ class MetricInputFormatter extends TextInputFormatter {
 
     if (integerPart.length > 3) return oldValue;
     if (decimalPart != null && decimalPart.length > 1) return oldValue;
+
+    final value = double.tryParse(newValue.text);
+    if (value != null && value > maxValue) return oldValue;
 
     return newValue;
   }
@@ -62,6 +69,16 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
+  }
+
+  double _normalizedValue(double value) {
+    return double.parse(value.toStringAsFixed(1));
+  }
+
+  bool get _canSave {
+    final value = double.tryParse(_controller.text);
+    if (value == null || value <= 0 || value > 300) return false;
+    return _normalizedValue(value) > _normalizedValue(widget.initialValue);
   }
 
   TextSpan _buildValueSpan(String text) {
@@ -260,7 +277,9 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: _controller,
                           focusNode: _focusNode,
-                          inputFormatters: [MetricInputFormatter()],
+                          inputFormatters: const [
+                            MetricInputFormatter(maxValue: 300),
+                          ],
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
@@ -303,8 +322,12 @@ class _HeightMetricPopupState extends ConsumerState<HeightMetricPopup> {
               height: 48.h,
               width: double.infinity,
               isLoading: ref.watch(healthHistoryProvider).isSaving,
-              onPressed: () =>
-                  notifier.saveMetric(context: context, height: _currentValue),
+              onPressed: _canSave
+                  ? () => notifier.saveMetric(
+                      context: context,
+                      height: _currentValue,
+                    )
+                  : null,
             ),
           ],
         ),
